@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Choosing data: subscripts and subsetting | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</title>
+  <meta name="description" content="null" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Choosing data: subscripts and subsetting | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="null" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Choosing data: subscripts and subsetting | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  
+  <meta name="twitter:description" content="null" />
+  
+
+<meta name="author" content="Rob Knell" />
+
+
+<meta name="date" content="2020-07-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-vectors-matrices-and-data-frames.html"/>
+<link rel="next" href="r-scripts-and-your-r-workflow.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introductory R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-this-book"><i class="fa fa-check"></i><b>1.1</b> Why this book?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i><b>1.2</b> How to use this book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-first-r-session.html"><a href="a-first-r-session.html"><i class="fa fa-check"></i><b>2</b> A first R session</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-first-r-session.html"><a href="a-first-r-session.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="a-first-r-session.html"><a href="a-first-r-session.html#a-first-r-session-1"><i class="fa fa-check"></i><b>2.2</b> A first R session</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html"><i class="fa fa-check"></i><b>3</b> Basics: arithmetic, objects and functions</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#arithmetic"><i class="fa fa-check"></i><b>3.0.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.0.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#logical-operations"><i class="fa fa-check"></i><b>3.0.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.0.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects"><i class="fa fa-check"></i><b>3.0.3</b> Objects</a></li>
+<li class="chapter" data-level="3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#kinds-of-data"><i class="fa fa-check"></i><b>3.1</b> Kinds of data</a></li>
+<li class="chapter" data-level="3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#whats-in-my-workspace"><i class="fa fa-check"></i><b>3.2</b> What’s in my workspace?</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions"><i class="fa fa-check"></i><b>3.2.1</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#exercises"><i class="fa fa-check"></i><b>3.3</b> Exercises</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations"><i class="fa fa-check"></i><b>3.3.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-1"><i class="fa fa-check"></i><b>3.3.2</b> Objects</a></li>
+<li class="chapter" data-level="3.3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#answers-to-exercises"><i class="fa fa-check"></i><b>3.4</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations-1"><i class="fa fa-check"></i><b>3.4.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.4.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-2"><i class="fa fa-check"></i><b>3.4.2</b> Objects</a></li>
+<li class="chapter" data-level="3.4.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-2"><i class="fa fa-check"></i><b>3.4.3</b> Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html"><i class="fa fa-check"></i><b>4</b> Data: Vectors, Matrices and Data Frames</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors"><i class="fa fa-check"></i><b>4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices"><i class="fa fa-check"></i><b>4.2</b> Matrices</a></li>
+<li class="chapter" data-level="4.3" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#factors-and-data-frames"><i class="fa fa-check"></i><b>4.3</b> Factors and Data frames</a></li>
+<li class="chapter" data-level="4.4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#exercises-1"><i class="fa fa-check"></i><b>4.4</b> Exercises</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-1"><i class="fa fa-check"></i><b>4.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-1"><i class="fa fa-check"></i><b>4.4.2</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#answers-to-exercises-1"><i class="fa fa-check"></i><b>4.5</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-2"><i class="fa fa-check"></i><b>4.5.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.5.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-2"><i class="fa fa-check"></i><b>4.5.2</b> Matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html"><i class="fa fa-check"></i><b>5</b> Choosing data: subscripts and subsetting</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts"><i class="fa fa-check"></i><b>5.0.1</b> Subscripts</a></li>
+<li class="chapter" data-level="5.0.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#boolean-logic-and-more-complex-subscripting"><i class="fa fa-check"></i><b>5.0.2</b> Boolean logic and more complex subscripting</a></li>
+<li class="chapter" data-level="5.0.3" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-in-matrices-and-data-frames"><i class="fa fa-check"></i><b>5.0.3</b> Subscripts in matrices and data frames</a></li>
+<li class="chapter" data-level="5.0.4" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subset"><i class="fa fa-check"></i><b>5.0.4</b> Subset</a></li>
+<li class="chapter" data-level="5.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#exercises-2"><i class="fa fa-check"></i><b>5.1</b> Exercises</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors"><i class="fa fa-check"></i><b>5.1.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.1.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices"><i class="fa fa-check"></i><b>5.1.2</b> Subscripts and matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#answers-to-exercises-2"><i class="fa fa-check"></i><b>5.2</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors-1"><i class="fa fa-check"></i><b>5.2.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices-1"><i class="fa fa-check"></i><b>5.2.2</b> Subscripts and matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html"><i class="fa fa-check"></i><b>6</b> R scripts and your R workflow</a><ul>
+<li class="chapter" data-level="6.1" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#writing-and-using-r-scripts"><i class="fa fa-check"></i><b>6.1</b> Writing and using R scripts</a></li>
+<li class="chapter" data-level="6.2" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-an-r-script-window"><i class="fa fa-check"></i><b>6.2</b> Running code from an R script window</a></li>
+<li class="chapter" data-level="6.3" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-files-using-source"><i class="fa fa-check"></i><b>6.3</b> Running code from files using <code>source()</code></a></li>
+<li class="chapter" data-level="6.4" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#workflow-structure-or-what-should-i-put-in-my-script"><i class="fa fa-check"></i><b>6.4</b> Workflow structure, or what should I put in my script?</a></li>
+<li class="chapter" data-level="6.5" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#keep-it-neat-making-your-script-easy-to-read"><i class="fa fa-check"></i><b>6.5</b> Keep it neat — making your script easy to read</a></li>
+<li class="chapter" data-level="6.6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#i-wish-i-hadnt-commented-my-code-so-much-said-no-one-ever-4."><i class="fa fa-check"></i><b>6.6</b> “I wish I hadn’t commented my code so much”, said no-one, ever.</a></li>
+<li class="chapter" data-level="6.7" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#using-rstudio-to-write-scripts"><i class="fa fa-check"></i><b>6.7</b> Using RStudio to write scripts</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html"><i class="fa fa-check"></i><b>7</b> Help files and packages</a><ul>
+<li class="chapter" data-level="7.1" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#using-the-help-files"><i class="fa fa-check"></i><b>7.1</b> Using the help files</a></li>
+<li class="chapter" data-level="7.2" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#packages"><i class="fa fa-check"></i><b>7.2</b> Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>8</b> Importing Data</a><ul>
+<li class="chapter" data-level="8.1" data-path="importing-data.html"><a href="importing-data.html#the-rules"><i class="fa fa-check"></i><b>8.1</b> The Rules</a></li>
+<li class="chapter" data-level="8.2" data-path="importing-data.html"><a href="importing-data.html#importing-your-text-file"><i class="fa fa-check"></i><b>8.2</b> Importing your Text File</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="importing-data.html"><a href="importing-data.html#the-simple-way"><i class="fa fa-check"></i><b>8.2.1</b> The simple way</a></li>
+<li class="chapter" data-level="8.2.2" data-path="importing-data.html"><a href="importing-data.html#the-less-simple-way"><i class="fa fa-check"></i><b>8.2.2</b> The less simple way</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="importing-data.html"><a href="importing-data.html#importing-character-data"><i class="fa fa-check"></i><b>8.3</b> Importing character data</a></li>
+<li class="chapter" data-level="8.4" data-path="importing-data.html"><a href="importing-data.html#data-on-the-web"><i class="fa fa-check"></i><b>8.4</b> Data on the web</a></li>
+<li class="chapter" data-level="8.5" data-path="importing-data.html"><a href="importing-data.html#using-read.table"><i class="fa fa-check"></i><b>8.5</b> Using <code>read.table()</code></a></li>
+<li class="chapter" data-level="8.6" data-path="importing-data.html"><a href="importing-data.html#what-to-do-once-youve-managed-to-import-your-data."><i class="fa fa-check"></i><b>8.6</b> What to do once you’ve managed to import your data.</a></li>
+<li class="chapter" data-level="8.7" data-path="importing-data.html"><a href="importing-data.html#importing-data-directly-from-excel"><i class="fa fa-check"></i><b>8.7</b> Importing data directly from Excel</a></li>
+<li class="chapter" data-level="8.8" data-path="importing-data.html"><a href="importing-data.html#other-data-formats"><i class="fa fa-check"></i><b>8.8</b> Other data formats</a></li>
+<li class="chapter" data-level="8.9" data-path="importing-data.html"><a href="importing-data.html#importing-data-into-rstudio"><i class="fa fa-check"></i><b>8.9</b> Importing data into RStudio</a></li>
+<li class="chapter" data-level="8.10" data-path="importing-data.html"><a href="importing-data.html#to-attach-or-not-to-attach"><i class="fa fa-check"></i><b>8.10</b> To attach or not to attach?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><i class="fa fa-check"></i><b>9</b> R graphics I — drawing graphs and changing plot symbols and colours using the base graphics system</a><ul>
+<li class="chapter" data-level="9.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-versus-ggplot2-versus-lattice-versus-whaaat"><i class="fa fa-check"></i><b>9.1</b> Base graphics versus ggplot2 versus lattice versus whaaat???</a></li>
+<li class="chapter" data-level="9.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-example-ufo-reports-again"><i class="fa fa-check"></i><b>9.2</b> Base graphics example: UFO reports again</a></li>
+<li class="chapter" data-level="9.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#scatterplots"><i class="fa fa-check"></i><b>9.3</b> Scatterplots</a></li>
+<li class="chapter" data-level="9.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plot-symbols"><i class="fa fa-check"></i><b>9.4</b> Plot symbols</a></li>
+<li class="chapter" data-level="9.5" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colours"><i class="fa fa-check"></i><b>9.5</b> Colours</a></li>
+<li class="chapter" data-level="9.6" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plotting-multiple-symbols-or-colours"><i class="fa fa-check"></i><b>9.6</b> Plotting multiple symbols or colours</a></li>
+<li class="chapter" data-level="9.7" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colour-palettes-in-r"><i class="fa fa-check"></i><b>9.7</b> Colour palettes in R</a></li>
+<li class="chapter" data-level="9.8" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#using-transparency-in-your-graphs"><i class="fa fa-check"></i><b>9.8</b> Using transparency in your graphs</a></li>
+<li class="chapter" data-level="9.9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histograms-and-multiple-plots-in-the-same-window"><i class="fa fa-check"></i><b>9.9</b> Histograms and multiple plots in the same window</a></li>
+<li class="chapter" data-level="9.10" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#boxplots"><i class="fa fa-check"></i><b>9.10</b> Boxplots</a></li>
+<li class="chapter" data-level="9.11" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#bar-charts"><i class="fa fa-check"></i><b>9.11</b> Bar charts</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#more-complex-barplots"><i class="fa fa-check"></i><b>9.11.1</b> More complex barplots</a></li>
+</ul></li>
+<li class="chapter" data-level="9.12" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#other-types-of-plot"><i class="fa fa-check"></i><b>9.12</b> Other types of plot</a><ul>
+<li class="chapter" data-level="9.12.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histogram-with-overlaid-probability-density-estimate"><i class="fa fa-check"></i><b>9.12.1</b> Histogram with overlaid probability density estimate</a></li>
+<li class="chapter" data-level="9.12.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#pie-graph"><i class="fa fa-check"></i><b>9.12.2</b> Pie graph</a></li>
+<li class="chapter" data-level="9.12.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#d-scatterplot"><i class="fa fa-check"></i><b>9.12.3</b> 3D scatterplot</a></li>
+<li class="chapter" data-level="9.12.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#contour-plot"><i class="fa fa-check"></i><b>9.12.4</b> Contour plot</a></li>
+</ul></li>
+<li class="chapter" data-level="9.13" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#exporting-graphics"><i class="fa fa-check"></i><b>9.13</b> Exporting Graphics</a><ul>
+<li class="chapter" data-level="9.13.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-easy-way"><i class="fa fa-check"></i><b>9.13.1</b> The easy way</a></li>
+<li class="chapter" data-level="9.13.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-hard-way"><i class="fa fa-check"></i><b>9.13.2</b> The hard way</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html"><i class="fa fa-check"></i><b>10</b> R graphics II — Adding elements to an existing graph</a><ul>
+<li class="chapter" data-level="10.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#simple-regression-lines"><i class="fa fa-check"></i><b>10.1</b> Simple regression lines</a></li>
+<li class="chapter" data-level="10.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#multiple-regression-lines"><i class="fa fa-check"></i><b>10.2</b> Multiple regression lines</a></li>
+<li class="chapter" data-level="10.3" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#legends"><i class="fa fa-check"></i><b>10.3</b> Legends</a></li>
+<li class="chapter" data-level="10.4" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#curves"><i class="fa fa-check"></i><b>10.4</b> Curves</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-curve"><i class="fa fa-check"></i><b>10.4.1</b> Adding a curve using <code>curve()</code></a></li>
+<li class="chapter" data-level="10.4.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-lines-or-points."><i class="fa fa-check"></i><b>10.4.2</b> Adding a curve using <code>lines()</code> or <code>points()</code>.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#text-and-arrows"><i class="fa fa-check"></i><b>10.5</b> Text and arrows</a></li>
+<li class="chapter" data-level="10.6" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#confidence-bands-for-fitted-lines"><i class="fa fa-check"></i><b>10.6</b> Confidence bands for fitted lines</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-bands-using-lines"><i class="fa fa-check"></i><b>10.6.1</b> Adding confidence bands using <code>lines()</code></a></li>
+<li class="chapter" data-level="10.6.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-intervals-to-fitted-lines-using-polygon"><i class="fa fa-check"></i><b>10.6.2</b> Adding confidence intervals to fitted lines using <code>polygon()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#error-bars"><i class="fa fa-check"></i><b>10.7</b> Error bars</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-error-bars-using-arrows"><i class="fa fa-check"></i><b>10.7.1</b> Adding error bars using <code>arrows()</code></a></li>
+<li class="chapter" data-level="10.7.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#plotting-means-and-error-bars-using-plotmeans"><i class="fa fa-check"></i><b>10.7.2</b> Plotting means and error bars using <code>plotmeans()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html"><i class="fa fa-check"></i><b>11</b> Graphics with ggplot2</a><ul>
+<li class="chapter" data-level="11.1" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#ggplot2-introduced"><i class="fa fa-check"></i><b>11.1</b> ggplot2 introduced</a></li>
+<li class="chapter" data-level="11.2" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#scaling-axes-and-varying-colour-or-shapes-by-factor-levels"><i class="fa fa-check"></i><b>11.2</b> Scaling axes and varying colour or shapes by factor levels</a></li>
+<li class="chapter" data-level="11.3" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#facets"><i class="fa fa-check"></i><b>11.3</b> Facets</a></li>
+<li class="chapter" data-level="11.4" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#histograms"><i class="fa fa-check"></i><b>11.4</b> Histograms</a></li>
+<li class="chapter" data-level="11.5" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#boxplots-1"><i class="fa fa-check"></i><b>11.5</b> Boxplots</a></li>
+<li class="chapter" data-level="11.6" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#final-word"><i class="fa fa-check"></i><b>11.6</b> Final word</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html"><i class="fa fa-check"></i><b>12</b> Basic Statistical Concepts</a><ul>
+<li class="chapter" data-level="12.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#populations-and-samples"><i class="fa fa-check"></i><b>12.1</b> Populations and Samples</a></li>
+<li class="chapter" data-level="12.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#descriptive-and-exploratory-statistics"><i class="fa fa-check"></i><b>12.2</b> Descriptive and exploratory statistics</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#maximum-and-minimum"><i class="fa fa-check"></i><b>12.2.1</b> Maximum and minimum</a></li>
+<li class="chapter" data-level="12.2.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#frequency-distribution"><i class="fa fa-check"></i><b>12.2.2</b> Frequency distribution</a></li>
+<li class="chapter" data-level="12.2.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#kinds-of-frequency-distribution"><i class="fa fa-check"></i><b>12.2.3</b> Kinds of frequency distribution</a></li>
+<li class="chapter" data-level="12.2.4" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-central-tendency"><i class="fa fa-check"></i><b>12.2.4</b> Measures of central tendency</a></li>
+<li class="chapter" data-level="12.2.5" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-dispersion"><i class="fa fa-check"></i><b>12.2.5</b> Measures of dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#standard-errors-and-confidence-intervals"><i class="fa fa-check"></i><b>12.3</b> Standard errors and confidence intervals</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#code-used-to-draw-figure-6"><i class="fa fa-check"></i><b>12.3.1</b> Code used to draw figure 6</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html"><i class="fa fa-check"></i><b>13</b> What is statistical testing?</a><ul>
+<li class="chapter" data-level="13.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#the-problem"><i class="fa fa-check"></i><b>13.1</b> The problem</a></li>
+<li class="chapter" data-level="13.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#statistical-testing-in-a-nutshell"><i class="fa fa-check"></i><b>13.2</b> Statistical testing in a nutshell</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#decide-on-the-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.2.1</b> Decide on the null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.2.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#calculate-the-size-of-the-effect."><i class="fa fa-check"></i><b>13.2.2</b> Calculate the size of the effect.</a></li>
+<li class="chapter" data-level="13.2.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#transform-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.2.3</b> Transform the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.2.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#ask-what-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true."><i class="fa fa-check"></i><b>13.2.4</b> Ask what the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true.</a></li>
+<li class="chapter" data-level="13.2.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#think-about-what-the-result-means."><i class="fa fa-check"></i><b>13.2.5</b> Think about what the result means.</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#how-a-statistical-test-works"><i class="fa fa-check"></i><b>13.3</b> How a statistical test works</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-1-generating-our-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.3.1</b> Step 1 generating our null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.3.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-2-calculating-the-size-of-the-effect"><i class="fa fa-check"></i><b>13.3.2</b> Step 2 calculating the size of the effect</a></li>
+<li class="chapter" data-level="13.3.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-3-transforming-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.3.3</b> Step 3 Transforming the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.3.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-4-what-is-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true"><i class="fa fa-check"></i><b>13.3.4</b> Step 4 What is the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true?</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#what-statistical-testing-does-and-doesnt-tell-us"><i class="fa fa-check"></i><b>13.4</b> What statistical testing does and doesn’t tell us</a></li>
+<li class="chapter" data-level="13.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#code-used-to-draw-figure-5"><i class="fa fa-check"></i><b>13.5</b> Code used to draw figure 5</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><i class="fa fa-check"></i><b>14</b> The Chi-squared Test and a Classic Dataset on Smoking and Cancer</a><ul>
+<li class="chapter" data-level="14.1" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-who-smoke-more-likely-to-be-heavy-smokers"><i class="fa fa-check"></i><b>14.1</b> Are lung cancer patients who smoke more likely to be heavy smokers?</a></li>
+<li class="chapter" data-level="14.2" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#the-chi-squared-test"><i class="fa fa-check"></i><b>14.2</b> The Chi-squared test</a></li>
+<li class="chapter" data-level="14.3" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#chi-squared-test-with-contingency-tables"><i class="fa fa-check"></i><b>14.3</b> Chi-squared test with contingency tables</a></li>
+<li class="chapter" data-level="14.4" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#assumptions-and-limitations-of-the-chi-squared-test"><i class="fa fa-check"></i><b>14.4</b> Assumptions and limitations of the chi-squared test</a></li>
+<li class="chapter" data-level="14.5" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-more-likely-to-be-smokers-than-controls"><i class="fa fa-check"></i><b>14.5</b> Are lung cancer patients more likely to be smokers than controls?</a></li>
+<li class="chapter" data-level="14.6" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#fishers-exact-test"><i class="fa fa-check"></i><b>14.6</b> Fisher’s exact test</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><i class="fa fa-check"></i><b>15</b> Comparing immune responses between two caterpillar species using a t-test</a><ul>
+<li class="chapter" data-level="15.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#assumptions-and-limitations-of-standard-parametric-statistics"><i class="fa fa-check"></i><b>15.1</b> Assumptions and limitations of standard parametric statistics</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#normal-errors."><i class="fa fa-check"></i><b>15.1.1</b> Normal errors.</a></li>
+<li class="chapter" data-level="15.1.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#independence-of-data-points."><i class="fa fa-check"></i><b>15.1.2</b> Independence of data points.</a></li>
+<li class="chapter" data-level="15.1.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#equal-variances."><i class="fa fa-check"></i><b>15.1.3</b> Equal variances.</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#importing-the-data"><i class="fa fa-check"></i><b>15.2</b> Importing the Data</a></li>
+<li class="chapter" data-level="15.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#descriptives-and-initial-exploration"><i class="fa fa-check"></i><b>15.3</b> Descriptives and Initial Exploration</a></li>
+<li class="chapter" data-level="15.4" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#comparing-two-means-with-a-t-test"><i class="fa fa-check"></i><b>15.4</b> Comparing Two Means With a t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="correlation-analysis.html"><a href="correlation-analysis.html"><i class="fa fa-check"></i><b>16</b> Correlation analysis</a><ul>
+<li class="chapter" data-level="16.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#calculating-the-correlation-coefficient"><i class="fa fa-check"></i><b>16.1</b> Calculating the correlation coefficient</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#interpreting-our-correlation-coefficient."><i class="fa fa-check"></i><b>16.1.1</b> Interpreting our correlation coefficient.</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="correlation-analysis.html"><a href="correlation-analysis.html#statistical-significance-of-r"><i class="fa fa-check"></i><b>16.2</b> Statistical significance of <em>r</em></a></li>
+<li class="chapter" data-level="16.3" data-path="correlation-analysis.html"><a href="correlation-analysis.html#assumptions-of-correlation-analysis"><i class="fa fa-check"></i><b>16.3</b> Assumptions of correlation analysis</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#comparing-correlations-between-swim-run-and-bike-splits"><i class="fa fa-check"></i><b>16.3.1</b> Comparing correlations between swim, run and bike splits</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="correlation-analysis.html"><a href="correlation-analysis.html#correlation-causality-sample-size-and-significance."><i class="fa fa-check"></i><b>16.4</b> Correlation, causality, sample size and significance.</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><i class="fa fa-check"></i><b>17</b> Using Linear Regression to Analyse TB trends in the UK</a><ul>
+<li class="chapter" data-level="17.0.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#least-squares-line-fitting"><i class="fa fa-check"></i><b>17.0.1</b> Least squares line fitting</a></li>
+<li class="chapter" data-level="17.0.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#significance-tests-for-linear-regression"><i class="fa fa-check"></i><b>17.0.2</b> Significance tests for linear regression</a></li>
+<li class="chapter" data-level="17.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#bovine-tb"><i class="fa fa-check"></i><b>17.1</b> Bovine TB</a></li>
+<li class="chapter" data-level="17.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>17.2</b> Assumptions of linear regression</a><ul>
+<li class="chapter" data-level="17.2.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots"><i class="fa fa-check"></i><b>17.2.1</b> Diagnostic plots</a></li>
+<li class="chapter" data-level="17.2.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots-for-our-m.bovis-regression"><i class="fa fa-check"></i><b>17.2.2</b> Diagnostic plots for our <em>M.bovis</em> regression</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#interpreting-our-regression-and-predicting-future-cases"><i class="fa fa-check"></i><b>17.3</b> Interpreting our regression and predicting future cases</a></li>
+<li class="chapter" data-level="17.4" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#multi-drug-resistant-tb"><i class="fa fa-check"></i><b>17.4</b> Multi-drug resistant TB</a></li>
+<li class="chapter" data-level="17.5" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#fitting-a-quadratic-model"><i class="fa fa-check"></i><b>17.5</b> Fitting a quadratic model</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="anova-and-football.html"><a href="anova-and-football.html"><i class="fa fa-check"></i><b>18</b> ANOVA and Football</a><ul>
+<li class="chapter" data-level="18.1" data-path="anova-and-football.html"><a href="anova-and-football.html#analysis-of-variance"><i class="fa fa-check"></i><b>18.1</b> Analysis of Variance</a></li>
+<li class="chapter" data-level="18.2" data-path="anova-and-football.html"><a href="anova-and-football.html#interpreting-anova-results"><i class="fa fa-check"></i><b>18.2</b> Interpreting ANOVA results</a></li>
+<li class="chapter" data-level="18.3" data-path="anova-and-football.html"><a href="anova-and-football.html#what-makes-a-professional-footballer"><i class="fa fa-check"></i><b>18.3</b> What makes a professional footballer?</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html"><i class="fa fa-check"></i><b>19</b> Yeast sex and two factor ANOVA.</a><ul>
+<li class="chapter" data-level="19.1" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#yeast-sexual-selection"><i class="fa fa-check"></i><b>19.1</b> Yeast sexual selection</a></li>
+<li class="chapter" data-level="19.2" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#understanding-the-coefficients-table"><i class="fa fa-check"></i><b>19.2</b> Understanding the coefficients table</a></li>
+<li class="chapter" data-level="19.3" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#which-statistical-tests-to-use-with-lm"><i class="fa fa-check"></i><b>19.3</b> Which statistical tests to use with <code>lm()</code>?</a></li>
+<li class="chapter" data-level="19.4" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#diagnostics"><i class="fa fa-check"></i><b>19.4</b> Diagnostics</a></li>
+<li class="chapter" data-level="19.5" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#visualising-the-data"><i class="fa fa-check"></i><b>19.5</b> Visualising the data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="choosing-data-subscripts-and-subsetting" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Choosing data: subscripts and subsetting</h1>
+<p>As we saw in the last section, R is set up to deal with data in groups (vectors, matrices and dataframes), and most of the time that you’re analysing real data you’ll be dealing with data in one of these forms. For some simpler analyses you might be happy just looking at all the data in a particular set of results, but a lot of the time you’ll end up thinking “but what if we exclude males from the analysis?”, or “does the result hold if we leave out that animal that might have been sick?” or “do we still see the trade-off of we only include the plants that flowered?”. All of these can be done quite easily in R, and your chief weapons for such purposes are subscripts, which we’ll deal with now, and the <code>subset()</code> command, which we’ll talk about once we’ve dealt with subscripts.</p>
+<div id="subscripts" class="section level3">
+<h3><span class="header-section-number">5.0.1</span> Subscripts</h3>
+<p>Every number in a vector can be identified by its place in the sequence, and every number in a matrix can be identified by its row and column numbers. You can use subscripts to find individual numbers or groups within data structures. They’re remarkably flexible and extremely useful.</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="choosing-data-subscripts-and-subsetting.html#cb115-1"></a>Z  &lt;-<span class="st">  </span><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dt">mean =</span> <span class="dv">2</span>, <span class="dt">sd =</span> <span class="fl">0.1</span>)</span></code></pre></div>
+<p>This creates a vector called X made up of 10 random numbers drawn from a normal distribution with mean 2 and standard deviation 0.1. NB: if you try to do this your numbers won’t be the same as mine, because they’re drawn randomly each time.</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="choosing-data-subscripts-and-subsetting.html#cb116-1"></a>Z</span>
+<span id="cb116-2"><a href="choosing-data-subscripts-and-subsetting.html#cb116-2"></a> [<span class="dv">1</span>] <span class="fl">1.958101</span> <span class="fl">2.061383</span> <span class="fl">1.855196</span> <span class="fl">2.051589</span> <span class="fl">2.164968</span> <span class="fl">2.038026</span> <span class="fl">2.025487</span> <span class="fl">2.062220</span></span>
+<span id="cb116-3"><a href="choosing-data-subscripts-and-subsetting.html#cb116-3"></a> [<span class="dv">9</span>] <span class="fl">1.992656</span> <span class="fl">2.144452</span></span></code></pre></div>
+<p>If we want to find out what the fifth number in Z is we could just count along until we get there, and when R writes out a vector it helpfully puts a number at the start of each row which tells you where you are in the sequence. In this case we have seven numbers in the first row and the first one is numbered [1], then the first number in the second row is numbered [8]. Just counting along a sequence of numbers can obviously get very unwieldy when we have larger datasets, and the potential for error by the counter is high even with each row being numbered. Fortunately we can just ask what the fifth number is by using a subscript which at its simplest is just a number in square brackets after the name of our vector. R will go and look up whatever’s at the position in the vector that corresponds to the number and tell you what it is.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="choosing-data-subscripts-and-subsetting.html#cb117-1"></a>Z[<span class="dv">5</span>]</span>
+<span id="cb117-2"><a href="choosing-data-subscripts-and-subsetting.html#cb117-2"></a>[<span class="dv">1</span>] <span class="fl">2.164968</span></span></code></pre></div>
+<p>Subscripts do not have to be single numbers. The subscript can be an object.</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="choosing-data-subscripts-and-subsetting.html#cb118-1"></a>p  &lt;-<span class="st">  </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">7</span>)</span></code></pre></div>
+<p>This sets up a new object (<code>p</code>) which is a vector containing three numbers. We can now use this object as a subscript to find out what the second, fifth and seventh numbers in <code>Z</code> are.</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="choosing-data-subscripts-and-subsetting.html#cb119-1"></a>Z[p]</span>
+<span id="cb119-2"><a href="choosing-data-subscripts-and-subsetting.html#cb119-2"></a>[<span class="dv">1</span>] <span class="fl">2.061383</span> <span class="fl">2.164968</span> <span class="fl">2.025487</span></span></code></pre></div>
+<p>The subscript can even be a function.</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="choosing-data-subscripts-and-subsetting.html#cb120-1"></a>Z[<span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">1</span>, <span class="dt">to =</span> <span class="dv">5</span>, <span class="dt">by =</span> <span class="dv">2</span>)]</span>
+<span id="cb120-2"><a href="choosing-data-subscripts-and-subsetting.html#cb120-2"></a>[<span class="dv">1</span>] <span class="fl">1.958101</span> <span class="fl">1.855196</span> <span class="fl">2.164968</span></span></code></pre></div>
+<p>We know that seq(from = 1, to = 5, by = 2)) will return the numbers 1, 3 and 5 so here we are asking what the three numbers in <code>Z</code> that occupy those positions are.</p>
+<p>The subscript can also ask for the numbers in the vector excluding those specified in the subscript. This is particularly useful if you have some sort of dodgy data point that you want to exclude.</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="choosing-data-subscripts-and-subsetting.html#cb121-1"></a>Z[<span class="op">-</span><span class="dv">2</span>]</span>
+<span id="cb121-2"><a href="choosing-data-subscripts-and-subsetting.html#cb121-2"></a>[<span class="dv">1</span>] <span class="fl">1.958101</span> <span class="fl">1.855196</span> <span class="fl">2.051589</span> <span class="fl">2.164968</span> <span class="fl">2.038026</span> <span class="fl">2.025487</span> <span class="fl">2.062220</span> <span class="fl">1.992656</span></span>
+<span id="cb121-3"><a href="choosing-data-subscripts-and-subsetting.html#cb121-3"></a>[<span class="dv">9</span>] <span class="fl">2.144452</span></span></code></pre></div>
+<p>This gives us all the numbers in Z except for the second one.</p>
+<p>We can include logical expressions in our subscript.</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="choosing-data-subscripts-and-subsetting.html#cb122-1"></a>Z[Z<span class="op">&gt;</span><span class="fl">1.95</span>]</span>
+<span id="cb122-2"><a href="choosing-data-subscripts-and-subsetting.html#cb122-2"></a>[<span class="dv">1</span>] <span class="fl">1.958101</span> <span class="fl">2.061383</span> <span class="fl">2.051589</span> <span class="fl">2.164968</span> <span class="fl">2.038026</span> <span class="fl">2.025487</span> <span class="fl">2.062220</span> <span class="fl">1.992656</span></span>
+<span id="cb122-3"><a href="choosing-data-subscripts-and-subsetting.html#cb122-3"></a>[<span class="dv">9</span>] <span class="fl">2.144452</span></span></code></pre></div>
+<p>This returns all the numbers in Z that are greater than 1.95.</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="choosing-data-subscripts-and-subsetting.html#cb123-1"></a>Z[Z<span class="op">&lt;=</span><span class="dv">2</span>]</span>
+<span id="cb123-2"><a href="choosing-data-subscripts-and-subsetting.html#cb123-2"></a>[<span class="dv">1</span>] <span class="fl">1.958101</span> <span class="fl">1.855196</span> <span class="fl">1.992656</span></span></code></pre></div>
+<p>This gives us all the numbers in Z that are less than or equal to 2.</p>
+<p>You can use subscripts to find out useful things about your data. If you want to know how many numbers in Z are less than or equal to 2 you can combine some subscripting with the <code>length()</code> command.</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="choosing-data-subscripts-and-subsetting.html#cb124-1"></a><span class="kw">length</span>(Z[Z<span class="op">&lt;=</span><span class="dv">2</span>])</span>
+<span id="cb124-2"><a href="choosing-data-subscripts-and-subsetting.html#cb124-2"></a>[<span class="dv">1</span>] <span class="dv">3</span></span></code></pre></div>
+<p>You can calculate other statistics as well. If you want to know the arithmetic mean of the numbers in Z that are less than or equal to 2 you can use a subscript.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="choosing-data-subscripts-and-subsetting.html#cb125-1"></a><span class="kw">mean</span>(Z[Z<span class="op">&lt;=</span><span class="dv">2</span>])</span>
+<span id="cb125-2"><a href="choosing-data-subscripts-and-subsetting.html#cb125-2"></a>[<span class="dv">1</span>] <span class="fl">1.935318</span></span></code></pre></div>
+<p>This approach will work with just about any function. To find out the standard deviation of the same set of numbers use this:</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="choosing-data-subscripts-and-subsetting.html#cb126-1"></a><span class="kw">sd</span>(Z[Z<span class="op">&lt;=</span><span class="dv">2</span>])</span>
+<span id="cb126-2"><a href="choosing-data-subscripts-and-subsetting.html#cb126-2"></a>[<span class="dv">1</span>] <span class="fl">0.07150614</span></span></code></pre></div>
+<p>and this gives the sum of the numbers in Z that are less than or equal to 2.</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="choosing-data-subscripts-and-subsetting.html#cb127-1"></a><span class="kw">sum</span>(Z[Z<span class="op">&lt;=</span><span class="dv">2</span>])</span>
+<span id="cb127-2"><a href="choosing-data-subscripts-and-subsetting.html#cb127-2"></a>[<span class="dv">1</span>] <span class="fl">5.805953</span></span></code></pre></div>
+<p>One thing to notice is that using subscripts gives you the values of the numbers that correspond to the criterion<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> you put in the square brackets but doesn’t tell you where in the sequence they are. To do that we can use the function <code>which()</code>. To find out which numbers in Z are less than or equal to 2:</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="choosing-data-subscripts-and-subsetting.html#cb128-1"></a><span class="kw">which</span>(Z<span class="op">&lt;=</span><span class="dv">2</span>)</span>
+<span id="cb128-2"><a href="choosing-data-subscripts-and-subsetting.html#cb128-2"></a>[<span class="dv">1</span>] <span class="dv">1</span> <span class="dv">3</span> <span class="dv">9</span></span></code></pre></div>
+<p>If we wanted to, we could then use these numbers in a subscript. Here I’m setting up an object that’s a vector of these seven numbers.</p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="choosing-data-subscripts-and-subsetting.html#cb129-1"></a>less.than<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">which</span>(Z<span class="op">&lt;=</span><span class="dv">2</span>)</span></code></pre></div>
+<p>Now I can use this object as a subscript itself.</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="choosing-data-subscripts-and-subsetting.html#cb130-1"></a>Z[less.than<span class="fl">.2</span>]</span>
+<span id="cb130-2"><a href="choosing-data-subscripts-and-subsetting.html#cb130-2"></a>[<span class="dv">1</span>] <span class="fl">1.958101</span> <span class="fl">1.855196</span> <span class="fl">1.992656</span></span></code></pre></div>
+<p>The circle is complete. There is actually a serious point to this last part. There are often several different ways of doing the same thing in R. It is often the case that there’s an obvious “best way”, but that isn’t always the case: sometimes one way of doing something isn’t noticeably easier or better than another, or sometimes doing something one way is better in one situation and doing it another way is better in a different situation. If someone else is doing something differently to you it doesn’t necessarily mean that you are wrong: just check what they’re doing and have a quick think about which method is better for what you’re trying to do. If the answer is “my method”, or if it’s “I can’t see any benefit to using the other method” then stick with what you’re doing.</p>
+</div>
+<div id="boolean-logic-and-more-complex-subscripting" class="section level3">
+<h3><span class="header-section-number">5.0.2</span> Boolean logic and more complex subscripting</h3>
+<p>R</p>
+</div>
+<div id="subscripts-in-matrices-and-data-frames" class="section level3">
+<h3><span class="header-section-number">5.0.3</span> Subscripts in matrices and data frames</h3>
+<p>Subscripts can also be used to get individual numbers, rows or columns from matrices and data frames in the same way as for vectors, except two numbers are needed to identify an individual cell in these two dimensional data structures. The first number is the row number and the second is the column number. Here’s another matrix.</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="choosing-data-subscripts-and-subsetting.html#cb131-1"></a>mat4 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">data=</span><span class="kw">seq</span>(<span class="dv">101</span>, <span class="dv">112</span>), <span class="dt">nrow=</span><span class="dv">3</span>, <span class="dt">ncol=</span><span class="dv">4</span>)</span>
+<span id="cb131-2"><a href="choosing-data-subscripts-and-subsetting.html#cb131-2"></a>mat4</span>
+<span id="cb131-3"><a href="choosing-data-subscripts-and-subsetting.html#cb131-3"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>] [,<span class="dv">4</span>]</span>
+<span id="cb131-4"><a href="choosing-data-subscripts-and-subsetting.html#cb131-4"></a>[<span class="dv">1</span>,]  <span class="dv">101</span>  <span class="dv">104</span>  <span class="dv">107</span>  <span class="dv">110</span></span>
+<span id="cb131-5"><a href="choosing-data-subscripts-and-subsetting.html#cb131-5"></a>[<span class="dv">2</span>,]  <span class="dv">102</span>  <span class="dv">105</span>  <span class="dv">108</span>  <span class="dv">111</span></span>
+<span id="cb131-6"><a href="choosing-data-subscripts-and-subsetting.html#cb131-6"></a>[<span class="dv">3</span>,]  <span class="dv">103</span>  <span class="dv">106</span>  <span class="dv">109</span>  <span class="dv">112</span></span></code></pre></div>
+<p>To ask “What’s the number that’s in the third row and second column of mat2?”, we put the row number first in the subscript, then a comma, then the column number. NB I always have to stop and think about this because I always think it should be column number then row number to make it like xy coordinates.</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="choosing-data-subscripts-and-subsetting.html#cb132-1"></a>mat4[<span class="dv">3</span>, <span class="dv">2</span>]</span>
+<span id="cb132-2"><a href="choosing-data-subscripts-and-subsetting.html#cb132-2"></a>[<span class="dv">1</span>] <span class="dv">106</span></span></code></pre></div>
+<p>What are the numbers in the third row that are in the second, third and fourth columns?</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="choosing-data-subscripts-and-subsetting.html#cb133-1"></a>mat4[<span class="dv">3</span>, <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)]</span>
+<span id="cb133-2"><a href="choosing-data-subscripts-and-subsetting.html#cb133-2"></a>[<span class="dv">1</span>] <span class="dv">106</span> <span class="dv">109</span> <span class="dv">112</span></span></code></pre></div>
+<p>To get hold of everything in a particular row, just put the row number followed by a comma and don’t put in a number for the column. For example, if you just want the first row of the matrix use a 1.</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="choosing-data-subscripts-and-subsetting.html#cb134-1"></a>mat4[<span class="dv">1</span>, ]</span>
+<span id="cb134-2"><a href="choosing-data-subscripts-and-subsetting.html#cb134-2"></a>[<span class="dv">1</span>] <span class="dv">101</span> <span class="dv">104</span> <span class="dv">107</span> <span class="dv">110</span></span></code></pre></div>
+<p>Likewise, if you want to get hold of a whole column then leave the row number empty.</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="choosing-data-subscripts-and-subsetting.html#cb135-1"></a>mat4[, <span class="dv">3</span>]</span>
+<span id="cb135-2"><a href="choosing-data-subscripts-and-subsetting.html#cb135-2"></a>[<span class="dv">1</span>] <span class="dv">107</span> <span class="dv">108</span> <span class="dv">109</span></span></code></pre></div>
+<p>This gives us the third column of the matrix</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="choosing-data-subscripts-and-subsetting.html#cb136-1"></a>mat4[, <span class="dv">1</span>]<span class="op">+</span>mat4[, <span class="dv">3</span>]</span>
+<span id="cb136-2"><a href="choosing-data-subscripts-and-subsetting.html#cb136-2"></a>[<span class="dv">1</span>] <span class="dv">208</span> <span class="dv">210</span> <span class="dv">212</span></span></code></pre></div>
+<p>This adds the first column of the matrix to the third column.</p>
+</div>
+<div id="subset" class="section level3">
+<h3><span class="header-section-number">5.0.4</span> Subset</h3>
+<p>The <code>subset()</code> function is useful when you want to extract part of a matrix or dataframe. It takes three main arguments, the first being the name of whatever you want to make a subset of, the second is a logical expression and the third tells R which columns you want to choose. It’s best to show this with an example. Here’s some data that were collected as part of an experiment looking at the effect of environmental temperature on leucocyte count in fish fry.</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="choosing-data-subscripts-and-subsetting.html#cb137-1"></a>Counts &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;Data/Counts.csv&quot;</span>, <span class="dt">header=</span>T)</span></code></pre></div>
+<p>Let’s look at the whole dataset to start with.</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="choosing-data-subscripts-and-subsetting.html#cb138-1"></a>Counts</span>
+<span id="cb138-2"><a href="choosing-data-subscripts-and-subsetting.html#cb138-2"></a>  Sex   Temp Weight Count</span>
+<span id="cb138-3"><a href="choosing-data-subscripts-and-subsetting.html#cb138-3"></a><span class="dv">1</span>   M  Hot    <span class="fl">73.25</span>   <span class="dv">282</span></span>
+<span id="cb138-4"><a href="choosing-data-subscripts-and-subsetting.html#cb138-4"></a><span class="dv">2</span>   M  Hot    <span class="fl">69.28</span>   <span class="dv">170</span></span>
+<span id="cb138-5"><a href="choosing-data-subscripts-and-subsetting.html#cb138-5"></a><span class="dv">3</span>   F  Hot    <span class="fl">81.38</span>   <span class="dv">151</span></span>
+<span id="cb138-6"><a href="choosing-data-subscripts-and-subsetting.html#cb138-6"></a><span class="dv">4</span>   M  Hot    <span class="fl">66.07</span>   <span class="dv">238</span></span>
+<span id="cb138-7"><a href="choosing-data-subscripts-and-subsetting.html#cb138-7"></a><span class="dv">5</span>   F Cold    <span class="fl">83.32</span>   <span class="dv">136</span></span>
+<span id="cb138-8"><a href="choosing-data-subscripts-and-subsetting.html#cb138-8"></a><span class="dv">6</span>   F Cold    <span class="fl">63.06</span>   <span class="dv">203</span></span>
+<span id="cb138-9"><a href="choosing-data-subscripts-and-subsetting.html#cb138-9"></a><span class="dv">7</span>   M Cold    <span class="fl">78.48</span>   <span class="dv">312</span></span>
+<span id="cb138-10"><a href="choosing-data-subscripts-and-subsetting.html#cb138-10"></a><span class="dv">8</span>   M Cold    <span class="fl">55.38</span>   <span class="dv">274</span></span></code></pre></div>
+<p>If we wanted to set up a second data frame containing only data from those fish that weighed 70mg or more, we can just specify the first two arguments.</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="choosing-data-subscripts-and-subsetting.html#cb139-1"></a>Counts2 &lt;-<span class="st"> </span><span class="kw">subset</span>(Counts, Weight<span class="op">&gt;=</span><span class="dv">70</span>)</span>
+<span id="cb139-2"><a href="choosing-data-subscripts-and-subsetting.html#cb139-2"></a></span>
+<span id="cb139-3"><a href="choosing-data-subscripts-and-subsetting.html#cb139-3"></a>Counts2</span>
+<span id="cb139-4"><a href="choosing-data-subscripts-and-subsetting.html#cb139-4"></a>  Sex   Temp Weight Count</span>
+<span id="cb139-5"><a href="choosing-data-subscripts-and-subsetting.html#cb139-5"></a><span class="dv">1</span>   M  Hot    <span class="fl">73.25</span>   <span class="dv">282</span></span>
+<span id="cb139-6"><a href="choosing-data-subscripts-and-subsetting.html#cb139-6"></a><span class="dv">3</span>   F  Hot    <span class="fl">81.38</span>   <span class="dv">151</span></span>
+<span id="cb139-7"><a href="choosing-data-subscripts-and-subsetting.html#cb139-7"></a><span class="dv">5</span>   F Cold    <span class="fl">83.32</span>   <span class="dv">136</span></span>
+<span id="cb139-8"><a href="choosing-data-subscripts-and-subsetting.html#cb139-8"></a><span class="dv">7</span>   M Cold    <span class="fl">78.48</span>   <span class="dv">312</span></span></code></pre></div>
+<p>What if we wanted to extract only the data on weights and leucocyte counts for male fish? For this we use the third argument as well, “select”.</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="choosing-data-subscripts-and-subsetting.html#cb140-1"></a>Counts3 &lt;-<span class="st"> </span><span class="kw">subset</span>(Counts, Sex<span class="op">==</span><span class="st">&quot;M&quot;</span>, <span class="dt">select=</span><span class="kw">c</span>(Weight, Count))</span>
+<span id="cb140-2"><a href="choosing-data-subscripts-and-subsetting.html#cb140-2"></a></span>
+<span id="cb140-3"><a href="choosing-data-subscripts-and-subsetting.html#cb140-3"></a>Counts3</span>
+<span id="cb140-4"><a href="choosing-data-subscripts-and-subsetting.html#cb140-4"></a>  Weight Count</span>
+<span id="cb140-5"><a href="choosing-data-subscripts-and-subsetting.html#cb140-5"></a><span class="dv">1</span>  <span class="fl">73.25</span>   <span class="dv">282</span></span>
+<span id="cb140-6"><a href="choosing-data-subscripts-and-subsetting.html#cb140-6"></a><span class="dv">2</span>  <span class="fl">69.28</span>   <span class="dv">170</span></span>
+<span id="cb140-7"><a href="choosing-data-subscripts-and-subsetting.html#cb140-7"></a><span class="dv">4</span>  <span class="fl">66.07</span>   <span class="dv">238</span></span>
+<span id="cb140-8"><a href="choosing-data-subscripts-and-subsetting.html#cb140-8"></a><span class="dv">7</span>  <span class="fl">78.48</span>   <span class="dv">312</span></span>
+<span id="cb140-9"><a href="choosing-data-subscripts-and-subsetting.html#cb140-9"></a><span class="dv">8</span>  <span class="fl">55.38</span>   <span class="dv">274</span></span></code></pre></div>
+<p>One thing to notice here is that when we are specifying male fish only in the second argument we use the double equals sign (==). This is what’s used in R when we’re using logical expressions. The “M” is in inverted commas because it’s character data. It’s easy to forget and use a single equals sign, or miss out the inverted commas. If you do the latter you’ll get an error message.</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="choosing-data-subscripts-and-subsetting.html#cb141-1"></a>Counts4 &lt;-<span class="st"> </span><span class="kw">subset</span>(Counts, Sex<span class="op">==</span>M, <span class="dt">select=</span><span class="kw">c</span>(Weight, Count))</span></code></pre></div>
+<p><span style="color:red"><code>Error in eval(e, x, parent.frame()) : object 'M' not found</code><span></p>
+<p>If you only put a single equals sign in, however, you won’t get an error message. R will ignore the logical expression but it will select the columns specified and your new object will have data from both male and female fish. This could lead to serious errors in your analysis, so always check.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="choosing-data-subscripts-and-subsetting.html#cb142-1"></a>Counts4 &lt;-<span class="st"> </span><span class="kw">subset</span>(Counts, <span class="dt">Sex=</span><span class="st">&quot;M&quot;</span>, <span class="dt">select=</span><span class="kw">c</span>(Weight, Count))</span></code></pre></div>
+<p>See? No error message, but when you look at the output from this command you find that it hasn’t been executed in the way you might wish.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="choosing-data-subscripts-and-subsetting.html#cb143-1"></a>Counts4</span>
+<span id="cb143-2"><a href="choosing-data-subscripts-and-subsetting.html#cb143-2"></a>  Weight Count</span>
+<span id="cb143-3"><a href="choosing-data-subscripts-and-subsetting.html#cb143-3"></a><span class="dv">1</span>  <span class="fl">73.25</span>   <span class="dv">282</span></span>
+<span id="cb143-4"><a href="choosing-data-subscripts-and-subsetting.html#cb143-4"></a><span class="dv">2</span>  <span class="fl">69.28</span>   <span class="dv">170</span></span>
+<span id="cb143-5"><a href="choosing-data-subscripts-and-subsetting.html#cb143-5"></a><span class="dv">3</span>  <span class="fl">81.38</span>   <span class="dv">151</span></span>
+<span id="cb143-6"><a href="choosing-data-subscripts-and-subsetting.html#cb143-6"></a><span class="dv">4</span>  <span class="fl">66.07</span>   <span class="dv">238</span></span>
+<span id="cb143-7"><a href="choosing-data-subscripts-and-subsetting.html#cb143-7"></a><span class="dv">5</span>  <span class="fl">83.32</span>   <span class="dv">136</span></span>
+<span id="cb143-8"><a href="choosing-data-subscripts-and-subsetting.html#cb143-8"></a><span class="dv">6</span>  <span class="fl">63.06</span>   <span class="dv">203</span></span>
+<span id="cb143-9"><a href="choosing-data-subscripts-and-subsetting.html#cb143-9"></a><span class="dv">7</span>  <span class="fl">78.48</span>   <span class="dv">312</span></span>
+<span id="cb143-10"><a href="choosing-data-subscripts-and-subsetting.html#cb143-10"></a><span class="dv">8</span>  <span class="fl">55.38</span>   <span class="dv">274</span></span></code></pre></div>
+<p><code>subset()</code> can also be used within other functions: if, for example, you only want to analyse part of a dataset but you don’t want to set up a whole new object. We’ll see some examples of this when we look at statistical model fitting in more detail.</p>
+</div>
+<div id="exercises-2" class="section level2">
+<h2><span class="header-section-number">5.1</span> Exercises</h2>
+<div id="subscripts-and-vectors" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Subscripts and vectors</h3>
+<ul>
+<li><p>Create a vector called <code>x1</code> containing the numbers 3.6, 3.2, 5.6, 4.9, 6.0, 3.7, 5.5, 4.4 and 4.7.</p></li>
+<li><p>Use a subscript to find out the value of the 3rd number in vector x1</p></li>
+<li><p>Use a subscript to find out the value of the numbers in vector x1 that aren’t in the 5th position</p></li>
+<li><p>Add the 1st number in vector x1 to the 6th number in vector x1</p></li>
+<li><p>Create a new vector called “In” which consists of the numbers 1 and 4</p></li>
+<li><p>Use subscripts and the “In” vector to calculate the sum of the 1st and 4th numbers in x1</p></li>
+<li><p>Calculate the sum of all the numbers in x1 that are less than 4.6</p></li>
+<li><p>Calculate the mean of all the numbers in x1 that are greater than or equal to 5</p></li>
+</ul>
+</div>
+<div id="subscripts-and-matrices" class="section level3">
+<h3><span class="header-section-number">5.1.2</span> Subscripts and matrices</h3>
+<ul>
+<li><p>Generate a matrix called mat1 with 3 rows and 3 columns, using the data from the x1 vector as above. Use the default options for the <code>matrix()</code> function so that the matrix is filled by column.</p></li>
+<li><p>Multiply the second value in the first row of mat1 by the third value in the second row of mat1</p></li>
+<li><p>Create a new vector called “V2” which consists of the numbers in the first row of mat1 added to the numbers in the second row of mat1</p></li>
+<li><p>Create a new vector called “V3” which consists of the numbers in the second column of mat1 multiplied by the mean of the numbers in the second row of mat1</p></li>
+<li><p>Create a new matrix called “mat3” which consists of the first row of mat1 as the first column and then the first row of mat2 as the second column. Don’t forget that you have to give <code>matrix()</code> a vector of data to fill the new matrix with so you’ll have to use the <code>c()</code> function to generate a new vector from the first and third rows of mat1. You can either do this first and create a new object or you can do it within the <code>matrix()</code> function call.</p></li>
+</ul>
+</div>
+</div>
+<div id="answers-to-exercises-2" class="section level2">
+<h2><span class="header-section-number">5.2</span> Answers to exercises</h2>
+<div id="subscripts-and-vectors-1" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Subscripts and vectors</h3>
+<ul>
+<li>Create a vector called <code>x1</code> containing the numbers 3.6, 3.2, 5.6, 4.9, 6.0, 3.7, 5.5, 4.4 and 4.7.</li>
+</ul>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="choosing-data-subscripts-and-subsetting.html#cb144-1"></a>x1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">3.6</span>, <span class="fl">3.2</span>, <span class="fl">5.6</span>, <span class="fl">4.9</span>, <span class="fl">6.0</span>, <span class="fl">3.7</span>, <span class="fl">5.5</span>, <span class="fl">4.4</span>, <span class="fl">4.7</span>)</span></code></pre></div>
+<ul>
+<li>Use a subscript to find out the value of the 3rd number in vector x1</li>
+</ul>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="choosing-data-subscripts-and-subsetting.html#cb145-1"></a>x1[<span class="dv">3</span>]</span>
+<span id="cb145-2"><a href="choosing-data-subscripts-and-subsetting.html#cb145-2"></a>[<span class="dv">1</span>] <span class="fl">5.6</span></span></code></pre></div>
+<ul>
+<li>Use a subscript to find out the value of the numbers in vector x1 that aren’t in the 5th position</li>
+</ul>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="choosing-data-subscripts-and-subsetting.html#cb146-1"></a>x1[<span class="op">-</span><span class="dv">5</span>]</span>
+<span id="cb146-2"><a href="choosing-data-subscripts-and-subsetting.html#cb146-2"></a>[<span class="dv">1</span>] <span class="fl">3.6</span> <span class="fl">3.2</span> <span class="fl">5.6</span> <span class="fl">4.9</span> <span class="fl">3.7</span> <span class="fl">5.5</span> <span class="fl">4.4</span> <span class="fl">4.7</span></span></code></pre></div>
+<ul>
+<li>Add the 1st number in vector x1 to the 6th number in vector x1</li>
+</ul>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="choosing-data-subscripts-and-subsetting.html#cb147-1"></a><span class="co">#Lots of options for this. Either:</span></span>
+<span id="cb147-2"><a href="choosing-data-subscripts-and-subsetting.html#cb147-2"></a>x1[<span class="dv">1</span>]<span class="op">+</span>x1[<span class="dv">6</span>]</span>
+<span id="cb147-3"><a href="choosing-data-subscripts-and-subsetting.html#cb147-3"></a>[<span class="dv">1</span>] <span class="fl">7.3</span></span>
+<span id="cb147-4"><a href="choosing-data-subscripts-and-subsetting.html#cb147-4"></a></span>
+<span id="cb147-5"><a href="choosing-data-subscripts-and-subsetting.html#cb147-5"></a><span class="co">#or use the sum() function</span></span>
+<span id="cb147-6"><a href="choosing-data-subscripts-and-subsetting.html#cb147-6"></a><span class="kw">sum</span>(x1[<span class="dv">1</span>], x1[<span class="dv">6</span>])</span>
+<span id="cb147-7"><a href="choosing-data-subscripts-and-subsetting.html#cb147-7"></a>[<span class="dv">1</span>] <span class="fl">7.3</span></span>
+<span id="cb147-8"><a href="choosing-data-subscripts-and-subsetting.html#cb147-8"></a></span>
+<span id="cb147-9"><a href="choosing-data-subscripts-and-subsetting.html#cb147-9"></a><span class="co">#or even do it with a new vector that you generate within the subscript</span></span>
+<span id="cb147-10"><a href="choosing-data-subscripts-and-subsetting.html#cb147-10"></a><span class="kw">sum</span>(x1[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">6</span>)])</span>
+<span id="cb147-11"><a href="choosing-data-subscripts-and-subsetting.html#cb147-11"></a>[<span class="dv">1</span>] <span class="fl">7.3</span></span></code></pre></div>
+<ul>
+<li>Create a new vector called “In” which consists of the numbers 1 and 4</li>
+</ul>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="choosing-data-subscripts-and-subsetting.html#cb148-1"></a>In &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>)</span></code></pre></div>
+<ul>
+<li>Use subscripts and the “In” vector to calculate the sum of the 1st and 4th numbers in x1</li>
+</ul>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="choosing-data-subscripts-and-subsetting.html#cb149-1"></a><span class="kw">sum</span>(x1[In])</span>
+<span id="cb149-2"><a href="choosing-data-subscripts-and-subsetting.html#cb149-2"></a>[<span class="dv">1</span>] <span class="fl">8.5</span></span></code></pre></div>
+<ul>
+<li>Calculate the sum of all the numbers in x1 that are less than 4.6</li>
+</ul>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="choosing-data-subscripts-and-subsetting.html#cb150-1"></a><span class="kw">sum</span>(x1[x1<span class="op">&lt;</span><span class="fl">4.6</span>])</span>
+<span id="cb150-2"><a href="choosing-data-subscripts-and-subsetting.html#cb150-2"></a>[<span class="dv">1</span>] <span class="fl">14.9</span></span></code></pre></div>
+<ul>
+<li>Calculate the mean of all the numbers in x1 that are greater than or equal to 5</li>
+</ul>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="choosing-data-subscripts-and-subsetting.html#cb151-1"></a><span class="kw">mean</span>(x1[x1<span class="op">&gt;=</span><span class="dv">5</span>])</span>
+<span id="cb151-2"><a href="choosing-data-subscripts-and-subsetting.html#cb151-2"></a>[<span class="dv">1</span>] <span class="fl">5.7</span></span></code></pre></div>
+</div>
+<div id="subscripts-and-matrices-1" class="section level3">
+<h3><span class="header-section-number">5.2.2</span> Subscripts and matrices</h3>
+<ul>
+<li>Generate a matrix called mat1 with 3 rows and 3 columns, using the data from the x1 vector as above. Use the default options for the <code>matrix()</code> function so that the matrix is filled by column.</li>
+</ul>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="choosing-data-subscripts-and-subsetting.html#cb152-1"></a>mat1 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">data  =</span> x1, <span class="dt">nrow =</span> <span class="dv">3</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)</span></code></pre></div>
+<ul>
+<li>Multiply the second value in the first row of mat1 by the third value in the second row of mat1</li>
+</ul>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="choosing-data-subscripts-and-subsetting.html#cb153-1"></a>mat1[<span class="dv">1</span>,<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>mat1[<span class="dv">2</span>,<span class="dv">3</span>]</span>
+<span id="cb153-2"><a href="choosing-data-subscripts-and-subsetting.html#cb153-2"></a>[<span class="dv">1</span>] <span class="fl">21.56</span></span></code></pre></div>
+<ul>
+<li>Create a new vector called “V2” which consists of the numbers in the first row of mat1 added to the numbers in the second row of mat1</li>
+</ul>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="choosing-data-subscripts-and-subsetting.html#cb154-1"></a>v2 &lt;-<span class="st"> </span>mat1[<span class="dv">1</span>, ] <span class="op">+</span><span class="st"> </span>mat1[<span class="dv">2</span>, ]</span>
+<span id="cb154-2"><a href="choosing-data-subscripts-and-subsetting.html#cb154-2"></a>v2       </span>
+<span id="cb154-3"><a href="choosing-data-subscripts-and-subsetting.html#cb154-3"></a>[<span class="dv">1</span>]  <span class="fl">6.8</span> <span class="fl">10.9</span>  <span class="fl">9.9</span></span></code></pre></div>
+<ul>
+<li>Create a new vector called “V3” which consists of the numbers in the second column of mat1 multiplied by the mean of the numbers in the second row of mat1</li>
+</ul>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="choosing-data-subscripts-and-subsetting.html#cb155-1"></a>v2 &lt;-<span class="st"> </span>mat1[, <span class="dv">2</span>] <span class="op">*</span><span class="st"> </span><span class="kw">mean</span>(mat1[<span class="dv">2</span>, ])</span>
+<span id="cb155-2"><a href="choosing-data-subscripts-and-subsetting.html#cb155-2"></a>v2</span>
+<span id="cb155-3"><a href="choosing-data-subscripts-and-subsetting.html#cb155-3"></a>[<span class="dv">1</span>] <span class="fl">22.21333</span> <span class="fl">27.20000</span> <span class="fl">16.77333</span></span></code></pre></div>
+<ul>
+<li>Create a new matrix called “mat3” which consists of the first row of mat1 as the first column and then the third row of mat1 as the second column</li>
+</ul>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="choosing-data-subscripts-and-subsetting.html#cb156-1"></a><span class="co"># Either generate the new vector of data seperately:</span></span>
+<span id="cb156-2"><a href="choosing-data-subscripts-and-subsetting.html#cb156-2"></a>v3 &lt;-<span class="st"> </span><span class="kw">c</span>(mat1[<span class="dv">1</span>, ], mat1[<span class="dv">3</span>, ])</span>
+<span id="cb156-3"><a href="choosing-data-subscripts-and-subsetting.html#cb156-3"></a>mat3 &lt;-<span class="st"> </span><span class="kw">matrix</span>(v3, <span class="dt">ncol =</span> <span class="dv">2</span>)        </span>
+<span id="cb156-4"><a href="choosing-data-subscripts-and-subsetting.html#cb156-4"></a></span>
+<span id="cb156-5"><a href="choosing-data-subscripts-and-subsetting.html#cb156-5"></a><span class="co"># or do it all in one go within the matrix function.</span></span>
+<span id="cb156-6"><a href="choosing-data-subscripts-and-subsetting.html#cb156-6"></a><span class="co"># This is cleaner because you don&#39;t end up with a </span></span>
+<span id="cb156-7"><a href="choosing-data-subscripts-and-subsetting.html#cb156-7"></a><span class="co"># superfluous object (V3) sitting around in your workspace</span></span>
+<span id="cb156-8"><a href="choosing-data-subscripts-and-subsetting.html#cb156-8"></a>mat3 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(mat1[<span class="dv">1</span>, ], mat1[<span class="dv">3</span>, ]), <span class="dt">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb156-9"><a href="choosing-data-subscripts-and-subsetting.html#cb156-9"></a></span>
+<span id="cb156-10"><a href="choosing-data-subscripts-and-subsetting.html#cb156-10"></a></span>
+<span id="cb156-11"><a href="choosing-data-subscripts-and-subsetting.html#cb156-11"></a>mat3       </span>
+<span id="cb156-12"><a href="choosing-data-subscripts-and-subsetting.html#cb156-12"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>]</span>
+<span id="cb156-13"><a href="choosing-data-subscripts-and-subsetting.html#cb156-13"></a>[<span class="dv">1</span>,]  <span class="fl">3.6</span>  <span class="fl">5.6</span></span>
+<span id="cb156-14"><a href="choosing-data-subscripts-and-subsetting.html#cb156-14"></a>[<span class="dv">2</span>,]  <span class="fl">4.9</span>  <span class="fl">3.7</span></span>
+<span id="cb156-15"><a href="choosing-data-subscripts-and-subsetting.html#cb156-15"></a>[<span class="dv">3</span>,]  <span class="fl">5.5</span>  <span class="fl">4.7</span></span></code></pre></div>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="5">
+<li id="fn5"><p>NB for students: this word is the singular of “criteria”.<a href="choosing-data-subscripts-and-subsetting.html#fnref5" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-vectors-matrices-and-data-frames.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="r-scripts-and-your-r-workflow.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["3rd_Edition.pdf", "3rd_Edition.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

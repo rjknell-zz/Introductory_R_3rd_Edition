@@ -1,0 +1,516 @@
+# Using Linear Regression to Analyse TB trends in the UK
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
+```
+
+```{r echo=FALSE, cache=FALSE}
+options(digits = 5)  ##Sets number of sig. figs to display output to
+```
+
+Thirty years ago, Tuberculosis (TB, caused by *Mycobacterium tuberculosis*) was a disease on the way out. Before the advent of the BCG vaccination and antibiotics it was horribly common and frequently fatal - in 1913 there were 113,000 TB notifications in the UK, for example. By the mid 1980s many years of effective treatment and prevention had reduced the incidence of the disease by about 95% and there were only around 5-6000 cases per year. Since then, however, TB cases in the UK have increased because of a variety of factors, including increased infection of immunosuppressed people with HIV/AIDS and migration of people from other parts of the World where TB remains prevalent. There has been a simultaneous increase in the number of cases of TB that have proven to be resistant to the antibiotics normally used to treat the disease, and in the UK there is a well-publicised epidemic of Bovine TB (*Mycobacterium bovis*) in cattle, and some people are becoming infected with this species of the bacterium. 
+
+|Year	|M.bovis	|MDR   |
+|:-----:|:---------:|:----:|
+|1999	|18	        |NA    |
+|2000	|18     	|0.4   |
+|2001	|20     	|0.5   |
+|2002	|12     	|0.7   |
+|2003	|17     	|0.5   |
+|2004	|16     	|0.7   |
+|2005	|23     	|0.3   |
+|2006	|28     	|0.6   |
+|2007	|22     	|0.7   |
+|2008	|21     	|0.7   |
+|2009	|24     	|1     |
+|2010	|30     	|0.9   |
+|2011	|31     	|1.1   |
+
+Table 1. Bovine TB and multi-drug resistant TB data frame for the UK. The column headed “M.bovis” is the annual case notifications for bovine TB in humans. The column headed “MDR” is the percentage of cases of M. tuberculosis tested that were multi-drug resistant.
+
+
+The table above contains data [^16.1] for the number of case notifications of Bovine TB in humans from 1999 until 2011, and since 2000 the proportion of cases of human TB that have been classified as "multi-drug resistant", meaning that the bacterium shows resistance to the antibiotics Isoniazad and Rifampicin, two of the most important “first line” drugs used to treat the disease. These data can also be downloaded from http://www.introductoryr.co.uk. We’re going to use these data to try to answer some questions which will be important in planning health policy and TB control measures in the UK. These are: 
+
+
+
+- How has the incidence of Bovine TB changed since 1999?
+- What are the probable numbers of cases of Bovine TB in humans in 2013, 2014 and 2015?
+- How has the percentage of cases of multi-drug resistant TB changed since 2000?
+- How is the percentage of cases of multi-drug resistant TB likely to change in the years up to 2015?
+
+The statistical technique we're going to use to try to answer these questions is _linear regression_. Linear regression is a statistical technique for determining which straight line best describes the relationship between two variables. In the examples used in this chapter we are examining the relationship between disease incidence and year, but there are an infinite number of other possibilities: the relationship between rainfall and leaf area or between carbon content and the hardness of steel could all potentially be analysed using linear regression. One thing you can notice about these examples is that the direction of causality is reasonably clear. Steel hardness does not cause the steel to have a certain carbon content, but the carbon content could well cause it to have a particular hardness, and leaf area is unlikely to cause rainfall whereas rainfall could well affect leaf growth substantially. In these cases there are clear _response_ and _explanatory_ variables (or _dependent_ and _independent_), where the response variable is affected by the explanatory variable but the reverse is not true. The normal way to visualise these sorts of data is with a scatterplot where the response variable is plotted on the y-axis and the explanatory variable on the x-axis. If there is a reasonable looking straight line relationship between the response and the explanatory variable we can think about using linear regression to fit a line which tells us how the values of the response variable can be predicted for any given value of the explanatory variable. Here is the plot for our _M. bovis_ data.
+
+```{r fig.cap="Case notifications for Bovine Tb in humans per year from 1999 to 2011."}
+
+# Load data
+tbdata <- read.table("Data/TB_HPA.txt", header=TRUE)
+
+# Draw plot
+plot(
+  tbdata$Year,
+  tbdata$M.bovis,
+  pch = 16,
+  xlab = "Year",
+  ylab = "Case notifications for Bovine TB"
+)
+```
+
+Sometimes the direction of causality is less clear. Consider a study of the relationship between the number of visits a child makes to a public library and achievement at school. It could be that frequent visits to a library improves the child's reading ability and improves achievement at school, but it could also be possible that children who are doing well at school enjoy reading and are more motivated to visit the library. A third possibility is that neither of these causes the other, but that both are correlated with one or more variables that haven't been measured (parental engagement in their child's education, for example). In these cases we have to be cautious about using techniques like linear regression, and it can sometimes be best to use correlation analysis, which will tell you the relationship between the variables without making assumptions about causality.
+
+### Least squares line fitting
+
+In a linear regression, the 'best fit' line relating the response variable to the explanatory variable is found by using the method of 'least squares'. Any straight line can be described by its _slope_ and its _intercept_, and for a given line, we can calculate the _predicted value_ for every x-value as _intercept + x times the slope_. Sometimes this value will be similar to the actual y-value that's associated with the x-value, and sometimes it will be quite different. We can quantify how well or how poorly our line predicts each y-value by subtracting the predicted value from the actual value of y. Sometimes this will be a positive number and sometimes it will be a negative number, so we square each difference and then we can add them up to produce a total measure of how well our line predicts the y-values: this is the _sum of squares_ for our line. What linear regression does is to find the line which minimises the sum of squares, which is the line that, on average, passes closest to all of the y-values in our dataset. 
+
+The next figure has two graphs, one showing our _M. bovis_ data plotted with a poorly fitted line and one showing the same dataset with the line that's fitted by linear regression. The differences beyween the predicted values (the line) and each data point are shown by dotted lines. In the first graph, with a poorly fitting line, the sum of squares, the sum of the length of each dotted line squared, will be a much larger number than it will be for the second graph, where the the differences between the data points and the line are all minimised.  
+
+```{r echo=FALSE}
+set.seed(1020)
+```
+
+```{r echo = FALSE, fig.width=9 ,fig.cap="Our data shown with a poorly fitted line (left) and a line fitted by linear regression (right). Differences between the actual data points and the predicted values are indicated by dotted lines."}
+par(mfrow = c(1, 2))
+
+# Draw graph showing poorly fitting line
+plot(
+  tbdata$Year,
+  tbdata$M.bovis,
+  pch = 16,
+  xlab = "Year",
+  ylab = "Case notifications for Bovine TB"
+)
+
+# Add line
+abline(-1096.111, 0.55556)
+
+# Draw in the distances from the predicted values to the actual data
+arrows(
+  tbdata$Year,
+  tbdata$M.bovis,
+  tbdata$Year,
+  -1096.111 + 0.55556 * tbdata$Year,
+  length = 0,
+  lty = 2
+) 
+
+# Draw graph showing line fitted by regression
+plot(
+  tbdata$Year,
+  tbdata$M.bovis,
+  pch = 16,
+  xlab = "Year",
+  ylab = "Case notifications for Bovine TB"
+)
+
+# Draw line
+abline(lm(tbdata$M.bovis ~ tbdata$Year))     
+
+# Store results from lm
+mod1 <- lm(tbdata$M.bovis ~ tbdata$Year)    
+
+
+# Draw in the distances from the predicted values to the actual data
+arrows(
+  tbdata$Year,
+  tbdata$M.bovis,
+  tbdata$Year,
+  mod1$coefficients[1] + mod1$coefficients[2] * tbdata$Year,
+  length = 0,
+  lty = 2
+)    
+```
+### Significance tests for linear regression
+
+There are two ways normally used to test for statistical significance in a linear regression, and we use both of them in this chapter. The first option is to do a t-test. If we set up a null hypothesis that the slope is a certain value (usually zero) then we can calculate a _t_ statistic based on the difference between our calculated slope and the slope specified in the null hypothesis divided by the standard error for the slope. If the null hypothesis were true (for those cases where the null hypothesis is that the slope is zero this means that the the data would be drawn at random from a population where there was no relation between the response and explanatory variables) we would expect this value to be distributed as _t_ on one degree of freedom. In R this t-test is the second one given in the coefficients table that you get when you use the `summary()` function on your fitted model object. The first t-test is for whether the intercept is signficantly different from zero.
+
+The second option is possible because linear regression is mathematically very similar to analysis of variance (ANOVA). As discussed in detail in the chapter on ANOVA and yeast sex (it gets a bit lively later on in the book) ANOVA allows you to test for statistically significant differences between means without even calculating the differences between the means. Instead it uses the fact that if there are substantial differences between the means, those differences between the means account for a sizeable proportion of the total variance in the dataset, and if we remove that _treatment variance_ then the remaining variance which cannot be explained, known as the _error variance_ will be substantially less than the total variance. As with ANOVA, we can partition the variance in our response variable into the _error variance_, which in this case is the variance which is the variance that remains once we've fitted our line, and the _treatment variance_ which the amount of variance explained by our fitted line --- in other words, the amount by which the variance reduces when we put a best-fit line through our data. 
+
+```{r TB3, echo=FALSE, fig.width=9, fig.cap="The difference between the variance when only a mean is fitted (left) and when a best-fit line is fitted (right)."}
+par(mfrow = c(1, 2))
+
+###Draw graph showing mean
+plot(
+  tbdata$Year,
+  tbdata$M.bovis,
+  pch = 16,
+  xlab = "Year",
+  ylab = "Case notifications for Bovine TB"
+)
+abline(h = mean(tbdata$M.bovis))
+arrows(
+  tbdata$Year,
+  tbdata$M.bovis,
+  tbdata$Year,
+  mean(tbdata$M.bovis),
+  length = 0,
+  lty = 2
+) ###draw lines from data points to fitted line
+
+###Draw graph showing line fitted by regression
+plot(
+  tbdata$Year,
+  tbdata$M.bovis,
+  pch = 16,
+  xlab = "Independent variable",
+  ylab = "Dependent variable"
+)
+abline(lm(tbdata$M.bovis ~ tbdata$Year))     ###draw line
+mod1 <- lm(tbdata$M.bovis ~ tbdata$Year)    ###Store results from lm
+
+arrows(
+  tbdata$Year,
+  tbdata$M.bovis,
+  tbdata$Year,
+  mod1$coefficients[1] + mod1$coefficients[2] * tbdata$Year,
+  length = 0,
+  lty = 2
+)    ###draw lines from data points to fitted line
+```
+The graph on the left shows the deviations from the mean for each data point as the dashed lines: the variance is the sum of the squared values of each deviation, all divided by n-1. In the graph on the right (which is identical to the second graph in figure 9 above) you can see that the deviations from the fitted line are generally much smaller than those in the graph on the left. The difference between the sum of squares for the graph on the right and the one on the left tells you how much of the total variance is accounted for by the fitted line. 
+
+As with ANOVA, it's possible to use the way that we can partition the variance in our response variable to perform a statistical test on a fitted linear regression, and this is what happens when you use the `anova()` function on an object which is the output of a linear regression - it gives you an ANOVA table and the results of an _F-test_[^16.2] on the ratio of the _mean square treatment_ (this is one of those things in statistics that might seem to be put there just to cause pain to the uninitiated: when variances are partitioned in an ANOVA table the calculated variances aren't called variances, they're called the _mean squares_) to the _mean square error_ - the latter being the variance that can't be explained by the regression line. Think of this as the remaining noise in the data after the line's been fitted. The bottom line of the summary table also gives you the result of this F-test but in less detail. For a simple linear regression the p-value for the ANOVA ought to be the same as the one from the t-test in the summary table. As you can see in the chapter above in the section on multi-drug resistant TB where we include a quadratic term in the analysis, when we start using more complex regression models with more than one explanatory variable the ANOVA can give rather different results to the t-tests. In these situations the question of exactly which p-values you should pay attention to starts getting complicated, and a fair amount of the chapter on model fitting and whale brain size and dive duration is devoted to a discussion of this.
+
+## Bovine TB
+
+
+Figure 1 shows us that the number of case notifications per year for Bovine TB has been showing a general trend towards an increase over the period in question. The data are rather noisy but that’s expected when the actual numbers we’re dealing with are quite small because there will be a fair amount of variation from year to year for purely stochastic reasons. There aren’t any obvious outliers, nor can we see any evidence of problems like increasing variance over time (see the section on assumptions of linear regression). To predict what the numbers are likely to look like for 2013-15 we can start by fitting a linear regression to the data, and then if we’re happy that it is a good description of the way that the case notifications change with year we can think about what the numbers are likely to be like in the future.
+
+Fitting a linear regression uses the `lm()` function. This fits a linear model that, as you can see in the later chapters on model fitting, can be complex and have a variety of explanatory variables with a diverse range of possible interactions. For our purposes all we need is a simple linear regression, which is fortunately one of the simplest ways to use this function. As with our t-test we specify the model using a formula, with the response variable on the left, a tilde (~) and then the explanatory variable.
+
+```{r}
+M.bovis.mod<-lm(tbdata$M.bovis~tbdata$Year)
+```
+
+As is often the case with R, we're happy when we type in an instruction and nothing happens. That means there aren't any error messages for us to decipher.Let’s get some details of the outcome of the analysis.
+
+```{r}
+summary(M.bovis.mod)
+```
+
+Using the `summary()` function tells us most of the things we need to know. It begins by reminding us what the model we fitted was (`Call:lm(formula = M.bovis ~ Year`) and then it gives us a few summary statistics for the residuals - we'll talk about these in more detail in the section on assumptions and diagnostic plots. Next we get the meat of the output, the coefficients table. In the case of a linear regression this gives us the estimated intercept (-2214.8) and the slope that relates the number of Bovine TB cases to the year (1.12). There’s a standard error for each of those estimates and a t-test to give us an idea of their significance. 
+
+Finally there’s a series of other measures that tell us about how well the overall model fits the data: residual standard error, r^2 - the proportion of the total variance that's explained by the fitted line, adjusted r^2 (this is an r^2 value which is reduced according to how many parameters are in the model), and an F-test for significance of the overall model.
+
+
+Before we go on to make predictions from our model, we need think about whether our model is a good fit to the data: do our data meet the assumptions of linear regression, or are there reasons to worry about our analysis?
+
+## Assumptions of linear regression
+
+Much like the t-test, undergraduate students in introductory statistics courses are beaten with the assumptions behind linear regression and expected to learn them, probably because they make for easy questions in exams. Unfortnately these assumptions are sometimes taught without much information about how important they are and when you actually need to worry about them.
+
+- **Independence of data**. As with the other statistical tests we've looked at, linear regression makes the assumption that data points are _independent_ and that the value of any one data point is not influenced by the values of any of the other data points. As with the other statistical analyses we use here, if you have non-independent data points: multiple individuals given the same treatment but also kept in the same container, for example, or repeat measurements on the same individual, then you can run into serious problems. One example of how non-independence can lead to the wrong conclusion is _Simpson's Paradox_ (not really a paradox but it sounds good so the name's stuck). In the case of linear regression this occurs when there are two or more groups in the data which have different mean values of both the response variable and the explanatory variable. If this is the case then it is possible to have a situation where the slope of the line relating Y to X is positive when each group is considered separately, but negative when they're considered together, or _vice versa_: see figure 11 for an example of this. If you do have some form of non-independence in your data then need to think carefully about how to analyse the data. If there is fairly straightforward structure in the data such as that shown in figure 11 then an appropriate analysis might be a general linear model (see chapter 13 on model fitting later in the book) with a factor which allows you to include the structure in your analysis. Alternatively, if you have non-independence of the sort that arises with (for example) repeated measurements on the same individual you are likely to need to use analysis techniques that take non-independence into account such as mixed-effects models (somewhat beyond the scope of this book)... but if you have severe pseudoreplication even that will not save you. The best advice regarding non-independence is to avoid it. If you can't avoid it make sure that you are confident that you will be able to take account of it in your analysis and make sure that you have checked whether you will be able to do this _before you do your experiment_. Trying to analyse your way out of bad experimental design is not likely to lead to happiness.
+
+```{r echo=FALSE,fig.cap="Example demonstrating Simpson's Paradox. There are two groups in the data (male and female, young and old, infected and uninfected, subspecies 1 and subspecies 2...) and the relationship between Y and X within each group is positive. The dotted lines indicate the regression lines when each group is analysed seperately. Because one group has a lower X value and a higher Y value than the other overall, however, when both groups are analysed together the outcome is a negative relationship, as shown by the dashed line which is the regression line for the total dataset. This is an extreme example but similar problems can arise with much less obvious structure and lack of independence in a dataset."}
+set.seed(101)
+X1 <- c(rnorm(50, 5, 2), rnorm(50, 10, 2))
+
+Y1 <- c(X1[1:50] + 18 + rnorm(50, 0, 1.5), X1[51:100] + rnorm(50, 0, 1.5))
+
+plot(X1,
+     Y1,
+     type = "n",
+     xlab = "X",
+     ylab = "Y")
+
+points(X1[1:50], Y1[1:50], pch = 1)
+
+points(X1[51:100], Y1[51:100], pch = 2)
+
+abline(lm(Y1 ~ X1), lty = 2)
+
+abline(lm(Y1[1:50] ~ X1[1:50]), lty = 3)
+
+abline(lm(Y1[51:100] ~ X1[51:100]), lty = 3)
+```
+
+- **Normal errors**. The assumption of linear regression is that the errors are normally distributed - in other words, the differences between the predicted values and the data points should follow a normal distribution. Once the line has been fitted those differences between the predicted values and the observed values are known as the _residuals_. We've already seen some information on these when we looked at the table produced by `summary()` which gives us the median value for the residuals and the minimum, first and third quartiles and maximum values. These are useful for a quick check of how well behaved the residuals are - they should be symmetrically distributed around zero so the minimum and maximum should be roughly equal but with opposite signs, as should the first and third quartiles, and the median should be close to zero. A more detailed check can be done by either looking at a histogram of the residuals or by looking at a qq-plot. We'll talk about these _diagnostic plots_ in a minute.
+
+- **Homegeneity of variance**. This is equivalent to the assumption for the t-test that variances are the same for the two samples being compared. In the case of linear regression the assumption is that the variance in the data is the same across the range of the response variable. This is something that is quite commonly a problem with, for example, biological data where it is common to find the variance increasing as the mean value gets bigger (see the next figure). If the variance does increase with the mean to an extent where it's likely to be affecting the outcome of the analysis there are a number of options: you can transform your data using something like a square root or a log transformation to reduce the increase in variance, or you can use an analysis that is designed to work with heteroscedastic data, so if your data are count data you might be best advised to use a generalised linear model with Poisson errors: again, an analysis that is beyond the scope of this book. If you do choose to transform your data, be careful: beating your data with a log-transform stick until it behaves can reduce heteroscedasticity, but it can also change other aspects of the structure of your data and you need to be aware of these when interpreting your results.
+
+
+```{r TB5, fig.width=9, echo=FALSE, fig.cap="Data showing constant variance across the range (left) - so called 'homoscedasticity', and increasing variance with an increasing mean (right) - this is known by the tongue-wrenching word 'heteroscedasticity'."}
+set.seed(1001)
+par(mfrow=c(1,2))
+X1<-runif(100,1,10)
+Y1<-0.5*X1+rnorm(100,0,1)
+Y2<-0.5*X1+X1*0.15*rnorm(100,0,1)
+plot(X1,Y1,xlab="X",ylab="Y")
+abline(lm(Y1~X1))
+plot(X1,Y2,xlab="X",ylab="Y")
+abline(lm(Y2~X1))
+```
+￼
+
+- **Linear relationships between the response and the explanatory variables**. Linear regression is a technique that fits a straight line through your bivariate data set, so if the actual relationship is curved then a linear relationship will not be appropriate. Linearity is best assessed by carefully looking at plots of your data, and also by looking at diagnostic plots such as residuals versus fitted values (we'll see some examples of these shortly). If you do have evidence that the true relationship is not a straight line then you might be able to straighten it with an appropriate transformation, subject to the caveats mentioned above, or you might get a good fit by using a curve instead of a straight line for your regression. In the multi-drug resistant TB example below will see one option for dealing with non-linearity by using a _polynomial regression_, specifically a quadratic or second order polynomial regression when we suspected some curvature in the relationship between year and proportion of cases showing multi-drug resistance. If fitting a polynomial doesn't do the trick then you might need to use a _Non-Linear Regression_ or even consider something called a _Generalised Additive Model_ - as with mixed effects models, these are beyond the scope of this book and you'll need to seek advice from someone who really knows their statistical onions.
+
+- **The explanatory variable is measured without error**. One assumption of linear regression is that we know the values of the explanatory variable without error. In practice this doesn't cause major problems if there are small amounts of error, but if you have good reason to think that there might be quite a lot of error in your explanatory variable there are a number of regression techniques that take this into account such as _reduced major axis regression_. In my part of biology the only people who worry about error in explanatory variables work on _allometry_, the way in which the size of body parts change with the size of the whole organism. In studies of allometry if you want to fit a line relating the size of a body part to the size of the whole organism you have to use a major axis regression to take the error in the measure of the body size into account. No-one else pays any attention to it. This probably tells you more about the nature of science than it does about anything else.
+
+### Diagnostic plots
+
+At first sight, it might seem as though the assumptions and caveats associated with linear regression are so numerous that checking through all of them could be an almost impossible task, but in fact there are some statistical tools which make checking how well your data conform to most of these assumptions relatively straightforward. These tools are the _diagnostic plots_ which R will draw for you if you use the `plot()` function and give it a fitted model object as an argument. These diagnostic plots mostly rely on plotting the _residuals_ from the dataset in a variety of ways. As we've discussed above the residuals are the differences between the observed and the fitted (or predicted) values: as an example, if you have a fitted regression with an intercept of 3.2 and a slope of 2 and an observed data point with an x-value of 5 and a y-value of 11 then the fitted value is 3.2 + 2 x 5 = 13.2 so the residual is 11 - 13.2 = -2.2. Data points which fall below the line will have negative residuals, and those above the line will have positive residuals, and the further the data point is from the line the greater the absolute value of the residual will be. 
+
+By default, R will draw four diagnostic plots for you but the two that are by far the most important are the first two. The first one is the plot of **Residuals versus fitted values**. This has the residuals plotted on the y-axis and the fitted values corresponding to each residual on the x-axis. If the data you're analysing meet all the assumptions of linear regression then this plot will show no pattern: the residuals will just form a cloud, centred around a value of zero. If the data are _heteroscedastic_, meaning that the variance of the response variable changes as the average value of the response variable changes, the plot of residuals versus fitted values will show a fan shape because when the variance is higher there will be more data points with relatively large positive and negative values for the residuals. If the relationship between the response and explanatory variable is not a straight line there will be a pattern visible in the residual versus fitted values plot, and if there are _outlying_ data points that are a long way from the main bulk of the data these will show up in the residuals versus fitted values plot. All in all then this plot is a kind of graphical Swiss army knife for detecting problems with your linear regression and every time you do an analysis like this you should have a good look at it.
+
+```{r TB6, fig.width=8, echo=FALSE, fig.cap="A bivariate dataset which conforms to the assumptions of linear regression (left) and the plot of residuals versus fited values produced by R (right). R draws a non-parametric smoother through the diagnostic plot (the bendy line through the middle of the data) to help you spot any patterns, and it indicates the row numbers of the three datapoints with the largest residuals. Notice how there is essentially no pattern in the distribution of the points plotted in the diagnostic plot."}
+set.seed(105)
+
+par(mfrow=c(1,2))
+X<-rnorm(100,5,3)
+Y1<-X+rnorm(100,0,1)
+mod1<-lm(Y1~X)
+plot(X,Y1,ylab="Y")
+abline(mod1)
+plot(mod1,which=1)
+```
+
+```{r TB7, echo=FALSE, fig.width=8, fig.cap="A dataset which has a substantial increase in the variance of the response variable as its mean gets larger (left) and the plot of residuals versus fitted values produced by R (right). The plot of residual versus fitted values now shows a distinct fan shape."}
+set.seed(10)
+
+X<-rnorm(100,5,2)
+par(mfrow=c(1,2))
+Y2<-X+X*0.5*rnorm(100,0,0.5)
+mod2<-lm(Y2~X)
+plot(X,Y2,ylab="Y")
+abline(mod2)
+plot(mod2,which=1)
+``` 
+
+```{r TB8, echo=FALSE, fig.width=8, fig.cap="A dataset which has a curved relationship between the response and explanatory variables  (left) and the plot of residuals versus fitted values produced by R (right). The curved relationship which can be seen in the left hand plot is very obvious in the diagnostic plot on the right."}
+set.seed(103)
+
+X<-rnorm(100,5,2)
+par(mfrow=c(1,2))
+Y3<-(X^2)*0.5+rnorm(100,0,1.5)
+mod3<-lm(Y3~X)
+plot(X,Y3,ylab="Y")
+abline(mod3)
+plot(mod3,which=1,)
+``` 
+The examples above are have nice obvious patterns: in practice Murphy's law will apply and most plots of residuals versus fitted values that you look at will seem to have some sort of structure. The human brain's over-active built in pattern recognition will make this worse, and you run the risk of ending up paralysed by doubt and unable to make a decision about whether your analysis is valid or not. The best advice here is probably that you shouldn't worry about apparent patterns in these plots unless they are obviously real: if you're scratching your head and wondering whether what you're seeing is really a fan shape or whether there are just a couple of data points with slightly larger positive and negative residuals at one end of the plot then you're probably OK but if in doubt ask a colleague or a tutor who knows their statistical onions to advise.
+
+The second diagnostic plot that R will draw you is a **qq-plot** of the residuals. Qq-plots, or quantile-quantile plots are a way of comparing a distribution of observed data points with a theoretical distribution. In the case of our linear regression we are assuming normal errors, and that means that our residuals should be normally distributed with a mean of zero. The qq-plot that R draws has the _standardised residuals_ on the y-axis, which are the residuals standardised [^16.3] to a mean of zero and a standard deviation of 1, and the _theoretical quantiles_ on th x-axis. If you've not met a qq-plot before then think of the theoretical quantiles as being _where we would expect each data point to be if it were drawn from a normal distribution_. There is a really good video explaining how these are calculated at [https://www.youtube.com/watch?v=X9_ISJ0YpGw](https://www.youtube.com/watch?v=X9_ISJ0YpGw) if you want to know more. Because the residuals are being plotted against the value they should have if they were drawn from a normal distribution, then if the residuals are approximately normally distributed the points on the qq-plot will fall roughly onto a straight line. If the residuals have systematic deviations from the normal distribution you'll see this as shown in the graph below.  
+
+```{r TB9, echo=FALSE,fig.width=8,fig.cap="Histogram (left) and qq-plot (right) of the residuals from a linear regression. The residuals are approximately normally distributed and the points on the qq-plot mostly fall on the line."}
+set.seed(102)
+par(mfrow=c(1,2))
+X<-X<-rnorm(200,5,2)
+Y1<-X+rnorm(200,0,2)
+Y2<-X+rgamma(200,2)
+mod1<-lm(Y1~X)
+mod2<-lm(Y2~X)
+hist(mod1$residuals,col="grey",breaks=12,main="")
+plot(mod1,which=2)
+```
+
+```{r TB10, echo=FALSE,fig.width=8, fig.cap="Histogram (left) and qq-plot (right) of the residuals from a linear regression. The residuals are not normally distributed: instead they are positively skewed. This can be seen in the qq-plot where the residuals with positive values can be seen to be larger than they should be if the residuals were normally distributed (in other words, they are more extreme than expected), and the residuals with negative values are closer to zero  than they should be (they are less extreme than they should be)."}
+par(mfrow=c(1,2))
+hist(mod2$residuals,col="grey",breaks=12,main="")
+plot(mod2,which=2)
+```
+
+### Diagnostic plots for our _M.bovis_ regression
+
+Now that we've fitted our linear regression we can use the techniques we've just reviewed to check our model fit. The `plot()` function, when used on an object that is a fitted model, will draw us a variety of useful diagnostic plots. Here we're going to ask it to draw the first two options (`which=1:2`) and we're also going to ask it not to put a smoothed line in the first plot, which is the residuals plotted against the fitted values (`add.smooth=F`). We saw some examples of the residual versus fitted values plots with the smoother added above, but in my opinion these lines don't really help with trying to see patterns when the sample size is small.
+
+```{r eval=FALSE}
+plot(M.bovis.mod, which=1:2, add.smooth=F)
+```
+
+Here’s the plot of residuals versus fitted values. What we’re looking for here is any sort of pattern beyond a random scatter. As we've seen, the most common problem in biological data is heteroscedasticity, where the variance changes with the mean, which leads to a fan shaped plot of residuals. No sign of anything like that. A second potential problem is non-linearity, where the relationship between the response and predictor variable is not a straight line. This would be seen as (for example) a tendency for the residuals not to be centred around zero at some point in the plot. There’s maybe a hint of that here, with the residuals for small and large fitted values being mostly positive, but it’s not a strong pattern and given the rather small sample size I don’t think we really need to worry too much about this.
+
+```{r TB11, echo=FALSE, fig.cap="Residuals versus fitted values for the model relating Bovine TB cases to year."}
+plot(M.bovis.mod, which=1, add.smooth=F)
+```
+
+The second figure shows us the qq-plot of the residuals. For normal residuals the points should plot onto a straight line with a slope of 1 and an intercept of zero. If a particular point is above the line that means the residual is more positive than we would expect for normally distributed residuals, and if it is below the line it is more negative than we would expect, and as we saw earlier when we have systematic deviation from normality in our residuals this usually shows up very clearly on a qq-plot, with all the points towards one or both ends of the line often being a good distance from it. The pattern we see for our qq-plot is not ideal but is acceptable for an analysis like this, especially given the small sample size.
+
+```{r TB12, echo=FALSE, fig.cap="qq-plot of standardised residuals for our fitted linear regression."}
+plot(M.bovis.mod, which=2, add.smooth=F)
+```
+
+The last thing we can do, of course, is to plot our data with the fitted line and get a visual check of how good a job our regression does of putting a line through the cloud of data points.
+
+```{r TB13, fig.cap="Bovine Tb cases in humans by year with fitted line."}
+plot(tbdata$Year, tbdata$M.bovis, xlab="Year", ylab="Case notifications for Bovine TB")
+abline(M.bovis.mod)
+```
+ 
+
+That looks pretty good. As we noted earlier the data are fairly noisy but the regression line looks as though it’s doing a reasonable job of describing the overall trend in the data. 
+
+## Interpreting our regression and predicting future cases
+
+Now that we are satisfied that our linear regression is a fair description of the relationship between year and case notifications, we can start to think about answering the questions we need to address. Firstly, how has the incidence of bovine TB in humans changed since 1999? The slope of the line is 1.11, so on average there has been 1.11 extra case of bovine TB every year. How confident are we in that number? We can find confidence intervals for our coefficient estimates by using the `confint()` function.
+
+```{r}
+confint(M.bovis.mod)
+```
+
+This gives us the 95% confidence intervals for the intercept and the slope. We’re not too bothered about the intercept but it’s useful to get them for the slope. The 95% confidence intervals give the values that the true value of the slope we have estimated will fall between 19 times out of 20, so our best guess for the slope of the line is 1.11, and we’re 95% sure that the true slope is between 0.5 and 1.7.
+How about predicting Bovine TB cases for the next few years? We can calculate the expected values from the equation of our fitted line quite easily. The equation is cases=1.11.year-2215 so our predicted values are
+
+```{r}
+Y1<-2013:2015
+1.11*Y1-2215
+```
+
+Is that right? Looking at the figure with the fitted line we can see that the line is already at about 27 for 2011, so our predicted values are far too low. This is in fact a rounding error: because the intercept of the line is a large negative number even a small change to our slope can make a big difference to where the line is when we get to 2013. If we use more decimal places we get a more believable answer.
+
+```{r}
+1.1154*Y1-2214.8
+```
+
+This gives us our best guess as to what the numbers of cases will be for these years, but as we’ve seen from our graph the data are quite variable from year-to-year and it would be something of a surprise if the numbers of cases actually came out as 31, 32 and 33 for the three years. To get a handle on the likely spread of our data we can calculate something called a prediction interval - these are like confidence intervals but instead of telling us the region where it’s most probable that the true value of the slope (or the mean if you’re not dealing with a regression) lies, prediction intervals tell us where it’s most likely that a single new data point will be found.
+
+We can calculate prediction intervals for our three years using the `predict()` function in R. This is a useful and flexible function that can be used to predict fitted values, confidence intervals and prediction intervals for lots of different sorts of fitted model. To calculate our prediction intervals we first need to set up a new data frame for predict to work with, and then tell the function to use the estimates from our linear regression on the new data.
+
+```{r}
+newdata <- data.frame(Year=2013:2015)
+newdata
+predict(M.bovis.mod,newdata,interval="prediction")
+```
+
+The values for “fit” are the predicted values and are reassuringly close to the ones we calculated above, although there are still a few differences - this is because `predict()` is actually using estimates that are calculated to a more decimal places than those given by the `summary()` function. The prediction intervals now tell us the regions within which we would expect our case numbers to fall in the years 2013-2015. It should come as no surprise that the ranges are quite large, but even so you might find the magnitude of the range to be a bit unexpected. Let’s try to summarise our findings in a way that someone in the health ministry might understand.
+>Since 1999 there has been a steady increase in the number of case notifications for Bovine TB, with an average of 1.11 new cases every year. There is a substantial amount of year-to-year variation, however, which makes it difficult to predict numbers for the next few years with much confidence. Best-guess estimates are that if the current trend continues there will be 30 or 31 cases in 2013, 31 or 32 in 2014 and 32 or 33 in 2015, but the 95% prediction intervals for these estimates are 20.5 to 40.3 for 2013, 21.4 to 41.8 for 2014 and 22.2 to 43.2 for 2015, so there is considerable uncertainty even for the near future.
+
+Some of the most important words in this paragraph are “if the current trend continues” and “considerable uncertainty”. Extrapolation from linear trends must be used carefully and full account must be taken of the degree of uncertainty in the predictions. Let’s remember that we have a roughly two-fold difference between the lowest prediction and the highest in any particular year, and that’s calculated on the assumption that whatever’s caused the increase in cases over the last few years will continue to do so. When data are being used to make predictions that will affect important things like health policy it’s obviously even more important to make the lack of certainty clear. In general, making predictions for the future on the basis of current trends is a perilous occupation and can lead to errors and sometimes [quite ridiculous conclusions](http://www.nature.com/news/2004/040927/full/news040927-9.html).
+
+***
+
+## Multi-drug resistant TB
+
+
+Multi-drug resistant TB is one of the major public health concerns worldwide. Strains of _Mycobacterium tuberculosis_ have emerged that are resistant to not one but several of the first-line antibiotics that we use to control the disease, and if treatment of the disease is not managed carefully these multi-drug resistant strains could become common and widespread, rendering many of the most important tools that we currently use to treat infection essentially useless. It’s important to know whether there are any patterns in the incidence of multi-drug resistant TB (mdrTB) in the UK over the last few years, and it’s equally important to try to understand the future incidence of mdrTB. We don’t have quite as much data as we did for Bovine TB, since 1999 is missing, but hopefully we will have enough to get an idea of general patterns over the last decade or so.
+
+```{r TB14, fig.cap="Percent of TB cases classified as MDR in the UK by year."}
+plot(tbdata$Year, tbdata$MDR, ylab= "Percent of TB cases classified as MDR")
+```
+
+Looking at our scatterplot, we can see a definite increase in the amount of mdrTB reported with time. The percentages are still small, mostly less than 1%, but there is a definite increase, especially from 2009 onwards. 2005 bucked the trend a little and had a rather low percentage of mdrTB reported, but this data point doesn’t look particularly far from the remainder and might simply represent the effects of stochastic variation. Alternatively it could be that there is another reason for the low value for this year such as an error in reporting or a change in the monitoring protocols for 2005 only that might be responsible, but in the absence of any information about this we should retain the data point in the analysis. Let’s put a linear regression through our data and see what that looks like.
+
+```{r}
+MDR.mod <- lm(MDR~Year, data = tbdata)
+summary(MDR.mod)
+```
+
+One of the things R puts in the output from the `summary()` function when it’s applied to a linear model is a significance test for the value of each coefficient estimate: these are the values in the far right hand column of the table, and are calculated using the estimated values for the coefficient and the standard errors to produce a t-statistic. This is the same as the t-test that you might have already encountered as a way of testing the statistical significance of a linear regression - the null hypothesis here is that the slope is zero and in this case according to our t-test p=0.0028, suggesting that we should accept the alternative that the slope is not zero. This tells us that it’s unlikely that the apparent upward trend in mdrTB is simply a consequence of random sampling. The r^2 value is 0.61, indicating that the change over time explains about 60% of the total variance in mdrTB incidence, and the slope of the line is 0.05, telling us that over the period in question the amount of cases of TB assessed as mdrTB has increased by 0.05% per year, on average.
+
+One caveat that I should mention is that while using the p-value from the t-test is acceptable when you’re just doing a straightforward linear regression, it’s not generally a good idea to rely on these particular tests when you’re fitting any other sort of model. If you have a factor with several discrete levels, for example, it will give you a p-value for each level of the factor rather than one for the overall factor. With simple models like a linear regression or a single factor ANOVA you can do a better test for your explanatory variable using the `anova()` function to get an ANOVA table, like this.
+
+```{r}
+anova(MDR.mod)
+```
+
+With a single continuous variable that gives you the same p-value as the t-test, but if our explanatory variable were a factor with several levels we’d see a difference (you can see an example of this in chapter 12). When you have models with more than one explanatory factor it’s best to use a different approach where you remove each variable from the model and compare the goodness-of-fit of the model with and without the variable in question. This is explained in more detail in chapter 13.
+
+Let’s have a look at some diagnostic plots to see whether our model is acceptable.
+
+```{r TB15, fig.width=10, fig.cap="Diagnostic plots for the linear regression of percent mdrTB on year."}
+par(mfrow=c(1,2))
+plot(MDR.mod,which=1:2,add.smooth=F)
+```
+
+Most of the residuals line up nicely on the qq-plot on the right showing us that the data seem to conform largely to the assumption of normal errors. Data point 6, which is the 2005 point that we identified earlier as being rather lower than we might expect stands out in this plot as having a more negative residual than we might otherwise expect. This is also obvious in the plot of residuals versus fitted values on the left, where it stands out as having a strongly negative residual - in other words, it’s a long way below the fitted line.
+
+Possibly more of a concern than this moderate outlier, however, is the suggestion in the plot of residual versus fitted values that there might be some systematic pattern in the residuals. There seems to be a trend for small and large fitted values to be associated with positive residuals and for intermediate values to be associated with negative residuals. This is a pattern of residuals that indicates that the relationship between response and predictor might be non-linear, with an increasing slope as the predictor variable increases. Let’s have a look at the line fitted to the data.
+
+```{r TB16, fig.cap="Scatter plot of percent mdrTB cases against year with fitted line from a linear regression."}
+plot(tbdata$Year, tbdata$MDR, ylab="Percent of TB cases classified as MDR")
+abline(MDR.mod)
+```
+
+That doesn’t look too bad, although you can see how 2006, 2007 and 2008 all lie under the line and the subsequent years are on the line or slightly above it. Maybe we should think about fitting a curve rather than a straight line. To do this we need to think for a little while about fitting models with more than one explanatory variable.
+
+## Fitting a quadratic model
+
+So far we've just thought about using linear regression to fit a straight line allowing prediction of a response variable from a single explanatory variable. This simple linear regression can very easily be extended to include more explanatory variables. If we add a second explanatory variable the equation which we are going to use to describe our relationship changes from _y=β<sub>0</sub>+β<sub>1</sub>x_ where _β<sub>0</sub>_ is the intercept and _β<sub>1</sub>_ the slope to _y=β<sub>0</sub>+β<sub>1</sub>x<sub>1</sub>+β<sub>2</sub>x<sub>2</sub>_ where _β<sub>0</sub>_ is still the intercept and _β<sub>1</sub>_ and _β<sub>2</sub>_ describe the way that _y_ changes with our two explanatory variables _x<sub>1</sub>_ and _x<sub>2</sub>_. For more explanatory variables we would add more betas and x's and start ramping up the subscripts. Very often we use multiple regression to predict our response variable from two unrelated explanatory variables, but here we're going to use it to fit a curve, with our x<sub>1</sub> variable being Year, as before, and our x<sub>2</sub> variable being Year^2. This means that the equation we fit will be _mdrTB=β<sub>0</sub>+β<sub>1</sub> x Year+β<sub>2</sub> x Year^2_: this is a form of equation called a _quadratic equation_, otherwise known as a _second-order polynomial_, and it will fit a smoothly curving line to the data. 
+
+In R we can add a second explanatory variable simply by adding a term for the predictor variable squared to our `lm()` call, with the only complication being that we have to use slightly strange notation because `x^2` means something a bit different when we’re writing a formula. To make sure that R does what we want we have to use the notation `I(x^2)`, with the capital I telling R to carry out the mathematical operation rather than trying to fit our predictor with its second-order interactions, which is what `x^2` normally means.
+
+```{r}
+MDR.mod.test <- lm(MDR~Year+I(Year^2), data = tbdata)
+summary(MDR.mod.test)
+```
+￼
+This model gives a better fit than the previous one (r^2 is 0.7 rather than 0.61) but the quadratic term in the model isn’t statistically significant: the p-value from the t-test is 0.124, which is a bit of a way from 0.05. Somewhat confusingly, the p-value for Year is also non-significant now. Let’s recall that the p-values that R gives with the `summary()` function are calculated using the standard error and the coefficient estimate and while they can be useful for thinking about the values for individual coefficient estimates they don’t really tell us much about the overall importance of specific explanatory terms in the model. It’s better to use an F-test to look at significance.
+
+```{r}
+anova(MDR.mod.test)
+```
+￼
+This gives us the same p-value for the quadratic term, albeit with a few more decimal places, but the F-test for the main effect of Year is now significant. If you look at the ANOVA table we produced earlier for the regression with just the main effect you’ll see that the sum of squares and mean square value for Year is the same as that model. The F-statistic and p-value are different because the error sum of squares is different in this model, but the main effect is back to being significant. Why is there a difference? The answer is that for an ANOVA table like this R calculates the sums of squares in the order that the explanatory variables are entered into the model. So the sums of squares for Year is calculated on the data for mdrTB in exactly the same way as for a linear regression with only one explanatory variable, but the sums of squares for the quadratic term is calculated on the response variable with the effect of Year already taken into account.
+
+There is more on the subject of significance testing in linear models in later chapters but for the moment I’ll just say that when you only have one continuous explanatory variable (i.e. you’re doing a normal linear regression) then you can get away with just using the t-test from `summary()` but in all other cases, including, one-way ANOVA the minimum you should at the very least use an ANOVA table to get your p-values, and in most cases you’ll need to use a rather different test called a deletion test, explained in detail when we start looking at general linear model fitting in the chapter on whale brains.
+
+Getting back to our analysis, we have a model with a quadratic term that does a better job of describing the data, with a higher r^2 value, but the quadratic term in the model is not statistically significant - we don’t have good reason to reject the null hypothesis which is that the coefficient for the quadratic term (the _β<sub>2</sub>_ term in our equation) is zero. Should we conclude that our straight-line linear regression is the best description of the patterns in our data, and ignore the possibility that the real relationship between year and the percentage of TB cases that are multi-drug resistant is curved? The answer to this depends on what we’re trying to achieve by doing our analysis. As scientists, a lot of the time when we’re analysing data we are testing hypotheses and describing patterns in order to draw inferences that will hopefully help us to achieve a better understanding of some fundamental aspect of how the World works. If that’s your aim, then you’d be aiming for the most parsimonious model for your data: the simplest description of the relationships between your variables that still does a good job of explaining the patterns in the data. In this case, however, we aren’t necessarily aiming for the most parsimonious model. What we want is to know how the percentage of TB cases that are multi-drug resistant will change over the next few years, so we don’t want the simplest model, we want the model that will tell us what will actually happen in the near future, other things being equal.
+
+In this case, therefore, we need to be extra cautious about drawing conclusions about how the percentage of mdrTB cases has been changing over time. There in fact  several reasons for this.
+
+1) The sample size is small and the data are quite noisy, meaning that any statistical test will have low power: in other words there is a good chance of a type II error, where we fail to reject the null hypothesis even though it’s actually false.
+
+2) We know that things like changes in gene frequency or spread of particular strains of disease can be governed by multiplicative rather than additive processes, which tend to lead to non-linear changes over time (think of the j-shaped curve of unrestrained population increase).
+
+3) Think about that p-value of 0.124 again. That means (broadly) that even if the quadratic term were in fact zero, there would only be a 12.5% chance obtaining an estimate this big. Is that strong enough evidence to disregard the possibility of a curvilinear relationship? This is an important public health issue, and the consequences of mistaking a non-linear increase for a linear one because of dogmatic adherence to the p<0.05 is significant rule could be considerable.
+How serious are the consequences of getting it wrong? Let’s have a look at how the predicted values and prediction intervals for our two models differ as we go up to 2015. We can use the `predict()` function again to calculate the prediction intervals for both of our models. First we need to set up a new data frame to use for our predictions, this time with all the years from 2000 to 2015 there. 
+
+```{r}
+newdata<-data.frame(Year=2000:2015)
+```
+
+Calculate fitted values and prediction intervals from the linear model.
+
+```{r}
+lin1<-predict(MDR.mod, newdata, interval="prediction")
+```
+
+Calculate fitted values and prediction intervals from the quadratic model and then check the numbers in our predicted data for the quadratic model so we know what the maximum value of y will. We can then plot our data on a graph with the x-axis extended to 2015 and the y-axis extended to 2.5.
+
+```{r}
+quad1<-predict(MDR.mod.test, newdata, interval="prediction")
+
+quad1
+```
+
+```{r eval=FALSE}
+plot(tbdata$Year, tbdata$MDR, ylab="Percent of TB cases classified as MDR", xlim=c(2000,2015), ylim=c(0.3,2.5))
+```
+
+Now to draw in our predicted lines and prediction intervals (see chapter 10 for more on how to build up a graph like this).
+
+```{r eval=FALSE}
+points(newdata$Year, lin1[,3], type="l")
+points(newdata$Year, lin1[,2], type="l")
+points(newdata$Year, lin1[,1], type="l")
+points(newdata$Year, quad1[,1], type="l",lty=3)
+points(newdata$Year, quad1[,2], type="l",lty=3)
+points(newdata$Year, quad1[,3], type="l",lty=3)
+```
+
+The lines for the linear model are solid, those for the quadratic model are dashed (_lty=3_). Here’s the graph.
+
+```{r TB17, echo=FALSE, fig.cap="Scatter plot of percent mdrTB cases against year with fitted line  and prediction intervals from a simple linear model (solid lines) and a quadratic model (dashed lines)."}
+plot(tbdata$Year, tbdata$MDR, ylab="Percent of TB cases classified as MDR", xlim=c(2000,2015), ylim=c(0.3,2.5))
+points(newdata$Year, lin1[,3], type="l")
+points(newdata$Year, lin1[,2], type="l")
+points(newdata$Year, lin1[,1], type="l")
+points(newdata$Year, quad1[,1], type="l",lty=3)
+points(newdata$Year, quad1[,2], type="l",lty=3)
+points(newdata$Year, quad1[,3], type="l",lty=3)
+```
+
+By 2015 the fitted value for the quadratic model, the best guess prediction if the relationship between y and x is really non-linear, is greater than the upper value for the 95% prediction interval for the linear model, and the upper boundary for the 95% prediction intervals of the quadratic model is 1.6 times that for the linear model. How should we present these results to the Minister for Health?
+>Because the dataset is quite sparse, it’s difficult to say anything about mdrTB in the UK except that it’s increased since 2000. The best supported model is one where it’s increasing in a straight line, in which case if the trend continues we would expect roughly 1.1% of TB cases to be multi-drug resistant by 2015, with the 95% prediction intervals in that case being between 0.7% and 1.6%. There is, however, weaker support for a model with a non-linear relationship between the percentage of mdrTB cases and year: this model does fit the data better but not statistically significantly so.  If this non-linear model is correct, and current trends continue then we would expect around 1.7% of TB cases to be multi-drug resistant in 2015, with 95% prediction intervals between 0.9 and 2.5%. With the current dataset it is not possible to state with confidence which of these options is correct.
+
+
+
+
+
+
+
+
+
+[^16.1]: Data from the UK Health Protection Agency (accessed 5th January 2013) http://www.hpa.org.uk/Topics/InfectiousDiseases/InfectionsAZ/Tuberculosis/TBUKSurveillanceData/EnhancedMycobacteriumBovisSurveillance/TBMbovis01countryregion/
+
+[^16.2]: An F-test is a statistical test used for comparing variances. The test statistic it uses is simply the ratio of the two variances and to work out the probability you need the degrees of freedom for both variances - so while most other test statistics are quoted with a single degree of freedom (e.g. t=0.024, 16df, p=0.981) F-statistics are quoted with two, often given as subscripts to the F: F<sub>1,16</sub> = 3.84, p=0.067.
+
+[^16.3]: When something is described as 'standardised' in statistics it usually means that it's been transformed to have a mean of zero and standard deviation of one. This is done simply by subtracting the mean from each data point and then dividing by the standard deviation.
+

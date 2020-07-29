@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 17 Using Linear Regression to Analyse TB trends in the UK | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</title>
+  <meta name="description" content="null" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 17 Using Linear Regression to Analyse TB trends in the UK | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="null" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 17 Using Linear Regression to Analyse TB trends in the UK | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  
+  <meta name="twitter:description" content="null" />
+  
+
+<meta name="author" content="Rob Knell" />
+
+
+<meta name="date" content="2020-07-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="correlation-analysis.html"/>
+<link rel="next" href="anova-and-football.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introductory R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-this-book"><i class="fa fa-check"></i><b>1.1</b> Why this book?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i><b>1.2</b> How to use this book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-first-r-session.html"><a href="a-first-r-session.html"><i class="fa fa-check"></i><b>2</b> A first R session</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-first-r-session.html"><a href="a-first-r-session.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="a-first-r-session.html"><a href="a-first-r-session.html#a-first-r-session-1"><i class="fa fa-check"></i><b>2.2</b> A first R session</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html"><i class="fa fa-check"></i><b>3</b> Basics: arithmetic, objects and functions</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#arithmetic"><i class="fa fa-check"></i><b>3.0.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.0.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#logical-operations"><i class="fa fa-check"></i><b>3.0.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.0.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects"><i class="fa fa-check"></i><b>3.0.3</b> Objects</a></li>
+<li class="chapter" data-level="3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#kinds-of-data"><i class="fa fa-check"></i><b>3.1</b> Kinds of data</a></li>
+<li class="chapter" data-level="3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#whats-in-my-workspace"><i class="fa fa-check"></i><b>3.2</b> What’s in my workspace?</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions"><i class="fa fa-check"></i><b>3.2.1</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#exercises"><i class="fa fa-check"></i><b>3.3</b> Exercises</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations"><i class="fa fa-check"></i><b>3.3.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-1"><i class="fa fa-check"></i><b>3.3.2</b> Objects</a></li>
+<li class="chapter" data-level="3.3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#answers-to-exercises"><i class="fa fa-check"></i><b>3.4</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations-1"><i class="fa fa-check"></i><b>3.4.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.4.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-2"><i class="fa fa-check"></i><b>3.4.2</b> Objects</a></li>
+<li class="chapter" data-level="3.4.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-2"><i class="fa fa-check"></i><b>3.4.3</b> Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html"><i class="fa fa-check"></i><b>4</b> Data: Vectors, Matrices and Data Frames</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors"><i class="fa fa-check"></i><b>4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices"><i class="fa fa-check"></i><b>4.2</b> Matrices</a></li>
+<li class="chapter" data-level="4.3" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#factors-and-data-frames"><i class="fa fa-check"></i><b>4.3</b> Factors and Data frames</a></li>
+<li class="chapter" data-level="4.4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#exercises-1"><i class="fa fa-check"></i><b>4.4</b> Exercises</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-1"><i class="fa fa-check"></i><b>4.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-1"><i class="fa fa-check"></i><b>4.4.2</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#answers-to-exercises-1"><i class="fa fa-check"></i><b>4.5</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-2"><i class="fa fa-check"></i><b>4.5.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.5.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-2"><i class="fa fa-check"></i><b>4.5.2</b> Matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html"><i class="fa fa-check"></i><b>5</b> Choosing data: subscripts and subsetting</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts"><i class="fa fa-check"></i><b>5.0.1</b> Subscripts</a></li>
+<li class="chapter" data-level="5.0.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#boolean-logic-and-more-complex-subscripting"><i class="fa fa-check"></i><b>5.0.2</b> Boolean logic and more complex subscripting</a></li>
+<li class="chapter" data-level="5.0.3" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-in-matrices-and-data-frames"><i class="fa fa-check"></i><b>5.0.3</b> Subscripts in matrices and data frames</a></li>
+<li class="chapter" data-level="5.0.4" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subset"><i class="fa fa-check"></i><b>5.0.4</b> Subset</a></li>
+<li class="chapter" data-level="5.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#exercises-2"><i class="fa fa-check"></i><b>5.1</b> Exercises</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors"><i class="fa fa-check"></i><b>5.1.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.1.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices"><i class="fa fa-check"></i><b>5.1.2</b> Subscripts and matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#answers-to-exercises-2"><i class="fa fa-check"></i><b>5.2</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors-1"><i class="fa fa-check"></i><b>5.2.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices-1"><i class="fa fa-check"></i><b>5.2.2</b> Subscripts and matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html"><i class="fa fa-check"></i><b>6</b> R scripts and your R workflow</a><ul>
+<li class="chapter" data-level="6.1" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#writing-and-using-r-scripts"><i class="fa fa-check"></i><b>6.1</b> Writing and using R scripts</a></li>
+<li class="chapter" data-level="6.2" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-an-r-script-window"><i class="fa fa-check"></i><b>6.2</b> Running code from an R script window</a></li>
+<li class="chapter" data-level="6.3" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-files-using-source"><i class="fa fa-check"></i><b>6.3</b> Running code from files using <code>source()</code></a></li>
+<li class="chapter" data-level="6.4" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#workflow-structure-or-what-should-i-put-in-my-script"><i class="fa fa-check"></i><b>6.4</b> Workflow structure, or what should I put in my script?</a></li>
+<li class="chapter" data-level="6.5" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#keep-it-neat-making-your-script-easy-to-read"><i class="fa fa-check"></i><b>6.5</b> Keep it neat — making your script easy to read</a></li>
+<li class="chapter" data-level="6.6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#i-wish-i-hadnt-commented-my-code-so-much-said-no-one-ever-4."><i class="fa fa-check"></i><b>6.6</b> “I wish I hadn’t commented my code so much”, said no-one, ever.</a></li>
+<li class="chapter" data-level="6.7" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#using-rstudio-to-write-scripts"><i class="fa fa-check"></i><b>6.7</b> Using RStudio to write scripts</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html"><i class="fa fa-check"></i><b>7</b> Help files and packages</a><ul>
+<li class="chapter" data-level="7.1" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#using-the-help-files"><i class="fa fa-check"></i><b>7.1</b> Using the help files</a></li>
+<li class="chapter" data-level="7.2" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#packages"><i class="fa fa-check"></i><b>7.2</b> Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>8</b> Importing Data</a><ul>
+<li class="chapter" data-level="8.1" data-path="importing-data.html"><a href="importing-data.html#the-rules"><i class="fa fa-check"></i><b>8.1</b> The Rules</a></li>
+<li class="chapter" data-level="8.2" data-path="importing-data.html"><a href="importing-data.html#importing-your-text-file"><i class="fa fa-check"></i><b>8.2</b> Importing your Text File</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="importing-data.html"><a href="importing-data.html#the-simple-way"><i class="fa fa-check"></i><b>8.2.1</b> The simple way</a></li>
+<li class="chapter" data-level="8.2.2" data-path="importing-data.html"><a href="importing-data.html#the-less-simple-way"><i class="fa fa-check"></i><b>8.2.2</b> The less simple way</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="importing-data.html"><a href="importing-data.html#importing-character-data"><i class="fa fa-check"></i><b>8.3</b> Importing character data</a></li>
+<li class="chapter" data-level="8.4" data-path="importing-data.html"><a href="importing-data.html#data-on-the-web"><i class="fa fa-check"></i><b>8.4</b> Data on the web</a></li>
+<li class="chapter" data-level="8.5" data-path="importing-data.html"><a href="importing-data.html#using-read.table"><i class="fa fa-check"></i><b>8.5</b> Using <code>read.table()</code></a></li>
+<li class="chapter" data-level="8.6" data-path="importing-data.html"><a href="importing-data.html#what-to-do-once-youve-managed-to-import-your-data."><i class="fa fa-check"></i><b>8.6</b> What to do once you’ve managed to import your data.</a></li>
+<li class="chapter" data-level="8.7" data-path="importing-data.html"><a href="importing-data.html#importing-data-directly-from-excel"><i class="fa fa-check"></i><b>8.7</b> Importing data directly from Excel</a></li>
+<li class="chapter" data-level="8.8" data-path="importing-data.html"><a href="importing-data.html#other-data-formats"><i class="fa fa-check"></i><b>8.8</b> Other data formats</a></li>
+<li class="chapter" data-level="8.9" data-path="importing-data.html"><a href="importing-data.html#importing-data-into-rstudio"><i class="fa fa-check"></i><b>8.9</b> Importing data into RStudio</a></li>
+<li class="chapter" data-level="8.10" data-path="importing-data.html"><a href="importing-data.html#to-attach-or-not-to-attach"><i class="fa fa-check"></i><b>8.10</b> To attach or not to attach?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><i class="fa fa-check"></i><b>9</b> R graphics I — drawing graphs and changing plot symbols and colours using the base graphics system</a><ul>
+<li class="chapter" data-level="9.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-versus-ggplot2-versus-lattice-versus-whaaat"><i class="fa fa-check"></i><b>9.1</b> Base graphics versus ggplot2 versus lattice versus whaaat???</a></li>
+<li class="chapter" data-level="9.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-example-ufo-reports-again"><i class="fa fa-check"></i><b>9.2</b> Base graphics example: UFO reports again</a></li>
+<li class="chapter" data-level="9.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#scatterplots"><i class="fa fa-check"></i><b>9.3</b> Scatterplots</a></li>
+<li class="chapter" data-level="9.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plot-symbols"><i class="fa fa-check"></i><b>9.4</b> Plot symbols</a></li>
+<li class="chapter" data-level="9.5" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colours"><i class="fa fa-check"></i><b>9.5</b> Colours</a></li>
+<li class="chapter" data-level="9.6" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plotting-multiple-symbols-or-colours"><i class="fa fa-check"></i><b>9.6</b> Plotting multiple symbols or colours</a></li>
+<li class="chapter" data-level="9.7" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colour-palettes-in-r"><i class="fa fa-check"></i><b>9.7</b> Colour palettes in R</a></li>
+<li class="chapter" data-level="9.8" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#using-transparency-in-your-graphs"><i class="fa fa-check"></i><b>9.8</b> Using transparency in your graphs</a></li>
+<li class="chapter" data-level="9.9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histograms-and-multiple-plots-in-the-same-window"><i class="fa fa-check"></i><b>9.9</b> Histograms and multiple plots in the same window</a></li>
+<li class="chapter" data-level="9.10" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#boxplots"><i class="fa fa-check"></i><b>9.10</b> Boxplots</a></li>
+<li class="chapter" data-level="9.11" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#bar-charts"><i class="fa fa-check"></i><b>9.11</b> Bar charts</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#more-complex-barplots"><i class="fa fa-check"></i><b>9.11.1</b> More complex barplots</a></li>
+</ul></li>
+<li class="chapter" data-level="9.12" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#other-types-of-plot"><i class="fa fa-check"></i><b>9.12</b> Other types of plot</a><ul>
+<li class="chapter" data-level="9.12.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histogram-with-overlaid-probability-density-estimate"><i class="fa fa-check"></i><b>9.12.1</b> Histogram with overlaid probability density estimate</a></li>
+<li class="chapter" data-level="9.12.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#pie-graph"><i class="fa fa-check"></i><b>9.12.2</b> Pie graph</a></li>
+<li class="chapter" data-level="9.12.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#d-scatterplot"><i class="fa fa-check"></i><b>9.12.3</b> 3D scatterplot</a></li>
+<li class="chapter" data-level="9.12.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#contour-plot"><i class="fa fa-check"></i><b>9.12.4</b> Contour plot</a></li>
+</ul></li>
+<li class="chapter" data-level="9.13" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#exporting-graphics"><i class="fa fa-check"></i><b>9.13</b> Exporting Graphics</a><ul>
+<li class="chapter" data-level="9.13.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-easy-way"><i class="fa fa-check"></i><b>9.13.1</b> The easy way</a></li>
+<li class="chapter" data-level="9.13.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-hard-way"><i class="fa fa-check"></i><b>9.13.2</b> The hard way</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html"><i class="fa fa-check"></i><b>10</b> R graphics II — Adding elements to an existing graph</a><ul>
+<li class="chapter" data-level="10.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#simple-regression-lines"><i class="fa fa-check"></i><b>10.1</b> Simple regression lines</a></li>
+<li class="chapter" data-level="10.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#multiple-regression-lines"><i class="fa fa-check"></i><b>10.2</b> Multiple regression lines</a></li>
+<li class="chapter" data-level="10.3" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#legends"><i class="fa fa-check"></i><b>10.3</b> Legends</a></li>
+<li class="chapter" data-level="10.4" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#curves"><i class="fa fa-check"></i><b>10.4</b> Curves</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-curve"><i class="fa fa-check"></i><b>10.4.1</b> Adding a curve using <code>curve()</code></a></li>
+<li class="chapter" data-level="10.4.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-lines-or-points."><i class="fa fa-check"></i><b>10.4.2</b> Adding a curve using <code>lines()</code> or <code>points()</code>.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#text-and-arrows"><i class="fa fa-check"></i><b>10.5</b> Text and arrows</a></li>
+<li class="chapter" data-level="10.6" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#confidence-bands-for-fitted-lines"><i class="fa fa-check"></i><b>10.6</b> Confidence bands for fitted lines</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-bands-using-lines"><i class="fa fa-check"></i><b>10.6.1</b> Adding confidence bands using <code>lines()</code></a></li>
+<li class="chapter" data-level="10.6.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-intervals-to-fitted-lines-using-polygon"><i class="fa fa-check"></i><b>10.6.2</b> Adding confidence intervals to fitted lines using <code>polygon()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#error-bars"><i class="fa fa-check"></i><b>10.7</b> Error bars</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-error-bars-using-arrows"><i class="fa fa-check"></i><b>10.7.1</b> Adding error bars using <code>arrows()</code></a></li>
+<li class="chapter" data-level="10.7.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#plotting-means-and-error-bars-using-plotmeans"><i class="fa fa-check"></i><b>10.7.2</b> Plotting means and error bars using <code>plotmeans()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html"><i class="fa fa-check"></i><b>11</b> Graphics with ggplot2</a><ul>
+<li class="chapter" data-level="11.1" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#ggplot2-introduced"><i class="fa fa-check"></i><b>11.1</b> ggplot2 introduced</a></li>
+<li class="chapter" data-level="11.2" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#scaling-axes-and-varying-colour-or-shapes-by-factor-levels"><i class="fa fa-check"></i><b>11.2</b> Scaling axes and varying colour or shapes by factor levels</a></li>
+<li class="chapter" data-level="11.3" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#facets"><i class="fa fa-check"></i><b>11.3</b> Facets</a></li>
+<li class="chapter" data-level="11.4" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#histograms"><i class="fa fa-check"></i><b>11.4</b> Histograms</a></li>
+<li class="chapter" data-level="11.5" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#boxplots-1"><i class="fa fa-check"></i><b>11.5</b> Boxplots</a></li>
+<li class="chapter" data-level="11.6" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#final-word"><i class="fa fa-check"></i><b>11.6</b> Final word</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html"><i class="fa fa-check"></i><b>12</b> Basic Statistical Concepts</a><ul>
+<li class="chapter" data-level="12.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#populations-and-samples"><i class="fa fa-check"></i><b>12.1</b> Populations and Samples</a></li>
+<li class="chapter" data-level="12.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#descriptive-and-exploratory-statistics"><i class="fa fa-check"></i><b>12.2</b> Descriptive and exploratory statistics</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#maximum-and-minimum"><i class="fa fa-check"></i><b>12.2.1</b> Maximum and minimum</a></li>
+<li class="chapter" data-level="12.2.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#frequency-distribution"><i class="fa fa-check"></i><b>12.2.2</b> Frequency distribution</a></li>
+<li class="chapter" data-level="12.2.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#kinds-of-frequency-distribution"><i class="fa fa-check"></i><b>12.2.3</b> Kinds of frequency distribution</a></li>
+<li class="chapter" data-level="12.2.4" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-central-tendency"><i class="fa fa-check"></i><b>12.2.4</b> Measures of central tendency</a></li>
+<li class="chapter" data-level="12.2.5" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-dispersion"><i class="fa fa-check"></i><b>12.2.5</b> Measures of dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#standard-errors-and-confidence-intervals"><i class="fa fa-check"></i><b>12.3</b> Standard errors and confidence intervals</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#code-used-to-draw-figure-6"><i class="fa fa-check"></i><b>12.3.1</b> Code used to draw figure 6</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html"><i class="fa fa-check"></i><b>13</b> What is statistical testing?</a><ul>
+<li class="chapter" data-level="13.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#the-problem"><i class="fa fa-check"></i><b>13.1</b> The problem</a></li>
+<li class="chapter" data-level="13.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#statistical-testing-in-a-nutshell"><i class="fa fa-check"></i><b>13.2</b> Statistical testing in a nutshell</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#decide-on-the-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.2.1</b> Decide on the null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.2.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#calculate-the-size-of-the-effect."><i class="fa fa-check"></i><b>13.2.2</b> Calculate the size of the effect.</a></li>
+<li class="chapter" data-level="13.2.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#transform-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.2.3</b> Transform the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.2.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#ask-what-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true."><i class="fa fa-check"></i><b>13.2.4</b> Ask what the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true.</a></li>
+<li class="chapter" data-level="13.2.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#think-about-what-the-result-means."><i class="fa fa-check"></i><b>13.2.5</b> Think about what the result means.</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#how-a-statistical-test-works"><i class="fa fa-check"></i><b>13.3</b> How a statistical test works</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-1-generating-our-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.3.1</b> Step 1 generating our null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.3.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-2-calculating-the-size-of-the-effect"><i class="fa fa-check"></i><b>13.3.2</b> Step 2 calculating the size of the effect</a></li>
+<li class="chapter" data-level="13.3.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-3-transforming-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.3.3</b> Step 3 Transforming the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.3.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-4-what-is-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true"><i class="fa fa-check"></i><b>13.3.4</b> Step 4 What is the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true?</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#what-statistical-testing-does-and-doesnt-tell-us"><i class="fa fa-check"></i><b>13.4</b> What statistical testing does and doesn’t tell us</a></li>
+<li class="chapter" data-level="13.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#code-used-to-draw-figure-5"><i class="fa fa-check"></i><b>13.5</b> Code used to draw figure 5</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><i class="fa fa-check"></i><b>14</b> The Chi-squared Test and a Classic Dataset on Smoking and Cancer</a><ul>
+<li class="chapter" data-level="14.1" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-who-smoke-more-likely-to-be-heavy-smokers"><i class="fa fa-check"></i><b>14.1</b> Are lung cancer patients who smoke more likely to be heavy smokers?</a></li>
+<li class="chapter" data-level="14.2" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#the-chi-squared-test"><i class="fa fa-check"></i><b>14.2</b> The Chi-squared test</a></li>
+<li class="chapter" data-level="14.3" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#chi-squared-test-with-contingency-tables"><i class="fa fa-check"></i><b>14.3</b> Chi-squared test with contingency tables</a></li>
+<li class="chapter" data-level="14.4" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#assumptions-and-limitations-of-the-chi-squared-test"><i class="fa fa-check"></i><b>14.4</b> Assumptions and limitations of the chi-squared test</a></li>
+<li class="chapter" data-level="14.5" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-more-likely-to-be-smokers-than-controls"><i class="fa fa-check"></i><b>14.5</b> Are lung cancer patients more likely to be smokers than controls?</a></li>
+<li class="chapter" data-level="14.6" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#fishers-exact-test"><i class="fa fa-check"></i><b>14.6</b> Fisher’s exact test</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><i class="fa fa-check"></i><b>15</b> Comparing immune responses between two caterpillar species using a t-test</a><ul>
+<li class="chapter" data-level="15.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#assumptions-and-limitations-of-standard-parametric-statistics"><i class="fa fa-check"></i><b>15.1</b> Assumptions and limitations of standard parametric statistics</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#normal-errors."><i class="fa fa-check"></i><b>15.1.1</b> Normal errors.</a></li>
+<li class="chapter" data-level="15.1.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#independence-of-data-points."><i class="fa fa-check"></i><b>15.1.2</b> Independence of data points.</a></li>
+<li class="chapter" data-level="15.1.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#equal-variances."><i class="fa fa-check"></i><b>15.1.3</b> Equal variances.</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#importing-the-data"><i class="fa fa-check"></i><b>15.2</b> Importing the Data</a></li>
+<li class="chapter" data-level="15.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#descriptives-and-initial-exploration"><i class="fa fa-check"></i><b>15.3</b> Descriptives and Initial Exploration</a></li>
+<li class="chapter" data-level="15.4" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#comparing-two-means-with-a-t-test"><i class="fa fa-check"></i><b>15.4</b> Comparing Two Means With a t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="correlation-analysis.html"><a href="correlation-analysis.html"><i class="fa fa-check"></i><b>16</b> Correlation analysis</a><ul>
+<li class="chapter" data-level="16.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#calculating-the-correlation-coefficient"><i class="fa fa-check"></i><b>16.1</b> Calculating the correlation coefficient</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#interpreting-our-correlation-coefficient."><i class="fa fa-check"></i><b>16.1.1</b> Interpreting our correlation coefficient.</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="correlation-analysis.html"><a href="correlation-analysis.html#statistical-significance-of-r"><i class="fa fa-check"></i><b>16.2</b> Statistical significance of <em>r</em></a></li>
+<li class="chapter" data-level="16.3" data-path="correlation-analysis.html"><a href="correlation-analysis.html#assumptions-of-correlation-analysis"><i class="fa fa-check"></i><b>16.3</b> Assumptions of correlation analysis</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#comparing-correlations-between-swim-run-and-bike-splits"><i class="fa fa-check"></i><b>16.3.1</b> Comparing correlations between swim, run and bike splits</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="correlation-analysis.html"><a href="correlation-analysis.html#correlation-causality-sample-size-and-significance."><i class="fa fa-check"></i><b>16.4</b> Correlation, causality, sample size and significance.</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><i class="fa fa-check"></i><b>17</b> Using Linear Regression to Analyse TB trends in the UK</a><ul>
+<li class="chapter" data-level="17.0.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#least-squares-line-fitting"><i class="fa fa-check"></i><b>17.0.1</b> Least squares line fitting</a></li>
+<li class="chapter" data-level="17.0.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#significance-tests-for-linear-regression"><i class="fa fa-check"></i><b>17.0.2</b> Significance tests for linear regression</a></li>
+<li class="chapter" data-level="17.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#bovine-tb"><i class="fa fa-check"></i><b>17.1</b> Bovine TB</a></li>
+<li class="chapter" data-level="17.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>17.2</b> Assumptions of linear regression</a><ul>
+<li class="chapter" data-level="17.2.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots"><i class="fa fa-check"></i><b>17.2.1</b> Diagnostic plots</a></li>
+<li class="chapter" data-level="17.2.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots-for-our-m.bovis-regression"><i class="fa fa-check"></i><b>17.2.2</b> Diagnostic plots for our <em>M.bovis</em> regression</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#interpreting-our-regression-and-predicting-future-cases"><i class="fa fa-check"></i><b>17.3</b> Interpreting our regression and predicting future cases</a></li>
+<li class="chapter" data-level="17.4" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#multi-drug-resistant-tb"><i class="fa fa-check"></i><b>17.4</b> Multi-drug resistant TB</a></li>
+<li class="chapter" data-level="17.5" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#fitting-a-quadratic-model"><i class="fa fa-check"></i><b>17.5</b> Fitting a quadratic model</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="anova-and-football.html"><a href="anova-and-football.html"><i class="fa fa-check"></i><b>18</b> ANOVA and Football</a><ul>
+<li class="chapter" data-level="18.1" data-path="anova-and-football.html"><a href="anova-and-football.html#analysis-of-variance"><i class="fa fa-check"></i><b>18.1</b> Analysis of Variance</a></li>
+<li class="chapter" data-level="18.2" data-path="anova-and-football.html"><a href="anova-and-football.html#interpreting-anova-results"><i class="fa fa-check"></i><b>18.2</b> Interpreting ANOVA results</a></li>
+<li class="chapter" data-level="18.3" data-path="anova-and-football.html"><a href="anova-and-football.html#what-makes-a-professional-footballer"><i class="fa fa-check"></i><b>18.3</b> What makes a professional footballer?</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html"><i class="fa fa-check"></i><b>19</b> Yeast sex and two factor ANOVA.</a><ul>
+<li class="chapter" data-level="19.1" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#yeast-sexual-selection"><i class="fa fa-check"></i><b>19.1</b> Yeast sexual selection</a></li>
+<li class="chapter" data-level="19.2" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#understanding-the-coefficients-table"><i class="fa fa-check"></i><b>19.2</b> Understanding the coefficients table</a></li>
+<li class="chapter" data-level="19.3" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#which-statistical-tests-to-use-with-lm"><i class="fa fa-check"></i><b>19.3</b> Which statistical tests to use with <code>lm()</code>?</a></li>
+<li class="chapter" data-level="19.4" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#diagnostics"><i class="fa fa-check"></i><b>19.4</b> Diagnostics</a></li>
+<li class="chapter" data-level="19.5" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#visualising-the-data"><i class="fa fa-check"></i><b>19.5</b> Visualising the data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="using-linear-regression-to-analyse-tb-trends-in-the-uk" class="section level1">
+<h1><span class="header-section-number">Chapter 17</span> Using Linear Regression to Analyse TB trends in the UK</h1>
+<p>Thirty years ago, Tuberculosis (TB, caused by <em>Mycobacterium tuberculosis</em>) was a disease on the way out. Before the advent of the BCG vaccination and antibiotics it was horribly common and frequently fatal - in 1913 there were 113,000 TB notifications in the UK, for example. By the mid 1980s many years of effective treatment and prevention had reduced the incidence of the disease by about 95% and there were only around 5-6000 cases per year. Since then, however, TB cases in the UK have increased because of a variety of factors, including increased infection of immunosuppressed people with HIV/AIDS and migration of people from other parts of the World where TB remains prevalent. There has been a simultaneous increase in the number of cases of TB that have proven to be resistant to the antibiotics normally used to treat the disease, and in the UK there is a well-publicised epidemic of Bovine TB (<em>Mycobacterium bovis</em>) in cattle, and some people are becoming infected with this species of the bacterium.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Year</th>
+<th align="center">M.bovis</th>
+<th align="center">MDR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1999</td>
+<td align="center">18</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">2000</td>
+<td align="center">18</td>
+<td align="center">0.4</td>
+</tr>
+<tr class="odd">
+<td align="center">2001</td>
+<td align="center">20</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="even">
+<td align="center">2002</td>
+<td align="center">12</td>
+<td align="center">0.7</td>
+</tr>
+<tr class="odd">
+<td align="center">2003</td>
+<td align="center">17</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="even">
+<td align="center">2004</td>
+<td align="center">16</td>
+<td align="center">0.7</td>
+</tr>
+<tr class="odd">
+<td align="center">2005</td>
+<td align="center">23</td>
+<td align="center">0.3</td>
+</tr>
+<tr class="even">
+<td align="center">2006</td>
+<td align="center">28</td>
+<td align="center">0.6</td>
+</tr>
+<tr class="odd">
+<td align="center">2007</td>
+<td align="center">22</td>
+<td align="center">0.7</td>
+</tr>
+<tr class="even">
+<td align="center">2008</td>
+<td align="center">21</td>
+<td align="center">0.7</td>
+</tr>
+<tr class="odd">
+<td align="center">2009</td>
+<td align="center">24</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">2010</td>
+<td align="center">30</td>
+<td align="center">0.9</td>
+</tr>
+<tr class="odd">
+<td align="center">2011</td>
+<td align="center">31</td>
+<td align="center">1.1</td>
+</tr>
+</tbody>
+</table>
+<p>Table 1. Bovine TB and multi-drug resistant TB data frame for the UK. The column headed “M.bovis” is the annual case notifications for bovine TB in humans. The column headed “MDR” is the percentage of cases of M. tuberculosis tested that were multi-drug resistant.</p>
+<p>The table above contains data<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a> for the number of case notifications of Bovine TB in humans from 1999 until 2011, and since 2000 the proportion of cases of human TB that have been classified as “multi-drug resistant”, meaning that the bacterium shows resistance to the antibiotics Isoniazad and Rifampicin, two of the most important “first line” drugs used to treat the disease. These data can also be downloaded from <a href="http://www.introductoryr.co.uk" class="uri">http://www.introductoryr.co.uk</a>. We’re going to use these data to try to answer some questions which will be important in planning health policy and TB control measures in the UK. These are:</p>
+<ul>
+<li>How has the incidence of Bovine TB changed since 1999?</li>
+<li>What are the probable numbers of cases of Bovine TB in humans in 2013, 2014 and 2015?</li>
+<li>How has the percentage of cases of multi-drug resistant TB changed since 2000?</li>
+<li>How is the percentage of cases of multi-drug resistant TB likely to change in the years up to 2015?</li>
+</ul>
+<p>The statistical technique we’re going to use to try to answer these questions is <em>linear regression</em>. Linear regression is a statistical technique for determining which straight line best describes the relationship between two variables. In the examples used in this chapter we are examining the relationship between disease incidence and year, but there are an infinite number of other possibilities: the relationship between rainfall and leaf area or between carbon content and the hardness of steel could all potentially be analysed using linear regression. One thing you can notice about these examples is that the direction of causality is reasonably clear. Steel hardness does not cause the steel to have a certain carbon content, but the carbon content could well cause it to have a particular hardness, and leaf area is unlikely to cause rainfall whereas rainfall could well affect leaf growth substantially. In these cases there are clear <em>response</em> and <em>explanatory</em> variables (or <em>dependent</em> and <em>independent</em>), where the response variable is affected by the explanatory variable but the reverse is not true. The normal way to visualise these sorts of data is with a scatterplot where the response variable is plotted on the y-axis and the explanatory variable on the x-axis. If there is a reasonable looking straight line relationship between the response and the explanatory variable we can think about using linear regression to fit a line which tells us how the values of the response variable can be predicted for any given value of the explanatory variable. Here is the plot for our <em>M. bovis</em> data.</p>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb468-1"></a></span>
+<span id="cb468-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb468-2"></a><span class="co"># Load data</span></span>
+<span id="cb468-3"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb468-3"></a>tbdata &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;Data/TB_HPA.txt&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>)</span>
+<span id="cb468-4"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb468-4"></a></span>
+<span id="cb468-5"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb468-5"></a><span class="co"># Draw plot</span></span>
+<span id="cb468-6"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb468-6"></a><span class="kw">plot</span>(</span>
+<span id="cb468-7"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb468-7"></a>  tbdata<span class="op">$</span>Year,</span>
+<span id="cb468-8"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb468-8"></a>  tbdata<span class="op">$</span>M.bovis,</span>
+<span id="cb468-9"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb468-9"></a>  <span class="dt">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb468-10"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb468-10"></a>  <span class="dt">xlab =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb468-11"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb468-11"></a>  <span class="dt">ylab =</span> <span class="st">&quot;Case notifications for Bovine TB&quot;</span></span>
+<span id="cb468-12"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb468-12"></a>)</span></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-484"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-484-1.png" alt="Case notifications for Bovine Tb in humans per year from 1999 to 2011." width="672" />
+<p class="caption">
+Figure 17.1: Case notifications for Bovine Tb in humans per year from 1999 to 2011.
+</p>
+</div>
+<p>Sometimes the direction of causality is less clear. Consider a study of the relationship between the number of visits a child makes to a public library and achievement at school. It could be that frequent visits to a library improves the child’s reading ability and improves achievement at school, but it could also be possible that children who are doing well at school enjoy reading and are more motivated to visit the library. A third possibility is that neither of these causes the other, but that both are correlated with one or more variables that haven’t been measured (parental engagement in their child’s education, for example). In these cases we have to be cautious about using techniques like linear regression, and it can sometimes be best to use correlation analysis, which will tell you the relationship between the variables without making assumptions about causality.</p>
+<div id="least-squares-line-fitting" class="section level3">
+<h3><span class="header-section-number">17.0.1</span> Least squares line fitting</h3>
+<p>In a linear regression, the ‘best fit’ line relating the response variable to the explanatory variable is found by using the method of ‘least squares’. Any straight line can be described by its <em>slope</em> and its <em>intercept</em>, and for a given line, we can calculate the <em>predicted value</em> for every x-value as <em>intercept + x times the slope</em>. Sometimes this value will be similar to the actual y-value that’s associated with the x-value, and sometimes it will be quite different. We can quantify how well or how poorly our line predicts each y-value by subtracting the predicted value from the actual value of y. Sometimes this will be a positive number and sometimes it will be a negative number, so we square each difference and then we can add them up to produce a total measure of how well our line predicts the y-values: this is the <em>sum of squares</em> for our line. What linear regression does is to find the line which minimises the sum of squares, which is the line that, on average, passes closest to all of the y-values in our dataset.</p>
+<p>The next figure has two graphs, one showing our <em>M. bovis</em> data plotted with a poorly fitted line and one showing the same dataset with the line that’s fitted by linear regression. The differences beyween the predicted values (the line) and each data point are shown by dotted lines. In the first graph, with a poorly fitting line, the sum of squares, the sum of the length of each dotted line squared, will be a much larger number than it will be for the second graph, where the the differences between the data points and the line are all minimised.</p>
+<div class="figure"><span id="fig:unnamed-chunk-486"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-486-1.png" alt="Our data shown with a poorly fitted line (left) and a line fitted by linear regression (right). Differences between the actual data points and the predicted values are indicated by dotted lines." width="864" />
+<p class="caption">
+Figure 17.2: Our data shown with a poorly fitted line (left) and a line fitted by linear regression (right). Differences between the actual data points and the predicted values are indicated by dotted lines.
+</p>
+</div>
+</div>
+<div id="significance-tests-for-linear-regression" class="section level3">
+<h3><span class="header-section-number">17.0.2</span> Significance tests for linear regression</h3>
+<p>There are two ways normally used to test for statistical significance in a linear regression, and we use both of them in this chapter. The first option is to do a t-test. If we set up a null hypothesis that the slope is a certain value (usually zero) then we can calculate a <em>t</em> statistic based on the difference between our calculated slope and the slope specified in the null hypothesis divided by the standard error for the slope. If the null hypothesis were true (for those cases where the null hypothesis is that the slope is zero this means that the the data would be drawn at random from a population where there was no relation between the response and explanatory variables) we would expect this value to be distributed as <em>t</em> on one degree of freedom. In R this t-test is the second one given in the coefficients table that you get when you use the <code>summary()</code> function on your fitted model object. The first t-test is for whether the intercept is signficantly different from zero.</p>
+<p>The second option is possible because linear regression is mathematically very similar to analysis of variance (ANOVA). As discussed in detail in the chapter on ANOVA and yeast sex (it gets a bit lively later on in the book) ANOVA allows you to test for statistically significant differences between means without even calculating the differences between the means. Instead it uses the fact that if there are substantial differences between the means, those differences between the means account for a sizeable proportion of the total variance in the dataset, and if we remove that <em>treatment variance</em> then the remaining variance which cannot be explained, known as the <em>error variance</em> will be substantially less than the total variance. As with ANOVA, we can partition the variance in our response variable into the <em>error variance</em>, which in this case is the variance which is the variance that remains once we’ve fitted our line, and the <em>treatment variance</em> which the amount of variance explained by our fitted line — in other words, the amount by which the variance reduces when we put a best-fit line through our data.</p>
+<div class="figure"><span id="fig:TB3"></span>
+<img src="3rd_Edition_files/figure-html/TB3-1.png" alt="The difference between the variance when only a mean is fitted (left) and when a best-fit line is fitted (right)." width="864" />
+<p class="caption">
+Figure 17.3: The difference between the variance when only a mean is fitted (left) and when a best-fit line is fitted (right).
+</p>
+</div>
+<p>The graph on the left shows the deviations from the mean for each data point as the dashed lines: the variance is the sum of the squared values of each deviation, all divided by n-1. In the graph on the right (which is identical to the second graph in figure 9 above) you can see that the deviations from the fitted line are generally much smaller than those in the graph on the left. The difference between the sum of squares for the graph on the right and the one on the left tells you how much of the total variance is accounted for by the fitted line.</p>
+<p>As with ANOVA, it’s possible to use the way that we can partition the variance in our response variable to perform a statistical test on a fitted linear regression, and this is what happens when you use the <code>anova()</code> function on an object which is the output of a linear regression - it gives you an ANOVA table and the results of an <em>F-test</em><a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a> on the ratio of the <em>mean square treatment</em> (this is one of those things in statistics that might seem to be put there just to cause pain to the uninitiated: when variances are partitioned in an ANOVA table the calculated variances aren’t called variances, they’re called the <em>mean squares</em>) to the <em>mean square error</em> - the latter being the variance that can’t be explained by the regression line. Think of this as the remaining noise in the data after the line’s been fitted. The bottom line of the summary table also gives you the result of this F-test but in less detail. For a simple linear regression the p-value for the ANOVA ought to be the same as the one from the t-test in the summary table. As you can see in the chapter above in the section on multi-drug resistant TB where we include a quadratic term in the analysis, when we start using more complex regression models with more than one explanatory variable the ANOVA can give rather different results to the t-tests. In these situations the question of exactly which p-values you should pay attention to starts getting complicated, and a fair amount of the chapter on model fitting and whale brain size and dive duration is devoted to a discussion of this.</p>
+</div>
+<div id="bovine-tb" class="section level2">
+<h2><span class="header-section-number">17.1</span> Bovine TB</h2>
+<p>Figure 1 shows us that the number of case notifications per year for Bovine TB has been showing a general trend towards an increase over the period in question. The data are rather noisy but that’s expected when the actual numbers we’re dealing with are quite small because there will be a fair amount of variation from year to year for purely stochastic reasons. There aren’t any obvious outliers, nor can we see any evidence of problems like increasing variance over time (see the section on assumptions of linear regression). To predict what the numbers are likely to look like for 2013-15 we can start by fitting a linear regression to the data, and then if we’re happy that it is a good description of the way that the case notifications change with year we can think about what the numbers are likely to be like in the future.</p>
+<p>Fitting a linear regression uses the <code>lm()</code> function. This fits a linear model that, as you can see in the later chapters on model fitting, can be complex and have a variety of explanatory variables with a diverse range of possible interactions. For our purposes all we need is a simple linear regression, which is fortunately one of the simplest ways to use this function. As with our t-test we specify the model using a formula, with the response variable on the left, a tilde (~) and then the explanatory variable.</p>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb469-1"></a>M.bovis.mod&lt;-<span class="kw">lm</span>(tbdata<span class="op">$</span>M.bovis<span class="op">~</span>tbdata<span class="op">$</span>Year)</span></code></pre></div>
+<p>As is often the case with R, we’re happy when we type in an instruction and nothing happens. That means there aren’t any error messages for us to decipher.Let’s get some details of the outcome of the analysis.</p>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-1"></a><span class="kw">summary</span>(M.bovis.mod)</span>
+<span id="cb470-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-2"></a></span>
+<span id="cb470-3"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-3"></a>Call<span class="op">:</span></span>
+<span id="cb470-4"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-4"></a><span class="kw">lm</span>(<span class="dt">formula =</span> tbdata<span class="op">$</span>M.bovis <span class="op">~</span><span class="st"> </span>tbdata<span class="op">$</span>Year)</span>
+<span id="cb470-5"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-5"></a></span>
+<span id="cb470-6"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-6"></a>Residuals<span class="op">:</span></span>
+<span id="cb470-7"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-7"></a><span class="st">   </span>Min     1Q Median     3Q    Max </span>
+<span id="cb470-8"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-8"></a> <span class="fl">-6.19</span>  <span class="fl">-2.31</span>   <span class="fl">1.46</span>   <span class="fl">2.88</span>   <span class="fl">5.35</span> </span>
+<span id="cb470-9"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-9"></a></span>
+<span id="cb470-10"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-10"></a>Coefficients<span class="op">:</span></span>
+<span id="cb470-11"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-11"></a><span class="st">             </span>Estimate Std. Error t value <span class="kw">Pr</span>(<span class="op">&gt;</span><span class="er">|</span>t<span class="op">|</span>)   </span>
+<span id="cb470-12"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-12"></a>(Intercept) <span class="fl">-2214.808</span>    <span class="fl">557.544</span>   <span class="fl">-3.97</span>   <span class="fl">0.0022</span> <span class="op">**</span></span>
+<span id="cb470-13"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-13"></a>tbdata<span class="op">$</span>Year     <span class="fl">1.115</span>      <span class="fl">0.278</span>    <span class="fl">4.01</span>   <span class="fl">0.0020</span> <span class="op">**</span></span>
+<span id="cb470-14"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-14"></a><span class="op">---</span></span>
+<span id="cb470-15"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-15"></a>Signif. codes<span class="op">:</span><span class="st">  </span><span class="dv">0</span> <span class="st">&#39;***&#39;</span> <span class="fl">0.001</span> <span class="st">&#39;**&#39;</span> <span class="fl">0.01</span> <span class="st">&#39;*&#39;</span> <span class="fl">0.05</span> <span class="st">&#39;.&#39;</span> <span class="fl">0.1</span> <span class="st">&#39; &#39;</span> <span class="dv">1</span></span>
+<span id="cb470-16"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-16"></a></span>
+<span id="cb470-17"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-17"></a>Residual standard error<span class="op">:</span><span class="st"> </span><span class="fl">3.75</span> on <span class="dv">11</span> degrees of freedom</span>
+<span id="cb470-18"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-18"></a>Multiple R<span class="op">-</span>squared<span class="op">:</span><span class="st">  </span><span class="fl">0.594</span>, Adjusted R<span class="op">-</span>squared<span class="op">:</span><span class="st">  </span><span class="fl">0.557</span> </span>
+<span id="cb470-19"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb470-19"></a>F<span class="op">-</span>statistic<span class="op">:</span><span class="st"> </span><span class="fl">16.1</span> on <span class="dv">1</span> and <span class="dv">11</span> DF,  p<span class="op">-</span>value<span class="op">:</span><span class="st"> </span><span class="fl">0.00205</span></span></code></pre></div>
+<p>Using the <code>summary()</code> function tells us most of the things we need to know. It begins by reminding us what the model we fitted was (<code>Call:lm(formula = M.bovis ~ Year</code>) and then it gives us a few summary statistics for the residuals - we’ll talk about these in more detail in the section on assumptions and diagnostic plots. Next we get the meat of the output, the coefficients table. In the case of a linear regression this gives us the estimated intercept (-2214.8) and the slope that relates the number of Bovine TB cases to the year (1.12). There’s a standard error for each of those estimates and a t-test to give us an idea of their significance.</p>
+<p>Finally there’s a series of other measures that tell us about how well the overall model fits the data: residual standard error, r^2 - the proportion of the total variance that’s explained by the fitted line, adjusted r^2 (this is an r^2 value which is reduced according to how many parameters are in the model), and an F-test for significance of the overall model.</p>
+<p>Before we go on to make predictions from our model, we need think about whether our model is a good fit to the data: do our data meet the assumptions of linear regression, or are there reasons to worry about our analysis?</p>
+</div>
+<div id="assumptions-of-linear-regression" class="section level2">
+<h2><span class="header-section-number">17.2</span> Assumptions of linear regression</h2>
+<p>Much like the t-test, undergraduate students in introductory statistics courses are beaten with the assumptions behind linear regression and expected to learn them, probably because they make for easy questions in exams. Unfortnately these assumptions are sometimes taught without much information about how important they are and when you actually need to worry about them.</p>
+<ul>
+<li><strong>Independence of data</strong>. As with the other statistical tests we’ve looked at, linear regression makes the assumption that data points are <em>independent</em> and that the value of any one data point is not influenced by the values of any of the other data points. As with the other statistical analyses we use here, if you have non-independent data points: multiple individuals given the same treatment but also kept in the same container, for example, or repeat measurements on the same individual, then you can run into serious problems. One example of how non-independence can lead to the wrong conclusion is <em>Simpson’s Paradox</em> (not really a paradox but it sounds good so the name’s stuck). In the case of linear regression this occurs when there are two or more groups in the data which have different mean values of both the response variable and the explanatory variable. If this is the case then it is possible to have a situation where the slope of the line relating Y to X is positive when each group is considered separately, but negative when they’re considered together, or <em>vice versa</em>: see figure 11 for an example of this. If you do have some form of non-independence in your data then need to think carefully about how to analyse the data. If there is fairly straightforward structure in the data such as that shown in figure 11 then an appropriate analysis might be a general linear model (see chapter 13 on model fitting later in the book) with a factor which allows you to include the structure in your analysis. Alternatively, if you have non-independence of the sort that arises with (for example) repeated measurements on the same individual you are likely to need to use analysis techniques that take non-independence into account such as mixed-effects models (somewhat beyond the scope of this book)… but if you have severe pseudoreplication even that will not save you. The best advice regarding non-independence is to avoid it. If you can’t avoid it make sure that you are confident that you will be able to take account of it in your analysis and make sure that you have checked whether you will be able to do this <em>before you do your experiment</em>. Trying to analyse your way out of bad experimental design is not likely to lead to happiness.</li>
+</ul>
+<div class="figure"><span id="fig:unnamed-chunk-489"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-489-1.png" alt="Example demonstrating Simpson's Paradox. There are two groups in the data (male and female, young and old, infected and uninfected, subspecies 1 and subspecies 2...) and the relationship between Y and X within each group is positive. The dotted lines indicate the regression lines when each group is analysed seperately. Because one group has a lower X value and a higher Y value than the other overall, however, when both groups are analysed together the outcome is a negative relationship, as shown by the dashed line which is the regression line for the total dataset. This is an extreme example but similar problems can arise with much less obvious structure and lack of independence in a dataset." width="672" />
+<p class="caption">
+Figure 17.4: Example demonstrating Simpson’s Paradox. There are two groups in the data (male and female, young and old, infected and uninfected, subspecies 1 and subspecies 2…) and the relationship between Y and X within each group is positive. The dotted lines indicate the regression lines when each group is analysed seperately. Because one group has a lower X value and a higher Y value than the other overall, however, when both groups are analysed together the outcome is a negative relationship, as shown by the dashed line which is the regression line for the total dataset. This is an extreme example but similar problems can arise with much less obvious structure and lack of independence in a dataset.
+</p>
+</div>
+<ul>
+<li><p><strong>Normal errors</strong>. The assumption of linear regression is that the errors are normally distributed - in other words, the differences between the predicted values and the data points should follow a normal distribution. Once the line has been fitted those differences between the predicted values and the observed values are known as the <em>residuals</em>. We’ve already seen some information on these when we looked at the table produced by <code>summary()</code> which gives us the median value for the residuals and the minimum, first and third quartiles and maximum values. These are useful for a quick check of how well behaved the residuals are - they should be symmetrically distributed around zero so the minimum and maximum should be roughly equal but with opposite signs, as should the first and third quartiles, and the median should be close to zero. A more detailed check can be done by either looking at a histogram of the residuals or by looking at a qq-plot. We’ll talk about these <em>diagnostic plots</em> in a minute.</p></li>
+<li><p><strong>Homegeneity of variance</strong>. This is equivalent to the assumption for the t-test that variances are the same for the two samples being compared. In the case of linear regression the assumption is that the variance in the data is the same across the range of the response variable. This is something that is quite commonly a problem with, for example, biological data where it is common to find the variance increasing as the mean value gets bigger (see the next figure). If the variance does increase with the mean to an extent where it’s likely to be affecting the outcome of the analysis there are a number of options: you can transform your data using something like a square root or a log transformation to reduce the increase in variance, or you can use an analysis that is designed to work with heteroscedastic data, so if your data are count data you might be best advised to use a generalised linear model with Poisson errors: again, an analysis that is beyond the scope of this book. If you do choose to transform your data, be careful: beating your data with a log-transform stick until it behaves can reduce heteroscedasticity, but it can also change other aspects of the structure of your data and you need to be aware of these when interpreting your results.</p></li>
+</ul>
+<div class="figure"><span id="fig:TB5"></span>
+<img src="3rd_Edition_files/figure-html/TB5-1.png" alt="Data showing constant variance across the range (left) - so called 'homoscedasticity', and increasing variance with an increasing mean (right) - this is known by the tongue-wrenching word 'heteroscedasticity'." width="864" />
+<p class="caption">
+Figure 17.5: Data showing constant variance across the range (left) - so called ‘homoscedasticity’, and increasing variance with an increasing mean (right) - this is known by the tongue-wrenching word ‘heteroscedasticity’.
+</p>
+</div>
+<p>￼</p>
+<ul>
+<li><p><strong>Linear relationships between the response and the explanatory variables</strong>. Linear regression is a technique that fits a straight line through your bivariate data set, so if the actual relationship is curved then a linear relationship will not be appropriate. Linearity is best assessed by carefully looking at plots of your data, and also by looking at diagnostic plots such as residuals versus fitted values (we’ll see some examples of these shortly). If you do have evidence that the true relationship is not a straight line then you might be able to straighten it with an appropriate transformation, subject to the caveats mentioned above, or you might get a good fit by using a curve instead of a straight line for your regression. In the multi-drug resistant TB example below will see one option for dealing with non-linearity by using a <em>polynomial regression</em>, specifically a quadratic or second order polynomial regression when we suspected some curvature in the relationship between year and proportion of cases showing multi-drug resistance. If fitting a polynomial doesn’t do the trick then you might need to use a <em>Non-Linear Regression</em> or even consider something called a <em>Generalised Additive Model</em> - as with mixed effects models, these are beyond the scope of this book and you’ll need to seek advice from someone who really knows their statistical onions.</p></li>
+<li><p><strong>The explanatory variable is measured without error</strong>. One assumption of linear regression is that we know the values of the explanatory variable without error. In practice this doesn’t cause major problems if there are small amounts of error, but if you have good reason to think that there might be quite a lot of error in your explanatory variable there are a number of regression techniques that take this into account such as <em>reduced major axis regression</em>. In my part of biology the only people who worry about error in explanatory variables work on <em>allometry</em>, the way in which the size of body parts change with the size of the whole organism. In studies of allometry if you want to fit a line relating the size of a body part to the size of the whole organism you have to use a major axis regression to take the error in the measure of the body size into account. No-one else pays any attention to it. This probably tells you more about the nature of science than it does about anything else.</p></li>
+</ul>
+<div id="diagnostic-plots" class="section level3">
+<h3><span class="header-section-number">17.2.1</span> Diagnostic plots</h3>
+<p>At first sight, it might seem as though the assumptions and caveats associated with linear regression are so numerous that checking through all of them could be an almost impossible task, but in fact there are some statistical tools which make checking how well your data conform to most of these assumptions relatively straightforward. These tools are the <em>diagnostic plots</em> which R will draw for you if you use the <code>plot()</code> function and give it a fitted model object as an argument. These diagnostic plots mostly rely on plotting the <em>residuals</em> from the dataset in a variety of ways. As we’ve discussed above the residuals are the differences between the observed and the fitted (or predicted) values: as an example, if you have a fitted regression with an intercept of 3.2 and a slope of 2 and an observed data point with an x-value of 5 and a y-value of 11 then the fitted value is 3.2 + 2 x 5 = 13.2 so the residual is 11 - 13.2 = -2.2. Data points which fall below the line will have negative residuals, and those above the line will have positive residuals, and the further the data point is from the line the greater the absolute value of the residual will be.</p>
+<p>By default, R will draw four diagnostic plots for you but the two that are by far the most important are the first two. The first one is the plot of <strong>Residuals versus fitted values</strong>. This has the residuals plotted on the y-axis and the fitted values corresponding to each residual on the x-axis. If the data you’re analysing meet all the assumptions of linear regression then this plot will show no pattern: the residuals will just form a cloud, centred around a value of zero. If the data are <em>heteroscedastic</em>, meaning that the variance of the response variable changes as the average value of the response variable changes, the plot of residuals versus fitted values will show a fan shape because when the variance is higher there will be more data points with relatively large positive and negative values for the residuals. If the relationship between the response and explanatory variable is not a straight line there will be a pattern visible in the residual versus fitted values plot, and if there are <em>outlying</em> data points that are a long way from the main bulk of the data these will show up in the residuals versus fitted values plot. All in all then this plot is a kind of graphical Swiss army knife for detecting problems with your linear regression and every time you do an analysis like this you should have a good look at it.</p>
+<div class="figure"><span id="fig:TB6"></span>
+<img src="3rd_Edition_files/figure-html/TB6-1.png" alt="A bivariate dataset which conforms to the assumptions of linear regression (left) and the plot of residuals versus fited values produced by R (right). R draws a non-parametric smoother through the diagnostic plot (the bendy line through the middle of the data) to help you spot any patterns, and it indicates the row numbers of the three datapoints with the largest residuals. Notice how there is essentially no pattern in the distribution of the points plotted in the diagnostic plot." width="768" />
+<p class="caption">
+Figure 17.6: A bivariate dataset which conforms to the assumptions of linear regression (left) and the plot of residuals versus fited values produced by R (right). R draws a non-parametric smoother through the diagnostic plot (the bendy line through the middle of the data) to help you spot any patterns, and it indicates the row numbers of the three datapoints with the largest residuals. Notice how there is essentially no pattern in the distribution of the points plotted in the diagnostic plot.
+</p>
+</div>
+<div class="figure"><span id="fig:TB7"></span>
+<img src="3rd_Edition_files/figure-html/TB7-1.png" alt="A dataset which has a substantial increase in the variance of the response variable as its mean gets larger (left) and the plot of residuals versus fitted values produced by R (right). The plot of residual versus fitted values now shows a distinct fan shape." width="768" />
+<p class="caption">
+Figure 17.7: A dataset which has a substantial increase in the variance of the response variable as its mean gets larger (left) and the plot of residuals versus fitted values produced by R (right). The plot of residual versus fitted values now shows a distinct fan shape.
+</p>
+</div>
+<div class="figure"><span id="fig:TB8"></span>
+<img src="3rd_Edition_files/figure-html/TB8-1.png" alt="A dataset which has a curved relationship between the response and explanatory variables  (left) and the plot of residuals versus fitted values produced by R (right). The curved relationship which can be seen in the left hand plot is very obvious in the diagnostic plot on the right." width="768" />
+<p class="caption">
+Figure 17.8: A dataset which has a curved relationship between the response and explanatory variables (left) and the plot of residuals versus fitted values produced by R (right). The curved relationship which can be seen in the left hand plot is very obvious in the diagnostic plot on the right.
+</p>
+</div>
+<p>The examples above are have nice obvious patterns: in practice Murphy’s law will apply and most plots of residuals versus fitted values that you look at will seem to have some sort of structure. The human brain’s over-active built in pattern recognition will make this worse, and you run the risk of ending up paralysed by doubt and unable to make a decision about whether your analysis is valid or not. The best advice here is probably that you shouldn’t worry about apparent patterns in these plots unless they are obviously real: if you’re scratching your head and wondering whether what you’re seeing is really a fan shape or whether there are just a couple of data points with slightly larger positive and negative residuals at one end of the plot then you’re probably OK but if in doubt ask a colleague or a tutor who knows their statistical onions to advise.</p>
+<p>The second diagnostic plot that R will draw you is a <strong>qq-plot</strong> of the residuals. Qq-plots, or quantile-quantile plots are a way of comparing a distribution of observed data points with a theoretical distribution. In the case of our linear regression we are assuming normal errors, and that means that our residuals should be normally distributed with a mean of zero. The qq-plot that R draws has the <em>standardised residuals</em> on the y-axis, which are the residuals standardised<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a> to a mean of zero and a standard deviation of 1, and the <em>theoretical quantiles</em> on th x-axis. If you’ve not met a qq-plot before then think of the theoretical quantiles as being <em>where we would expect each data point to be if it were drawn from a normal distribution</em>. There is a really good video explaining how these are calculated at <a href="https://www.youtube.com/watch?v=X9_ISJ0YpGw">https://www.youtube.com/watch?v=X9_ISJ0YpGw</a> if you want to know more. Because the residuals are being plotted against the value they should have if they were drawn from a normal distribution, then if the residuals are approximately normally distributed the points on the qq-plot will fall roughly onto a straight line. If the residuals have systematic deviations from the normal distribution you’ll see this as shown in the graph below.</p>
+<div class="figure"><span id="fig:TB9"></span>
+<img src="3rd_Edition_files/figure-html/TB9-1.png" alt="Histogram (left) and qq-plot (right) of the residuals from a linear regression. The residuals are approximately normally distributed and the points on the qq-plot mostly fall on the line." width="768" />
+<p class="caption">
+Figure 17.9: Histogram (left) and qq-plot (right) of the residuals from a linear regression. The residuals are approximately normally distributed and the points on the qq-plot mostly fall on the line.
+</p>
+</div>
+<div class="figure"><span id="fig:TB10"></span>
+<img src="3rd_Edition_files/figure-html/TB10-1.png" alt="Histogram (left) and qq-plot (right) of the residuals from a linear regression. The residuals are not normally distributed: instead they are positively skewed. This can be seen in the qq-plot where the residuals with positive values can be seen to be larger than they should be if the residuals were normally distributed (in other words, they are more extreme than expected), and the residuals with negative values are closer to zero  than they should be (they are less extreme than they should be)." width="768" />
+<p class="caption">
+Figure 17.10: Histogram (left) and qq-plot (right) of the residuals from a linear regression. The residuals are not normally distributed: instead they are positively skewed. This can be seen in the qq-plot where the residuals with positive values can be seen to be larger than they should be if the residuals were normally distributed (in other words, they are more extreme than expected), and the residuals with negative values are closer to zero than they should be (they are less extreme than they should be).
+</p>
+</div>
+</div>
+<div id="diagnostic-plots-for-our-m.bovis-regression" class="section level3">
+<h3><span class="header-section-number">17.2.2</span> Diagnostic plots for our <em>M.bovis</em> regression</h3>
+<p>Now that we’ve fitted our linear regression we can use the techniques we’ve just reviewed to check our model fit. The <code>plot()</code> function, when used on an object that is a fitted model, will draw us a variety of useful diagnostic plots. Here we’re going to ask it to draw the first two options (<code>which=1:2</code>) and we’re also going to ask it not to put a smoothed line in the first plot, which is the residuals plotted against the fitted values (<code>add.smooth=F</code>). We saw some examples of the residual versus fitted values plots with the smoother added above, but in my opinion these lines don’t really help with trying to see patterns when the sample size is small.</p>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb471-1"></a><span class="kw">plot</span>(M.bovis.mod, <span class="dt">which=</span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">add.smooth=</span>F)</span></code></pre></div>
+<p>Here’s the plot of residuals versus fitted values. What we’re looking for here is any sort of pattern beyond a random scatter. As we’ve seen, the most common problem in biological data is heteroscedasticity, where the variance changes with the mean, which leads to a fan shaped plot of residuals. No sign of anything like that. A second potential problem is non-linearity, where the relationship between the response and predictor variable is not a straight line. This would be seen as (for example) a tendency for the residuals not to be centred around zero at some point in the plot. There’s maybe a hint of that here, with the residuals for small and large fitted values being mostly positive, but it’s not a strong pattern and given the rather small sample size I don’t think we really need to worry too much about this.</p>
+<div class="figure"><span id="fig:TB11"></span>
+<img src="3rd_Edition_files/figure-html/TB11-1.png" alt="Residuals versus fitted values for the model relating Bovine TB cases to year." width="672" />
+<p class="caption">
+Figure 17.11: Residuals versus fitted values for the model relating Bovine TB cases to year.
+</p>
+</div>
+<p>The second figure shows us the qq-plot of the residuals. For normal residuals the points should plot onto a straight line with a slope of 1 and an intercept of zero. If a particular point is above the line that means the residual is more positive than we would expect for normally distributed residuals, and if it is below the line it is more negative than we would expect, and as we saw earlier when we have systematic deviation from normality in our residuals this usually shows up very clearly on a qq-plot, with all the points towards one or both ends of the line often being a good distance from it. The pattern we see for our qq-plot is not ideal but is acceptable for an analysis like this, especially given the small sample size.</p>
+<div class="figure"><span id="fig:TB12"></span>
+<img src="3rd_Edition_files/figure-html/TB12-1.png" alt="qq-plot of standardised residuals for our fitted linear regression." width="672" />
+<p class="caption">
+Figure 17.12: qq-plot of standardised residuals for our fitted linear regression.
+</p>
+</div>
+<p>The last thing we can do, of course, is to plot our data with the fitted line and get a visual check of how good a job our regression does of putting a line through the cloud of data points.</p>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb472-1"></a><span class="kw">plot</span>(tbdata<span class="op">$</span>Year, tbdata<span class="op">$</span>M.bovis, <span class="dt">xlab=</span><span class="st">&quot;Year&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Case notifications for Bovine TB&quot;</span>)</span>
+<span id="cb472-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb472-2"></a><span class="kw">abline</span>(M.bovis.mod)</span></code></pre></div>
+<div class="figure"><span id="fig:TB13"></span>
+<img src="3rd_Edition_files/figure-html/TB13-1.png" alt="Bovine Tb cases in humans by year with fitted line." width="672" />
+<p class="caption">
+Figure 17.13: Bovine Tb cases in humans by year with fitted line.
+</p>
+</div>
+<p>That looks pretty good. As we noted earlier the data are fairly noisy but the regression line looks as though it’s doing a reasonable job of describing the overall trend in the data.</p>
+</div>
+</div>
+<div id="interpreting-our-regression-and-predicting-future-cases" class="section level2">
+<h2><span class="header-section-number">17.3</span> Interpreting our regression and predicting future cases</h2>
+<p>Now that we are satisfied that our linear regression is a fair description of the relationship between year and case notifications, we can start to think about answering the questions we need to address. Firstly, how has the incidence of bovine TB in humans changed since 1999? The slope of the line is 1.11, so on average there has been 1.11 extra case of bovine TB every year. How confident are we in that number? We can find confidence intervals for our coefficient estimates by using the <code>confint()</code> function.</p>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb473-1"></a><span class="kw">confint</span>(M.bovis.mod)</span>
+<span id="cb473-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb473-2"></a>                  <span class="fl">2.5</span> <span class="op">%    97.5 %</span></span>
+<span id="cb473-3"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb473-3"></a>(Intercept) <span class="fl">-3441.95438</span> <span class="fl">-987.6610</span></span>
+<span id="cb473-4"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb473-4"></a>tbdata<span class="op">$</span>Year     <span class="fl">0.50334</span>    <span class="fl">1.7274</span></span></code></pre></div>
+<p>This gives us the 95% confidence intervals for the intercept and the slope. We’re not too bothered about the intercept but it’s useful to get them for the slope. The 95% confidence intervals give the values that the true value of the slope we have estimated will fall between 19 times out of 20, so our best guess for the slope of the line is 1.11, and we’re 95% sure that the true slope is between 0.5 and 1.7.
+How about predicting Bovine TB cases for the next few years? We can calculate the expected values from the equation of our fitted line quite easily. The equation is cases=1.11.year-2215 so our predicted values are</p>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb474-1"></a>Y1&lt;-<span class="dv">2013</span><span class="op">:</span><span class="dv">2015</span></span>
+<span id="cb474-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb474-2"></a><span class="fl">1.11</span><span class="op">*</span>Y1<span class="dv">-2215</span></span>
+<span id="cb474-3"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb474-3"></a>[<span class="dv">1</span>] <span class="fl">19.43</span> <span class="fl">20.54</span> <span class="fl">21.65</span></span></code></pre></div>
+<p>Is that right? Looking at the figure with the fitted line we can see that the line is already at about 27 for 2011, so our predicted values are far too low. This is in fact a rounding error: because the intercept of the line is a large negative number even a small change to our slope can make a big difference to where the line is when we get to 2013. If we use more decimal places we get a more believable answer.</p>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb475-1"></a><span class="fl">1.1154</span><span class="op">*</span>Y1<span class="fl">-2214.8</span></span>
+<span id="cb475-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb475-2"></a>[<span class="dv">1</span>] <span class="fl">30.500</span> <span class="fl">31.616</span> <span class="fl">32.731</span></span></code></pre></div>
+<p>This gives us our best guess as to what the numbers of cases will be for these years, but as we’ve seen from our graph the data are quite variable from year-to-year and it would be something of a surprise if the numbers of cases actually came out as 31, 32 and 33 for the three years. To get a handle on the likely spread of our data we can calculate something called a prediction interval - these are like confidence intervals but instead of telling us the region where it’s most probable that the true value of the slope (or the mean if you’re not dealing with a regression) lies, prediction intervals tell us where it’s most likely that a single new data point will be found.</p>
+<p>We can calculate prediction intervals for our three years using the <code>predict()</code> function in R. This is a useful and flexible function that can be used to predict fitted values, confidence intervals and prediction intervals for lots of different sorts of fitted model. To calculate our prediction intervals we first need to set up a new data frame for predict to work with, and then tell the function to use the estimates from our linear regression on the new data.</p>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-1"></a>newdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Year=</span><span class="dv">2013</span><span class="op">:</span><span class="dv">2015</span>)</span>
+<span id="cb476-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-2"></a>newdata</span>
+<span id="cb476-3"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-3"></a>  Year</span>
+<span id="cb476-4"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-4"></a><span class="dv">1</span> <span class="dv">2013</span></span>
+<span id="cb476-5"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-5"></a><span class="dv">2</span> <span class="dv">2014</span></span>
+<span id="cb476-6"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-6"></a><span class="dv">3</span> <span class="dv">2015</span></span>
+<span id="cb476-7"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-7"></a><span class="kw">predict</span>(M.bovis.mod,newdata,<span class="dt">interval=</span><span class="st">&quot;prediction&quot;</span>)</span>
+<span id="cb476-8"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-8"></a>      fit     lwr    upr</span>
+<span id="cb476-9"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-9"></a><span class="dv">1</span>  <span class="fl">14.846</span>  <span class="fl">5.5238</span> <span class="fl">24.169</span></span>
+<span id="cb476-10"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-10"></a><span class="dv">2</span>  <span class="fl">15.962</span>  <span class="fl">6.8629</span> <span class="fl">25.060</span></span>
+<span id="cb476-11"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-11"></a><span class="dv">3</span>  <span class="fl">17.077</span>  <span class="fl">8.1655</span> <span class="fl">25.988</span></span>
+<span id="cb476-12"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-12"></a><span class="dv">4</span>  <span class="fl">18.192</span>  <span class="fl">9.4292</span> <span class="fl">26.955</span></span>
+<span id="cb476-13"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-13"></a><span class="dv">5</span>  <span class="fl">19.308</span> <span class="fl">10.6521</span> <span class="fl">27.963</span></span>
+<span id="cb476-14"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-14"></a><span class="dv">6</span>  <span class="fl">20.423</span> <span class="fl">11.8327</span> <span class="fl">29.013</span></span>
+<span id="cb476-15"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-15"></a><span class="dv">7</span>  <span class="fl">21.538</span> <span class="fl">12.9699</span> <span class="fl">30.107</span></span>
+<span id="cb476-16"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-16"></a><span class="dv">8</span>  <span class="fl">22.654</span> <span class="fl">14.0634</span> <span class="fl">31.244</span></span>
+<span id="cb476-17"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-17"></a><span class="dv">9</span>  <span class="fl">23.769</span> <span class="fl">15.1136</span> <span class="fl">32.425</span></span>
+<span id="cb476-18"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-18"></a><span class="dv">10</span> <span class="fl">24.885</span> <span class="fl">16.1215</span> <span class="fl">33.648</span></span>
+<span id="cb476-19"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-19"></a><span class="dv">11</span> <span class="fl">26.000</span> <span class="fl">17.0885</span> <span class="fl">34.911</span></span>
+<span id="cb476-20"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-20"></a><span class="dv">12</span> <span class="fl">27.115</span> <span class="fl">18.0167</span> <span class="fl">36.214</span></span>
+<span id="cb476-21"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb476-21"></a><span class="dv">13</span> <span class="fl">28.231</span> <span class="fl">18.9084</span> <span class="fl">37.553</span></span></code></pre></div>
+<p>The values for “fit” are the predicted values and are reassuringly close to the ones we calculated above, although there are still a few differences - this is because <code>predict()</code> is actually using estimates that are calculated to a more decimal places than those given by the <code>summary()</code> function. The prediction intervals now tell us the regions within which we would expect our case numbers to fall in the years 2013-2015. It should come as no surprise that the ranges are quite large, but even so you might find the magnitude of the range to be a bit unexpected. Let’s try to summarise our findings in a way that someone in the health ministry might understand.
+&gt;Since 1999 there has been a steady increase in the number of case notifications for Bovine TB, with an average of 1.11 new cases every year. There is a substantial amount of year-to-year variation, however, which makes it difficult to predict numbers for the next few years with much confidence. Best-guess estimates are that if the current trend continues there will be 30 or 31 cases in 2013, 31 or 32 in 2014 and 32 or 33 in 2015, but the 95% prediction intervals for these estimates are 20.5 to 40.3 for 2013, 21.4 to 41.8 for 2014 and 22.2 to 43.2 for 2015, so there is considerable uncertainty even for the near future.</p>
+<p>Some of the most important words in this paragraph are “if the current trend continues” and “considerable uncertainty”. Extrapolation from linear trends must be used carefully and full account must be taken of the degree of uncertainty in the predictions. Let’s remember that we have a roughly two-fold difference between the lowest prediction and the highest in any particular year, and that’s calculated on the assumption that whatever’s caused the increase in cases over the last few years will continue to do so. When data are being used to make predictions that will affect important things like health policy it’s obviously even more important to make the lack of certainty clear. In general, making predictions for the future on the basis of current trends is a perilous occupation and can lead to errors and sometimes <a href="http://www.nature.com/news/2004/040927/full/news040927-9.html">quite ridiculous conclusions</a>.</p>
+<hr />
+</div>
+<div id="multi-drug-resistant-tb" class="section level2">
+<h2><span class="header-section-number">17.4</span> Multi-drug resistant TB</h2>
+<p>Multi-drug resistant TB is one of the major public health concerns worldwide. Strains of <em>Mycobacterium tuberculosis</em> have emerged that are resistant to not one but several of the first-line antibiotics that we use to control the disease, and if treatment of the disease is not managed carefully these multi-drug resistant strains could become common and widespread, rendering many of the most important tools that we currently use to treat infection essentially useless. It’s important to know whether there are any patterns in the incidence of multi-drug resistant TB (mdrTB) in the UK over the last few years, and it’s equally important to try to understand the future incidence of mdrTB. We don’t have quite as much data as we did for Bovine TB, since 1999 is missing, but hopefully we will have enough to get an idea of general patterns over the last decade or so.</p>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb477-1"></a><span class="kw">plot</span>(tbdata<span class="op">$</span>Year, tbdata<span class="op">$</span>MDR, <span class="dt">ylab=</span> <span class="st">&quot;Percent of TB cases classified as MDR&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:TB14"></span>
+<img src="3rd_Edition_files/figure-html/TB14-1.png" alt="Percent of TB cases classified as MDR in the UK by year." width="672" />
+<p class="caption">
+Figure 17.14: Percent of TB cases classified as MDR in the UK by year.
+</p>
+</div>
+<p>Looking at our scatterplot, we can see a definite increase in the amount of mdrTB reported with time. The percentages are still small, mostly less than 1%, but there is a definite increase, especially from 2009 onwards. 2005 bucked the trend a little and had a rather low percentage of mdrTB reported, but this data point doesn’t look particularly far from the remainder and might simply represent the effects of stochastic variation. Alternatively it could be that there is another reason for the low value for this year such as an error in reporting or a change in the monitoring protocols for 2005 only that might be responsible, but in the absence of any information about this we should retain the data point in the analysis. Let’s put a linear regression through our data and see what that looks like.</p>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-1"></a>MDR.mod &lt;-<span class="st"> </span><span class="kw">lm</span>(MDR<span class="op">~</span>Year, <span class="dt">data =</span> tbdata)</span>
+<span id="cb478-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-2"></a><span class="kw">summary</span>(MDR.mod)</span>
+<span id="cb478-3"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-3"></a></span>
+<span id="cb478-4"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-4"></a>Call<span class="op">:</span></span>
+<span id="cb478-5"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-5"></a><span class="kw">lm</span>(<span class="dt">formula =</span> MDR <span class="op">~</span><span class="st"> </span>Year, <span class="dt">data =</span> tbdata)</span>
+<span id="cb478-6"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-6"></a></span>
+<span id="cb478-7"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-7"></a>Residuals<span class="op">:</span></span>
+<span id="cb478-8"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-8"></a><span class="st">    </span>Min      1Q  Median      3Q     Max </span>
+<span id="cb478-9"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-9"></a><span class="fl">-0.3493</span> <span class="fl">-0.0642</span>  <span class="fl">0.0007</span>  <span class="fl">0.1122</span>  <span class="fl">0.2049</span> </span>
+<span id="cb478-10"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-10"></a></span>
+<span id="cb478-11"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-11"></a>Coefficients<span class="op">:</span></span>
+<span id="cb478-12"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-12"></a><span class="st">             </span>Estimate Std. Error t value <span class="kw">Pr</span>(<span class="op">&gt;</span><span class="er">|</span>t<span class="op">|</span>)   </span>
+<span id="cb478-13"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-13"></a>(Intercept) <span class="fl">-102.4049</span>    <span class="fl">26.2356</span>   <span class="fl">-3.90</span>   <span class="fl">0.0029</span> <span class="op">**</span></span>
+<span id="cb478-14"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-14"></a>Year           <span class="fl">0.0514</span>     <span class="fl">0.0131</span>    <span class="fl">3.93</span>   <span class="fl">0.0028</span> <span class="op">**</span></span>
+<span id="cb478-15"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-15"></a><span class="op">---</span></span>
+<span id="cb478-16"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-16"></a>Signif. codes<span class="op">:</span><span class="st">  </span><span class="dv">0</span> <span class="st">&#39;***&#39;</span> <span class="fl">0.001</span> <span class="st">&#39;**&#39;</span> <span class="fl">0.01</span> <span class="st">&#39;*&#39;</span> <span class="fl">0.05</span> <span class="st">&#39;.&#39;</span> <span class="fl">0.1</span> <span class="st">&#39; &#39;</span> <span class="dv">1</span></span>
+<span id="cb478-17"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-17"></a></span>
+<span id="cb478-18"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-18"></a>Residual standard error<span class="op">:</span><span class="st"> </span><span class="fl">0.156</span> on <span class="dv">10</span> degrees of freedom</span>
+<span id="cb478-19"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-19"></a>  (<span class="dv">1</span> observation deleted due to missingness)</span>
+<span id="cb478-20"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-20"></a>Multiple R<span class="op">-</span>squared<span class="op">:</span><span class="st">  </span><span class="fl">0.607</span>, Adjusted R<span class="op">-</span>squared<span class="op">:</span><span class="st">  </span><span class="fl">0.568</span> </span>
+<span id="cb478-21"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb478-21"></a>F<span class="op">-</span>statistic<span class="op">:</span><span class="st"> </span><span class="fl">15.4</span> on <span class="dv">1</span> and <span class="dv">10</span> DF,  p<span class="op">-</span>value<span class="op">:</span><span class="st"> </span><span class="fl">0.00282</span></span></code></pre></div>
+<p>One of the things R puts in the output from the <code>summary()</code> function when it’s applied to a linear model is a significance test for the value of each coefficient estimate: these are the values in the far right hand column of the table, and are calculated using the estimated values for the coefficient and the standard errors to produce a t-statistic. This is the same as the t-test that you might have already encountered as a way of testing the statistical significance of a linear regression - the null hypothesis here is that the slope is zero and in this case according to our t-test p=0.0028, suggesting that we should accept the alternative that the slope is not zero. This tells us that it’s unlikely that the apparent upward trend in mdrTB is simply a consequence of random sampling. The r^2 value is 0.61, indicating that the change over time explains about 60% of the total variance in mdrTB incidence, and the slope of the line is 0.05, telling us that over the period in question the amount of cases of TB assessed as mdrTB has increased by 0.05% per year, on average.</p>
+<p>One caveat that I should mention is that while using the p-value from the t-test is acceptable when you’re just doing a straightforward linear regression, it’s not generally a good idea to rely on these particular tests when you’re fitting any other sort of model. If you have a factor with several discrete levels, for example, it will give you a p-value for each level of the factor rather than one for the overall factor. With simple models like a linear regression or a single factor ANOVA you can do a better test for your explanatory variable using the <code>anova()</code> function to get an ANOVA table, like this.</p>
+<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb479-1"></a><span class="kw">anova</span>(MDR.mod)</span>
+<span id="cb479-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb479-2"></a>Analysis of Variance Table</span>
+<span id="cb479-3"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb479-3"></a></span>
+<span id="cb479-4"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb479-4"></a>Response<span class="op">:</span><span class="st"> </span>MDR</span>
+<span id="cb479-5"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb479-5"></a>          Df Sum Sq Mean Sq F value <span class="kw">Pr</span>(<span class="op">&gt;</span>F)   </span>
+<span id="cb479-6"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb479-6"></a>Year       <span class="dv">1</span>  <span class="fl">0.378</span>   <span class="fl">0.378</span>    <span class="fl">15.4</span> <span class="fl">0.0028</span> <span class="op">**</span></span>
+<span id="cb479-7"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb479-7"></a>Residuals <span class="dv">10</span>  <span class="fl">0.245</span>   <span class="fl">0.024</span>                  </span>
+<span id="cb479-8"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb479-8"></a><span class="op">---</span></span>
+<span id="cb479-9"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb479-9"></a>Signif. codes<span class="op">:</span><span class="st">  </span><span class="dv">0</span> <span class="st">&#39;***&#39;</span> <span class="fl">0.001</span> <span class="st">&#39;**&#39;</span> <span class="fl">0.01</span> <span class="st">&#39;*&#39;</span> <span class="fl">0.05</span> <span class="st">&#39;.&#39;</span> <span class="fl">0.1</span> <span class="st">&#39; &#39;</span> <span class="dv">1</span></span></code></pre></div>
+<p>With a single continuous variable that gives you the same p-value as the t-test, but if our explanatory variable were a factor with several levels we’d see a difference (you can see an example of this in chapter 12). When you have models with more than one explanatory factor it’s best to use a different approach where you remove each variable from the model and compare the goodness-of-fit of the model with and without the variable in question. This is explained in more detail in chapter 13.</p>
+<p>Let’s have a look at some diagnostic plots to see whether our model is acceptable.</p>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb480-1"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb480-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb480-2"></a><span class="kw">plot</span>(MDR.mod,<span class="dt">which=</span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,<span class="dt">add.smooth=</span>F)</span></code></pre></div>
+<div class="figure"><span id="fig:TB15"></span>
+<img src="3rd_Edition_files/figure-html/TB15-1.png" alt="Diagnostic plots for the linear regression of percent mdrTB on year." width="960" />
+<p class="caption">
+Figure 17.15: Diagnostic plots for the linear regression of percent mdrTB on year.
+</p>
+</div>
+<p>Most of the residuals line up nicely on the qq-plot on the right showing us that the data seem to conform largely to the assumption of normal errors. Data point 6, which is the 2005 point that we identified earlier as being rather lower than we might expect stands out in this plot as having a more negative residual than we might otherwise expect. This is also obvious in the plot of residuals versus fitted values on the left, where it stands out as having a strongly negative residual - in other words, it’s a long way below the fitted line.</p>
+<p>Possibly more of a concern than this moderate outlier, however, is the suggestion in the plot of residual versus fitted values that there might be some systematic pattern in the residuals. There seems to be a trend for small and large fitted values to be associated with positive residuals and for intermediate values to be associated with negative residuals. This is a pattern of residuals that indicates that the relationship between response and predictor might be non-linear, with an increasing slope as the predictor variable increases. Let’s have a look at the line fitted to the data.</p>
+<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb481-1"></a><span class="kw">plot</span>(tbdata<span class="op">$</span>Year, tbdata<span class="op">$</span>MDR, <span class="dt">ylab=</span><span class="st">&quot;Percent of TB cases classified as MDR&quot;</span>)</span>
+<span id="cb481-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb481-2"></a><span class="kw">abline</span>(MDR.mod)</span></code></pre></div>
+<div class="figure"><span id="fig:TB16"></span>
+<img src="3rd_Edition_files/figure-html/TB16-1.png" alt="Scatter plot of percent mdrTB cases against year with fitted line from a linear regression." width="672" />
+<p class="caption">
+Figure 17.16: Scatter plot of percent mdrTB cases against year with fitted line from a linear regression.
+</p>
+</div>
+<p>That doesn’t look too bad, although you can see how 2006, 2007 and 2008 all lie under the line and the subsequent years are on the line or slightly above it. Maybe we should think about fitting a curve rather than a straight line. To do this we need to think for a little while about fitting models with more than one explanatory variable.</p>
+</div>
+<div id="fitting-a-quadratic-model" class="section level2">
+<h2><span class="header-section-number">17.5</span> Fitting a quadratic model</h2>
+<p>So far we’ve just thought about using linear regression to fit a straight line allowing prediction of a response variable from a single explanatory variable. This simple linear regression can very easily be extended to include more explanatory variables. If we add a second explanatory variable the equation which we are going to use to describe our relationship changes from <em>y=β<sub>0</sub>+β<sub>1</sub>x</em> where <em>β<sub>0</sub></em> is the intercept and <em>β<sub>1</sub></em> the slope to <em>y=β<sub>0</sub>+β<sub>1</sub>x<sub>1</sub>+β<sub>2</sub>x<sub>2</sub></em> where <em>β<sub>0</sub></em> is still the intercept and <em>β<sub>1</sub></em> and <em>β<sub>2</sub></em> describe the way that <em>y</em> changes with our two explanatory variables <em>x<sub>1</sub></em> and <em>x<sub>2</sub></em>. For more explanatory variables we would add more betas and x’s and start ramping up the subscripts. Very often we use multiple regression to predict our response variable from two unrelated explanatory variables, but here we’re going to use it to fit a curve, with our x<sub>1</sub> variable being Year, as before, and our x<sub>2</sub> variable being Year^2. This means that the equation we fit will be <em>mdrTB=β<sub>0</sub>+β<sub>1</sub> x Year+β<sub>2</sub> x Year^2</em>: this is a form of equation called a <em>quadratic equation</em>, otherwise known as a <em>second-order polynomial</em>, and it will fit a smoothly curving line to the data.</p>
+<p>In R we can add a second explanatory variable simply by adding a term for the predictor variable squared to our <code>lm()</code> call, with the only complication being that we have to use slightly strange notation because <code>x^2</code> means something a bit different when we’re writing a formula. To make sure that R does what we want we have to use the notation <code>I(x^2)</code>, with the capital I telling R to carry out the mathematical operation rather than trying to fit our predictor with its second-order interactions, which is what <code>x^2</code> normally means.</p>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-1"></a>MDR.mod.test &lt;-<span class="st"> </span><span class="kw">lm</span>(MDR<span class="op">~</span>Year<span class="op">+</span><span class="kw">I</span>(Year<span class="op">^</span><span class="dv">2</span>), <span class="dt">data =</span> tbdata)</span>
+<span id="cb482-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-2"></a><span class="kw">summary</span>(MDR.mod.test)</span>
+<span id="cb482-3"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-3"></a></span>
+<span id="cb482-4"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-4"></a>Call<span class="op">:</span></span>
+<span id="cb482-5"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-5"></a><span class="kw">lm</span>(<span class="dt">formula =</span> MDR <span class="op">~</span><span class="st"> </span>Year <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(Year<span class="op">^</span><span class="dv">2</span>), <span class="dt">data =</span> tbdata)</span>
+<span id="cb482-6"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-6"></a></span>
+<span id="cb482-7"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-7"></a>Residuals<span class="op">:</span></span>
+<span id="cb482-8"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-8"></a><span class="st">    </span>Min      1Q  Median      3Q     Max </span>
+<span id="cb482-9"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-9"></a><span class="fl">-0.2715</span> <span class="fl">-0.0628</span> <span class="fl">-0.0040</span>  <span class="fl">0.0508</span>  <span class="fl">0.2027</span> </span>
+<span id="cb482-10"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-10"></a></span>
+<span id="cb482-11"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-11"></a>Coefficients<span class="op">:</span></span>
+<span id="cb482-12"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-12"></a><span class="st">             </span>Estimate Std. Error t value <span class="kw">Pr</span>(<span class="op">&gt;</span><span class="er">|</span>t<span class="op">|</span>)</span>
+<span id="cb482-13"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-13"></a>(Intercept)  <span class="fl">2.67e+04</span>   <span class="fl">1.58e+04</span>    <span class="fl">1.69</span>     <span class="fl">0.13</span></span>
+<span id="cb482-14"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-14"></a>Year        <span class="fl">-2.67e+01</span>   <span class="fl">1.58e+01</span>   <span class="fl">-1.69</span>     <span class="fl">0.12</span></span>
+<span id="cb482-15"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-15"></a><span class="kw">I</span>(Year<span class="op">^</span><span class="dv">2</span>)    <span class="fl">6.67e-03</span>   <span class="fl">3.93e-03</span>    <span class="fl">1.70</span>     <span class="fl">0.12</span></span>
+<span id="cb482-16"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-16"></a></span>
+<span id="cb482-17"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-17"></a>Residual standard error<span class="op">:</span><span class="st"> </span><span class="fl">0.144</span> on <span class="dv">9</span> degrees of freedom</span>
+<span id="cb482-18"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-18"></a>  (<span class="dv">1</span> observation deleted due to missingness)</span>
+<span id="cb482-19"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-19"></a>Multiple R<span class="op">-</span>squared<span class="op">:</span><span class="st">  </span><span class="fl">0.702</span>, Adjusted R<span class="op">-</span>squared<span class="op">:</span><span class="st">  </span><span class="fl">0.636</span> </span>
+<span id="cb482-20"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb482-20"></a>F<span class="op">-</span>statistic<span class="op">:</span><span class="st"> </span><span class="fl">10.6</span> on <span class="dv">2</span> and <span class="dv">9</span> DF,  p<span class="op">-</span>value<span class="op">:</span><span class="st"> </span><span class="fl">0.00429</span></span></code></pre></div>
+<p>￼
+This model gives a better fit than the previous one (r^2 is 0.7 rather than 0.61) but the quadratic term in the model isn’t statistically significant: the p-value from the t-test is 0.124, which is a bit of a way from 0.05. Somewhat confusingly, the p-value for Year is also non-significant now. Let’s recall that the p-values that R gives with the <code>summary()</code> function are calculated using the standard error and the coefficient estimate and while they can be useful for thinking about the values for individual coefficient estimates they don’t really tell us much about the overall importance of specific explanatory terms in the model. It’s better to use an F-test to look at significance.</p>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb483-1"></a><span class="kw">anova</span>(MDR.mod.test)</span>
+<span id="cb483-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb483-2"></a>Analysis of Variance Table</span>
+<span id="cb483-3"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb483-3"></a></span>
+<span id="cb483-4"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb483-4"></a>Response<span class="op">:</span><span class="st"> </span>MDR</span>
+<span id="cb483-5"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb483-5"></a>          Df Sum Sq Mean Sq F value <span class="kw">Pr</span>(<span class="op">&gt;</span>F)   </span>
+<span id="cb483-6"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb483-6"></a>Year       <span class="dv">1</span>  <span class="fl">0.378</span>   <span class="fl">0.378</span>   <span class="fl">18.34</span>  <span class="fl">0.002</span> <span class="op">**</span></span>
+<span id="cb483-7"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb483-7"></a><span class="kw">I</span>(Year<span class="op">^</span><span class="dv">2</span>)  <span class="dv">1</span>  <span class="fl">0.059</span>   <span class="fl">0.059</span>    <span class="fl">2.88</span>  <span class="fl">0.124</span>   </span>
+<span id="cb483-8"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb483-8"></a>Residuals  <span class="dv">9</span>  <span class="fl">0.185</span>   <span class="fl">0.021</span>                  </span>
+<span id="cb483-9"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb483-9"></a><span class="op">---</span></span>
+<span id="cb483-10"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb483-10"></a>Signif. codes<span class="op">:</span><span class="st">  </span><span class="dv">0</span> <span class="st">&#39;***&#39;</span> <span class="fl">0.001</span> <span class="st">&#39;**&#39;</span> <span class="fl">0.01</span> <span class="st">&#39;*&#39;</span> <span class="fl">0.05</span> <span class="st">&#39;.&#39;</span> <span class="fl">0.1</span> <span class="st">&#39; &#39;</span> <span class="dv">1</span></span></code></pre></div>
+<p>￼
+This gives us the same p-value for the quadratic term, albeit with a few more decimal places, but the F-test for the main effect of Year is now significant. If you look at the ANOVA table we produced earlier for the regression with just the main effect you’ll see that the sum of squares and mean square value for Year is the same as that model. The F-statistic and p-value are different because the error sum of squares is different in this model, but the main effect is back to being significant. Why is there a difference? The answer is that for an ANOVA table like this R calculates the sums of squares in the order that the explanatory variables are entered into the model. So the sums of squares for Year is calculated on the data for mdrTB in exactly the same way as for a linear regression with only one explanatory variable, but the sums of squares for the quadratic term is calculated on the response variable with the effect of Year already taken into account.</p>
+<p>There is more on the subject of significance testing in linear models in later chapters but for the moment I’ll just say that when you only have one continuous explanatory variable (i.e. you’re doing a normal linear regression) then you can get away with just using the t-test from <code>summary()</code> but in all other cases, including, one-way ANOVA the minimum you should at the very least use an ANOVA table to get your p-values, and in most cases you’ll need to use a rather different test called a deletion test, explained in detail when we start looking at general linear model fitting in the chapter on whale brains.</p>
+<p>Getting back to our analysis, we have a model with a quadratic term that does a better job of describing the data, with a higher r^2 value, but the quadratic term in the model is not statistically significant - we don’t have good reason to reject the null hypothesis which is that the coefficient for the quadratic term (the <em>β<sub>2</sub></em> term in our equation) is zero. Should we conclude that our straight-line linear regression is the best description of the patterns in our data, and ignore the possibility that the real relationship between year and the percentage of TB cases that are multi-drug resistant is curved? The answer to this depends on what we’re trying to achieve by doing our analysis. As scientists, a lot of the time when we’re analysing data we are testing hypotheses and describing patterns in order to draw inferences that will hopefully help us to achieve a better understanding of some fundamental aspect of how the World works. If that’s your aim, then you’d be aiming for the most parsimonious model for your data: the simplest description of the relationships between your variables that still does a good job of explaining the patterns in the data. In this case, however, we aren’t necessarily aiming for the most parsimonious model. What we want is to know how the percentage of TB cases that are multi-drug resistant will change over the next few years, so we don’t want the simplest model, we want the model that will tell us what will actually happen in the near future, other things being equal.</p>
+<p>In this case, therefore, we need to be extra cautious about drawing conclusions about how the percentage of mdrTB cases has been changing over time. There in fact several reasons for this.</p>
+<ol style="list-style-type: decimal">
+<li><p>The sample size is small and the data are quite noisy, meaning that any statistical test will have low power: in other words there is a good chance of a type II error, where we fail to reject the null hypothesis even though it’s actually false.</p></li>
+<li><p>We know that things like changes in gene frequency or spread of particular strains of disease can be governed by multiplicative rather than additive processes, which tend to lead to non-linear changes over time (think of the j-shaped curve of unrestrained population increase).</p></li>
+<li><p>Think about that p-value of 0.124 again. That means (broadly) that even if the quadratic term were in fact zero, there would only be a 12.5% chance obtaining an estimate this big. Is that strong enough evidence to disregard the possibility of a curvilinear relationship? This is an important public health issue, and the consequences of mistaking a non-linear increase for a linear one because of dogmatic adherence to the p&lt;0.05 is significant rule could be considerable.
+How serious are the consequences of getting it wrong? Let’s have a look at how the predicted values and prediction intervals for our two models differ as we go up to 2015. We can use the <code>predict()</code> function again to calculate the prediction intervals for both of our models. First we need to set up a new data frame to use for our predictions, this time with all the years from 2000 to 2015 there.</p></li>
+</ol>
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb484-1"></a>newdata&lt;-<span class="kw">data.frame</span>(<span class="dt">Year=</span><span class="dv">2000</span><span class="op">:</span><span class="dv">2015</span>)</span></code></pre></div>
+<p>Calculate fitted values and prediction intervals from the linear model.</p>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb485-1"></a>lin1&lt;-<span class="kw">predict</span>(MDR.mod, newdata, <span class="dt">interval=</span><span class="st">&quot;prediction&quot;</span>)</span></code></pre></div>
+<p>Calculate fitted values and prediction intervals from the quadratic model and then check the numbers in our predicted data for the quadratic model so we know what the maximum value of y will. We can then plot our data on a graph with the x-axis extended to 2015 and the y-axis extended to 2.5.</p>
+<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-1"></a>quad1&lt;-<span class="kw">predict</span>(MDR.mod.test, newdata, <span class="dt">interval=</span><span class="st">&quot;prediction&quot;</span>)</span>
+<span id="cb486-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-2"></a></span>
+<span id="cb486-3"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-3"></a>quad1</span>
+<span id="cb486-4"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-4"></a>       fit     lwr     upr</span>
+<span id="cb486-5"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-5"></a><span class="dv">1</span>  <span class="fl">0.51456</span> <span class="fl">0.11080</span> <span class="fl">0.91832</span></span>
+<span id="cb486-6"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-6"></a><span class="dv">2</span>  <span class="fl">0.49928</span> <span class="fl">0.13240</span> <span class="fl">0.86615</span></span>
+<span id="cb486-7"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-7"></a><span class="dv">3</span>  <span class="fl">0.49733</span> <span class="fl">0.14630</span> <span class="fl">0.84836</span></span>
+<span id="cb486-8"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-8"></a><span class="dv">4</span>  <span class="fl">0.50872</span> <span class="fl">0.16039</span> <span class="fl">0.85704</span></span>
+<span id="cb486-9"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-9"></a><span class="dv">5</span>  <span class="fl">0.53344</span> <span class="fl">0.18241</span> <span class="fl">0.88447</span></span>
+<span id="cb486-10"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-10"></a><span class="dv">6</span>  <span class="fl">0.57150</span> <span class="fl">0.21778</span> <span class="fl">0.92522</span></span>
+<span id="cb486-11"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-11"></a><span class="dv">7</span>  <span class="fl">0.62290</span> <span class="fl">0.26918</span> <span class="fl">0.97662</span></span>
+<span id="cb486-12"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-12"></a><span class="dv">8</span>  <span class="fl">0.68764</span> <span class="fl">0.33661</span> <span class="fl">1.03867</span></span>
+<span id="cb486-13"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-13"></a><span class="dv">9</span>  <span class="fl">0.76571</span> <span class="fl">0.41739</span> <span class="fl">1.11403</span></span>
+<span id="cb486-14"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-14"></a><span class="dv">10</span> <span class="fl">0.85712</span> <span class="fl">0.50609</span> <span class="fl">1.20815</span></span>
+<span id="cb486-15"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-15"></a><span class="dv">11</span> <span class="fl">0.96186</span> <span class="fl">0.59499</span> <span class="fl">1.32874</span></span>
+<span id="cb486-16"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-16"></a><span class="dv">12</span> <span class="fl">1.07995</span> <span class="fl">0.67618</span> <span class="fl">1.48371</span></span>
+<span id="cb486-17"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-17"></a><span class="dv">13</span> <span class="fl">1.21136</span> <span class="fl">0.74447</span> <span class="fl">1.67826</span></span>
+<span id="cb486-18"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-18"></a><span class="dv">14</span> <span class="fl">1.35612</span> <span class="fl">0.79857</span> <span class="fl">1.91367</span></span>
+<span id="cb486-19"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-19"></a><span class="dv">15</span> <span class="fl">1.51421</span> <span class="fl">0.83974</span> <span class="fl">2.18868</span></span>
+<span id="cb486-20"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb486-20"></a><span class="dv">16</span> <span class="fl">1.68564</span> <span class="fl">0.86999</span> <span class="fl">2.50129</span></span></code></pre></div>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb487-1"></a><span class="kw">plot</span>(tbdata<span class="op">$</span>Year, tbdata<span class="op">$</span>MDR, <span class="dt">ylab=</span><span class="st">&quot;Percent of TB cases classified as MDR&quot;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">2000</span>,<span class="dv">2015</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="fl">0.3</span>,<span class="fl">2.5</span>))</span></code></pre></div>
+<p>Now to draw in our predicted lines and prediction intervals (see chapter 10 for more on how to build up a graph like this).</p>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb488-1"></a><span class="kw">points</span>(newdata<span class="op">$</span>Year, lin1[,<span class="dv">3</span>], <span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span>
+<span id="cb488-2"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb488-2"></a><span class="kw">points</span>(newdata<span class="op">$</span>Year, lin1[,<span class="dv">2</span>], <span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span>
+<span id="cb488-3"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb488-3"></a><span class="kw">points</span>(newdata<span class="op">$</span>Year, lin1[,<span class="dv">1</span>], <span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span>
+<span id="cb488-4"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb488-4"></a><span class="kw">points</span>(newdata<span class="op">$</span>Year, quad1[,<span class="dv">1</span>], <span class="dt">type=</span><span class="st">&quot;l&quot;</span>,<span class="dt">lty=</span><span class="dv">3</span>)</span>
+<span id="cb488-5"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb488-5"></a><span class="kw">points</span>(newdata<span class="op">$</span>Year, quad1[,<span class="dv">2</span>], <span class="dt">type=</span><span class="st">&quot;l&quot;</span>,<span class="dt">lty=</span><span class="dv">3</span>)</span>
+<span id="cb488-6"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#cb488-6"></a><span class="kw">points</span>(newdata<span class="op">$</span>Year, quad1[,<span class="dv">3</span>], <span class="dt">type=</span><span class="st">&quot;l&quot;</span>,<span class="dt">lty=</span><span class="dv">3</span>)</span></code></pre></div>
+<p>The lines for the linear model are solid, those for the quadratic model are dashed (<em>lty=3</em>). Here’s the graph.</p>
+<div class="figure"><span id="fig:TB17"></span>
+<img src="3rd_Edition_files/figure-html/TB17-1.png" alt="Scatter plot of percent mdrTB cases against year with fitted line  and prediction intervals from a simple linear model (solid lines) and a quadratic model (dashed lines)." width="672" />
+<p class="caption">
+Figure 17.17: Scatter plot of percent mdrTB cases against year with fitted line and prediction intervals from a simple linear model (solid lines) and a quadratic model (dashed lines).
+</p>
+</div>
+<p>By 2015 the fitted value for the quadratic model, the best guess prediction if the relationship between y and x is really non-linear, is greater than the upper value for the 95% prediction interval for the linear model, and the upper boundary for the 95% prediction intervals of the quadratic model is 1.6 times that for the linear model. How should we present these results to the Minister for Health?
+&gt;Because the dataset is quite sparse, it’s difficult to say anything about mdrTB in the UK except that it’s increased since 2000. The best supported model is one where it’s increasing in a straight line, in which case if the trend continues we would expect roughly 1.1% of TB cases to be multi-drug resistant by 2015, with the 95% prediction intervals in that case being between 0.7% and 1.6%. There is, however, weaker support for a model with a non-linear relationship between the percentage of mdrTB cases and year: this model does fit the data better but not statistically significantly so. If this non-linear model is correct, and current trends continue then we would expect around 1.7% of TB cases to be multi-drug resistant in 2015, with 95% prediction intervals between 0.9 and 2.5%. With the current dataset it is not possible to state with confidence which of these options is correct.</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="19">
+<li id="fn19"><p>Data from the UK Health Protection Agency (accessed 5th January 2013) <a href="http://www.hpa.org.uk/Topics/InfectiousDiseases/InfectionsAZ/Tuberculosis/TBUKSurveillanceData/EnhancedMycobacteriumBovisSurveillance/TBMbovis01countryregion/" class="uri">http://www.hpa.org.uk/Topics/InfectiousDiseases/InfectionsAZ/Tuberculosis/TBUKSurveillanceData/EnhancedMycobacteriumBovisSurveillance/TBMbovis01countryregion/</a><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#fnref19" class="footnote-back">↩︎</a></p></li>
+<li id="fn20"><p>An F-test is a statistical test used for comparing variances. The test statistic it uses is simply the ratio of the two variances and to work out the probability you need the degrees of freedom for both variances - so while most other test statistics are quoted with a single degree of freedom (e.g. t=0.024, 16df, p=0.981) F-statistics are quoted with two, often given as subscripts to the F: F<sub>1,16</sub> = 3.84, p=0.067.<a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#fnref20" class="footnote-back">↩︎</a></p></li>
+<li id="fn21"><p>When something is described as ‘standardised’ in statistics it usually means that it’s been transformed to have a mean of zero and standard deviation of one. This is done simply by subtracting the mean from each data point and then dividing by the standard deviation.<a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#fnref21" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="correlation-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="anova-and-football.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["3rd_Edition.pdf", "3rd_Edition.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

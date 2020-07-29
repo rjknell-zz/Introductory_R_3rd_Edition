@@ -1,0 +1,499 @@
+
+# What is statistical testing?
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
+```
+
+```{r echo=FALSE, cache=FALSE}
+options(digits = 5)  ##Sets number of sig. figs to display output to
+```
+
+
+Some readers will already know a reasonable amount of statistics and understand what we mean by a statistical test and know what statistical significance is. Even experienced scientists who have an approximate understanding of what a p-value is often end up making serious errors in their interpretation, however, so if your understanding of statistical testing is even slightly wooly, and especially if you're a bit lost as to what statistical testing is, or if you don't really know what a p-value represents, then it's probably a good idea to read through this section.
+
+## The problem
+
+The fundamental problem that statistical testing is designed to address is that when we are doing science we usually have to _sample_ from a _population_ --- in other words we select some individuals, or some events, to measure from the total number available, and we hope that what we have got in our sample is representative of the actual population. In the case of the Doll and Hill cancer research that we will look at in the next chapter the investigators took a sample of patients presenting with lung cancer that was restricted to certain hospitals in London over a few years, in the hope that conclusions drawn from this sample of patients would be applicable to lung cancer patients generally. In this example we know now that the conclusions that were drawn were indeed important and general, but there is a risk when we are only measuring some members of a population that the individuals chosen for the sample will _not_ be representative of the total population. This can arise if the way the sample is chosen means that we only get a specific subset of the population: for the Doll and Hill study, for example, there was a possibility that lung cancer patients in London are in some way different from other lung cancer patients in other parts of the world, and this could have made the results of the study less generally applicable. This is why scientists nowadays take care to avoid any sort of bias in their samples and to select the individuals in their samples at random. Nonetheless, even when we have a properly randomised sample we can still end up with one that's not representative: it could have simply been the case that Doll and Hill happened to have a few more lung cancer patients who were heavy smokers (or patients without lung cancer who were light smokers) by pure random chance, which is why they saw the pattern that they did. Statistical testing aims to tell us the probability that the patterns that we see in the data could have arisen, assuming nothing but this random chance produced them.
+
+Let's take a look at an example. Assume we've measured the diameter of a patch of red colouration of the dewlaps of ten male lizards, then treated each one with an implant which will give them a raised level of testosterone, and then measured the diameter of the red patch on their dewlaps again after a week. We know that the red patches are used in sexual signalling, so we are trying to test the hypothesis that patch size is influenced by testosterone. Here are our data, with patch sizes in mm:
+
+```{r}
+patch.before <- c(12.3, 9.0, 11.5, 11.9, 14.2, 8.7, 10.5, 9.2, 12.9, 10.1)
+patch.after <- c(12.3, 10.0, 10.8, 13.8, 14.1, 10.5, 9.1, 12.2, 13.7, 10.3)
+```
+
+This experiment is a *paired design*, meaning that we have pairs of measurements taken on the same individual. Because of this we are not so interested in the absolute size of each patch as we are in the differences in size for each lizard before and after treatment. If testosterone is controlling patch size then we might predict that patch size after treatment should be greater than patch size before treatment. Each lizard is recorded at the same place in each vector so we can calculate the differences by just subtracting one from the other.
+
+```{r}
+patch.diff <- patch.after - patch.before
+patch.diff
+```
+Some patches have got bigger, some have got smaller and some have stayed the same size. What's the average change in patch size?
+
+```{r}
+mean(patch.diff)
+```
+
+The average difference in patch size is 0.65mm. Not huge, but certainly positive, which is what we would have predicted. The problem arises when we ask the question of whether what we're seeing is just a chance event --- we might have happened to get a few more lizards in our sample who grew bigger patches simply by accident. To get an idea of how likely this is, we can look at what happens if we sample at random from two populations that are the same and then calculate a difference. R has the handy `rnorm()` function that will produce random numbers drawn from a normal distribution (technically these are pseudorandom numbers but for our purposes just think of them as random). We can use `replicate()` to generate a large number of samples, and then we can use `apply()` to calculate the difference between pairs of samples as follows. We can use the mean and standard deviation of first set of meaurements to define the normal distribution that we want our samples to be drawn from. The `hist()` function will draw a histogram showing the frequency distribution of our random samples.
+
+```{r eval=FALSE}
+
+# Generate two matrices of data, each with 1000 rows and 10 columns, with the data being drawn at random from a normal distribution with mean and sd = the mean and sd of our lizard's patches before treatment
+data1 <- replicate(1000, rnorm(10, mean(patch.before), sd(patch.before)))
+data2 <- replicate(1000, rnorm(10, mean(patch.before), sd(patch.before)))
+
+# Calculate the mean for each row and subtract the means for the second matrix from those of the first
+mean.differences10 <- apply(data1, 2, mean) - apply(data2, 2, mean)
+
+# Plot a histogram of the differences
+hist(
+  mean.differences10,
+  breaks = 20,
+  col = "grey",
+  xlab = "Mean",
+  main = "",
+  font.lab = 2
+)
+
+# Add a vertical line
+abline(v = 0.65, lty = 2)
+
+```
+
+The "breaks" in the `hist()` function argument makes R draw our histogram with the data separated into rather more intervals than it would normally use, the "col=grey" argument fills in the bars and "xlab=""Mean" labels the x-axis. The `abline()` function draws in a vertical line at 0.65, which is the value of the mean difference for our sample.
+
+```{r test1, echo=FALSE, fig.cap="Histogram showing the differences between two sets\n of 1000 randomly generated data sets."}
+
+
+
+set.seed=1004
+data1<-replicate(1000,rnorm(10,mean(patch.before),sd(patch.before)))
+data2<-replicate(1000,rnorm(10,mean(patch.before),sd(patch.before)))
+
+
+mean.differences10<-apply(data1,2,mean)-apply(data2,2,mean)
+
+hist(mean.differences10,breaks=20,col="grey",xlab="Mean", main="",font.lab=2)
+abline(v=0.65,lty=2)
+```
+
+Just by looking at the histogram you can see that although the most common value for the differences between our samples is zero or close to it there are a substantial number of means that are rather different from zero. We can ask R to count the number of differences that are greater than 0.65 for us:
+
+```{r eval=FALSE}
+sum(mean.differences10>0.65)
+```
+
+Let's break that down. `mean.differences10>0.65` will go through the 1000 numbers saved in mean.differences10 and decide whether the value of each is greater than 0.65, and if it is it will return a value of TRUE, and if it is not then it will return a value of FALSE. sum() will work on a vector of logical values (in other words, a string of TRUE or FALSE values) as though TRUE is equal to 1 and FALSE is equal to zero.
+
+```{r}
+sum(mean.differences10>0.65)
+```
+
+When we sample from two identical populations, therefore, we see a difference as big as, or bigger than, the difference that we've observed somewhere between a fifth and a quarter of the time. This means that we are very limited in the inference we can draw from our lizard data --- since there's a good chance that a difference as large (or larger) than the one we found would occur, even if the size of the patches after treatment was simply a random sample centred around the initial values. This makes is difficult to draw any meaningful conclusions from these data.
+
+This is the basis of statistical hypothesis testing. **What a statistical hypothesis test does is to calculate the probability of observing the data, assuming that there is no difference between the populations the data were drawn from.** Most traditional statistical analyses don't use a simulation to work out how often we might expect to see the observed data, as we have just done. Instead they calculate a standardised version of the observed effect and then compare that with the known statistical distribution that it should follow if there really were no difference or no effect.
+
+
+## Statistical testing in a nutshell
+
+
+The process of statistical testing can be a bit hard to swallow if you try to eat it all in one go, but we can break it down into a series of easily chewable mouthfuls.
+
+### Decide on the null and alternative hypotheses.
+
+These are two mutually exclusive explanations for the patterns that we see in the data. The _null hypothesis_ is usually the hypothesis that there is no effect --- that there is no difference between two means, for example, or that the true slope of a relationship between two variables is equal to zero. The _alternative hypothesis_ in these two cases would be that there is a difference between the means, or that the slope of the relationship is not equal to zero. It's important to remember that the null hypothesis doesn't have to be "no effect", and that theory can often dictate other nulls. As an example, there are good reasons to expect that the slope of the relationship between log body size and log metabolic rate (the allometric slope) should be 3/4 ("Kleiber's law"), and in a study of whether body size and deviate from this relationship rate it might be best to use the null hypothesis that the slope of the relationship is equal to 3/4, and the alternative hypothesis that the slope is not equal to 3/4. In general, it's good practice to think carefully about your choice of null and alternative hypotheses and to avoid the use of "silly nulls" which are impossible or very unlikely to be true.
+
+### Calculate the size of the effect.
+
+Here we ask what the magnitude of the actual effect that we've observed is: we calculate the difference between means, or the slope of the relationship between our two variables, or the difference in intercept between our treatments, or whatever other measure is dictated by our study.
+
+### Transform the effect size so that we can compare it to an expected distribution.
+
+This is where things can get a bit obscure. We want to know what the probability of seeing an effect as large as, or larger than, the one we've observed is, given that the null hypothesis is true. Usually we can't calculate this from the straightforward size of the effect, but we can often carry out a mathematical transformation that will make our effect size directly comparable to a known distribution of effect sizes. This can sometimes simply mean standardising it by dividing by the standard deviation, and it can sometimes be more complex.
+
+### Ask what the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true.
+
+Having worked out our effect size and carried out a transformation on it to make it comparable to a known distribution, we can calculate the probability of observing it if the null hypothesis were true. As you probably know, if that probability is less than 0.05 then by convention we reject the null hypothesis as being unlikely "at the 5% level", and tentatively accept the alternative hypothesis: in other words if p<0.05 we would say that we have a statistically significant difference between our means, or a slope that is signficantly different from zero.
+
+### Think about what the result means.
+
+This is the bit that people sometimes miss out, but it's the most important part of the whole process. Have a look at the section on "What statistical testing does and doesn't tell us" at the end of the chapter for more on this.
+
+## How a statistical test works
+
+Let's illustrate this process with a look at another lizard example. If you know a bit about experimental design you'll probably have raised an eyebrow at the study described above. There are lots of reasons why the size of a sexual ornament might change over time, and added testosterone is only one of them. It could be, for example, that we caught our lizards at the end of the breeding season when their ornamentation was likely to shrink, so any increases from our testosterone treatment would be cancelled out. It could be that the surgery to add the testosterone implant affects their condition with potential knock-on effects on the size of the ornament. If you think about it there are an almost infinite number of reasons why the colour patch on our lizards dewlaps might shrink or grow over time which might interfere with our ability to detect an effect of testosterone. What this study needs in order to make it science rather than pointless lizard-abuse is a control - a second set of lizards which had an implant, but one without testosterone. This is a "procedural control", meaning that the animals in question experienced the procedure but did not get the specific treatment that we're interested in. If we were doing this study for real we would probably want a second set of control lizards that didn't get the implant at all - this would allow us to measure the effect of the implant as well as the effect of the testosterone, but since this is a made-up example[^12.1] we can stick with the procedural controls.
+
+Here are the differences in patch size for our procedural control lizards:
+
+```{r}
+patch.diff.control<-c(-0.7,-1.46,-0.3,-3.7,0.2,1.2,-3.6,-2.1,-0.3,-1.1)
+```
+
+That looks like a rather different result to our testosterone treated lizards. Whereas most (7 out of 10) of the lizards with the testosterone implants had ornaments that either got bigger or stayed the same over the course of the study, 7 out of the 10 control lizards had ornaments that got smaller. Since we only have 10 individuals per group we can visualise the difference between the two groups with a strip chart.
+
+```{r eval=FALSE}
+
+stripchart(
+  x = list(patch.diff, patch.diff.control),
+  cex = 1.5,
+  pch = 1,
+  ylab = "Change in ornament size (mm)",
+  vertical = TRUE,
+  at = c(1.2, 1.8),
+  group.names = c("Testosterone", "Control"),
+  font.lab = 2
+)
+
+```
+
+This is a fairly complicated function call so let's quickly go through it before we take a look at our plot.
+
+```{r eval=FALSE}
+stripchart(x=list(patch.diff,patch.diff.control))
+```
+
+The `stripchart()` function will draw a stripchart (obvious I know), but it expects a data frame or a vector to take its data from. Because we've got two separate vectors of data we have to put them together in a list for the function to be able to access both sets of numbers.
+
+```{r eval=FALSE}
+cex=1.5,
+pch = 1,
+ylab="Change in ornament size (mm)"
+```
+
+This argument sets the graphical parameter `cex` (**c**haracter **ex**pansion) to 1.5, meaning that the plot symbols will be 1.5 times the default size, so we're making R draw the plot symbols a bit bigger than usual. `pch = 1` sets the plot symbols to open circles rather than the default squares. The `ylab="Change in ornament size (mm)"` argument tells it how to label the Y axis.
+
+```{r eval=FALSE}
+vertical=TRUE,
+at=c(1.2,1.8),
+group.names=c("Testosterone","Control"),
+font.lab=2)
+```
+
+`vertical=TRUE` makes R draw the graph with a vertical rather than a horizontal orientation. `at=c(1.2,1.8)` means that the two strips will be drawn nearer the centre of the X-axis than they would otherwise be. This is because in my opinion the default option had them a bit near the edge of the plot with rather too much empty space between. `group.names=c("Testosterone","Control"))` tells `stripchart()` how to label the two groups on the x-axis, and finally `font.lab=2` puts the axis labels in bold. Putting this all together gives us this graph:
+
+```{r test2, echo=FALSE, fig.cap="Stripchart showing data on changes in dewlap patch size in two groups of lizards"}
+
+stripchart(x=list(patch.diff,patch.diff.control),cex=1.5,ylab="Change in ornament size (mm)",pch= 1, vertical=TRUE,at=c(1.2,1.8),group.names=c("Testosterone","Control"),font.lab=2, font.axis=2)
+
+```
+
+Looking at the strip chart, there's a lot of uncertainty regarding whether the effect we're looking at might just be a chance result. Our two groups have a lot of overlap, even though the majority of one are positive and the majority of the other are negative, so we need to do a statistical test to help us to understand the patterns in the data. 
+
+### Step 1 generating our null and alternative hypotheses.
+
+In this experiment, we don't really have any prior information about the relationship between testosterone and the size of the red patch on the dewlap. The size of the dewlaps has changed in both groups, so our null hypothesis is that the amount by which the average red patch size has changed is the same in both testosterone and control groups, and our alternative hypothesis is that it is different.
+
+### Step 2 calculating the size of the effect
+
+We need to quantify the difference between the two groups, and then ask how likely we would be to see that difference if the two groups were drawn from populations with the same means and standard deviations. The difference between the two groups can be calculated as $\bar{x}_{1} - \bar{x}_{2}$, or the mean of group 1 minus the mean of group 2.
+
+```{r}
+mean.diff <- mean(patch.diff) - mean(patch.diff.control)
+mean.diff
+```
+This gives us the difference between the means. If the two means were sampled from the same population, most of the time we would expect to find no difference or a very small difference, but sometimes we would find a larger difference by chance. Very occasionally, we would get quite a big negative or positive difference. In other words, if we repeatedly took two samples from populations that were actually the same, as the number of samples increased we would expect the distribution of differences to give us a symmetrical, bell-shaped curve: a normal distribution, or something close to one. We've already seen a similar phenomenon in the first example we looked at, but let's use R to make that point again.
+
+```{r}
+diffs10 <-
+  apply(replicate(10, rnorm(10, 5, 2)), 2, mean) - apply(replicate(10, rnorm(10, 5, 2)), 2, mean)
+
+diffs100 <-
+  apply(replicate(100, rnorm(10, 5, 2)), 2, mean) - apply(replicate(100, rnorm(10, 5, 2)), 2, mean)
+
+diffs1000 <-
+  apply(replicate(1000, rnorm(10, 5, 2)), 2, mean) - apply(replicate(1000, rnorm(10, 5, 2)), 2, mean)
+```
+This code will generate three vectors. `diffs10` contains 10 numbers, each a difference between the means of two sets of 10 numbers randomly drawn from a normal distribution with a mean of 5 and standard deviation 2: in other words, the differences between 10 means of datasets drawn at random from identical underlying populations. `diffs100` is the same but with 100 differences and `diffs1000` has (in case you can't guess) 1000 differences. Here are the frequency distributions of the differences.
+
+```{r fig.width=8,fig.height=4, fig.cap="Histograms showing frequency distributions for randomly generated differences between means for sample sizes of 10, 100 and 1000"}
+
+# Set plot area to have three figures side by side
+par(mfrow = c(1, 3))
+
+# Histogram of 10 random differences
+hist(diffs10,
+     col = 'grey',
+     main = "Sample size =10",
+     font.lab = 2)
+
+# Histogram of 100 random differences
+hist(diffs100,
+     col = 'grey',
+     main = "Sample size =100",
+     font.lab = 2)
+
+# Histogram of 1000 random differences
+hist(diffs1000,
+     col = 'grey',
+     main = "Sample size =1000",
+     font.lab = 2)
+
+# Set plot area back to the default
+par(mfrow = c(1, 1))
+```
+As you can see, and as we also saw earlier, when the number of samples is large the distribution of the differences approaches a normal distribution. In the particular case of the data we've just simulated, if you were comparing two samples and you got a difference of 1 it would be hard to justify drawing much inference from it, since that difference could represent a real difference between the populations, but it could very easily have arisen because of random sampling from two identical populations. If you got a difference between means of 5, on the other hand, you would know that a difference that large would only very rarely arise by chance, and so the most likely explanation for such a difference would be that the two samples are drawn from different populations.
+
+### Step 3 Transforming the effect size so that we can compare it to an expected distribution.
+
+The difference between our two means is 1.836. Can we not just compare it with a normal distribution to find out how often we should expect it? Unfortunately the answer is "no" for two reasons. The first reason is that although the prediction that if the two populations are the same our mean should come from a distribution with mean zero will always be true, the variance of the distribution of differences will depend on the variances of the distributions the samples are drawn from. We can address this problem in one of two ways.We could calculate the variance of our difference and use that to calculate the shape of the hypothetical distribution that our difference between samples would come from if there were no difference in the populations, or alternatively we could _standardise_ the difference between our means by dividing it by its standard deviation - this latter is the option that people usually choose. Even when we have standardised our difference between means we can't just see where it lies on a normal distribution, however, because of the second of the two reasons mentioned above, which is that we are only estimating this standard deviation - we don't know what it is for sure. If we did know the actual value of the population standard deviations that our samples are from we could regard our standardised difference between means as having come from a distribution with a mean of zero and a standard deviation of one - what's called a _standard normal distribution_. We only have an estimate of the standard deviations, however, and this is likely to give slight overestimates of the standardised difference between means, so the distribution that we would expect our standardised difference to follow is a not a normal distribution but a related distribution called the _t-distribution_. This is similar to the normal distribution but is a little less pointy and has slightly fatter "tails". It also changes shape according to the sample size, or rather according to the number of _degrees of freedom_ of the sample. 
+
+There isn't space here for  a full explanation of degrees of freedom (usually abbreviated to "df") here but think of them as representing the number of values in a set of data that are free to vary, given the parameters you've estimated from that data set. Thus, if you have a set of four numbers, and you know the mean, then three of those numbers can vary, but if three of them are varying then the fourth will have its value set because we know the value of the mean. If that sounds strange then you're not the only person to think that, but there are good reasons for using df instead of sample size for a lot of calculations in statistics. 
+
+Here are some t-distributions compared with a normal distribution.
+
+```{r eval=FALSE}
+
+# Generate 200 x values between -4 and 4
+X1 <- seq(-4, 4, length = 200)
+
+# Generate the probability density for a standard normal distribution
+Y1 <- dnorm(X1)
+
+# Generate the probability density for three t-distributions with varying df
+Y2 <- dt(X1, 1)
+Y3 <- dt(X1, 3)
+Y4 <- dt(X1, 8)
+
+# Plot the figure with the normal disribution
+plot(
+  X1,
+  Y1,
+  xlab = "x",
+  ylab = "p(x)",
+  type = "l",
+  font.lab = 2
+)
+
+# Add the t-distributions
+points(X1, Y2, col = "darkblue", type = "l")
+points(X1, Y3, col = "darkgreen", type = "l")
+points(X1, Y4, col = "red", type = "l")
+
+# Add a legend
+legend(
+  "topright",
+  legend = c("Normal", "t, df=8", "t, df=3", "t, df=1"),
+  fill = c("black", "red", "darkblue", "darkgreen"),
+  bty = "n"
+)
+```
+
+To show the difference between the t-distribution and a normal distribution I've used the built in functions in R for calculating probability densities to plot a normal distribution and several different t-distributions. First I used `seq()` to set up an x-variable with 200 values running from -4 to 4, and then I calculated the probability densities for each x-value assuming a standard normal distribution using the function dnorm(). I then used the `dt()` function to calculate probability densities for three separate t-distributions, on 1,3 and 8 degrees of freedom, and then I plotted them all onto the same graph.
+
+```{r echo=FALSE, fig.cap="Probability density functions for the t-distribution on 1,3 and 8 degrees of freedom compared with the probability density function for a normal distribution"}
+X1<-seq(-4,4,length=200)
+Y1<-dnorm(X1)
+Y2<-dt(X1,1)
+Y3<-dt(X1,3)
+Y4<-dt(X1,8)
+
+plot(X1,Y1,xlab="x",ylab="p(x)",type="l", font.lab=2)
+points(X1,Y2,col="darkblue",type="l")
+points(X1,Y3,col="darkgreen",type="l")
+points(X1,Y4,col="red",type="l")
+legend("topright",legend=c("Normal","t, df=8","t, df=3","t, df=1"),fill=c("black","red","darkgreen","darkblue"),bty="n")
+```
+
+You can see that when the sample size is very small (1df) the t-distribution is quite different from the normal distribution, and that as the sample size increases it becomes more like the normal distribution. In fact, when the sample size is very large the t-distribution approximates to the normal distribution.
+
+The standard deviation of a difference between two means is a bit complicated and looks like this, where $s^{2}_{1}$ is the variance of sample 1, $n_{1}$  is the sample size of sample 1, $s^{2}_{2}$ the variance of sample 2 and $n_{1}$ the sample size of sample 2:
+
+$$\Large \sqrt{\frac{s^{2}_{1}}{n_1} + \frac{s^{2}_{2}}{n_2}}$$
+
+
+
+So the formula for our standardised difference between means is:
+
+$$\Large standardised\;\: difference  = \frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac{s^{2}_{1}}{n_1} + \frac{s^{2}_{2}}{n_2}}}$$
+
+To calculate this in R we can use:
+
+```{r}
+mean.diff.t <-
+  mean.diff / sqrt((var(patch.diff) / 10) + 
+                     (var(patch.diff.control) / 10))
+mean.diff.t
+```
+
+We get a final number of 2.816 for the standardised difference between the means, which we would usually call the "test statistic" and which would normally be represented by _t_ because, in case you haven't worked it out yet, we're doing a *t-test*. Now we need to ask what the probability is of observing this value of _t_ given the null-hypothesis that our samples are from the same population. The final thing we need to know to do this is the number of degrees of freedom we need to specify for the t-distribution to compare it with, and the number to use here is $n_1+n_2-2$. Both sample sizes are 10, so our degrees of freedom are 18.
+
+<a name="return"></a>
+
+### Step 4 What is the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true?
+
+Here's what the t-distribution looks like at 18 df. [The code for this graph is reproduced at the end of the chapter](#Fig_5_code). It's quite a long script and would be distracting here.
+
+```{r test5, echo=FALSE, fig.cap="Probability density function for the t-distribution on 18 degrees of freedom. The shaded areas show the regions of the graph where we would expect 66%, 95% and 99% of the values of t to fall assuming that the populations sampled are the same"}
+X1<-seq(-4,4,length=200)
+Y1<-dt(X1,18)
+plot(X1,Y1,type="n",xlab="x",ylab="P(x)",ylim=c(0,0.42),main="t-distribution on 18 df", font.lab=2)
+
+x0<-min(which(X1>=qt(0.005,18)))
+x1<-min(which(X1>=qt(0.025,18)))
+x2<-min(which(X1>=qt(0.1666,18)))
+x3<-max(which(X1<=qt(0.8333,18)))
+x4<-max(which(X1<=qt(0.975,18)))
+x5<-max(which(X1<=qt(0.995,18)))
+
+polygon(x=c(X1[c(1,1:x0,x0)]), y= c(0, Y1[1:x0], 0), col="#3182bd",border=NA)
+polygon(x=c(X1[c(x0,x0:x1,x1)]), y= c(0, Y1[x0:x1], 0), col="#9ecae1",border=NA)
+polygon(x=c(X1[c(x1,x1:x2,x2)]), y= c(0, Y1[x1:x2], 0), col="#deebf7",border=NA)
+polygon(x=c(X1[c(x2,x2:x3,x3)]), y= c(0, Y1[x2:x3], 0), col="white",border=NA)
+polygon(x=c(X1[c(x3,x3:x4,x4)]), y= c(0, Y1[x3:x4], 0), col="#deebf7",border=NA)
+polygon(x=c(X1[c(x4,x4:x5,x5)]), y= c(0, Y1[x4:x5], 0), col="#9ecae1",border=NA)
+polygon(x=c(X1[c(x5,x5:200,200)]), y= c(0, Y1[x5:200], 0), col="#3182bd",border=NA)
+
+points(X1,Y1,type="l")
+
+text(0,Y1[x2]+0.01,"66% of values",cex=0.8)
+lines(c(X1[x2],X1[x3]),c(Y1[x2]-0.001,Y1[x3]-0.001))
+
+text(0,Y1[x1]+0.01,"95% of values",cex=0.8)
+lines(c(X1[x1],X1[x4]),c(Y1[x1]-0.001,Y1[x4]-0.001))
+
+text(0,Y1[x0]+0.01,"99% of values",cex=0.8)
+lines(c(X1[x0],X1[x5]),c(Y1[x0]-0.001,Y1[x5]-0.001))
+
+arrows(2.816,0.05,2.816,dt(2.816,18),length=0.05)
+
+text(2.816,0.1,"Location of\n our calculated\n value of t",cex=0.7)
+
+```
+
+Because we can describe the t-distribution mathematically, we can use what's called the _cumulative distribution function_ to calculate its _quantiles_. These are specific values for which the probability that x will be less than, or greater than that value is known: for example, the central quantile of a distribution is also known as the _median_ (familiar?) and the probability that a randomly chosen value of x will be less than the median is 0.5. Similarly, if we divide the distribution up into four then the quantiles are known as the _quartiles_ and the probability that a random value of x will be less than the third quartile is 0.75. The probability that it will be at least x, or greater, is 1-0.75 which is of course 0.25. In the above graph we've used the `qt()` function to calculate the values of the quantiles that 0.05%, 2.5%, 16.6%, 83.3%, 97.5% and 99.5% of any randomly drawn values of _t_ will be less than, and these quantiles define the areas shaded with different shades of blue. Why those particular quantiles? Because if the null hypothesis were true, these quantiles define the regions of the graph where we would expect our value of _t_ 66%, 95% or 99% of the time. 
+
+The region defined by the two darkest areas is the part of the graph which is below the 0.5% quantile or above the 99.5% quantile - so 0.5% of t-values will be in the lower tail and 0.5% in the upper tail, meaning that only 1% of the time should we see a t-value in these areas, if our t-values are calculated using data drawn from the same population. In other words --- here comes the whole point of all of the annoying maths and associated guff above ---  **if the null hypothesis were true, then we would be very unlikely to end up with a calculated value of _t_ in one of these dark blue tails. So if we did have a value of _t_ that fell in this region  we could take this as evidence that supports the idea that our samples were in fact drawn from _different_ populations**. In other words, if _t_ is in one of those tails the probability of observing it given the null hypothesis is <0.01, so we _reject the null hypothesis_ at the 1% level and provisionally accept the alternative.
+
+When we combine this araa with the mid-blue area outside the 2.5% and 97.5% quantiles we have a region that contains 5% of the area under the graph, so only 5% of the t-values would be expected to fall in this area if our samples were drawn from the same population. If our calculated value of _t_ is in one of these regions then we know that the probability that we would see a value this large or larger if the two samples were drawn from the same population is, at most, 5% or 1 in 20. Once again, because p<0.05 we reject the null hypothesis, but this time at the 5% level and accept the alternative, rather more tentatively than before.
+
+ Continuing in the same vein, combining this 5% area with the pale blue area defined by the 16.6% and 83.3% quantiles shows us where we would expect a t-value to fall 33.3% of the time assuming the source populations are the same, and the white area is 66.6% of the area under the graph, so two thirds of the time we would expect a t-value to fall in this region if the populations used to supply the samples being compared are the same. If we were to calculate a value of _t_ that was in one of these areas we would have to conclude that there is little to suggest the two samples did not come from the same distribution. This time we would say that we have failed to reject the null hypothesis, or that there is _no statistically significant difference between our means_.
+
+The value of _t_ that we calculated for our lizards is marked on the graph. It's within the region where 5% of the values of _t_ should lie if the samples they were calculated from were drawn from the same population, but it's not (quite) in the region where only 1% would be found. We know, therefore, that the probability of observing an effect size this large or larger given the null hypothesis that the two samples of lizards were drawn from populations with the same mean and standard deviation for dewlap patch size, is less than 0.05. 0.05, or 1 in 20 is the conventional cut off for _statistical significance_, so we could say that we had a statistically significant difference between our mean dewlap patch sizes at p<0.05.
+
+The conventional cutoffs for statistical significance that you will often see, especially in older publications, at p<0.05, p<0.01 and p<0.001, are used because in the days when we calculated our _test statistics_ by hand we compared them with published tables of _critical values_, and often the only information we would have was that our test statistic was within a particular region of the t-distribution at that number of degrees of freedom. Nowadays we have computers to do our stats for us, and these can easily give us exact p-values for our test statistics. In the case of our lizards we can calculate this as:
+
+```{r}
+2*(1-pt(2.81,18))
+```
+
+which gives us a value that, as we can predict from the graph, is between 0.05 and 0.01, and quite close to 0.01. The `pt()` function gives us the probability of observing a specific value of _t_ or less given a specified number of degrees of freedom, so we subtract this from 1 to give the probability of observing that value or more, and we multiply by two because we are interested in the probability of seeing our value of _t_ in either a positive or a negative tail of the _t_ distribution. In other words, we are carrying out a _two-tailed test_.
+
+#### Doing the same test the easy way
+
+Of course, the reason we use R is so that we don't have to go through the complicated procedure above. R has a built in function to do a t-test for us and we can obtain our p-value with a single, simple function call.
+
+```{r}
+t.test(patch.diff.control, patch.diff)
+```
+
+The p-value is there in the output. It's a slightly different value to the one we calculated above for two reasons: firstly, we were using a value of _t_ calculated to 2 decimal places, and R has used more, and secondly the default option for a t-test in R is a Welch two-sample t-test, which takes account of differences in the variance between the two samples, hence the fractional value for the degrees of freedom.
+
+## What statistical testing does and doesn't tell us
+
+We've done our statistical test and we have a p-value. This might be close to zero, indicating a significant effect, or it might be close to 1, indicating that we don't have any reason to reject the null hypothesis. It might also be somewhere in the vicinity of 0.05, perhaps slightly above or slightly below it. How should we interpret these options?
+
+The first thing to remember is exactly what a statistical null-hypothesis significance test tells us. Our test generated a t-value, which is an example of a test statistic: a value calculated from the data and then standardised so that it can be compared with a theoretical distribution. We then calculated a p-value which is _the probability, given the null hypothesis, of observing a value of the test statistic which is more extreme than the one that we calculated from the data_, and we use some intellectual sleight-of-hand to turn that around to tell us whether we should accept the alternative hypothesis instead. The p-value is most definitely not any kind of indication of whether the alternative hypothesis is true, or even whether the null hypothesis is not true. It is one piece of evidence which we can use to draw inference about the nature of the effect which we are studying. Unfortunately, in the minds of many people, the p-value and particularly the p<0.05 cutoff has assumed an importance which is not justified when you consider what it actually represents.
+
+There are many problems with this overemphasis on statistical significance as determined by the kind of statistical test described here, and these problems have led to some statisticians concluding that the entire logic base of statistical testing is worthless, and that alternative methods such as Bayesian statistics should be used instead (see [this article in Nature](http://www.nature.com/news/scientific-method-statistical-errors-1.14700)). While I appreciate these arguments, I do not personally take such an extreme view. My opinion is that traditional null hypothesis testing is useful so long as the user remembers that:
+
+* the p<0.05 significance cutoff is an arbitrary line dictated by convention rather than by logic
+* 1 in 20 signficance tests will give a false positive result (a _type 1 error_) when the null hypothesis is in fact true
+* most of the time, the two things that are really important are the **magnitude of the effect** and **how precise our estimates of the effect are**, and this is what we should focus on in our interpretation of our results
+
+What are the implications of these three points? Firstly, the arbitrariness of the p<0.05 significance level. Statistical significance has acquired such importance in the minds of many that whether a p-value for a study lies on one side or the other of this value is sometimes seen as being the final decider of the success of an experiment or a research project, the value of a three or four year PhD or even the worth of a whole career. This is a corrosive and unscientific attitude, but one which is unfortunately very common in many areas of science. If you have a p-value of 0.049 it doesn't mean that you have found an effect whereas the person next to you on the bench with a p-value of 0.051 has not - what this means is that there is fractionally less uncertainty about your findings than those of your colleague. We should use p-values as a guide, not as the final dividing line between truth and fiction or between success and failure. We're doing science in order to find out how the universe works, and if we want to be good scientists we need to be open and honest about the amount of uncertainty in our work.
+
+Secondly, the probability of a false positive result. This means that we need to be careful of (for example) doing large numbers of small experiments, or doing experiments that provide lots and lots of different kinds of data and then carrying out many separate analyses on those data. These "fishing expeditions" are likely to "spit out" false positive results and should be avoided in favour of well designed studies with large sample sizes which address specific and carefully chosen hypotheses. [This paper](http://pss.sagepub.com/content/22/11/1359.full), on what the authors dub the "researcher degrees of freedom" problem is well worth reading in this context. Associated with this problem is the related problem of "p-hacking", whereby a researcher employs different analyses or removes subgroups of data until a significant result is found. This practice is unlikely to contribute greatly to the advancement of human knowledge.
+
+Thirdly, when we're interpreting our results the size of the effect is what really matters. It is quite possible to have a significant relationship between two variables that has a vanishingly small effect, especially when sample sizes are high, and when this happens we should always question whether this very small, yet significant effect has much (or any) importance in the real world. In our lizard example above, the estimated effect size is 1.836, and if you look at the output from the t-test you can see that R helpfully gives us confidence intervals of -3.2087 to -0.4633 for this estimate. We should think about this in terms of the system we're working on, so our discussion should be focussed on the observation that lizards with testosterone supplementation had, on average, red patches with a diameter roughly 1.8mm bigger than those without, and that the 95% confidence intervals for this difference range from -3.2 to -0.46, so we are reasonably sure that testosterone supplementation leads to a change in the diameter of the red dewlap patches of somewhere between these values.
+
+---------
+<a name="Fig_5_code"></a>
+
+## Code used to draw figure 5
+
+
+There's a lot of code used to draw this figure so we won't go through it in detail, but some things you might note are that we use qt() to give the quantile values for the t-distribution which then define the regions plotted; that the polygon() function is what draws in the shaded areas; that there are hexadecimal numbers to define the colours because I couldn't find named colours that looked quite as I wanted; and that the "\\n" symbol in the last text string makes carriage returns. If this is all a bit much don't worry, just look at the graph. [Back to the text](#return).
+
+```{r eval=FALSE}
+X1 <- seq(-4, 4, length = 200)
+Y1 <- dt(X1, 18)
+plot(
+  X1,
+  Y1,
+  type = "n",
+  xlab = "x",
+  ylab = "P(x)",
+  ylim = c(0, 0.42),
+  main = "t-distribution on 18 df"
+)
+
+x0 <- min(which(X1 >= qt(0.005, 18)))
+x1 <- min(which(X1 >= qt(0.025, 18)))
+x2 <- min(which(X1 >= qt(0.1666, 18)))
+x3 <- max(which(X1 <= qt(0.8333, 18)))
+x4 <- max(which(X1 <= qt(0.975, 18)))
+x5 <- max(which(X1 <= qt(0.995, 18)))
+
+polygon(
+  x = c(X1[c(1, 1:x0, x0)]),
+  y = c(0, Y1[1:x0], 0),
+  col = "#3182bd",
+  border = NA
+)
+polygon(
+  x = c(X1[c(x0, x0:x1, x1)]),
+  y = c(0, Y1[x0:x1], 0),
+  col = "#9ecae1",
+  border = NA
+)
+polygon(
+  x = c(X1[c(x1, x1:x2, x2)]),
+  y = c(0, Y1[x1:x2], 0),
+  col = "#deebf7",
+  border = NA
+)
+polygon(
+  x = c(X1[c(x2, x2:x3, x3)]),
+  y = c(0, Y1[x2:x3], 0),
+  col = "white",
+  border = NA
+)
+polygon(
+  x = c(X1[c(x3, x3:x4, x4)]),
+  y = c(0, Y1[x3:x4], 0),
+  col = "#deebf7",
+  border = NA
+)
+polygon(
+  x = c(X1[c(x4, x4:x5, x5)]),
+  y = c(0, Y1[x4:x5], 0),
+  col = "#9ecae1",
+  border = NA
+)
+polygon(
+  x = c(X1[c(x5, x5:200, 200)]),
+  y = c(0, Y1[x5:200], 0),
+  col = "#3182bd",
+  border = NA
+)
+
+points(X1, Y1, type = "l")
+
+text(0, Y1[x2] + 0.01, "66% of values", cex = 0.8)
+lines(c(X1[x2], X1[x3]), c(Y1[x2] - 0.001, Y1[x3] - 0.001))
+
+text(0, Y1[x1] + 0.01, "95% of values", cex = 0.8)
+lines(c(X1[x1], X1[x4]), c(Y1[x1] - 0.001, Y1[x4] - 0.001))
+
+text(0, Y1[x0] + 0.01, "99% of values", cex = 0.8)
+lines(c(X1[x0], X1[x5]), c(Y1[x0] - 0.001, Y1[x5] - 0.001))
+
+arrows(2.816, 0.04, 2.816, dt(2.816, 18), length = 0.05)
+
+text(2.816, 0.06, "Location of\n our calculated\n value of t", cex = 0.7)
+
+```
+
+[^12.1]: Yes, I made these data up. While I try to avoid using made up data for most of the examples in the book, for this section it's easiest to illustrate the important points with a simple and straightforward dataset. I have learnt to be upfront about it when I use made up data since I got an essay from a student with something I'd made up in a lecture to illustrate a point included as a fact.
+

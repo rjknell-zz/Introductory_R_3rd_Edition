@@ -1,0 +1,239 @@
+
+# Comparing immune responses between two caterpillar species using a t-test
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
+```
+
+```{r echo=FALSE, cache=FALSE}
+options(digits = 5)  ##Sets number of sig. figs to display output to
+```
+
+
+In this chapter we'll import a set of data, take it through some preliminary and exploratory analysis and then use a t-test to compare the mean haemocyte (blood cell) counts and the weights from two species of caterpillar, *Pieris napi* and *Pieris brassicae*. These data are from the study that was published as Wilson, K, Knell, R.J., Boots, M. and Koch-Osbourne, J. (2003) Group living and investment in immune defence: an inter-specific analysis. Journal of Animal Ecology 72, 133-143. Not quite as important a paper as the Doll and Hill one from the previous example, but hopefully you can live with the disappointment. 
+
+Let’s start by importing a data file that we wish to analyse. You can download the data for this chapter from http://www.introductoryr.co.uk. You'll need the file “Haemocyte.txt” which contains data on haemocyte (blood cell) counts and weights from the two species. We are interested in knowing whether haemocyte counts differ between the two species, and we're going to use a _t-test_ to do that. We've already met the t-test, but just to recap, it is a statistical test which is used for comparing the means of two groups of data, usually a single response variable which can be classified into two groups by the levels of a factor. The mathematical basis behind it is described in detail in chapter 7 but in brief it calculates a test statistic called _t_ which is the difference between the two means standardised by the standard deviation of the differences, and asks how likely it is that we would get a value that large or larger if the null hypothesis (usually, but not always that there is no difference between the means) were true. One of the things we'll be thinking about in this chapter is the assumptions behind the t-test (and many other statistical tests), and it's a good idea to just talk about these before we get on with the analysis.
+
+
+## Assumptions and limitations of standard parametric statistics
+
+
+I think there is some sort of law which requires anyone taking an introductory stats class to learn the assumptions behind the t-test off by heart without actually understanding them. I sometimes have visions of lecture theatres full of unhappy biology or psychology undergrads chanting “Normality of errors… Independence of data points… Equal variances” over and over again like Victorian children being forced to recite their times tables, while the lecturer stands over them flexing a thin and whippy cane. Unfortunately there's a big difference between learning what might as well be a shopping list and actually understanding what these things mean and how important they are, so let's look at them one-by-one. Many other important analysis techniques such as regression and ANOVA also make these or similar assumptions so it's important to have a good understanding of them.
+
+### Normal errors. 
+
+This is the one that more people get wrong than anything else - it's common even now to see people reporting that they carried out a statistical test on their response variable to test whether its frequency distribution was significantly different normal in order to make sure that it met the assumptions of a t-test. This is mistaken: the assumption here is that the errors are normal, not that the data set in total is normal. By normal errors in this case we mean that the data are normally distributed _around each mean_.  If you have a single response variable and a factor defining two groups then looking at the frequency distribution of the response variable is not going to be particularly helpful since if there's much separation between the means you would expect a bimodal frequency distribution. The best option here is probably to plot a boxplot showing the response variable separately for each level of the factor. Here's an example using some made-up data.
+
+```{r echo=FALSE}
+set.seed(1010)
+```
+
+```{r fig.cap="Histogram showing bimodal distribution of response variable (left) and boxplot showing the two levels separately (right). Note that in the boxplot you can see the symmetry around the medians suggesting normal, or approximately normal, errors"}
+
+# Set up plot area to have two graphs side by side
+par(mfrow = c(1, 2))
+
+# Generate values by drawing 150 numbers from a normal distribution with mean 6 and sd 2, and a further 150 from a normal distribution with mean 14 and sd 2
+X1 <- c(rnorm(150, 6, 2), rnorm(150, 14, 2))
+
+# Generate a factor with two levels
+F1 <- factor(rep(c("A", "B"), each = 150))
+
+# Plot histogram of X1
+hist(X1, col = "grey", breaks = 15)
+
+# Boxplot of X1 conditioned on the levels of F1
+boxplot(X1 ~ F1, col = "grey")
+```
+
+### Independence of data points. 
+
+The most fundamental assumption in many statistical analyses, and yet the one that often has the least attention paid to it. As with the chi-squared test, the assumption is that the probability of one data point having a particular value is independent of all the other data points, so if you are looking at how fly wings differ when the animals are reared on two different diets then you should only measure one wing on each fly, or measure both and take an average, because the length of one wing will be correlated with the length of the other. Similarly, if you are rearing your flies in groups then flies in the same group are likely to be more similar to each other than we would expect by chance alone: they were in the same container, eating the same batch of food, on the same part of the shelf of the incubator and so on. If you wanted to use a t-test you'd need to allocate your fly eggs at random to individual containers, or you'd need to treat the container as your _unit of replication_ and take an average value for the wing lengths of all the flies in the container.
+
+### Equal variances. 
+
+The original formulation of the t-test, known as _Student's t-test_ makes the assumption that the variances of the two groups being compared are equal. As mentioned previously, however, the default option for R is the _Welch two sample t-test_ which makes adjustments to the calculation if the variances of the two samples are not equal. 
+
+In practice, t-tests are reasonably robust to violations of the assumptions of normal errors and equal variances. Simulations show that so long as you have decent sample sizes then a bit of non-normality or unequal variances isn't really much to worry about. Non-independence of data is another matter because it's a more fundamental issue: you really need to be careful about this. Failure to keep you data points independent can lead to something called pseudoreplication[^1] where you think you have more replication in your data set than you actually have. This can lead to your project grade being rather less than you'd hoped or a long and excruciating discussion in your PhD viva ending with reanalysis, rewriting or in some cases having to repeat three months worth of experiments. Be warned. 
+
+
+
+## Importing the Data
+
+The first thing to do is to import the data frame into R using `read.table()`:
+
+```{r}
+Haemocyte <- read.table("Data/Haemocyte.txt", header=TRUE, stringsAsFactors = TRUE)
+str(Haemocyte)
+```
+
+There are three variables in the data frame: Species, Weight and Count, and there are data from 59 individuals. “Species” has the members of each species being represented by their species name, and R has automatically recognised this as a factor with two levels because we declared `stringsAsFactors = TRUE`. If you're using a version of R older than 4.0 then `stringsAsFactors = TRUE` is the default and you wouldn't need to do this. 
+
+Returning to our factor, Species, R will have coded the two different text strings present in the factor with a numerical code: let’s check this. Just typing the name of the variable lists its content.
+
+```{r}
+Haemocyte$Species
+```
+
+We can use the `as.numeric()` function to show us the numerical coding that R has assigned to the factor levels.
+
+```{r}
+as.numeric(Haemocyte$Species)
+```
+
+Text input as a factor is coded numerically in alphabetical order, which is why *P.brassicae* (which comes second in the list) is coded `1`, and *P.napi* is coded `2`. You can also input categorical variables with numerical coding, in which case you usually have to declare them to be factors.
+
+
+
+## Descriptives and Initial Exploration
+
+I don’t think it’s at all controversial to say that before you start thinking about statistical tests you should spend some time just looking at the data and getting a feel for what’s going on. R can help you with this by providing all the basic descriptive statistics and graphs you might desire. One particularly important function is `summary()`. Like several of the most important functions in R this works in different ways depending on what you’re looking at: using the `summary()` function on an object that is the output of an analysis will give you information that is useful for understanding the analysis results, whereas using it on a set of data will give you information about the variable or variables in question. We can use `summary()` on the whole data frame if we like:  
+
+```{r}
+summary(Haemocyte)
+```
+
+
+Here you can see how `summary()` tailors its output according to the nature of the items it’s working on. Our first variable, Species, is a factor and summary gives us the names of the factor levels and the number of rows of data associated with each factor level. Weight and Count on the other hand are numerical vectors and `summary()` gives us some useful statistics for each. Just by looking at these summary statistics we can see that there are no obvious big problems with the data: the numbers all look in the right ball park and there are no caterpillars recorded as weighing fifteen Kg, for example.
+
+Here are some more useful functions for exploring your data. You've seen quite a few of these already but it's always good to revisit things.
+
+```{r}
+length(Haemocyte$Count)
+```
+Length of the vector
+
+```{r}
+mean(Haemocyte$Count)
+```
+Arithmetic mean
+
+```{r}
+sd(Haemocyte$Count)
+```
+Standard deviation
+
+```{r}
+var(Haemocyte$Count)
+```
+Variance
+
+Stem-and-leaf plot - produces a simple text-based frequency histogram of the data in question.
+
+```{r}
+stem(Haemocyte$Count)
+```
+
+Hmm. That stem-and-leaf plot looks a bit positively skewed, and if we look at our summary statistics we  can see that the mean (95.2) is greater than the median (86.5). Maybe we need to look at this in a bit more detail. Let’s draw a proper frequency histogram.
+
+```{r fig.cap="Frequency distribution of haemocyte count data"}
+hist(Haemocyte$Count, col="grey")
+```
+
+
+It’s not particularly surprising to see that the positive skew that we saw before hasn’t gone away. If you've been taught statistics the "traditional" way that it's taught in some biology departments you might now be thinking that this positive skew means that we will be violating an assumption of standard parametric analysis, namely that our data should be normally distributed. In fact that's not necessarily true and in this case it could be that the data for our two species are reasonably normal and the apparent skew is a consequence of differences between the groups. We should take a look at our data split up into the two species:
+
+
+```{r fig.cap="Boxplot of haemocyte count by species"}
+boxplot(Haemocyte$Count ~ Haemocyte$Species)
+```
+
+
+Looking at this boxplot we can see that there some positive skew, especially in *P. napi*, but also worrying for a standard t-test is the difference in variance between the two species: for a t-test we make the assumption that both groups have similar variances. We can calculate the variance for the two groups using the `tapply()` function (see chapter XX for rather more information on `tapply()` and its friends than might be good for you).
+
+
+```{r}
+ tapply(Haemocyte$Count, Haemocyte$Species, var)
+```
+
+Quite a big difference there. We have several options. We could try to correct the positive skew by log-transforming our count data, which should also reduce the difference in variance between the groups. Alternatively, we could use a variant of the t-test that takes differences in variance into account, or if we thought that the gap between the reality of our data and the assumptions of parametric statistics were too great we could use a non-parametric test such as a Mann-Whitney test. The latter would be a bit extreme for these data, let's have a look at what happens if we try a log-transformation.
+
+```{r fig.cap="Boxplot of log transformed haemocyte count by species"}
+plot(Haemocyte$Species, log(Haemocyte$Count), ylab="Log haemocyte count")
+```
+This time I’ve tarted up[^2] the graph a bit by adding a label for the y-axis. The log transformation seems to have dealt with the positive skew: both boxplots are now more symmetrical than before. The difference in variance remains, however. We can visualise this in another way by plotting frequency histograms for both species separately. 
+
+```{r ttest5, fig.cap="Frequency distributions of log haemocyte count by species"}
+par(mfrow = c(2, 1))
+
+hist(
+  log(Haemocyte$Count[Haemocyte$Species == "P.napi"]),
+  xlim = c(3.5, 6),
+  breaks = 10,
+  col = "grey",
+  main = "P.napi",
+  font.main = 3,
+  xlab = "Log haemocyte count",
+)
+
+hist(
+  log(Haemocyte$Count[Haemocyte$Species == "P.brassicae"]),
+  xlim = c(3.5, 6),
+  col = "grey",
+  main = "P.brassicae",
+  font.main = 3,
+  xlab = "Log haemocyte count"
+)
+```
+
+
+OK. The log transformation has left us with frequency distributions that are at least roughly symmetrical even if they don’t really have nice bell shapes. The variances are still rather different, however. We could perform an F-test to compare the two variances if we wanted, using `var.test()`, but  in fact the default option for the `t.test()` function in R is to assume that variances are unequal, so let’s carry that out and see what we get.
+
+
+## Comparing Two Means With a t-test
+
+The function we use to perform a t-test in R is `t.test()`, and to test whether the mean log-transformed haemocyte counts are different between *P. napi* and *P. brassicae* we can type it in as follows.
+
+```{r eval=FALSE}
+t.test(log(Haemocyte$Count)~Haemocyte$Species)
+```
+
+There are two things to notice here. Firstly, we’re doing the log transformation within the function call - we don’t have to set up a separate variable with the transformed data to do this analysis. Secondly, rather than being separated by a comma our two variables have a tilde (`~`) between them. This is because what we’re using is a formula: typing it this way means that we are specifying `log(Count)` as the Response variable and Species as the Predictor. Formulae are how we input relationships between variables when we’re specifying linear models (and other kinds of model too but we won’t consider them here). A t-test is actually a very simple linear model and so we use a simple formula to specify it. If you try to do your t-test with commas separating the variable names then you’ll get one of R’s splendidly unhelpful error messages. Try it.
+
+This is the output we get when we do specify our test properly.
+
+```{r}
+t.test(log(Haemocyte$Count)~Haemocyte$Species)
+```
+
+
+Take a look at the output from that t-test. It's the default option for a two-sample t-test in R, which is a bit different from the basic, straightforward t-test that you might be familiar with. If you know your t-tests you'll have noticed that the degrees of freedom for this test seems to be wrong - normally for a t-test the df are n1+n2-2, which for this analysis should be 29+30-2=57, whereas here the df is reported as 48.534. This is because the version of a t-test that R uses by default takes differences in the variance between groups into account: it calculates separate variances for each mean and adjusts the degrees of freedom accordingly (which is why we have a fractional df). Just to be helpful it reminds you of what your H1 is for this specific test, gives you the 95% confidence limits for the difference between the two means and finally tells you what the means are. In this case the p-value is 0.098, so we accept the null hypothesis: we don’t have a statistically significant difference.
+
+As we have seen, many functions like 't.test' can be modified by adding further arguments to the command. For example,
+
+```{r eval=FALSE}
+t.test(log(Haemocyte$Count)~Haemocyte$Species, var.equal=TRUE)
+```
+tells R to carry out a t-test assuming equal variances (yer basic classic t-test) and gives us this result:
+
+```{r echo=FALSE}
+t.test(log(Haemocyte$Count)~Haemocyte$Species, var.equal=TRUE)
+```
+
+You can see that we now have the number of degrees of freedom that you might expect. There are some other differences in the output which you may wish to compare with the earlier test that didn't assume equal variances. More and more arguments can be added:
+
+```{r eval=FALSE}
+t.test(
+  log(Haemocyte$Count[Haemocyte$Weight <= mean(Haemocyte$Weight)]) ~ Haemocyte$Species[Haemocyte$Weight <= mean(Haemocyte$Weight)],
+  var.equal = T,
+  alternative = "less",
+  mu = 25,
+  conf.level = 0.75
+)
+```
+
+instructs R to carry out a one-tailed (`alternative=”less”`) two-sample t-test to compare the logged mean haemocyte count between both species, but only using data from those individuals that whose weight is less than or equal to the mean weight of all the caterpillars in the data set (this is set by the subscripts), assuming equal variances, with the null hypothesis that the difference between means is less than 25 (`mu=25`) and to give the 75% confidence intervals for the difference between the means (`conf.level=0.75`). 
+
+Were you ever to wish to carry out such an analysis you would get this result:
+
+
+```{r echo=FALSE}
+t.test(log(Haemocyte$Count[Haemocyte$Weight<=mean(Haemocyte$Weight)])~Haemocyte$Species[Haemocyte$Weight<=mean(Haemocyte$Weight)], var.equal=T, alternative="less", mu=25, conf.level=0.75)
+```
+
+
+
+
+[^1]: See Hurlbert, S.H. (1984) Pseudoreplication and the design of ecological field experiments. Ecological Monographs 54:187–211. http://dx.doi.org/10.2307/1942661 for the classic paper on this.
+
+[^2]: NB for our friends from across the Atlantic: 'tarted up': 1. - adj. - wearing an excessive amount of make up, a minimal amount of clothing; ostensibly for the purpose of luring a partner into the act of sexual intercourse. Usually reserved for females, but not as a rule. (www.urbandictionary.com)

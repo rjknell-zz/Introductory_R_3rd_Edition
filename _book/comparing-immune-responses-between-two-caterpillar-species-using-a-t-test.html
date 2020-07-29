@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 15 Comparing immune responses between two caterpillar species using a t-test | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</title>
+  <meta name="description" content="null" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 15 Comparing immune responses between two caterpillar species using a t-test | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="null" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 15 Comparing immune responses between two caterpillar species using a t-test | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  
+  <meta name="twitter:description" content="null" />
+  
+
+<meta name="author" content="Rob Knell" />
+
+
+<meta name="date" content="2020-07-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"/>
+<link rel="next" href="correlation-analysis.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introductory R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-this-book"><i class="fa fa-check"></i><b>1.1</b> Why this book?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i><b>1.2</b> How to use this book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-first-r-session.html"><a href="a-first-r-session.html"><i class="fa fa-check"></i><b>2</b> A first R session</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-first-r-session.html"><a href="a-first-r-session.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="a-first-r-session.html"><a href="a-first-r-session.html#a-first-r-session-1"><i class="fa fa-check"></i><b>2.2</b> A first R session</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html"><i class="fa fa-check"></i><b>3</b> Basics: arithmetic, objects and functions</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#arithmetic"><i class="fa fa-check"></i><b>3.0.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.0.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#logical-operations"><i class="fa fa-check"></i><b>3.0.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.0.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects"><i class="fa fa-check"></i><b>3.0.3</b> Objects</a></li>
+<li class="chapter" data-level="3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#kinds-of-data"><i class="fa fa-check"></i><b>3.1</b> Kinds of data</a></li>
+<li class="chapter" data-level="3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#whats-in-my-workspace"><i class="fa fa-check"></i><b>3.2</b> What’s in my workspace?</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions"><i class="fa fa-check"></i><b>3.2.1</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#exercises"><i class="fa fa-check"></i><b>3.3</b> Exercises</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations"><i class="fa fa-check"></i><b>3.3.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-1"><i class="fa fa-check"></i><b>3.3.2</b> Objects</a></li>
+<li class="chapter" data-level="3.3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#answers-to-exercises"><i class="fa fa-check"></i><b>3.4</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations-1"><i class="fa fa-check"></i><b>3.4.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.4.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-2"><i class="fa fa-check"></i><b>3.4.2</b> Objects</a></li>
+<li class="chapter" data-level="3.4.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-2"><i class="fa fa-check"></i><b>3.4.3</b> Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html"><i class="fa fa-check"></i><b>4</b> Data: Vectors, Matrices and Data Frames</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors"><i class="fa fa-check"></i><b>4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices"><i class="fa fa-check"></i><b>4.2</b> Matrices</a></li>
+<li class="chapter" data-level="4.3" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#factors-and-data-frames"><i class="fa fa-check"></i><b>4.3</b> Factors and Data frames</a></li>
+<li class="chapter" data-level="4.4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#exercises-1"><i class="fa fa-check"></i><b>4.4</b> Exercises</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-1"><i class="fa fa-check"></i><b>4.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-1"><i class="fa fa-check"></i><b>4.4.2</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#answers-to-exercises-1"><i class="fa fa-check"></i><b>4.5</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-2"><i class="fa fa-check"></i><b>4.5.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.5.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-2"><i class="fa fa-check"></i><b>4.5.2</b> Matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html"><i class="fa fa-check"></i><b>5</b> Choosing data: subscripts and subsetting</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts"><i class="fa fa-check"></i><b>5.0.1</b> Subscripts</a></li>
+<li class="chapter" data-level="5.0.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#boolean-logic-and-more-complex-subscripting"><i class="fa fa-check"></i><b>5.0.2</b> Boolean logic and more complex subscripting</a></li>
+<li class="chapter" data-level="5.0.3" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-in-matrices-and-data-frames"><i class="fa fa-check"></i><b>5.0.3</b> Subscripts in matrices and data frames</a></li>
+<li class="chapter" data-level="5.0.4" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subset"><i class="fa fa-check"></i><b>5.0.4</b> Subset</a></li>
+<li class="chapter" data-level="5.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#exercises-2"><i class="fa fa-check"></i><b>5.1</b> Exercises</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors"><i class="fa fa-check"></i><b>5.1.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.1.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices"><i class="fa fa-check"></i><b>5.1.2</b> Subscripts and matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#answers-to-exercises-2"><i class="fa fa-check"></i><b>5.2</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors-1"><i class="fa fa-check"></i><b>5.2.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices-1"><i class="fa fa-check"></i><b>5.2.2</b> Subscripts and matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html"><i class="fa fa-check"></i><b>6</b> R scripts and your R workflow</a><ul>
+<li class="chapter" data-level="6.1" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#writing-and-using-r-scripts"><i class="fa fa-check"></i><b>6.1</b> Writing and using R scripts</a></li>
+<li class="chapter" data-level="6.2" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-an-r-script-window"><i class="fa fa-check"></i><b>6.2</b> Running code from an R script window</a></li>
+<li class="chapter" data-level="6.3" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-files-using-source"><i class="fa fa-check"></i><b>6.3</b> Running code from files using <code>source()</code></a></li>
+<li class="chapter" data-level="6.4" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#workflow-structure-or-what-should-i-put-in-my-script"><i class="fa fa-check"></i><b>6.4</b> Workflow structure, or what should I put in my script?</a></li>
+<li class="chapter" data-level="6.5" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#keep-it-neat-making-your-script-easy-to-read"><i class="fa fa-check"></i><b>6.5</b> Keep it neat — making your script easy to read</a></li>
+<li class="chapter" data-level="6.6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#i-wish-i-hadnt-commented-my-code-so-much-said-no-one-ever-4."><i class="fa fa-check"></i><b>6.6</b> “I wish I hadn’t commented my code so much”, said no-one, ever.</a></li>
+<li class="chapter" data-level="6.7" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#using-rstudio-to-write-scripts"><i class="fa fa-check"></i><b>6.7</b> Using RStudio to write scripts</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html"><i class="fa fa-check"></i><b>7</b> Help files and packages</a><ul>
+<li class="chapter" data-level="7.1" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#using-the-help-files"><i class="fa fa-check"></i><b>7.1</b> Using the help files</a></li>
+<li class="chapter" data-level="7.2" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#packages"><i class="fa fa-check"></i><b>7.2</b> Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>8</b> Importing Data</a><ul>
+<li class="chapter" data-level="8.1" data-path="importing-data.html"><a href="importing-data.html#the-rules"><i class="fa fa-check"></i><b>8.1</b> The Rules</a></li>
+<li class="chapter" data-level="8.2" data-path="importing-data.html"><a href="importing-data.html#importing-your-text-file"><i class="fa fa-check"></i><b>8.2</b> Importing your Text File</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="importing-data.html"><a href="importing-data.html#the-simple-way"><i class="fa fa-check"></i><b>8.2.1</b> The simple way</a></li>
+<li class="chapter" data-level="8.2.2" data-path="importing-data.html"><a href="importing-data.html#the-less-simple-way"><i class="fa fa-check"></i><b>8.2.2</b> The less simple way</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="importing-data.html"><a href="importing-data.html#importing-character-data"><i class="fa fa-check"></i><b>8.3</b> Importing character data</a></li>
+<li class="chapter" data-level="8.4" data-path="importing-data.html"><a href="importing-data.html#data-on-the-web"><i class="fa fa-check"></i><b>8.4</b> Data on the web</a></li>
+<li class="chapter" data-level="8.5" data-path="importing-data.html"><a href="importing-data.html#using-read.table"><i class="fa fa-check"></i><b>8.5</b> Using <code>read.table()</code></a></li>
+<li class="chapter" data-level="8.6" data-path="importing-data.html"><a href="importing-data.html#what-to-do-once-youve-managed-to-import-your-data."><i class="fa fa-check"></i><b>8.6</b> What to do once you’ve managed to import your data.</a></li>
+<li class="chapter" data-level="8.7" data-path="importing-data.html"><a href="importing-data.html#importing-data-directly-from-excel"><i class="fa fa-check"></i><b>8.7</b> Importing data directly from Excel</a></li>
+<li class="chapter" data-level="8.8" data-path="importing-data.html"><a href="importing-data.html#other-data-formats"><i class="fa fa-check"></i><b>8.8</b> Other data formats</a></li>
+<li class="chapter" data-level="8.9" data-path="importing-data.html"><a href="importing-data.html#importing-data-into-rstudio"><i class="fa fa-check"></i><b>8.9</b> Importing data into RStudio</a></li>
+<li class="chapter" data-level="8.10" data-path="importing-data.html"><a href="importing-data.html#to-attach-or-not-to-attach"><i class="fa fa-check"></i><b>8.10</b> To attach or not to attach?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><i class="fa fa-check"></i><b>9</b> R graphics I — drawing graphs and changing plot symbols and colours using the base graphics system</a><ul>
+<li class="chapter" data-level="9.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-versus-ggplot2-versus-lattice-versus-whaaat"><i class="fa fa-check"></i><b>9.1</b> Base graphics versus ggplot2 versus lattice versus whaaat???</a></li>
+<li class="chapter" data-level="9.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-example-ufo-reports-again"><i class="fa fa-check"></i><b>9.2</b> Base graphics example: UFO reports again</a></li>
+<li class="chapter" data-level="9.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#scatterplots"><i class="fa fa-check"></i><b>9.3</b> Scatterplots</a></li>
+<li class="chapter" data-level="9.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plot-symbols"><i class="fa fa-check"></i><b>9.4</b> Plot symbols</a></li>
+<li class="chapter" data-level="9.5" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colours"><i class="fa fa-check"></i><b>9.5</b> Colours</a></li>
+<li class="chapter" data-level="9.6" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plotting-multiple-symbols-or-colours"><i class="fa fa-check"></i><b>9.6</b> Plotting multiple symbols or colours</a></li>
+<li class="chapter" data-level="9.7" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colour-palettes-in-r"><i class="fa fa-check"></i><b>9.7</b> Colour palettes in R</a></li>
+<li class="chapter" data-level="9.8" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#using-transparency-in-your-graphs"><i class="fa fa-check"></i><b>9.8</b> Using transparency in your graphs</a></li>
+<li class="chapter" data-level="9.9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histograms-and-multiple-plots-in-the-same-window"><i class="fa fa-check"></i><b>9.9</b> Histograms and multiple plots in the same window</a></li>
+<li class="chapter" data-level="9.10" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#boxplots"><i class="fa fa-check"></i><b>9.10</b> Boxplots</a></li>
+<li class="chapter" data-level="9.11" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#bar-charts"><i class="fa fa-check"></i><b>9.11</b> Bar charts</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#more-complex-barplots"><i class="fa fa-check"></i><b>9.11.1</b> More complex barplots</a></li>
+</ul></li>
+<li class="chapter" data-level="9.12" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#other-types-of-plot"><i class="fa fa-check"></i><b>9.12</b> Other types of plot</a><ul>
+<li class="chapter" data-level="9.12.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histogram-with-overlaid-probability-density-estimate"><i class="fa fa-check"></i><b>9.12.1</b> Histogram with overlaid probability density estimate</a></li>
+<li class="chapter" data-level="9.12.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#pie-graph"><i class="fa fa-check"></i><b>9.12.2</b> Pie graph</a></li>
+<li class="chapter" data-level="9.12.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#d-scatterplot"><i class="fa fa-check"></i><b>9.12.3</b> 3D scatterplot</a></li>
+<li class="chapter" data-level="9.12.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#contour-plot"><i class="fa fa-check"></i><b>9.12.4</b> Contour plot</a></li>
+</ul></li>
+<li class="chapter" data-level="9.13" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#exporting-graphics"><i class="fa fa-check"></i><b>9.13</b> Exporting Graphics</a><ul>
+<li class="chapter" data-level="9.13.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-easy-way"><i class="fa fa-check"></i><b>9.13.1</b> The easy way</a></li>
+<li class="chapter" data-level="9.13.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-hard-way"><i class="fa fa-check"></i><b>9.13.2</b> The hard way</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html"><i class="fa fa-check"></i><b>10</b> R graphics II — Adding elements to an existing graph</a><ul>
+<li class="chapter" data-level="10.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#simple-regression-lines"><i class="fa fa-check"></i><b>10.1</b> Simple regression lines</a></li>
+<li class="chapter" data-level="10.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#multiple-regression-lines"><i class="fa fa-check"></i><b>10.2</b> Multiple regression lines</a></li>
+<li class="chapter" data-level="10.3" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#legends"><i class="fa fa-check"></i><b>10.3</b> Legends</a></li>
+<li class="chapter" data-level="10.4" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#curves"><i class="fa fa-check"></i><b>10.4</b> Curves</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-curve"><i class="fa fa-check"></i><b>10.4.1</b> Adding a curve using <code>curve()</code></a></li>
+<li class="chapter" data-level="10.4.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-lines-or-points."><i class="fa fa-check"></i><b>10.4.2</b> Adding a curve using <code>lines()</code> or <code>points()</code>.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#text-and-arrows"><i class="fa fa-check"></i><b>10.5</b> Text and arrows</a></li>
+<li class="chapter" data-level="10.6" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#confidence-bands-for-fitted-lines"><i class="fa fa-check"></i><b>10.6</b> Confidence bands for fitted lines</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-bands-using-lines"><i class="fa fa-check"></i><b>10.6.1</b> Adding confidence bands using <code>lines()</code></a></li>
+<li class="chapter" data-level="10.6.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-intervals-to-fitted-lines-using-polygon"><i class="fa fa-check"></i><b>10.6.2</b> Adding confidence intervals to fitted lines using <code>polygon()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#error-bars"><i class="fa fa-check"></i><b>10.7</b> Error bars</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-error-bars-using-arrows"><i class="fa fa-check"></i><b>10.7.1</b> Adding error bars using <code>arrows()</code></a></li>
+<li class="chapter" data-level="10.7.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#plotting-means-and-error-bars-using-plotmeans"><i class="fa fa-check"></i><b>10.7.2</b> Plotting means and error bars using <code>plotmeans()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html"><i class="fa fa-check"></i><b>11</b> Graphics with ggplot2</a><ul>
+<li class="chapter" data-level="11.1" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#ggplot2-introduced"><i class="fa fa-check"></i><b>11.1</b> ggplot2 introduced</a></li>
+<li class="chapter" data-level="11.2" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#scaling-axes-and-varying-colour-or-shapes-by-factor-levels"><i class="fa fa-check"></i><b>11.2</b> Scaling axes and varying colour or shapes by factor levels</a></li>
+<li class="chapter" data-level="11.3" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#facets"><i class="fa fa-check"></i><b>11.3</b> Facets</a></li>
+<li class="chapter" data-level="11.4" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#histograms"><i class="fa fa-check"></i><b>11.4</b> Histograms</a></li>
+<li class="chapter" data-level="11.5" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#boxplots-1"><i class="fa fa-check"></i><b>11.5</b> Boxplots</a></li>
+<li class="chapter" data-level="11.6" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#final-word"><i class="fa fa-check"></i><b>11.6</b> Final word</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html"><i class="fa fa-check"></i><b>12</b> Basic Statistical Concepts</a><ul>
+<li class="chapter" data-level="12.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#populations-and-samples"><i class="fa fa-check"></i><b>12.1</b> Populations and Samples</a></li>
+<li class="chapter" data-level="12.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#descriptive-and-exploratory-statistics"><i class="fa fa-check"></i><b>12.2</b> Descriptive and exploratory statistics</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#maximum-and-minimum"><i class="fa fa-check"></i><b>12.2.1</b> Maximum and minimum</a></li>
+<li class="chapter" data-level="12.2.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#frequency-distribution"><i class="fa fa-check"></i><b>12.2.2</b> Frequency distribution</a></li>
+<li class="chapter" data-level="12.2.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#kinds-of-frequency-distribution"><i class="fa fa-check"></i><b>12.2.3</b> Kinds of frequency distribution</a></li>
+<li class="chapter" data-level="12.2.4" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-central-tendency"><i class="fa fa-check"></i><b>12.2.4</b> Measures of central tendency</a></li>
+<li class="chapter" data-level="12.2.5" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-dispersion"><i class="fa fa-check"></i><b>12.2.5</b> Measures of dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#standard-errors-and-confidence-intervals"><i class="fa fa-check"></i><b>12.3</b> Standard errors and confidence intervals</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#code-used-to-draw-figure-6"><i class="fa fa-check"></i><b>12.3.1</b> Code used to draw figure 6</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html"><i class="fa fa-check"></i><b>13</b> What is statistical testing?</a><ul>
+<li class="chapter" data-level="13.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#the-problem"><i class="fa fa-check"></i><b>13.1</b> The problem</a></li>
+<li class="chapter" data-level="13.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#statistical-testing-in-a-nutshell"><i class="fa fa-check"></i><b>13.2</b> Statistical testing in a nutshell</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#decide-on-the-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.2.1</b> Decide on the null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.2.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#calculate-the-size-of-the-effect."><i class="fa fa-check"></i><b>13.2.2</b> Calculate the size of the effect.</a></li>
+<li class="chapter" data-level="13.2.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#transform-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.2.3</b> Transform the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.2.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#ask-what-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true."><i class="fa fa-check"></i><b>13.2.4</b> Ask what the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true.</a></li>
+<li class="chapter" data-level="13.2.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#think-about-what-the-result-means."><i class="fa fa-check"></i><b>13.2.5</b> Think about what the result means.</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#how-a-statistical-test-works"><i class="fa fa-check"></i><b>13.3</b> How a statistical test works</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-1-generating-our-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.3.1</b> Step 1 generating our null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.3.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-2-calculating-the-size-of-the-effect"><i class="fa fa-check"></i><b>13.3.2</b> Step 2 calculating the size of the effect</a></li>
+<li class="chapter" data-level="13.3.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-3-transforming-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.3.3</b> Step 3 Transforming the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.3.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-4-what-is-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true"><i class="fa fa-check"></i><b>13.3.4</b> Step 4 What is the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true?</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#what-statistical-testing-does-and-doesnt-tell-us"><i class="fa fa-check"></i><b>13.4</b> What statistical testing does and doesn’t tell us</a></li>
+<li class="chapter" data-level="13.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#code-used-to-draw-figure-5"><i class="fa fa-check"></i><b>13.5</b> Code used to draw figure 5</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><i class="fa fa-check"></i><b>14</b> The Chi-squared Test and a Classic Dataset on Smoking and Cancer</a><ul>
+<li class="chapter" data-level="14.1" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-who-smoke-more-likely-to-be-heavy-smokers"><i class="fa fa-check"></i><b>14.1</b> Are lung cancer patients who smoke more likely to be heavy smokers?</a></li>
+<li class="chapter" data-level="14.2" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#the-chi-squared-test"><i class="fa fa-check"></i><b>14.2</b> The Chi-squared test</a></li>
+<li class="chapter" data-level="14.3" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#chi-squared-test-with-contingency-tables"><i class="fa fa-check"></i><b>14.3</b> Chi-squared test with contingency tables</a></li>
+<li class="chapter" data-level="14.4" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#assumptions-and-limitations-of-the-chi-squared-test"><i class="fa fa-check"></i><b>14.4</b> Assumptions and limitations of the chi-squared test</a></li>
+<li class="chapter" data-level="14.5" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-more-likely-to-be-smokers-than-controls"><i class="fa fa-check"></i><b>14.5</b> Are lung cancer patients more likely to be smokers than controls?</a></li>
+<li class="chapter" data-level="14.6" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#fishers-exact-test"><i class="fa fa-check"></i><b>14.6</b> Fisher’s exact test</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><i class="fa fa-check"></i><b>15</b> Comparing immune responses between two caterpillar species using a t-test</a><ul>
+<li class="chapter" data-level="15.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#assumptions-and-limitations-of-standard-parametric-statistics"><i class="fa fa-check"></i><b>15.1</b> Assumptions and limitations of standard parametric statistics</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#normal-errors."><i class="fa fa-check"></i><b>15.1.1</b> Normal errors.</a></li>
+<li class="chapter" data-level="15.1.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#independence-of-data-points."><i class="fa fa-check"></i><b>15.1.2</b> Independence of data points.</a></li>
+<li class="chapter" data-level="15.1.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#equal-variances."><i class="fa fa-check"></i><b>15.1.3</b> Equal variances.</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#importing-the-data"><i class="fa fa-check"></i><b>15.2</b> Importing the Data</a></li>
+<li class="chapter" data-level="15.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#descriptives-and-initial-exploration"><i class="fa fa-check"></i><b>15.3</b> Descriptives and Initial Exploration</a></li>
+<li class="chapter" data-level="15.4" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#comparing-two-means-with-a-t-test"><i class="fa fa-check"></i><b>15.4</b> Comparing Two Means With a t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="correlation-analysis.html"><a href="correlation-analysis.html"><i class="fa fa-check"></i><b>16</b> Correlation analysis</a><ul>
+<li class="chapter" data-level="16.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#calculating-the-correlation-coefficient"><i class="fa fa-check"></i><b>16.1</b> Calculating the correlation coefficient</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#interpreting-our-correlation-coefficient."><i class="fa fa-check"></i><b>16.1.1</b> Interpreting our correlation coefficient.</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="correlation-analysis.html"><a href="correlation-analysis.html#statistical-significance-of-r"><i class="fa fa-check"></i><b>16.2</b> Statistical significance of <em>r</em></a></li>
+<li class="chapter" data-level="16.3" data-path="correlation-analysis.html"><a href="correlation-analysis.html#assumptions-of-correlation-analysis"><i class="fa fa-check"></i><b>16.3</b> Assumptions of correlation analysis</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#comparing-correlations-between-swim-run-and-bike-splits"><i class="fa fa-check"></i><b>16.3.1</b> Comparing correlations between swim, run and bike splits</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="correlation-analysis.html"><a href="correlation-analysis.html#correlation-causality-sample-size-and-significance."><i class="fa fa-check"></i><b>16.4</b> Correlation, causality, sample size and significance.</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><i class="fa fa-check"></i><b>17</b> Using Linear Regression to Analyse TB trends in the UK</a><ul>
+<li class="chapter" data-level="17.0.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#least-squares-line-fitting"><i class="fa fa-check"></i><b>17.0.1</b> Least squares line fitting</a></li>
+<li class="chapter" data-level="17.0.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#significance-tests-for-linear-regression"><i class="fa fa-check"></i><b>17.0.2</b> Significance tests for linear regression</a></li>
+<li class="chapter" data-level="17.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#bovine-tb"><i class="fa fa-check"></i><b>17.1</b> Bovine TB</a></li>
+<li class="chapter" data-level="17.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>17.2</b> Assumptions of linear regression</a><ul>
+<li class="chapter" data-level="17.2.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots"><i class="fa fa-check"></i><b>17.2.1</b> Diagnostic plots</a></li>
+<li class="chapter" data-level="17.2.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots-for-our-m.bovis-regression"><i class="fa fa-check"></i><b>17.2.2</b> Diagnostic plots for our <em>M.bovis</em> regression</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#interpreting-our-regression-and-predicting-future-cases"><i class="fa fa-check"></i><b>17.3</b> Interpreting our regression and predicting future cases</a></li>
+<li class="chapter" data-level="17.4" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#multi-drug-resistant-tb"><i class="fa fa-check"></i><b>17.4</b> Multi-drug resistant TB</a></li>
+<li class="chapter" data-level="17.5" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#fitting-a-quadratic-model"><i class="fa fa-check"></i><b>17.5</b> Fitting a quadratic model</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="anova-and-football.html"><a href="anova-and-football.html"><i class="fa fa-check"></i><b>18</b> ANOVA and Football</a><ul>
+<li class="chapter" data-level="18.1" data-path="anova-and-football.html"><a href="anova-and-football.html#analysis-of-variance"><i class="fa fa-check"></i><b>18.1</b> Analysis of Variance</a></li>
+<li class="chapter" data-level="18.2" data-path="anova-and-football.html"><a href="anova-and-football.html#interpreting-anova-results"><i class="fa fa-check"></i><b>18.2</b> Interpreting ANOVA results</a></li>
+<li class="chapter" data-level="18.3" data-path="anova-and-football.html"><a href="anova-and-football.html#what-makes-a-professional-footballer"><i class="fa fa-check"></i><b>18.3</b> What makes a professional footballer?</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html"><i class="fa fa-check"></i><b>19</b> Yeast sex and two factor ANOVA.</a><ul>
+<li class="chapter" data-level="19.1" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#yeast-sexual-selection"><i class="fa fa-check"></i><b>19.1</b> Yeast sexual selection</a></li>
+<li class="chapter" data-level="19.2" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#understanding-the-coefficients-table"><i class="fa fa-check"></i><b>19.2</b> Understanding the coefficients table</a></li>
+<li class="chapter" data-level="19.3" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#which-statistical-tests-to-use-with-lm"><i class="fa fa-check"></i><b>19.3</b> Which statistical tests to use with <code>lm()</code>?</a></li>
+<li class="chapter" data-level="19.4" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#diagnostics"><i class="fa fa-check"></i><b>19.4</b> Diagnostics</a></li>
+<li class="chapter" data-level="19.5" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#visualising-the-data"><i class="fa fa-check"></i><b>19.5</b> Visualising the data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test" class="section level1">
+<h1><span class="header-section-number">Chapter 15</span> Comparing immune responses between two caterpillar species using a t-test</h1>
+<p>In this chapter we’ll import a set of data, take it through some preliminary and exploratory analysis and then use a t-test to compare the mean haemocyte (blood cell) counts and the weights from two species of caterpillar, <em>Pieris napi</em> and <em>Pieris brassicae</em>. These data are from the study that was published as Wilson, K, Knell, R.J., Boots, M. and Koch-Osbourne, J. (2003) Group living and investment in immune defence: an inter-specific analysis. Journal of Animal Ecology 72, 133-143. Not quite as important a paper as the Doll and Hill one from the previous example, but hopefully you can live with the disappointment.</p>
+<p>Let’s start by importing a data file that we wish to analyse. You can download the data for this chapter from <a href="http://www.introductoryr.co.uk" class="uri">http://www.introductoryr.co.uk</a>. You’ll need the file “Haemocyte.txt” which contains data on haemocyte (blood cell) counts and weights from the two species. We are interested in knowing whether haemocyte counts differ between the two species, and we’re going to use a <em>t-test</em> to do that. We’ve already met the t-test, but just to recap, it is a statistical test which is used for comparing the means of two groups of data, usually a single response variable which can be classified into two groups by the levels of a factor. The mathematical basis behind it is described in detail in chapter 7 but in brief it calculates a test statistic called <em>t</em> which is the difference between the two means standardised by the standard deviation of the differences, and asks how likely it is that we would get a value that large or larger if the null hypothesis (usually, but not always that there is no difference between the means) were true. One of the things we’ll be thinking about in this chapter is the assumptions behind the t-test (and many other statistical tests), and it’s a good idea to just talk about these before we get on with the analysis.</p>
+<div id="assumptions-and-limitations-of-standard-parametric-statistics" class="section level2">
+<h2><span class="header-section-number">15.1</span> Assumptions and limitations of standard parametric statistics</h2>
+<p>I think there is some sort of law which requires anyone taking an introductory stats class to learn the assumptions behind the t-test off by heart without actually understanding them. I sometimes have visions of lecture theatres full of unhappy biology or psychology undergrads chanting “Normality of errors… Independence of data points… Equal variances” over and over again like Victorian children being forced to recite their times tables, while the lecturer stands over them flexing a thin and whippy cane. Unfortunately there’s a big difference between learning what might as well be a shopping list and actually understanding what these things mean and how important they are, so let’s look at them one-by-one. Many other important analysis techniques such as regression and ANOVA also make these or similar assumptions so it’s important to have a good understanding of them.</p>
+<div id="normal-errors." class="section level3">
+<h3><span class="header-section-number">15.1.1</span> Normal errors.</h3>
+<p>This is the one that more people get wrong than anything else - it’s common even now to see people reporting that they carried out a statistical test on their response variable to test whether its frequency distribution was significantly different normal in order to make sure that it met the assumptions of a t-test. This is mistaken: the assumption here is that the errors are normal, not that the data set in total is normal. By normal errors in this case we mean that the data are normally distributed <em>around each mean</em>. If you have a single response variable and a factor defining two groups then looking at the frequency distribution of the response variable is not going to be particularly helpful since if there’s much separation between the means you would expect a bimodal frequency distribution. The best option here is probably to plot a boxplot showing the response variable separately for each level of the factor. Here’s an example using some made-up data.</p>
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-1"></a></span>
+<span id="cb437-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-2"></a><span class="co"># Set up plot area to have two graphs side by side</span></span>
+<span id="cb437-3"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-3"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb437-4"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-4"></a></span>
+<span id="cb437-5"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-5"></a><span class="co"># Generate values by drawing 150 numbers from a normal distribution with mean 6 and sd 2, and a further 150 from a normal distribution with mean 14 and sd 2</span></span>
+<span id="cb437-6"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-6"></a>X1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rnorm</span>(<span class="dv">150</span>, <span class="dv">6</span>, <span class="dv">2</span>), <span class="kw">rnorm</span>(<span class="dv">150</span>, <span class="dv">14</span>, <span class="dv">2</span>))</span>
+<span id="cb437-7"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-7"></a></span>
+<span id="cb437-8"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-8"></a><span class="co"># Generate a factor with two levels</span></span>
+<span id="cb437-9"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-9"></a>F1 &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="dt">each =</span> <span class="dv">150</span>))</span>
+<span id="cb437-10"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-10"></a></span>
+<span id="cb437-11"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-11"></a><span class="co"># Plot histogram of X1</span></span>
+<span id="cb437-12"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-12"></a><span class="kw">hist</span>(X1, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">breaks =</span> <span class="dv">15</span>)</span>
+<span id="cb437-13"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-13"></a></span>
+<span id="cb437-14"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-14"></a><span class="co"># Boxplot of X1 conditioned on the levels of F1</span></span>
+<span id="cb437-15"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb437-15"></a><span class="kw">boxplot</span>(X1 <span class="op">~</span><span class="st"> </span>F1, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-447"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-447-1.png" alt="Histogram showing bimodal distribution of response variable (left) and boxplot showing the two levels separately (right). Note that in the boxplot you can see the symmetry around the medians suggesting normal, or approximately normal, errors" width="672" />
+<p class="caption">
+Figure 15.1: Histogram showing bimodal distribution of response variable (left) and boxplot showing the two levels separately (right). Note that in the boxplot you can see the symmetry around the medians suggesting normal, or approximately normal, errors
+</p>
+</div>
+</div>
+<div id="independence-of-data-points." class="section level3">
+<h3><span class="header-section-number">15.1.2</span> Independence of data points.</h3>
+<p>The most fundamental assumption in many statistical analyses, and yet the one that often has the least attention paid to it. As with the chi-squared test, the assumption is that the probability of one data point having a particular value is independent of all the other data points, so if you are looking at how fly wings differ when the animals are reared on two different diets then you should only measure one wing on each fly, or measure both and take an average, because the length of one wing will be correlated with the length of the other. Similarly, if you are rearing your flies in groups then flies in the same group are likely to be more similar to each other than we would expect by chance alone: they were in the same container, eating the same batch of food, on the same part of the shelf of the incubator and so on. If you wanted to use a t-test you’d need to allocate your fly eggs at random to individual containers, or you’d need to treat the container as your <em>unit of replication</em> and take an average value for the wing lengths of all the flies in the container.</p>
+</div>
+<div id="equal-variances." class="section level3">
+<h3><span class="header-section-number">15.1.3</span> Equal variances.</h3>
+<p>The original formulation of the t-test, known as <em>Student’s t-test</em> makes the assumption that the variances of the two groups being compared are equal. As mentioned previously, however, the default option for R is the <em>Welch two sample t-test</em> which makes adjustments to the calculation if the variances of the two samples are not equal.</p>
+<p>In practice, t-tests are reasonably robust to violations of the assumptions of normal errors and equal variances. Simulations show that so long as you have decent sample sizes then a bit of non-normality or unequal variances isn’t really much to worry about. Non-independence of data is another matter because it’s a more fundamental issue: you really need to be careful about this. Failure to keep you data points independent can lead to something called pseudoreplication<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a> where you think you have more replication in your data set than you actually have. This can lead to your project grade being rather less than you’d hoped or a long and excruciating discussion in your PhD viva ending with reanalysis, rewriting or in some cases having to repeat three months worth of experiments. Be warned.</p>
+</div>
+</div>
+<div id="importing-the-data" class="section level2">
+<h2><span class="header-section-number">15.2</span> Importing the Data</h2>
+<p>The first thing to do is to import the data frame into R using <code>read.table()</code>:</p>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb438-1"></a>Haemocyte &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;Data/Haemocyte.txt&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb438-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb438-2"></a><span class="kw">str</span>(Haemocyte)</span>
+<span id="cb438-3"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb438-3"></a><span class="st">&#39;data.frame&#39;</span><span class="op">:</span><span class="st">   </span><span class="dv">59</span> obs. of  <span class="dv">3</span> variables<span class="op">:</span></span>
+<span id="cb438-4"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb438-4"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>Species<span class="op">:</span><span class="st"> </span>Factor w<span class="op">/</span><span class="st"> </span><span class="dv">2</span> levels <span class="st">&quot;P.brassicae&quot;</span>,..<span class="op">:</span><span class="st"> </span><span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> ...</span>
+<span id="cb438-5"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb438-5"></a> <span class="op">$</span><span class="st"> </span>Weight <span class="op">:</span><span class="st"> </span>num  <span class="fl">0.066</span> <span class="fl">0.0761</span> <span class="fl">0.1273</span> <span class="fl">0.0816</span> <span class="fl">0.0879</span> ...</span>
+<span id="cb438-6"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb438-6"></a> <span class="op">$</span><span class="st"> </span>Count  <span class="op">:</span><span class="st"> </span>num  <span class="dv">106</span> <span class="dv">160</span> <span class="dv">206</span> <span class="dv">73</span> <span class="dv">48</span> ...</span></code></pre></div>
+<p>There are three variables in the data frame: Species, Weight and Count, and there are data from 59 individuals. “Species” has the members of each species being represented by their species name, and R has automatically recognised this as a factor with two levels because we declared <code>stringsAsFactors = TRUE</code>. If you’re using a version of R older than 4.0 then <code>stringsAsFactors = TRUE</code> is the default and you wouldn’t need to do this.</p>
+<p>Returning to our factor, Species, R will have coded the two different text strings present in the factor with a numerical code: let’s check this. Just typing the name of the variable lists its content.</p>
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb439-1"></a>Haemocyte<span class="op">$</span>Species</span>
+<span id="cb439-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb439-2"></a> [<span class="dv">1</span>] P.napi      P.napi      P.napi      P.napi      P.napi      P.napi     </span>
+<span id="cb439-3"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb439-3"></a> [<span class="dv">7</span>] P.napi      P.napi      P.napi      P.napi      P.napi      P.napi     </span>
+<span id="cb439-4"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb439-4"></a>[<span class="dv">13</span>] P.napi      P.napi      P.napi      P.napi      P.napi      P.napi     </span>
+<span id="cb439-5"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb439-5"></a>[<span class="dv">19</span>] P.napi      P.napi      P.napi      P.napi      P.napi      P.napi     </span>
+<span id="cb439-6"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb439-6"></a>[<span class="dv">25</span>] P.napi      P.napi      P.napi      P.napi      P.napi      P.napi     </span>
+<span id="cb439-7"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb439-7"></a>[<span class="dv">31</span>] P.brassicae P.brassicae P.brassicae P.brassicae P.brassicae P.brassicae</span>
+<span id="cb439-8"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb439-8"></a>[<span class="dv">37</span>] P.brassicae P.brassicae P.brassicae P.brassicae P.brassicae P.brassicae</span>
+<span id="cb439-9"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb439-9"></a>[<span class="dv">43</span>] P.brassicae P.brassicae P.brassicae P.brassicae P.brassicae P.brassicae</span>
+<span id="cb439-10"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb439-10"></a>[<span class="dv">49</span>] P.brassicae P.brassicae P.brassicae P.brassicae P.brassicae P.brassicae</span>
+<span id="cb439-11"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb439-11"></a>[<span class="dv">55</span>] P.brassicae P.brassicae P.brassicae P.brassicae P.brassicae</span>
+<span id="cb439-12"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb439-12"></a>Levels<span class="op">:</span><span class="st"> </span>P.brassicae P.napi</span></code></pre></div>
+<p>We can use the <code>as.numeric()</code> function to show us the numerical coding that R has assigned to the factor levels.</p>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb440-1"></a><span class="kw">as.numeric</span>(Haemocyte<span class="op">$</span>Species)</span>
+<span id="cb440-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb440-2"></a> [<span class="dv">1</span>] <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span></span>
+<span id="cb440-3"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb440-3"></a>[<span class="dv">39</span>] <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span></span></code></pre></div>
+<p>Text input as a factor is coded numerically in alphabetical order, which is why <em>P.brassicae</em> (which comes second in the list) is coded <code>1</code>, and <em>P.napi</em> is coded <code>2</code>. You can also input categorical variables with numerical coding, in which case you usually have to declare them to be factors.</p>
+</div>
+<div id="descriptives-and-initial-exploration" class="section level2">
+<h2><span class="header-section-number">15.3</span> Descriptives and Initial Exploration</h2>
+<p>I don’t think it’s at all controversial to say that before you start thinking about statistical tests you should spend some time just looking at the data and getting a feel for what’s going on. R can help you with this by providing all the basic descriptive statistics and graphs you might desire. One particularly important function is <code>summary()</code>. Like several of the most important functions in R this works in different ways depending on what you’re looking at: using the <code>summary()</code> function on an object that is the output of an analysis will give you information that is useful for understanding the analysis results, whereas using it on a set of data will give you information about the variable or variables in question. We can use <code>summary()</code> on the whole data frame if we like:</p>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb441-1"></a><span class="kw">summary</span>(Haemocyte)</span>
+<span id="cb441-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb441-2"></a>        Species       Weight           Count      </span>
+<span id="cb441-3"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb441-3"></a> P.brassicae<span class="op">:</span><span class="dv">29</span>   Min.   <span class="op">:</span><span class="fl">0.0454</span>   Min.   <span class="op">:</span><span class="st"> </span><span class="fl">37.0</span>  </span>
+<span id="cb441-4"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb441-4"></a> P.napi     <span class="op">:</span><span class="dv">30</span>   1st Qu.<span class="op">:</span><span class="fl">0.0722</span>   1st Qu.<span class="op">:</span><span class="st"> </span><span class="fl">59.8</span>  </span>
+<span id="cb441-5"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb441-5"></a>                  Median <span class="op">:</span><span class="fl">0.1365</span>   Median <span class="op">:</span><span class="st"> </span><span class="fl">86.5</span>  </span>
+<span id="cb441-6"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb441-6"></a>                  Mean   <span class="op">:</span><span class="fl">0.1837</span>   Mean   <span class="op">:</span><span class="st"> </span><span class="fl">95.2</span>  </span>
+<span id="cb441-7"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb441-7"></a>                  3rd Qu.<span class="op">:</span><span class="fl">0.2765</span>   3rd Qu.<span class="op">:</span><span class="fl">116.2</span>  </span>
+<span id="cb441-8"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb441-8"></a>                  Max.   <span class="op">:</span><span class="fl">0.5200</span>   Max.   <span class="op">:</span><span class="fl">309.5</span>  </span></code></pre></div>
+<p>Here you can see how <code>summary()</code> tailors its output according to the nature of the items it’s working on. Our first variable, Species, is a factor and summary gives us the names of the factor levels and the number of rows of data associated with each factor level. Weight and Count on the other hand are numerical vectors and <code>summary()</code> gives us some useful statistics for each. Just by looking at these summary statistics we can see that there are no obvious big problems with the data: the numbers all look in the right ball park and there are no caterpillars recorded as weighing fifteen Kg, for example.</p>
+<p>Here are some more useful functions for exploring your data. You’ve seen quite a few of these already but it’s always good to revisit things.</p>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb442-1"></a><span class="kw">length</span>(Haemocyte<span class="op">$</span>Count)</span>
+<span id="cb442-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb442-2"></a>[<span class="dv">1</span>] <span class="dv">59</span></span></code></pre></div>
+<p>Length of the vector</p>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb443-1"></a><span class="kw">mean</span>(Haemocyte<span class="op">$</span>Count)</span>
+<span id="cb443-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb443-2"></a>[<span class="dv">1</span>] <span class="fl">95.178</span></span></code></pre></div>
+<p>Arithmetic mean</p>
+<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb444-1"></a><span class="kw">sd</span>(Haemocyte<span class="op">$</span>Count)</span>
+<span id="cb444-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb444-2"></a>[<span class="dv">1</span>] <span class="fl">47.508</span></span></code></pre></div>
+<p>Standard deviation</p>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb445-1"></a><span class="kw">var</span>(Haemocyte<span class="op">$</span>Count)</span>
+<span id="cb445-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb445-2"></a>[<span class="dv">1</span>] <span class="dv">2257</span></span></code></pre></div>
+<p>Variance</p>
+<p>Stem-and-leaf plot - produces a simple text-based frequency histogram of the data in question.</p>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb446-1"></a><span class="kw">stem</span>(Haemocyte<span class="op">$</span>Count)</span>
+<span id="cb446-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb446-2"></a></span>
+<span id="cb446-3"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb446-3"></a>  The decimal point is <span class="dv">2</span> <span class="kw">digit</span>(s) to the right of the <span class="op">|</span></span>
+<span id="cb446-4"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb446-4"></a></span>
+<span id="cb446-5"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb446-5"></a><span class="st">  </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span><span class="dv">4444</span></span>
+<span id="cb446-6"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb446-6"></a>  <span class="dv">0</span> <span class="op">|</span><span class="st"> </span><span class="dv">55555566666677777778888889999</span></span>
+<span id="cb446-7"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb446-7"></a>  <span class="dv">1</span> <span class="op">|</span><span class="st"> </span><span class="dv">000001111122222333444</span></span>
+<span id="cb446-8"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb446-8"></a>  <span class="dv">1</span> <span class="op">|</span><span class="st"> </span><span class="dv">688</span></span>
+<span id="cb446-9"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb446-9"></a>  <span class="dv">2</span> <span class="op">|</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb446-10"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb446-10"></a>  <span class="dv">2</span> <span class="op">|</span><span class="st"> </span></span>
+<span id="cb446-11"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb446-11"></a><span class="st">  </span><span class="dv">3</span> <span class="op">|</span><span class="st"> </span><span class="dv">1</span></span></code></pre></div>
+<p>Hmm. That stem-and-leaf plot looks a bit positively skewed, and if we look at our summary statistics we can see that the mean (95.2) is greater than the median (86.5). Maybe we need to look at this in a bit more detail. Let’s draw a proper frequency histogram.</p>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb447-1"></a><span class="kw">hist</span>(Haemocyte<span class="op">$</span>Count, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-457"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-457-1.png" alt="Frequency distribution of haemocyte count data" width="672" />
+<p class="caption">
+Figure 15.2: Frequency distribution of haemocyte count data
+</p>
+</div>
+<p>It’s not particularly surprising to see that the positive skew that we saw before hasn’t gone away. If you’ve been taught statistics the “traditional” way that it’s taught in some biology departments you might now be thinking that this positive skew means that we will be violating an assumption of standard parametric analysis, namely that our data should be normally distributed. In fact that’s not necessarily true and in this case it could be that the data for our two species are reasonably normal and the apparent skew is a consequence of differences between the groups. We should take a look at our data split up into the two species:</p>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb448-1"></a><span class="kw">boxplot</span>(Haemocyte<span class="op">$</span>Count <span class="op">~</span><span class="st"> </span>Haemocyte<span class="op">$</span>Species)</span></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-458"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-458-1.png" alt="Boxplot of haemocyte count by species" width="672" />
+<p class="caption">
+Figure 15.3: Boxplot of haemocyte count by species
+</p>
+</div>
+<p>Looking at this boxplot we can see that there some positive skew, especially in <em>P. napi</em>, but also worrying for a standard t-test is the difference in variance between the two species: for a t-test we make the assumption that both groups have similar variances. We can calculate the variance for the two groups using the <code>tapply()</code> function (see chapter XX for rather more information on <code>tapply()</code> and its friends than might be good for you).</p>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb449-1"></a> <span class="kw">tapply</span>(Haemocyte<span class="op">$</span>Count, Haemocyte<span class="op">$</span>Species, var)</span>
+<span id="cb449-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb449-2"></a>P.brassicae      P.napi </span>
+<span id="cb449-3"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb449-3"></a>     <span class="fl">638.44</span>     <span class="fl">3545.34</span> </span></code></pre></div>
+<p>Quite a big difference there. We have several options. We could try to correct the positive skew by log-transforming our count data, which should also reduce the difference in variance between the groups. Alternatively, we could use a variant of the t-test that takes differences in variance into account, or if we thought that the gap between the reality of our data and the assumptions of parametric statistics were too great we could use a non-parametric test such as a Mann-Whitney test. The latter would be a bit extreme for these data, let’s have a look at what happens if we try a log-transformation.</p>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb450-1"></a><span class="kw">plot</span>(Haemocyte<span class="op">$</span>Species, <span class="kw">log</span>(Haemocyte<span class="op">$</span>Count), <span class="dt">ylab=</span><span class="st">&quot;Log haemocyte count&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-460"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-460-1.png" alt="Boxplot of log transformed haemocyte count by species" width="672" />
+<p class="caption">
+Figure 15.4: Boxplot of log transformed haemocyte count by species
+</p>
+</div>
+<p>This time I’ve tarted up<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a> the graph a bit by adding a label for the y-axis. The log transformation seems to have dealt with the positive skew: both boxplots are now more symmetrical than before. The difference in variance remains, however. We can visualise this in another way by plotting frequency histograms for both species separately.</p>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb451-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-2"></a></span>
+<span id="cb451-3"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-3"></a><span class="kw">hist</span>(</span>
+<span id="cb451-4"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-4"></a>  <span class="kw">log</span>(Haemocyte<span class="op">$</span>Count[Haemocyte<span class="op">$</span>Species <span class="op">==</span><span class="st"> &quot;P.napi&quot;</span>]),</span>
+<span id="cb451-5"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-5"></a>  <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="fl">3.5</span>, <span class="dv">6</span>),</span>
+<span id="cb451-6"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-6"></a>  <span class="dt">breaks =</span> <span class="dv">10</span>,</span>
+<span id="cb451-7"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-7"></a>  <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>,</span>
+<span id="cb451-8"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-8"></a>  <span class="dt">main =</span> <span class="st">&quot;P.napi&quot;</span>,</span>
+<span id="cb451-9"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-9"></a>  <span class="dt">font.main =</span> <span class="dv">3</span>,</span>
+<span id="cb451-10"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-10"></a>  <span class="dt">xlab =</span> <span class="st">&quot;Log haemocyte count&quot;</span>,</span>
+<span id="cb451-11"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-11"></a>)</span>
+<span id="cb451-12"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-12"></a></span>
+<span id="cb451-13"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-13"></a><span class="kw">hist</span>(</span>
+<span id="cb451-14"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-14"></a>  <span class="kw">log</span>(Haemocyte<span class="op">$</span>Count[Haemocyte<span class="op">$</span>Species <span class="op">==</span><span class="st"> &quot;P.brassicae&quot;</span>]),</span>
+<span id="cb451-15"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-15"></a>  <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="fl">3.5</span>, <span class="dv">6</span>),</span>
+<span id="cb451-16"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-16"></a>  <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>,</span>
+<span id="cb451-17"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-17"></a>  <span class="dt">main =</span> <span class="st">&quot;P.brassicae&quot;</span>,</span>
+<span id="cb451-18"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-18"></a>  <span class="dt">font.main =</span> <span class="dv">3</span>,</span>
+<span id="cb451-19"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-19"></a>  <span class="dt">xlab =</span> <span class="st">&quot;Log haemocyte count&quot;</span></span>
+<span id="cb451-20"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb451-20"></a>)</span></code></pre></div>
+<div class="figure"><span id="fig:ttest5"></span>
+<img src="3rd_Edition_files/figure-html/ttest5-1.png" alt="Frequency distributions of log haemocyte count by species" width="672" />
+<p class="caption">
+Figure 15.5: Frequency distributions of log haemocyte count by species
+</p>
+</div>
+<p>OK. The log transformation has left us with frequency distributions that are at least roughly symmetrical even if they don’t really have nice bell shapes. The variances are still rather different, however. We could perform an F-test to compare the two variances if we wanted, using <code>var.test()</code>, but in fact the default option for the <code>t.test()</code> function in R is to assume that variances are unequal, so let’s carry that out and see what we get.</p>
+</div>
+<div id="comparing-two-means-with-a-t-test" class="section level2">
+<h2><span class="header-section-number">15.4</span> Comparing Two Means With a t-test</h2>
+<p>The function we use to perform a t-test in R is <code>t.test()</code>, and to test whether the mean log-transformed haemocyte counts are different between <em>P. napi</em> and <em>P. brassicae</em> we can type it in as follows.</p>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb452-1"></a><span class="kw">t.test</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count)<span class="op">~</span>Haemocyte<span class="op">$</span>Species)</span></code></pre></div>
+<p>There are two things to notice here. Firstly, we’re doing the log transformation within the function call - we don’t have to set up a separate variable with the transformed data to do this analysis. Secondly, rather than being separated by a comma our two variables have a tilde (<code>~</code>) between them. This is because what we’re using is a formula: typing it this way means that we are specifying <code>log(Count)</code> as the Response variable and Species as the Predictor. Formulae are how we input relationships between variables when we’re specifying linear models (and other kinds of model too but we won’t consider them here). A t-test is actually a very simple linear model and so we use a simple formula to specify it. If you try to do your t-test with commas separating the variable names then you’ll get one of R’s splendidly unhelpful error messages. Try it.</p>
+<p>This is the output we get when we do specify our test properly.</p>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb453-1"></a><span class="kw">t.test</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count)<span class="op">~</span>Haemocyte<span class="op">$</span>Species)</span>
+<span id="cb453-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb453-2"></a></span>
+<span id="cb453-3"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb453-3"></a>    Welch Two Sample t<span class="op">-</span>test</span>
+<span id="cb453-4"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb453-4"></a></span>
+<span id="cb453-5"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb453-5"></a>data<span class="op">:</span><span class="st">  </span><span class="kw">log</span>(Haemocyte<span class="op">$</span>Count) by Haemocyte<span class="op">$</span>Species</span>
+<span id="cb453-6"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb453-6"></a>t =<span class="st"> </span><span class="fl">-1.69</span>, df =<span class="st"> </span><span class="fl">48.5</span>, p<span class="op">-</span>value =<span class="st"> </span><span class="fl">0.098</span></span>
+<span id="cb453-7"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb453-7"></a>alternative hypothesis<span class="op">:</span><span class="st"> </span>true difference <span class="cf">in</span> means is not equal to <span class="dv">0</span></span>
+<span id="cb453-8"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb453-8"></a><span class="dv">95</span> percent confidence interval<span class="op">:</span></span>
+<span id="cb453-9"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb453-9"></a><span class="st"> </span><span class="fl">-0.423063</span>  <span class="fl">0.037006</span></span>
+<span id="cb453-10"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb453-10"></a>sample estimates<span class="op">:</span></span>
+<span id="cb453-11"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb453-11"></a>mean <span class="cf">in</span> group P.brassicae      mean <span class="cf">in</span> group P.napi </span>
+<span id="cb453-12"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb453-12"></a>                   <span class="fl">4.3548</span>                    <span class="fl">4.5479</span> </span></code></pre></div>
+<p>Take a look at the output from that t-test. It’s the default option for a two-sample t-test in R, which is a bit different from the basic, straightforward t-test that you might be familiar with. If you know your t-tests you’ll have noticed that the degrees of freedom for this test seems to be wrong - normally for a t-test the df are n1+n2-2, which for this analysis should be 29+30-2=57, whereas here the df is reported as 48.534. This is because the version of a t-test that R uses by default takes differences in the variance between groups into account: it calculates separate variances for each mean and adjusts the degrees of freedom accordingly (which is why we have a fractional df). Just to be helpful it reminds you of what your H1 is for this specific test, gives you the 95% confidence limits for the difference between the two means and finally tells you what the means are. In this case the p-value is 0.098, so we accept the null hypothesis: we don’t have a statistically significant difference.</p>
+<p>As we have seen, many functions like ‘t.test’ can be modified by adding further arguments to the command. For example,</p>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb454-1"></a><span class="kw">t.test</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count)<span class="op">~</span>Haemocyte<span class="op">$</span>Species, <span class="dt">var.equal=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<p>tells R to carry out a t-test assuming equal variances (yer basic classic t-test) and gives us this result:</p>
+<pre><code>
+    Two Sample t-test
+
+data:  log(Haemocyte$Count) by Haemocyte$Species
+t = -1.67, df = 57, p-value = 0.1
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.423974  0.037917
+sample estimates:
+mean in group P.brassicae      mean in group P.napi 
+                   4.3548                    4.5479 </code></pre>
+<p>You can see that we now have the number of degrees of freedom that you might expect. There are some other differences in the output which you may wish to compare with the earlier test that didn’t assume equal variances. More and more arguments can be added:</p>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb456-1"></a><span class="kw">t.test</span>(</span>
+<span id="cb456-2"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb456-2"></a>  <span class="kw">log</span>(Haemocyte<span class="op">$</span>Count[Haemocyte<span class="op">$</span>Weight <span class="op">&lt;=</span><span class="st"> </span><span class="kw">mean</span>(Haemocyte<span class="op">$</span>Weight)]) <span class="op">~</span><span class="st"> </span>Haemocyte<span class="op">$</span>Species[Haemocyte<span class="op">$</span>Weight <span class="op">&lt;=</span><span class="st"> </span><span class="kw">mean</span>(Haemocyte<span class="op">$</span>Weight)],</span>
+<span id="cb456-3"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb456-3"></a>  <span class="dt">var.equal =</span> T,</span>
+<span id="cb456-4"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb456-4"></a>  <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>,</span>
+<span id="cb456-5"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb456-5"></a>  <span class="dt">mu =</span> <span class="dv">25</span>,</span>
+<span id="cb456-6"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb456-6"></a>  <span class="dt">conf.level =</span> <span class="fl">0.75</span></span>
+<span id="cb456-7"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#cb456-7"></a>)</span></code></pre></div>
+<p>instructs R to carry out a one-tailed (<code>alternative=”less”</code>) two-sample t-test to compare the logged mean haemocyte count between both species, but only using data from those individuals that whose weight is less than or equal to the mean weight of all the caterpillars in the data set (this is set by the subscripts), assuming equal variances, with the null hypothesis that the difference between means is less than 25 (<code>mu=25</code>) and to give the 75% confidence intervals for the difference between the means (<code>conf.level=0.75</code>).</p>
+<p>Were you ever to wish to carry out such an analysis you would get this result:</p>
+<pre><code>
+    Two Sample t-test
+
+data:  log(Haemocyte$Count[Haemocyte$Weight &lt;= mean(Haemocyte$Weight)]) by Haemocyte$Species[Haemocyte$Weight &lt;= mean(Haemocyte$Weight)]
+t = -80.5, df = 31, p-value &lt;2e-16
+alternative hypothesis: true difference in means is less than 25
+75 percent confidence interval:
+     -Inf 0.030746
+sample estimates:
+mean in group P.brassicae      mean in group P.napi 
+                   4.3652                    4.5479 </code></pre>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="17">
+<li id="fn17"><p>See Hurlbert, S.H. (1984) Pseudoreplication and the design of ecological field experiments. Ecological Monographs 54:187–211. <a href="http://dx.doi.org/10.2307/1942661" class="uri">http://dx.doi.org/10.2307/1942661</a> for the classic paper on this.<a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#fnref17" class="footnote-back">↩︎</a></p></li>
+<li id="fn18"><p>NB for our friends from across the Atlantic: ‘tarted up’: 1. - adj. - wearing an excessive amount of make up, a minimal amount of clothing; ostensibly for the purpose of luring a partner into the act of sexual intercourse. Usually reserved for females, but not as a rule. (www.urbandictionary.com)<a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#fnref18" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="correlation-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["3rd_Edition.pdf", "3rd_Edition.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

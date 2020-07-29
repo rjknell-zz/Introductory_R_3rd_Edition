@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Data: Vectors, Matrices and Data Frames | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</title>
+  <meta name="description" content="null" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Data: Vectors, Matrices and Data Frames | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="null" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Data: Vectors, Matrices and Data Frames | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  
+  <meta name="twitter:description" content="null" />
+  
+
+<meta name="author" content="Rob Knell" />
+
+
+<meta name="date" content="2020-07-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="basics-arithmetic-objects-and-functions.html"/>
+<link rel="next" href="choosing-data-subscripts-and-subsetting.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introductory R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-this-book"><i class="fa fa-check"></i><b>1.1</b> Why this book?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i><b>1.2</b> How to use this book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-first-r-session.html"><a href="a-first-r-session.html"><i class="fa fa-check"></i><b>2</b> A first R session</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-first-r-session.html"><a href="a-first-r-session.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="a-first-r-session.html"><a href="a-first-r-session.html#a-first-r-session-1"><i class="fa fa-check"></i><b>2.2</b> A first R session</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html"><i class="fa fa-check"></i><b>3</b> Basics: arithmetic, objects and functions</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#arithmetic"><i class="fa fa-check"></i><b>3.0.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.0.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#logical-operations"><i class="fa fa-check"></i><b>3.0.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.0.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects"><i class="fa fa-check"></i><b>3.0.3</b> Objects</a></li>
+<li class="chapter" data-level="3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#kinds-of-data"><i class="fa fa-check"></i><b>3.1</b> Kinds of data</a></li>
+<li class="chapter" data-level="3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#whats-in-my-workspace"><i class="fa fa-check"></i><b>3.2</b> What’s in my workspace?</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions"><i class="fa fa-check"></i><b>3.2.1</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#exercises"><i class="fa fa-check"></i><b>3.3</b> Exercises</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations"><i class="fa fa-check"></i><b>3.3.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-1"><i class="fa fa-check"></i><b>3.3.2</b> Objects</a></li>
+<li class="chapter" data-level="3.3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#answers-to-exercises"><i class="fa fa-check"></i><b>3.4</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations-1"><i class="fa fa-check"></i><b>3.4.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.4.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-2"><i class="fa fa-check"></i><b>3.4.2</b> Objects</a></li>
+<li class="chapter" data-level="3.4.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-2"><i class="fa fa-check"></i><b>3.4.3</b> Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html"><i class="fa fa-check"></i><b>4</b> Data: Vectors, Matrices and Data Frames</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors"><i class="fa fa-check"></i><b>4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices"><i class="fa fa-check"></i><b>4.2</b> Matrices</a></li>
+<li class="chapter" data-level="4.3" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#factors-and-data-frames"><i class="fa fa-check"></i><b>4.3</b> Factors and Data frames</a></li>
+<li class="chapter" data-level="4.4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#exercises-1"><i class="fa fa-check"></i><b>4.4</b> Exercises</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-1"><i class="fa fa-check"></i><b>4.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-1"><i class="fa fa-check"></i><b>4.4.2</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#answers-to-exercises-1"><i class="fa fa-check"></i><b>4.5</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-2"><i class="fa fa-check"></i><b>4.5.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.5.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-2"><i class="fa fa-check"></i><b>4.5.2</b> Matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html"><i class="fa fa-check"></i><b>5</b> Choosing data: subscripts and subsetting</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts"><i class="fa fa-check"></i><b>5.0.1</b> Subscripts</a></li>
+<li class="chapter" data-level="5.0.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#boolean-logic-and-more-complex-subscripting"><i class="fa fa-check"></i><b>5.0.2</b> Boolean logic and more complex subscripting</a></li>
+<li class="chapter" data-level="5.0.3" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-in-matrices-and-data-frames"><i class="fa fa-check"></i><b>5.0.3</b> Subscripts in matrices and data frames</a></li>
+<li class="chapter" data-level="5.0.4" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subset"><i class="fa fa-check"></i><b>5.0.4</b> Subset</a></li>
+<li class="chapter" data-level="5.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#exercises-2"><i class="fa fa-check"></i><b>5.1</b> Exercises</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors"><i class="fa fa-check"></i><b>5.1.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.1.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices"><i class="fa fa-check"></i><b>5.1.2</b> Subscripts and matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#answers-to-exercises-2"><i class="fa fa-check"></i><b>5.2</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors-1"><i class="fa fa-check"></i><b>5.2.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices-1"><i class="fa fa-check"></i><b>5.2.2</b> Subscripts and matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html"><i class="fa fa-check"></i><b>6</b> R scripts and your R workflow</a><ul>
+<li class="chapter" data-level="6.1" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#writing-and-using-r-scripts"><i class="fa fa-check"></i><b>6.1</b> Writing and using R scripts</a></li>
+<li class="chapter" data-level="6.2" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-an-r-script-window"><i class="fa fa-check"></i><b>6.2</b> Running code from an R script window</a></li>
+<li class="chapter" data-level="6.3" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-files-using-source"><i class="fa fa-check"></i><b>6.3</b> Running code from files using <code>source()</code></a></li>
+<li class="chapter" data-level="6.4" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#workflow-structure-or-what-should-i-put-in-my-script"><i class="fa fa-check"></i><b>6.4</b> Workflow structure, or what should I put in my script?</a></li>
+<li class="chapter" data-level="6.5" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#keep-it-neat-making-your-script-easy-to-read"><i class="fa fa-check"></i><b>6.5</b> Keep it neat — making your script easy to read</a></li>
+<li class="chapter" data-level="6.6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#i-wish-i-hadnt-commented-my-code-so-much-said-no-one-ever-4."><i class="fa fa-check"></i><b>6.6</b> “I wish I hadn’t commented my code so much”, said no-one, ever.</a></li>
+<li class="chapter" data-level="6.7" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#using-rstudio-to-write-scripts"><i class="fa fa-check"></i><b>6.7</b> Using RStudio to write scripts</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html"><i class="fa fa-check"></i><b>7</b> Help files and packages</a><ul>
+<li class="chapter" data-level="7.1" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#using-the-help-files"><i class="fa fa-check"></i><b>7.1</b> Using the help files</a></li>
+<li class="chapter" data-level="7.2" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#packages"><i class="fa fa-check"></i><b>7.2</b> Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>8</b> Importing Data</a><ul>
+<li class="chapter" data-level="8.1" data-path="importing-data.html"><a href="importing-data.html#the-rules"><i class="fa fa-check"></i><b>8.1</b> The Rules</a></li>
+<li class="chapter" data-level="8.2" data-path="importing-data.html"><a href="importing-data.html#importing-your-text-file"><i class="fa fa-check"></i><b>8.2</b> Importing your Text File</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="importing-data.html"><a href="importing-data.html#the-simple-way"><i class="fa fa-check"></i><b>8.2.1</b> The simple way</a></li>
+<li class="chapter" data-level="8.2.2" data-path="importing-data.html"><a href="importing-data.html#the-less-simple-way"><i class="fa fa-check"></i><b>8.2.2</b> The less simple way</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="importing-data.html"><a href="importing-data.html#importing-character-data"><i class="fa fa-check"></i><b>8.3</b> Importing character data</a></li>
+<li class="chapter" data-level="8.4" data-path="importing-data.html"><a href="importing-data.html#data-on-the-web"><i class="fa fa-check"></i><b>8.4</b> Data on the web</a></li>
+<li class="chapter" data-level="8.5" data-path="importing-data.html"><a href="importing-data.html#using-read.table"><i class="fa fa-check"></i><b>8.5</b> Using <code>read.table()</code></a></li>
+<li class="chapter" data-level="8.6" data-path="importing-data.html"><a href="importing-data.html#what-to-do-once-youve-managed-to-import-your-data."><i class="fa fa-check"></i><b>8.6</b> What to do once you’ve managed to import your data.</a></li>
+<li class="chapter" data-level="8.7" data-path="importing-data.html"><a href="importing-data.html#importing-data-directly-from-excel"><i class="fa fa-check"></i><b>8.7</b> Importing data directly from Excel</a></li>
+<li class="chapter" data-level="8.8" data-path="importing-data.html"><a href="importing-data.html#other-data-formats"><i class="fa fa-check"></i><b>8.8</b> Other data formats</a></li>
+<li class="chapter" data-level="8.9" data-path="importing-data.html"><a href="importing-data.html#importing-data-into-rstudio"><i class="fa fa-check"></i><b>8.9</b> Importing data into RStudio</a></li>
+<li class="chapter" data-level="8.10" data-path="importing-data.html"><a href="importing-data.html#to-attach-or-not-to-attach"><i class="fa fa-check"></i><b>8.10</b> To attach or not to attach?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><i class="fa fa-check"></i><b>9</b> R graphics I — drawing graphs and changing plot symbols and colours using the base graphics system</a><ul>
+<li class="chapter" data-level="9.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-versus-ggplot2-versus-lattice-versus-whaaat"><i class="fa fa-check"></i><b>9.1</b> Base graphics versus ggplot2 versus lattice versus whaaat???</a></li>
+<li class="chapter" data-level="9.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-example-ufo-reports-again"><i class="fa fa-check"></i><b>9.2</b> Base graphics example: UFO reports again</a></li>
+<li class="chapter" data-level="9.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#scatterplots"><i class="fa fa-check"></i><b>9.3</b> Scatterplots</a></li>
+<li class="chapter" data-level="9.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plot-symbols"><i class="fa fa-check"></i><b>9.4</b> Plot symbols</a></li>
+<li class="chapter" data-level="9.5" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colours"><i class="fa fa-check"></i><b>9.5</b> Colours</a></li>
+<li class="chapter" data-level="9.6" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plotting-multiple-symbols-or-colours"><i class="fa fa-check"></i><b>9.6</b> Plotting multiple symbols or colours</a></li>
+<li class="chapter" data-level="9.7" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colour-palettes-in-r"><i class="fa fa-check"></i><b>9.7</b> Colour palettes in R</a></li>
+<li class="chapter" data-level="9.8" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#using-transparency-in-your-graphs"><i class="fa fa-check"></i><b>9.8</b> Using transparency in your graphs</a></li>
+<li class="chapter" data-level="9.9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histograms-and-multiple-plots-in-the-same-window"><i class="fa fa-check"></i><b>9.9</b> Histograms and multiple plots in the same window</a></li>
+<li class="chapter" data-level="9.10" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#boxplots"><i class="fa fa-check"></i><b>9.10</b> Boxplots</a></li>
+<li class="chapter" data-level="9.11" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#bar-charts"><i class="fa fa-check"></i><b>9.11</b> Bar charts</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#more-complex-barplots"><i class="fa fa-check"></i><b>9.11.1</b> More complex barplots</a></li>
+</ul></li>
+<li class="chapter" data-level="9.12" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#other-types-of-plot"><i class="fa fa-check"></i><b>9.12</b> Other types of plot</a><ul>
+<li class="chapter" data-level="9.12.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histogram-with-overlaid-probability-density-estimate"><i class="fa fa-check"></i><b>9.12.1</b> Histogram with overlaid probability density estimate</a></li>
+<li class="chapter" data-level="9.12.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#pie-graph"><i class="fa fa-check"></i><b>9.12.2</b> Pie graph</a></li>
+<li class="chapter" data-level="9.12.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#d-scatterplot"><i class="fa fa-check"></i><b>9.12.3</b> 3D scatterplot</a></li>
+<li class="chapter" data-level="9.12.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#contour-plot"><i class="fa fa-check"></i><b>9.12.4</b> Contour plot</a></li>
+</ul></li>
+<li class="chapter" data-level="9.13" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#exporting-graphics"><i class="fa fa-check"></i><b>9.13</b> Exporting Graphics</a><ul>
+<li class="chapter" data-level="9.13.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-easy-way"><i class="fa fa-check"></i><b>9.13.1</b> The easy way</a></li>
+<li class="chapter" data-level="9.13.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-hard-way"><i class="fa fa-check"></i><b>9.13.2</b> The hard way</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html"><i class="fa fa-check"></i><b>10</b> R graphics II — Adding elements to an existing graph</a><ul>
+<li class="chapter" data-level="10.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#simple-regression-lines"><i class="fa fa-check"></i><b>10.1</b> Simple regression lines</a></li>
+<li class="chapter" data-level="10.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#multiple-regression-lines"><i class="fa fa-check"></i><b>10.2</b> Multiple regression lines</a></li>
+<li class="chapter" data-level="10.3" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#legends"><i class="fa fa-check"></i><b>10.3</b> Legends</a></li>
+<li class="chapter" data-level="10.4" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#curves"><i class="fa fa-check"></i><b>10.4</b> Curves</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-curve"><i class="fa fa-check"></i><b>10.4.1</b> Adding a curve using <code>curve()</code></a></li>
+<li class="chapter" data-level="10.4.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-lines-or-points."><i class="fa fa-check"></i><b>10.4.2</b> Adding a curve using <code>lines()</code> or <code>points()</code>.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#text-and-arrows"><i class="fa fa-check"></i><b>10.5</b> Text and arrows</a></li>
+<li class="chapter" data-level="10.6" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#confidence-bands-for-fitted-lines"><i class="fa fa-check"></i><b>10.6</b> Confidence bands for fitted lines</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-bands-using-lines"><i class="fa fa-check"></i><b>10.6.1</b> Adding confidence bands using <code>lines()</code></a></li>
+<li class="chapter" data-level="10.6.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-intervals-to-fitted-lines-using-polygon"><i class="fa fa-check"></i><b>10.6.2</b> Adding confidence intervals to fitted lines using <code>polygon()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#error-bars"><i class="fa fa-check"></i><b>10.7</b> Error bars</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-error-bars-using-arrows"><i class="fa fa-check"></i><b>10.7.1</b> Adding error bars using <code>arrows()</code></a></li>
+<li class="chapter" data-level="10.7.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#plotting-means-and-error-bars-using-plotmeans"><i class="fa fa-check"></i><b>10.7.2</b> Plotting means and error bars using <code>plotmeans()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html"><i class="fa fa-check"></i><b>11</b> Graphics with ggplot2</a><ul>
+<li class="chapter" data-level="11.1" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#ggplot2-introduced"><i class="fa fa-check"></i><b>11.1</b> ggplot2 introduced</a></li>
+<li class="chapter" data-level="11.2" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#scaling-axes-and-varying-colour-or-shapes-by-factor-levels"><i class="fa fa-check"></i><b>11.2</b> Scaling axes and varying colour or shapes by factor levels</a></li>
+<li class="chapter" data-level="11.3" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#facets"><i class="fa fa-check"></i><b>11.3</b> Facets</a></li>
+<li class="chapter" data-level="11.4" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#histograms"><i class="fa fa-check"></i><b>11.4</b> Histograms</a></li>
+<li class="chapter" data-level="11.5" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#boxplots-1"><i class="fa fa-check"></i><b>11.5</b> Boxplots</a></li>
+<li class="chapter" data-level="11.6" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#final-word"><i class="fa fa-check"></i><b>11.6</b> Final word</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html"><i class="fa fa-check"></i><b>12</b> Basic Statistical Concepts</a><ul>
+<li class="chapter" data-level="12.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#populations-and-samples"><i class="fa fa-check"></i><b>12.1</b> Populations and Samples</a></li>
+<li class="chapter" data-level="12.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#descriptive-and-exploratory-statistics"><i class="fa fa-check"></i><b>12.2</b> Descriptive and exploratory statistics</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#maximum-and-minimum"><i class="fa fa-check"></i><b>12.2.1</b> Maximum and minimum</a></li>
+<li class="chapter" data-level="12.2.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#frequency-distribution"><i class="fa fa-check"></i><b>12.2.2</b> Frequency distribution</a></li>
+<li class="chapter" data-level="12.2.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#kinds-of-frequency-distribution"><i class="fa fa-check"></i><b>12.2.3</b> Kinds of frequency distribution</a></li>
+<li class="chapter" data-level="12.2.4" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-central-tendency"><i class="fa fa-check"></i><b>12.2.4</b> Measures of central tendency</a></li>
+<li class="chapter" data-level="12.2.5" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-dispersion"><i class="fa fa-check"></i><b>12.2.5</b> Measures of dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#standard-errors-and-confidence-intervals"><i class="fa fa-check"></i><b>12.3</b> Standard errors and confidence intervals</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#code-used-to-draw-figure-6"><i class="fa fa-check"></i><b>12.3.1</b> Code used to draw figure 6</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html"><i class="fa fa-check"></i><b>13</b> What is statistical testing?</a><ul>
+<li class="chapter" data-level="13.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#the-problem"><i class="fa fa-check"></i><b>13.1</b> The problem</a></li>
+<li class="chapter" data-level="13.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#statistical-testing-in-a-nutshell"><i class="fa fa-check"></i><b>13.2</b> Statistical testing in a nutshell</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#decide-on-the-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.2.1</b> Decide on the null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.2.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#calculate-the-size-of-the-effect."><i class="fa fa-check"></i><b>13.2.2</b> Calculate the size of the effect.</a></li>
+<li class="chapter" data-level="13.2.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#transform-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.2.3</b> Transform the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.2.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#ask-what-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true."><i class="fa fa-check"></i><b>13.2.4</b> Ask what the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true.</a></li>
+<li class="chapter" data-level="13.2.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#think-about-what-the-result-means."><i class="fa fa-check"></i><b>13.2.5</b> Think about what the result means.</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#how-a-statistical-test-works"><i class="fa fa-check"></i><b>13.3</b> How a statistical test works</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-1-generating-our-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.3.1</b> Step 1 generating our null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.3.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-2-calculating-the-size-of-the-effect"><i class="fa fa-check"></i><b>13.3.2</b> Step 2 calculating the size of the effect</a></li>
+<li class="chapter" data-level="13.3.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-3-transforming-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.3.3</b> Step 3 Transforming the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.3.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-4-what-is-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true"><i class="fa fa-check"></i><b>13.3.4</b> Step 4 What is the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true?</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#what-statistical-testing-does-and-doesnt-tell-us"><i class="fa fa-check"></i><b>13.4</b> What statistical testing does and doesn’t tell us</a></li>
+<li class="chapter" data-level="13.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#code-used-to-draw-figure-5"><i class="fa fa-check"></i><b>13.5</b> Code used to draw figure 5</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><i class="fa fa-check"></i><b>14</b> The Chi-squared Test and a Classic Dataset on Smoking and Cancer</a><ul>
+<li class="chapter" data-level="14.1" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-who-smoke-more-likely-to-be-heavy-smokers"><i class="fa fa-check"></i><b>14.1</b> Are lung cancer patients who smoke more likely to be heavy smokers?</a></li>
+<li class="chapter" data-level="14.2" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#the-chi-squared-test"><i class="fa fa-check"></i><b>14.2</b> The Chi-squared test</a></li>
+<li class="chapter" data-level="14.3" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#chi-squared-test-with-contingency-tables"><i class="fa fa-check"></i><b>14.3</b> Chi-squared test with contingency tables</a></li>
+<li class="chapter" data-level="14.4" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#assumptions-and-limitations-of-the-chi-squared-test"><i class="fa fa-check"></i><b>14.4</b> Assumptions and limitations of the chi-squared test</a></li>
+<li class="chapter" data-level="14.5" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-more-likely-to-be-smokers-than-controls"><i class="fa fa-check"></i><b>14.5</b> Are lung cancer patients more likely to be smokers than controls?</a></li>
+<li class="chapter" data-level="14.6" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#fishers-exact-test"><i class="fa fa-check"></i><b>14.6</b> Fisher’s exact test</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><i class="fa fa-check"></i><b>15</b> Comparing immune responses between two caterpillar species using a t-test</a><ul>
+<li class="chapter" data-level="15.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#assumptions-and-limitations-of-standard-parametric-statistics"><i class="fa fa-check"></i><b>15.1</b> Assumptions and limitations of standard parametric statistics</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#normal-errors."><i class="fa fa-check"></i><b>15.1.1</b> Normal errors.</a></li>
+<li class="chapter" data-level="15.1.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#independence-of-data-points."><i class="fa fa-check"></i><b>15.1.2</b> Independence of data points.</a></li>
+<li class="chapter" data-level="15.1.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#equal-variances."><i class="fa fa-check"></i><b>15.1.3</b> Equal variances.</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#importing-the-data"><i class="fa fa-check"></i><b>15.2</b> Importing the Data</a></li>
+<li class="chapter" data-level="15.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#descriptives-and-initial-exploration"><i class="fa fa-check"></i><b>15.3</b> Descriptives and Initial Exploration</a></li>
+<li class="chapter" data-level="15.4" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#comparing-two-means-with-a-t-test"><i class="fa fa-check"></i><b>15.4</b> Comparing Two Means With a t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="correlation-analysis.html"><a href="correlation-analysis.html"><i class="fa fa-check"></i><b>16</b> Correlation analysis</a><ul>
+<li class="chapter" data-level="16.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#calculating-the-correlation-coefficient"><i class="fa fa-check"></i><b>16.1</b> Calculating the correlation coefficient</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#interpreting-our-correlation-coefficient."><i class="fa fa-check"></i><b>16.1.1</b> Interpreting our correlation coefficient.</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="correlation-analysis.html"><a href="correlation-analysis.html#statistical-significance-of-r"><i class="fa fa-check"></i><b>16.2</b> Statistical significance of <em>r</em></a></li>
+<li class="chapter" data-level="16.3" data-path="correlation-analysis.html"><a href="correlation-analysis.html#assumptions-of-correlation-analysis"><i class="fa fa-check"></i><b>16.3</b> Assumptions of correlation analysis</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#comparing-correlations-between-swim-run-and-bike-splits"><i class="fa fa-check"></i><b>16.3.1</b> Comparing correlations between swim, run and bike splits</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="correlation-analysis.html"><a href="correlation-analysis.html#correlation-causality-sample-size-and-significance."><i class="fa fa-check"></i><b>16.4</b> Correlation, causality, sample size and significance.</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><i class="fa fa-check"></i><b>17</b> Using Linear Regression to Analyse TB trends in the UK</a><ul>
+<li class="chapter" data-level="17.0.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#least-squares-line-fitting"><i class="fa fa-check"></i><b>17.0.1</b> Least squares line fitting</a></li>
+<li class="chapter" data-level="17.0.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#significance-tests-for-linear-regression"><i class="fa fa-check"></i><b>17.0.2</b> Significance tests for linear regression</a></li>
+<li class="chapter" data-level="17.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#bovine-tb"><i class="fa fa-check"></i><b>17.1</b> Bovine TB</a></li>
+<li class="chapter" data-level="17.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>17.2</b> Assumptions of linear regression</a><ul>
+<li class="chapter" data-level="17.2.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots"><i class="fa fa-check"></i><b>17.2.1</b> Diagnostic plots</a></li>
+<li class="chapter" data-level="17.2.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots-for-our-m.bovis-regression"><i class="fa fa-check"></i><b>17.2.2</b> Diagnostic plots for our <em>M.bovis</em> regression</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#interpreting-our-regression-and-predicting-future-cases"><i class="fa fa-check"></i><b>17.3</b> Interpreting our regression and predicting future cases</a></li>
+<li class="chapter" data-level="17.4" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#multi-drug-resistant-tb"><i class="fa fa-check"></i><b>17.4</b> Multi-drug resistant TB</a></li>
+<li class="chapter" data-level="17.5" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#fitting-a-quadratic-model"><i class="fa fa-check"></i><b>17.5</b> Fitting a quadratic model</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="anova-and-football.html"><a href="anova-and-football.html"><i class="fa fa-check"></i><b>18</b> ANOVA and Football</a><ul>
+<li class="chapter" data-level="18.1" data-path="anova-and-football.html"><a href="anova-and-football.html#analysis-of-variance"><i class="fa fa-check"></i><b>18.1</b> Analysis of Variance</a></li>
+<li class="chapter" data-level="18.2" data-path="anova-and-football.html"><a href="anova-and-football.html#interpreting-anova-results"><i class="fa fa-check"></i><b>18.2</b> Interpreting ANOVA results</a></li>
+<li class="chapter" data-level="18.3" data-path="anova-and-football.html"><a href="anova-and-football.html#what-makes-a-professional-footballer"><i class="fa fa-check"></i><b>18.3</b> What makes a professional footballer?</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html"><i class="fa fa-check"></i><b>19</b> Yeast sex and two factor ANOVA.</a><ul>
+<li class="chapter" data-level="19.1" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#yeast-sexual-selection"><i class="fa fa-check"></i><b>19.1</b> Yeast sexual selection</a></li>
+<li class="chapter" data-level="19.2" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#understanding-the-coefficients-table"><i class="fa fa-check"></i><b>19.2</b> Understanding the coefficients table</a></li>
+<li class="chapter" data-level="19.3" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#which-statistical-tests-to-use-with-lm"><i class="fa fa-check"></i><b>19.3</b> Which statistical tests to use with <code>lm()</code>?</a></li>
+<li class="chapter" data-level="19.4" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#diagnostics"><i class="fa fa-check"></i><b>19.4</b> Diagnostics</a></li>
+<li class="chapter" data-level="19.5" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#visualising-the-data"><i class="fa fa-check"></i><b>19.5</b> Visualising the data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-vectors-matrices-and-data-frames" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Data: Vectors, Matrices and Data Frames</h1>
+<p>So far we’ve looked at individual numbers. Interesting data, of course, does not usually consist of simgle numbers, or isolated true/false values: rather, we are likely to be working with lots of data which will be organised into some sort of structure. R is especially good at dealing with objects that are groups of numbers, or groups of character or logical data. In the case of numbers these groups can be can be organised as sequences, which are called vectors<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>, or as two dimensional tables of numbers, which are called matrices (singular matrix). R can also deal with tables that contain more than one kind of data: these are called data frames.</p>
+<div id="vectors" class="section level2">
+<h2><span class="header-section-number">4.1</span> Vectors</h2>
+<p>It’s worth spending some time looking at vectors and matrices, because a lot of the things you’ll be doing in your analyses involve manipulating sequences and tables of numbers. Let’s start by making a vector. The easiest way to do this uses the <code>c()</code> function<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>. If we want a single object containing a series of numbers we can put the numbers as arguments to <code>c()</code> and then assign the output from that to an object.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="data-vectors-matrices-and-data-frames.html#cb65-1"></a>Y1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">14</span>,<span class="dv">16</span>,<span class="dv">18</span>,<span class="dv">20</span>)</span></code></pre></div>
+<p>Here, then, we have created a new object called <code>Y1</code> which is a vector of 10 numbers. Let’s have a look at it.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="data-vectors-matrices-and-data-frames.html#cb66-1"></a>Y1</span>
+<span id="cb66-2"><a href="data-vectors-matrices-and-data-frames.html#cb66-2"></a> [<span class="dv">1</span>]  <span class="dv">2</span>  <span class="dv">4</span>  <span class="dv">6</span>  <span class="dv">8</span> <span class="dv">10</span> <span class="dv">12</span> <span class="dv">14</span> <span class="dv">16</span> <span class="dv">18</span> <span class="dv">20</span></span></code></pre></div>
+<p>There are many ways to generate vectors of data, and as an example we’re going to make another one using a function called <code>seq()</code>, which produces sequences of numbers. The arguments we’re using are <code>from</code>, <code>to</code> and <code>by</code>, giving us a function call of <code>seq(from=1, to=10, by=1)</code>. This means “make me a sequence of numbers, starting at 1, finishing at 10, and with spacing equal to 1”. We could also write a much shorter command, <code>seq(1, 10)</code> because we know that R knows that the first argument between the brackets corresponds to the <code>from=</code> argument, the second one to the <code>to=</code> argument, and the default value for <code>by=</code> is 1, but including the argument names makes everything very clear.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="data-vectors-matrices-and-data-frames.html#cb67-1"></a></span>
+<span id="cb67-2"><a href="data-vectors-matrices-and-data-frames.html#cb67-2"></a>X1 &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from=</span><span class="dv">1</span>, <span class="dt">to=</span><span class="dv">10</span>, <span class="dt">by=</span><span class="dv">1</span>)</span></code></pre></div>
+<p>Creates a new object called X1 (a vector in this case) containing a sequence of numbers counting up from 1 to 10. To see what X is just type its name.</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="data-vectors-matrices-and-data-frames.html#cb68-1"></a>X1</span>
+<span id="cb68-2"><a href="data-vectors-matrices-and-data-frames.html#cb68-2"></a> [<span class="dv">1</span>]  <span class="dv">1</span>  <span class="dv">2</span>  <span class="dv">3</span>  <span class="dv">4</span>  <span class="dv">5</span>  <span class="dv">6</span>  <span class="dv">7</span>  <span class="dv">8</span>  <span class="dv">9</span> <span class="dv">10</span></span></code></pre></div>
+<p>R will quite happily do arithmetic with vectors or matrices as well as simple numbers. What happens when we add a number to a vector?</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="data-vectors-matrices-and-data-frames.html#cb69-1"></a>X1<span class="op">+</span><span class="dv">3</span></span>
+<span id="cb69-2"><a href="data-vectors-matrices-and-data-frames.html#cb69-2"></a> [<span class="dv">1</span>]  <span class="dv">4</span>  <span class="dv">5</span>  <span class="dv">6</span>  <span class="dv">7</span>  <span class="dv">8</span>  <span class="dv">9</span> <span class="dv">10</span> <span class="dv">11</span> <span class="dv">12</span> <span class="dv">13</span></span></code></pre></div>
+<p>Each number in the vector has 3 added. How about applying a function to a vector?</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="data-vectors-matrices-and-data-frames.html#cb70-1"></a><span class="kw">log</span>(X1)</span>
+<span id="cb70-2"><a href="data-vectors-matrices-and-data-frames.html#cb70-2"></a> [<span class="dv">1</span>] <span class="fl">0.0000000</span> <span class="fl">0.6931472</span> <span class="fl">1.0986123</span> <span class="fl">1.3862944</span> <span class="fl">1.6094379</span> <span class="fl">1.7917595</span> <span class="fl">1.9459101</span></span>
+<span id="cb70-3"><a href="data-vectors-matrices-and-data-frames.html#cb70-3"></a> [<span class="dv">8</span>] <span class="fl">2.0794415</span> <span class="fl">2.1972246</span> <span class="fl">2.3025851</span></span></code></pre></div>
+<p>The <code>log()</code> function calculates the natural logarithm, and running it with our X1 vector as an argument gives us a vector with the natural logarithms of the numbers in the original vector. There is an important and powerful point here: when we are using arithmetic, or carrying out logical tests, or using functions which don’t summarise sets of numbers in any way, the operation in question is carried out on each number in the vector separately. So</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="data-vectors-matrices-and-data-frames.html#cb71-1"></a><span class="dv">4</span> <span class="op">&gt;</span><span class="st"> </span>X1</span>
+<span id="cb71-2"><a href="data-vectors-matrices-and-data-frames.html#cb71-2"></a> [<span class="dv">1</span>]  <span class="ot">TRUE</span>  <span class="ot">TRUE</span>  <span class="ot">TRUE</span> <span class="ot">FALSE</span> <span class="ot">FALSE</span> <span class="ot">FALSE</span> <span class="ot">FALSE</span> <span class="ot">FALSE</span> <span class="ot">FALSE</span> <span class="ot">FALSE</span></span></code></pre></div>
+<p>returns a value of <code>TRUE</code> or <code>FALSE</code> for each member of the vector, rather than a single value. If we were to save the output from this operation as a new object it would be a logical vector of the same length as the original vector which we carried out the operation on.</p>
+<p>Some functions return only a single value if we give them a vector as an argument.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="data-vectors-matrices-and-data-frames.html#cb72-1"></a><span class="kw">mean</span>(X1)</span>
+<span id="cb72-2"><a href="data-vectors-matrices-and-data-frames.html#cb72-2"></a>[<span class="dv">1</span>] <span class="fl">5.5</span></span></code></pre></div>
+<p>gives us the arithmetic mean of all the numbers in the vector, and</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="data-vectors-matrices-and-data-frames.html#cb73-1"></a><span class="kw">sum</span>(X1)</span>
+<span id="cb73-2"><a href="data-vectors-matrices-and-data-frames.html#cb73-2"></a>[<span class="dv">1</span>] <span class="dv">55</span></span></code></pre></div>
+<p>returns the sum of all the numbers in the vector.</p>
+<p>We can also do arithmetic with two vectors.</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="data-vectors-matrices-and-data-frames.html#cb74-1"></a>X1 <span class="op">*</span><span class="st"> </span>Y1</span>
+<span id="cb74-2"><a href="data-vectors-matrices-and-data-frames.html#cb74-2"></a> [<span class="dv">1</span>]   <span class="dv">2</span>   <span class="dv">8</span>  <span class="dv">18</span>  <span class="dv">32</span>  <span class="dv">50</span>  <span class="dv">72</span>  <span class="dv">98</span> <span class="dv">128</span> <span class="dv">162</span> <span class="dv">200</span></span>
+<span id="cb74-3"><a href="data-vectors-matrices-and-data-frames.html#cb74-3"></a>Y1 <span class="op">-</span><span class="st"> </span>X1</span>
+<span id="cb74-4"><a href="data-vectors-matrices-and-data-frames.html#cb74-4"></a> [<span class="dv">1</span>]  <span class="dv">1</span>  <span class="dv">2</span>  <span class="dv">3</span>  <span class="dv">4</span>  <span class="dv">5</span>  <span class="dv">6</span>  <span class="dv">7</span>  <span class="dv">8</span>  <span class="dv">9</span> <span class="dv">10</span></span></code></pre></div>
+<p>Both of our vectors, X and Y, are the same length in this example, and R just carries out the instruction on each number in the sequence in turn: the first number in X is multiplied by the first number in Y, then the second in X by the second in Y and so on until the last number. What happens if the two vectors are of different lengths? We can set up a vector half as long as X very simply.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="data-vectors-matrices-and-data-frames.html#cb75-1"></a>X2 &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">2</span>)</span>
+<span id="cb75-2"><a href="data-vectors-matrices-and-data-frames.html#cb75-2"></a>X2</span>
+<span id="cb75-3"><a href="data-vectors-matrices-and-data-frames.html#cb75-3"></a>[<span class="dv">1</span>] <span class="dv">1</span> <span class="dv">3</span> <span class="dv">5</span> <span class="dv">7</span> <span class="dv">9</span></span></code></pre></div>
+<p>Let’s add this 5 number vector to our first 10 number vector and see what happens.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="data-vectors-matrices-and-data-frames.html#cb76-1"></a>X1 <span class="op">+</span><span class="st"> </span>X2</span>
+<span id="cb76-2"><a href="data-vectors-matrices-and-data-frames.html#cb76-2"></a> [<span class="dv">1</span>]  <span class="dv">2</span>  <span class="dv">5</span>  <span class="dv">8</span> <span class="dv">11</span> <span class="dv">14</span>  <span class="dv">7</span> <span class="dv">10</span> <span class="dv">13</span> <span class="dv">16</span> <span class="dv">19</span></span></code></pre></div>
+<p>What’s happened here? The first number in X (1) has been added to the first number in X2 (1) to give 2. The second numbers in each (2 and 3) have been added in the same way, and so on until we got to the last number in X2, 9, which was added to 5 to give 14. The next number in our answer is 7 - where did that come from? What happens when one vector is shorter than the other is that once all the numbers in the shorter vector have been used, you just start again at the beginning, so the sixth number of X (6) is added to the first number of X2 (1) to give the sixth number in our answer.</p>
+<p>1+1=2<br />
+2+3=5<br />
+3+5=8<br />
+4+7=11<br />
+5+9=14<br />
+6+1=7<br />
+7+3=10<br />
+8+5=13<br />
+9+7=16<br />
+10+9=19</p>
+<p>This still works if the length of the longer vector is not an exact multiple of the length of the shorter one, but you’ll get a warning message.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="data-vectors-matrices-and-data-frames.html#cb77-1"></a>X3 &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">3</span>)</span>
+<span id="cb77-2"><a href="data-vectors-matrices-and-data-frames.html#cb77-2"></a>X3</span>
+<span id="cb77-3"><a href="data-vectors-matrices-and-data-frames.html#cb77-3"></a>[<span class="dv">1</span>]  <span class="dv">1</span>  <span class="dv">4</span>  <span class="dv">7</span> <span class="dv">10</span></span>
+<span id="cb77-4"><a href="data-vectors-matrices-and-data-frames.html#cb77-4"></a>X1 <span class="op">+</span><span class="st"> </span>X3</span>
+<span id="cb77-5"><a href="data-vectors-matrices-and-data-frames.html#cb77-5"></a> [<span class="dv">1</span>]  <span class="dv">2</span>  <span class="dv">6</span> <span class="dv">10</span> <span class="dv">14</span>  <span class="dv">6</span> <span class="dv">10</span> <span class="dv">14</span> <span class="dv">18</span> <span class="dv">10</span> <span class="dv">14</span></span></code></pre></div>
+</div>
+<div id="matrices" class="section level2">
+<h2><span class="header-section-number">4.2</span> Matrices</h2>
+<p>When we have data that are arranged in two dimensions rather than one we have a matrix, although not one that features Agent Smith. We can set one up using the <code>matrix()</code> function.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="data-vectors-matrices-and-data-frames.html#cb78-1"></a>mat1 &lt;-</span>
+<span id="cb78-2"><a href="data-vectors-matrices-and-data-frames.html#cb78-2"></a><span class="st">  </span><span class="kw">matrix</span>(</span>
+<span id="cb78-3"><a href="data-vectors-matrices-and-data-frames.html#cb78-3"></a>    <span class="dt">data =</span> <span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">12</span>),</span>
+<span id="cb78-4"><a href="data-vectors-matrices-and-data-frames.html#cb78-4"></a>    <span class="dt">nrow =</span> <span class="dv">3</span>,</span>
+<span id="cb78-5"><a href="data-vectors-matrices-and-data-frames.html#cb78-5"></a>    <span class="dt">ncol =</span> <span class="dv">4</span>,</span>
+<span id="cb78-6"><a href="data-vectors-matrices-and-data-frames.html#cb78-6"></a>    <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="kw">c</span>(<span class="st">&quot;Row 1&quot;</span>, <span class="st">&quot;Row 2&quot;</span>, <span class="st">&quot;Row 3&quot;</span>), </span>
+<span id="cb78-7"><a href="data-vectors-matrices-and-data-frames.html#cb78-7"></a>                    <span class="kw">c</span>(<span class="st">&quot;Col 1&quot;</span>, <span class="st">&quot;Col 2&quot;</span>, <span class="st">&quot;Col 3&quot;</span>, <span class="st">&quot;Col 4&quot;</span>))</span>
+<span id="cb78-8"><a href="data-vectors-matrices-and-data-frames.html#cb78-8"></a>  )</span></code></pre></div>
+<p>This is a complicated looking command. I’ve kept the argument names in to make it clearer what’s going on. We can understand it better by going through each bit in turn.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="data-vectors-matrices-and-data-frames.html#cb79-1"></a>mat1&lt;-<span class="st"> </span></span></code></pre></div>
+<p>Sets up an object called mat1.</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="data-vectors-matrices-and-data-frames.html#cb80-1"></a><span class="kw">matrix</span>(</span>
+<span id="cb80-2"><a href="data-vectors-matrices-and-data-frames.html#cb80-2"></a>  <span class="dt">data=</span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">12</span>)),</span></code></pre></div>
+<p>The object is a matrix, and the data in the matrix is a sequence of numbers counting from 1 to 12.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="data-vectors-matrices-and-data-frames.html#cb81-1"></a>nrow=<span class="dv">3</span>, </span>
+<span id="cb81-2"><a href="data-vectors-matrices-and-data-frames.html#cb81-2"></a>ncol=<span class="dv">4</span>,</span></code></pre></div>
+<p>The number of rows in the matrix is 3 and there are 4 columns.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="data-vectors-matrices-and-data-frames.html#cb82-1"></a>dimnames=<span class="kw">list</span>(<span class="kw">c</span>(<span class="st">&quot;Row 1&quot;</span>,<span class="st">&quot;Row 2&quot;</span>,<span class="st">&quot;Row 3&quot;</span>), </span>
+<span id="cb82-2"><a href="data-vectors-matrices-and-data-frames.html#cb82-2"></a>              <span class="kw">c</span>(<span class="st">&quot;Col 1&quot;</span>,<span class="st">&quot;Col 2&quot;</span>,<span class="st">&quot;Col 3&quot;</span>,<span class="st">&quot;Col 4&quot;</span>))</span>
+<span id="cb82-3"><a href="data-vectors-matrices-and-data-frames.html#cb82-3"></a><span class="er">)</span></span></code></pre></div>
+<p>This gives the rows and the columns names. We’ll talk about lists later on. Let’s take a look at our matrix.</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="data-vectors-matrices-and-data-frames.html#cb83-1"></a>mat1</span>
+<span id="cb83-2"><a href="data-vectors-matrices-and-data-frames.html#cb83-2"></a>      Col <span class="dv">1</span> Col <span class="dv">2</span> Col <span class="dv">3</span> Col <span class="dv">4</span></span>
+<span id="cb83-3"><a href="data-vectors-matrices-and-data-frames.html#cb83-3"></a>Row <span class="dv">1</span>     <span class="dv">1</span>     <span class="dv">4</span>     <span class="dv">7</span>    <span class="dv">10</span></span>
+<span id="cb83-4"><a href="data-vectors-matrices-and-data-frames.html#cb83-4"></a>Row <span class="dv">2</span>     <span class="dv">2</span>     <span class="dv">5</span>     <span class="dv">8</span>    <span class="dv">11</span></span>
+<span id="cb83-5"><a href="data-vectors-matrices-and-data-frames.html#cb83-5"></a>Row <span class="dv">3</span>     <span class="dv">3</span>     <span class="dv">6</span>     <span class="dv">9</span>    <span class="dv">12</span></span></code></pre></div>
+<p>Arithmetic and functions which act independently on each member of a vector work in the same way with matrices.</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="data-vectors-matrices-and-data-frames.html#cb84-1"></a>mat2&lt;-mat1<span class="op">/</span><span class="dv">3</span></span></code></pre></div>
+<p>This divides every number in the matrix by three, and allocates the numbers to a new object called “mat2”.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="data-vectors-matrices-and-data-frames.html#cb85-1"></a>mat2</span>
+<span id="cb85-2"><a href="data-vectors-matrices-and-data-frames.html#cb85-2"></a>          Col <span class="dv">1</span>    Col <span class="dv">2</span>    Col <span class="dv">3</span>    Col <span class="dv">4</span></span>
+<span id="cb85-3"><a href="data-vectors-matrices-and-data-frames.html#cb85-3"></a>Row <span class="dv">1</span> <span class="fl">0.3333333</span> <span class="fl">1.333333</span> <span class="fl">2.333333</span> <span class="fl">3.333333</span></span>
+<span id="cb85-4"><a href="data-vectors-matrices-and-data-frames.html#cb85-4"></a>Row <span class="dv">2</span> <span class="fl">0.6666667</span> <span class="fl">1.666667</span> <span class="fl">2.666667</span> <span class="fl">3.666667</span></span>
+<span id="cb85-5"><a href="data-vectors-matrices-and-data-frames.html#cb85-5"></a>Row <span class="dv">3</span> <span class="fl">1.0000000</span> <span class="fl">2.000000</span> <span class="fl">3.000000</span> <span class="fl">4.000000</span></span></code></pre></div>
+<p>Here’s a second example where we use the <code>sqrt()</code> function to calculate the square root of each value in our matrix.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="data-vectors-matrices-and-data-frames.html#cb86-1"></a><span class="kw">sqrt</span>(mat1)</span>
+<span id="cb86-2"><a href="data-vectors-matrices-and-data-frames.html#cb86-2"></a>         Col <span class="dv">1</span>    Col <span class="dv">2</span>    Col <span class="dv">3</span>    Col <span class="dv">4</span></span>
+<span id="cb86-3"><a href="data-vectors-matrices-and-data-frames.html#cb86-3"></a>Row <span class="dv">1</span> <span class="fl">1.000000</span> <span class="fl">2.000000</span> <span class="fl">2.645751</span> <span class="fl">3.162278</span></span>
+<span id="cb86-4"><a href="data-vectors-matrices-and-data-frames.html#cb86-4"></a>Row <span class="dv">2</span> <span class="fl">1.414214</span> <span class="fl">2.236068</span> <span class="fl">2.828427</span> <span class="fl">3.316625</span></span>
+<span id="cb86-5"><a href="data-vectors-matrices-and-data-frames.html#cb86-5"></a>Row <span class="dv">3</span> <span class="fl">1.732051</span> <span class="fl">2.449490</span> <span class="fl">3.000000</span> <span class="fl">3.464102</span></span></code></pre></div>
+<p>Functions which return a summary statistic will calculate it on all of the data in the matrix:</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="data-vectors-matrices-and-data-frames.html#cb87-1"></a><span class="kw">sum</span>(mat1)</span>
+<span id="cb87-2"><a href="data-vectors-matrices-and-data-frames.html#cb87-2"></a>[<span class="dv">1</span>] <span class="dv">78</span></span></code></pre></div>
+<p>gives us the sum of all of the numbers in the matrix.</p>
+<p>I’m not going to go into the details of how matrices are added and multiplied but I’ll just tell you that R will do it without batting an eyelid. Here’s an example of R adding two matrices together.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="data-vectors-matrices-and-data-frames.html#cb88-1"></a>mat3&lt;-<span class="kw">matrix</span>(<span class="dt">data=</span><span class="kw">seq</span>(<span class="dv">101</span>,<span class="dv">112</span>), <span class="dt">nrow=</span><span class="dv">3</span>, <span class="dt">ncol=</span><span class="dv">4</span>)</span></code></pre></div>
+<p>This set up a new matrix with the same dimensions as mat1. Let’s check it’s what we think it is.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="data-vectors-matrices-and-data-frames.html#cb89-1"></a>mat3</span>
+<span id="cb89-2"><a href="data-vectors-matrices-and-data-frames.html#cb89-2"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>] [,<span class="dv">4</span>]</span>
+<span id="cb89-3"><a href="data-vectors-matrices-and-data-frames.html#cb89-3"></a>[<span class="dv">1</span>,]  <span class="dv">101</span>  <span class="dv">104</span>  <span class="dv">107</span>  <span class="dv">110</span></span>
+<span id="cb89-4"><a href="data-vectors-matrices-and-data-frames.html#cb89-4"></a>[<span class="dv">2</span>,]  <span class="dv">102</span>  <span class="dv">105</span>  <span class="dv">108</span>  <span class="dv">111</span></span>
+<span id="cb89-5"><a href="data-vectors-matrices-and-data-frames.html#cb89-5"></a>[<span class="dv">3</span>,]  <span class="dv">103</span>  <span class="dv">106</span>  <span class="dv">109</span>  <span class="dv">112</span></span></code></pre></div>
+<p>Now add them together</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="data-vectors-matrices-and-data-frames.html#cb90-1"></a>mat1<span class="op">+</span>mat3</span>
+<span id="cb90-2"><a href="data-vectors-matrices-and-data-frames.html#cb90-2"></a>      Col <span class="dv">1</span> Col <span class="dv">2</span> Col <span class="dv">3</span> Col <span class="dv">4</span></span>
+<span id="cb90-3"><a href="data-vectors-matrices-and-data-frames.html#cb90-3"></a>Row <span class="dv">1</span>   <span class="dv">102</span>   <span class="dv">108</span>   <span class="dv">114</span>   <span class="dv">120</span></span>
+<span id="cb90-4"><a href="data-vectors-matrices-and-data-frames.html#cb90-4"></a>Row <span class="dv">2</span>   <span class="dv">104</span>   <span class="dv">110</span>   <span class="dv">116</span>   <span class="dv">122</span></span>
+<span id="cb90-5"><a href="data-vectors-matrices-and-data-frames.html#cb90-5"></a>Row <span class="dv">3</span>   <span class="dv">106</span>   <span class="dv">112</span>   <span class="dv">118</span>   <span class="dv">124</span></span></code></pre></div>
+</div>
+<div id="factors-and-data-frames" class="section level2">
+<h2><span class="header-section-number">4.3</span> Factors and Data frames</h2>
+<p>As we discussed in the last chapter, R data objects can come in a variety of flavours, including as assortment of numeric kinds as well as logical and character. Just in case you need to know you can find out if your vector is numeric using <code>mode()</code> and you can find out what kind of numeric it is using <code>class()</code>.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="data-vectors-matrices-and-data-frames.html#cb91-1"></a>X1&lt;-<span class="dv">1</span><span class="op">:</span><span class="dv">12</span></span>
+<span id="cb91-2"><a href="data-vectors-matrices-and-data-frames.html#cb91-2"></a><span class="kw">mode</span>(X1)</span>
+<span id="cb91-3"><a href="data-vectors-matrices-and-data-frames.html#cb91-3"></a>[<span class="dv">1</span>] <span class="st">&quot;numeric&quot;</span></span>
+<span id="cb91-4"><a href="data-vectors-matrices-and-data-frames.html#cb91-4"></a><span class="kw">class</span>(X1)</span>
+<span id="cb91-5"><a href="data-vectors-matrices-and-data-frames.html#cb91-5"></a>[<span class="dv">1</span>] <span class="st">&quot;integer&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="data-vectors-matrices-and-data-frames.html#cb92-1"></a>X2&lt;-<span class="kw">sqrt</span>(X1)</span>
+<span id="cb92-2"><a href="data-vectors-matrices-and-data-frames.html#cb92-2"></a><span class="kw">class</span>(X2)</span>
+<span id="cb92-3"><a href="data-vectors-matrices-and-data-frames.html#cb92-3"></a>[<span class="dv">1</span>] <span class="st">&quot;numeric&quot;</span></span></code></pre></div>
+<p>R can also cope with strings of characters as objects. These have to be entered with quote marks around them because otherwise R will think that they’re the names of objects and return an error when it can’t find them.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="data-vectors-matrices-and-data-frames.html#cb93-1"></a>X1&lt;-<span class="kw">c</span>(<span class="st">&quot;Red&quot;</span>,<span class="st">&quot;Red&quot;</span>,<span class="st">&quot;Blue&quot;</span>,<span class="st">&quot;Blue&quot;</span>,<span class="st">&quot;Green&quot;</span>)</span>
+<span id="cb93-2"><a href="data-vectors-matrices-and-data-frames.html#cb93-2"></a>X1</span>
+<span id="cb93-3"><a href="data-vectors-matrices-and-data-frames.html#cb93-3"></a>[<span class="dv">1</span>] <span class="st">&quot;Red&quot;</span>   <span class="st">&quot;Red&quot;</span>   <span class="st">&quot;Blue&quot;</span>  <span class="st">&quot;Blue&quot;</span>  <span class="st">&quot;Green&quot;</span></span>
+<span id="cb93-4"><a href="data-vectors-matrices-and-data-frames.html#cb93-4"></a><span class="kw">mode</span>(X1)</span>
+<span id="cb93-5"><a href="data-vectors-matrices-and-data-frames.html#cb93-5"></a>[<span class="dv">1</span>] <span class="st">&quot;character&quot;</span></span></code></pre></div>
+<p>A special type of data in R which we haven’t met yet is a <strong>factor</strong>. When we’re collecting data we don’t just record numbers: we might record whether a subject is male or female, whether a cricket is winged, wingless or intermediate or whether a leucocyte is an eosinophil, a neutrophil or a basophil. This type of data, where things are divided into classes, is called <strong>categorical</strong> or <strong>nominal</strong> data, and in R it is stored as a factor. We can input nominal data into R as numbers if we assign a number to each category, such as 1=red, 2=green and 3=blue and then tell R to make it a factor with the <code>factor()</code> function, but this can lead to confusion. Usually it’s better to input data like this as the words themselves as character data and then tell R to make it a factor.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="data-vectors-matrices-and-data-frames.html#cb94-1"></a>X2&lt;-<span class="kw">factor</span>(X1)</span>
+<span id="cb94-2"><a href="data-vectors-matrices-and-data-frames.html#cb94-2"></a>X2</span>
+<span id="cb94-3"><a href="data-vectors-matrices-and-data-frames.html#cb94-3"></a>[<span class="dv">1</span>] Red   Red   Blue  Blue  Green</span>
+<span id="cb94-4"><a href="data-vectors-matrices-and-data-frames.html#cb94-4"></a>Levels<span class="op">:</span><span class="st"> </span>Blue Green Red</span></code></pre></div>
+<p>You can see that now that we have classified X1 as a factor R tells us what the levels are that are found in the factor. Before you start any analysis it’s a good idea to check whether you and R are both in agreement over which variables in your data set are factors, because sometimes you will find that you’ve assumed that something is a factor when it isn’t. You can do this with the <code>is.factor()</code> function.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="data-vectors-matrices-and-data-frames.html#cb95-1"></a><span class="kw">is.factor</span>(X1)</span>
+<span id="cb95-2"><a href="data-vectors-matrices-and-data-frames.html#cb95-2"></a>[<span class="dv">1</span>] <span class="ot">FALSE</span></span>
+<span id="cb95-3"><a href="data-vectors-matrices-and-data-frames.html#cb95-3"></a><span class="kw">is.factor</span>(X2)</span>
+<span id="cb95-4"><a href="data-vectors-matrices-and-data-frames.html#cb95-4"></a>[<span class="dv">1</span>] <span class="ot">TRUE</span></span></code></pre></div>
+<p>One thing to be aware of is that the <code>mode</code> of a factor will be <code>numeric</code> even if it’s coded as characters. This is because R actually recodes variables and assigns a number to each level: you can see the numbers by using the <code>as.numeric()</code> function.</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="data-vectors-matrices-and-data-frames.html#cb96-1"></a><span class="kw">as.numeric</span>(X2)</span>
+<span id="cb96-2"><a href="data-vectors-matrices-and-data-frames.html#cb96-2"></a>[<span class="dv">1</span>] <span class="dv">3</span> <span class="dv">3</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">2</span></span></code></pre></div>
+<p>R codes the factor levels according to their alphabetical order, so “Blue” is coded as 1, “Green” as 2 and “Red” as 3. There’s more on this in Chapter 12 when we think about ANOVA, factor levels and summary tables.</p>
+<p>It’s normal to end up at the end of a study with a table of data that mixes up two or even three different sorts of data. If you’ve been studying how diet affects whether a species of cricket develops into winged or wingless morphs then for each individual you might have recorded Number (which animal was it) Diet (good or poor), Sex (male or female), Weight (mg), Fat content (mg) and wing morph (winged, wingless or intermediate), giving you a data table looking something like this:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Number</th>
+<th align="left">Diet</th>
+<th align="left">Sex</th>
+<th align="left">Weight</th>
+<th align="left">Fat.content</th>
+<th align="left">Morph</th>
+<th align="left">Experimenter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">Poor</td>
+<td align="left">M</td>
+<td align="left">156</td>
+<td align="left">34</td>
+<td align="left">Winged</td>
+<td align="left">Jennifer</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">Poor</td>
+<td align="left">F</td>
+<td align="left">180</td>
+<td align="left">43</td>
+<td align="left">Winged</td>
+<td align="left">Steve</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">Good</td>
+<td align="left">M</td>
+<td align="left">167</td>
+<td align="left">40</td>
+<td align="left">Wingless</td>
+<td align="left">Ahmed</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">Good</td>
+<td align="left">F</td>
+<td align="left">190</td>
+<td align="left">43</td>
+<td align="left">Intermediate</td>
+<td align="left">Anna</td>
+</tr>
+</tbody>
+</table>
+<p>Table 3.1 Example cricket data</p>
+<p>We could input these data as a series of individual vectors, some numerical and some character, but that would lead to a lot of opportunity for confusion. It’s better to keep the whole data table as a single object in R, and there is a special type of object which we can do exactly this with. It’s called a <strong>Data frame</strong>, which is easiest to think of as being like a matrix but with different sorts of data in different columns. Most of the time when you’re using real scientific data in R you’ll be using a data frame. If you import a data table with multiple data types present then R will automatically classify your data as a data frame. Alternatively, if you want to input your data directly into R you can set up a data frame using the data.frame() function. Here’s an example using the cricket data from above.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="data-vectors-matrices-and-data-frames.html#cb97-1"></a>Number &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb97-2"><a href="data-vectors-matrices-and-data-frames.html#cb97-2"></a>Diet &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Poor&quot;</span>, <span class="st">&quot;Poor&quot;</span>, <span class="st">&quot;Good&quot;</span>, <span class="st">&quot;Good&quot;</span>)</span>
+<span id="cb97-3"><a href="data-vectors-matrices-and-data-frames.html#cb97-3"></a>Sex &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>) </span>
+<span id="cb97-4"><a href="data-vectors-matrices-and-data-frames.html#cb97-4"></a>Weight &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">156</span>, <span class="dv">180</span>, <span class="dv">167</span>, <span class="dv">190</span>) </span>
+<span id="cb97-5"><a href="data-vectors-matrices-and-data-frames.html#cb97-5"></a>Fat.content &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">34</span>, <span class="dv">43</span>, <span class="dv">40</span>, <span class="dv">43</span>) </span>
+<span id="cb97-6"><a href="data-vectors-matrices-and-data-frames.html#cb97-6"></a>Morph &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Winged&quot;</span>, <span class="st">&quot;Winged&quot;</span>, <span class="st">&quot;Wingless&quot;</span>, <span class="st">&quot;Intermediate&quot;</span>)</span>
+<span id="cb97-7"><a href="data-vectors-matrices-and-data-frames.html#cb97-7"></a>Experimenter &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Jennifer&quot;</span>, <span class="st">&quot;Steve&quot;</span>, <span class="st">&quot;Ahmed&quot;</span>, <span class="st">&quot;Anna&quot;</span>)</span>
+<span id="cb97-8"><a href="data-vectors-matrices-and-data-frames.html#cb97-8"></a>       </span>
+<span id="cb97-9"><a href="data-vectors-matrices-and-data-frames.html#cb97-9"></a>crickets &lt;-<span class="st"> </span><span class="kw">data.frame</span>(Number, </span>
+<span id="cb97-10"><a href="data-vectors-matrices-and-data-frames.html#cb97-10"></a>                       Diet, </span>
+<span id="cb97-11"><a href="data-vectors-matrices-and-data-frames.html#cb97-11"></a>                       Sex, </span>
+<span id="cb97-12"><a href="data-vectors-matrices-and-data-frames.html#cb97-12"></a>                       Weight, </span>
+<span id="cb97-13"><a href="data-vectors-matrices-and-data-frames.html#cb97-13"></a>                       Fat.content, </span>
+<span id="cb97-14"><a href="data-vectors-matrices-and-data-frames.html#cb97-14"></a>                       Morph, </span>
+<span id="cb97-15"><a href="data-vectors-matrices-and-data-frames.html#cb97-15"></a>                       Experimenter)</span>
+<span id="cb97-16"><a href="data-vectors-matrices-and-data-frames.html#cb97-16"></a></span>
+<span id="cb97-17"><a href="data-vectors-matrices-and-data-frames.html#cb97-17"></a><span class="kw">rm</span>(Number, Diet, Sex, Weight, Fat.content, Morph, Experimenter)</span>
+<span id="cb97-18"><a href="data-vectors-matrices-and-data-frames.html#cb97-18"></a>crickets</span>
+<span id="cb97-19"><a href="data-vectors-matrices-and-data-frames.html#cb97-19"></a>  Number Diet Sex Weight Fat.content        Morph Experimenter</span>
+<span id="cb97-20"><a href="data-vectors-matrices-and-data-frames.html#cb97-20"></a><span class="dv">1</span>      <span class="dv">1</span> Poor   M    <span class="dv">156</span>          <span class="dv">34</span>       Winged     Jennifer</span>
+<span id="cb97-21"><a href="data-vectors-matrices-and-data-frames.html#cb97-21"></a><span class="dv">2</span>      <span class="dv">2</span> Poor   F    <span class="dv">180</span>          <span class="dv">43</span>       Winged        Steve</span>
+<span id="cb97-22"><a href="data-vectors-matrices-and-data-frames.html#cb97-22"></a><span class="dv">3</span>      <span class="dv">3</span> Good   M    <span class="dv">167</span>          <span class="dv">40</span>     Wingless        Ahmed</span>
+<span id="cb97-23"><a href="data-vectors-matrices-and-data-frames.html#cb97-23"></a><span class="dv">4</span>      <span class="dv">4</span> Good   F    <span class="dv">190</span>          <span class="dv">43</span> Intermediate         Anna</span></code></pre></div>
+<p>What is happening here is that I set up individual vectors for each column of data in our final data frame, and then bind them all together with <code>data.frame()</code>. I then remove all the individual vectors with <code>rm()</code>, leaving just the compund data frame <code>crickets</code>. We can access individual <strong>variables</strong> within a data frame by writing the name of the data frame, then a $ symbol, then the name of the variable:</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="data-vectors-matrices-and-data-frames.html#cb98-1"></a>crickets<span class="op">$</span>Morph</span>
+<span id="cb98-2"><a href="data-vectors-matrices-and-data-frames.html#cb98-2"></a>[<span class="dv">1</span>] <span class="st">&quot;Winged&quot;</span>       <span class="st">&quot;Winged&quot;</span>       <span class="st">&quot;Wingless&quot;</span>     <span class="st">&quot;Intermediate&quot;</span></span></code></pre></div>
+<p>Note that R assumes that the character vectors that are going into the new data frame are factors and makes them so.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="data-vectors-matrices-and-data-frames.html#cb99-1"></a><span class="kw">is.factor</span>(crickets<span class="op">$</span>Diet)</span>
+<span id="cb99-2"><a href="data-vectors-matrices-and-data-frames.html#cb99-2"></a>[<span class="dv">1</span>] <span class="ot">FALSE</span></span></code></pre></div>
+<p>This isn’t necessarily a good thing: for example, we might not want the <code>Experimenter</code> column to be classed as a factor. We can change it back to character data using <code>as.character()</code>, like this:</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="data-vectors-matrices-and-data-frames.html#cb100-1"></a>crickets<span class="op">$</span>Experimenter &lt;-<span class="st"> </span><span class="kw">as.character</span>(crickets<span class="op">$</span>Experimenter)</span>
+<span id="cb100-2"><a href="data-vectors-matrices-and-data-frames.html#cb100-2"></a></span>
+<span id="cb100-3"><a href="data-vectors-matrices-and-data-frames.html#cb100-3"></a><span class="kw">is.factor</span>(crickets<span class="op">$</span>Experimenter)</span>
+<span id="cb100-4"><a href="data-vectors-matrices-and-data-frames.html#cb100-4"></a>[<span class="dv">1</span>] <span class="ot">FALSE</span></span></code></pre></div>
+<p>The function <code>str()</code> (short for structure) is something that is particularly useful with data frames. It tells us the number of rows (observations) of data and the number of columns (variables), then it gives us a list of all the variables in the data frame, what class of variable they are and finally tells you something about their content. If the variable is a factor it tells you how many levels there are, and shows you the first few values for each variable. Let’s see what <code>str()</code> gives us from our <code>crickets</code> data frame.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="data-vectors-matrices-and-data-frames.html#cb101-1"></a><span class="kw">str</span>(crickets)</span>
+<span id="cb101-2"><a href="data-vectors-matrices-and-data-frames.html#cb101-2"></a><span class="st">&#39;data.frame&#39;</span><span class="op">:</span><span class="st">   </span><span class="dv">4</span> obs. of  <span class="dv">7</span> variables<span class="op">:</span></span>
+<span id="cb101-3"><a href="data-vectors-matrices-and-data-frames.html#cb101-3"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>Number      <span class="op">:</span><span class="st"> </span>num  <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span></span>
+<span id="cb101-4"><a href="data-vectors-matrices-and-data-frames.html#cb101-4"></a> <span class="op">$</span><span class="st"> </span>Diet        <span class="op">:</span><span class="st"> </span>chr  <span class="st">&quot;Poor&quot;</span> <span class="st">&quot;Poor&quot;</span> <span class="st">&quot;Good&quot;</span> <span class="st">&quot;Good&quot;</span></span>
+<span id="cb101-5"><a href="data-vectors-matrices-and-data-frames.html#cb101-5"></a> <span class="op">$</span><span class="st"> </span>Sex         <span class="op">:</span><span class="st"> </span>chr  <span class="st">&quot;M&quot;</span> <span class="st">&quot;F&quot;</span> <span class="st">&quot;M&quot;</span> <span class="st">&quot;F&quot;</span></span>
+<span id="cb101-6"><a href="data-vectors-matrices-and-data-frames.html#cb101-6"></a> <span class="op">$</span><span class="st"> </span>Weight      <span class="op">:</span><span class="st"> </span>num  <span class="dv">156</span> <span class="dv">180</span> <span class="dv">167</span> <span class="dv">190</span></span>
+<span id="cb101-7"><a href="data-vectors-matrices-and-data-frames.html#cb101-7"></a> <span class="op">$</span><span class="st"> </span>Fat.content <span class="op">:</span><span class="st"> </span>num  <span class="dv">34</span> <span class="dv">43</span> <span class="dv">40</span> <span class="dv">43</span></span>
+<span id="cb101-8"><a href="data-vectors-matrices-and-data-frames.html#cb101-8"></a> <span class="op">$</span><span class="st"> </span>Morph       <span class="op">:</span><span class="st"> </span>chr  <span class="st">&quot;Winged&quot;</span> <span class="st">&quot;Winged&quot;</span> <span class="st">&quot;Wingless&quot;</span> <span class="st">&quot;Intermediate&quot;</span></span>
+<span id="cb101-9"><a href="data-vectors-matrices-and-data-frames.html#cb101-9"></a> <span class="op">$</span><span class="st"> </span>Experimenter<span class="op">:</span><span class="st"> </span>chr  <span class="st">&quot;Jennifer&quot;</span> <span class="st">&quot;Steve&quot;</span> <span class="st">&quot;Ahmed&quot;</span> <span class="st">&quot;Anna&quot;</span></span></code></pre></div>
+<p>This is a really good way of checking that everything’s OK with your data before you start analysing it. You can see whether all your variables are what you expect them to be, whether all your factors are factors and you can check the size of the data frame. Here you can see that we were successful in changing <code>Experimenter</code> from a factor back to a character variable.</p>
+</div>
+<div id="exercises-1" class="section level2">
+<h2><span class="header-section-number">4.4</span> Exercises</h2>
+<div id="vectors-1" class="section level3">
+<h3><span class="header-section-number">4.4.1</span> Vectors</h3>
+<ul>
+<li><p>Check the contents of the workspace using ls(). If they’re still there, Delete the objects x1, x2, x3 and x4 that you set up for the previous set of exercises using the rm() function</p></li>
+<li><p>Create a vector called “x1” consisting of the numbers 1,3,5 and 7</p></li>
+<li><p>Create a vector called “x2” consisting of the numbers 2,4,6 and 8</p></li>
+<li><p>Subtract x1 from x2</p></li>
+<li><p>Create a new vector called “x3” by multiplying vector x1 by vector x2</p></li>
+<li><p>Create a new vector called “x4” by taking the square root of each member of x3</p></li>
+<li><p>Use the <code>mean()</code> function to calculate the arithmetic mean of the numbers in vector x4</p></li>
+<li><p>Use the <code>median()</code> function to calculate the median value of the numbers in vector x3</p></li>
+</ul>
+</div>
+<div id="matrices-1" class="section level3">
+<h3><span class="header-section-number">4.4.2</span> Matrices</h3>
+<ul>
+<li><p>Use the <code>rm()</code> function to delete the objects x1, x2, x3, and x4</p></li>
+<li><p>Create a new vector called “V1” consisting of the following numbers 1,3,5,7,9,11</p></li>
+<li><p>Create a matrix called “mat1” using the following function: <code>mat1 &lt;- matrix(V1, nrow=2)</code></p></li>
+<li><p>Create a matrix called “mat2” using the same function but add an extra argument <code>byrow=TRUE</code></p></li>
+<li><p>Compare the two matrices and note how the data stored in the vector V1 are used to fill up the cells of the two matrices</p></li>
+</ul>
+</div>
+</div>
+<div id="answers-to-exercises-1" class="section level2">
+<h2><span class="header-section-number">4.5</span> Answers to exercises</h2>
+<div id="vectors-2" class="section level3">
+<h3><span class="header-section-number">4.5.1</span> Vectors</h3>
+<ul>
+<li>Delete the objects x1, x2, x3 and x4 that you set up for the previous set of exercises using the rm() function</li>
+</ul>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="data-vectors-matrices-and-data-frames.html#cb102-1"></a><span class="kw">rm</span>(x1,x2,x3,x4)     </span></code></pre></div>
+<ul>
+<li>Create a vector called “x1” consisting of the numbers 1,3,5 and 7</li>
+</ul>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="data-vectors-matrices-and-data-frames.html#cb103-1"></a>x1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>)</span></code></pre></div>
+<ul>
+<li>Create a vector called “x2” consisting of the numbers 2,4,6 and 8</li>
+</ul>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="data-vectors-matrices-and-data-frames.html#cb104-1"></a>x2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)</span></code></pre></div>
+<ul>
+<li>Subtract x1 from x2</li>
+</ul>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="data-vectors-matrices-and-data-frames.html#cb105-1"></a>x2 <span class="op">-</span><span class="st"> </span>x1</span>
+<span id="cb105-2"><a href="data-vectors-matrices-and-data-frames.html#cb105-2"></a>[<span class="dv">1</span>] <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span></span></code></pre></div>
+<ul>
+<li>Create a new vector called “x3” by multiplying vector x1 by vector x2</li>
+</ul>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="data-vectors-matrices-and-data-frames.html#cb106-1"></a>x3 &lt;-<span class="st"> </span>x1 <span class="op">*</span><span class="st"> </span>x2</span></code></pre></div>
+<ul>
+<li>Create a new vector called “x4” by taking the square root of each member of x3</li>
+</ul>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="data-vectors-matrices-and-data-frames.html#cb107-1"></a>x4 &lt;-<span class="st"> </span><span class="kw">sqrt</span>(x3)</span></code></pre></div>
+<ul>
+<li>Use the mean() function to calculate the arithmetic mean of the numbers in vector x4</li>
+</ul>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="data-vectors-matrices-and-data-frames.html#cb108-1"></a><span class="kw">mean</span>(x4)</span>
+<span id="cb108-2"><a href="data-vectors-matrices-and-data-frames.html#cb108-2"></a>[<span class="dv">1</span>] <span class="fl">4.459714</span></span></code></pre></div>
+<ul>
+<li>Use the median() function to calculate the median value of the numbers in vector x3</li>
+</ul>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="data-vectors-matrices-and-data-frames.html#cb109-1"></a><span class="kw">median</span>(x3)</span>
+<span id="cb109-2"><a href="data-vectors-matrices-and-data-frames.html#cb109-2"></a>[<span class="dv">1</span>] <span class="dv">21</span></span></code></pre></div>
+</div>
+<div id="matrices-2" class="section level3">
+<h3><span class="header-section-number">4.5.2</span> Matrices</h3>
+<ul>
+<li>Use the rm() function to delete the objects x1, x2, x3, x4 and In</li>
+</ul>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="data-vectors-matrices-and-data-frames.html#cb110-1"></a><span class="kw">rm</span>(x1,x2,x3,x4)</span></code></pre></div>
+<ul>
+<li>Create a new vector called “V1” consisting of the following numbers 1,3,5,7,9,11</li>
+</ul>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="data-vectors-matrices-and-data-frames.html#cb111-1"></a>V1&lt;-<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>)</span></code></pre></div>
+<ul>
+<li>Create a matrix called “mat1” using the following function: mat1&lt;-matrix(V1,nrow=2)</li>
+</ul>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="data-vectors-matrices-and-data-frames.html#cb112-1"></a>mat1&lt;-<span class="kw">matrix</span>(V1,<span class="dt">nrow=</span><span class="dv">2</span>)</span></code></pre></div>
+<ul>
+<li>Create a matrix called “mat2” using the same function but add an extra argument “byrow=TRUE”</li>
+</ul>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="data-vectors-matrices-and-data-frames.html#cb113-1"></a>mat2&lt;-<span class="kw">matrix</span>(V1,<span class="dt">nrow=</span><span class="dv">2</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<ul>
+<li>Compare the two matrices and note how the date stored in the vector V1 is used to fill up the cells of the two matrices</li>
+</ul>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="data-vectors-matrices-and-data-frames.html#cb114-1"></a>mat1</span>
+<span id="cb114-2"><a href="data-vectors-matrices-and-data-frames.html#cb114-2"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>]</span>
+<span id="cb114-3"><a href="data-vectors-matrices-and-data-frames.html#cb114-3"></a>[<span class="dv">1</span>,]    <span class="dv">1</span>    <span class="dv">5</span>    <span class="dv">9</span></span>
+<span id="cb114-4"><a href="data-vectors-matrices-and-data-frames.html#cb114-4"></a>[<span class="dv">2</span>,]    <span class="dv">3</span>    <span class="dv">7</span>   <span class="dv">11</span></span>
+<span id="cb114-5"><a href="data-vectors-matrices-and-data-frames.html#cb114-5"></a>mat2       </span>
+<span id="cb114-6"><a href="data-vectors-matrices-and-data-frames.html#cb114-6"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>]</span>
+<span id="cb114-7"><a href="data-vectors-matrices-and-data-frames.html#cb114-7"></a>[<span class="dv">1</span>,]    <span class="dv">1</span>    <span class="dv">3</span>    <span class="dv">5</span></span>
+<span id="cb114-8"><a href="data-vectors-matrices-and-data-frames.html#cb114-8"></a>[<span class="dv">2</span>,]    <span class="dv">7</span>    <span class="dv">9</span>   <span class="dv">11</span></span></code></pre></div>
+<p>If nothing is specified, the data fill fill up the matrix by column: so row 1, column 1, then row 2 column 1 and so on. If <code>byrow = TRUE</code> the the data fill the matrix up by row, so row 1 column 1 then row 1 column 2 &amp;c.</p>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="3">
+<li id="fn3"><p>Vectors of data in R are often referred to as “atomic vectors”. I’m trying to come up with a witty nuclear-reaction joke about this but I really can’t.<a href="data-vectors-matrices-and-data-frames.html#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>c stands for “concatenate”. Some people think it means “combine” but that’s nowhere near as exciting a word.<a href="data-vectors-matrices-and-data-frames.html#fnref4" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="basics-arithmetic-objects-and-functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="choosing-data-subscripts-and-subsetting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["3rd_Edition.pdf", "3rd_Edition.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Help files and packages | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</title>
+  <meta name="description" content="null" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Help files and packages | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="null" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Help files and packages | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  
+  <meta name="twitter:description" content="null" />
+  
+
+<meta name="author" content="Rob Knell" />
+
+
+<meta name="date" content="2020-07-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="r-scripts-and-your-r-workflow.html"/>
+<link rel="next" href="importing-data.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introductory R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-this-book"><i class="fa fa-check"></i><b>1.1</b> Why this book?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i><b>1.2</b> How to use this book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-first-r-session.html"><a href="a-first-r-session.html"><i class="fa fa-check"></i><b>2</b> A first R session</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-first-r-session.html"><a href="a-first-r-session.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="a-first-r-session.html"><a href="a-first-r-session.html#a-first-r-session-1"><i class="fa fa-check"></i><b>2.2</b> A first R session</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html"><i class="fa fa-check"></i><b>3</b> Basics: arithmetic, objects and functions</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#arithmetic"><i class="fa fa-check"></i><b>3.0.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.0.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#logical-operations"><i class="fa fa-check"></i><b>3.0.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.0.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects"><i class="fa fa-check"></i><b>3.0.3</b> Objects</a></li>
+<li class="chapter" data-level="3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#kinds-of-data"><i class="fa fa-check"></i><b>3.1</b> Kinds of data</a></li>
+<li class="chapter" data-level="3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#whats-in-my-workspace"><i class="fa fa-check"></i><b>3.2</b> What’s in my workspace?</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions"><i class="fa fa-check"></i><b>3.2.1</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#exercises"><i class="fa fa-check"></i><b>3.3</b> Exercises</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations"><i class="fa fa-check"></i><b>3.3.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-1"><i class="fa fa-check"></i><b>3.3.2</b> Objects</a></li>
+<li class="chapter" data-level="3.3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#answers-to-exercises"><i class="fa fa-check"></i><b>3.4</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations-1"><i class="fa fa-check"></i><b>3.4.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.4.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-2"><i class="fa fa-check"></i><b>3.4.2</b> Objects</a></li>
+<li class="chapter" data-level="3.4.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-2"><i class="fa fa-check"></i><b>3.4.3</b> Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html"><i class="fa fa-check"></i><b>4</b> Data: Vectors, Matrices and Data Frames</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors"><i class="fa fa-check"></i><b>4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices"><i class="fa fa-check"></i><b>4.2</b> Matrices</a></li>
+<li class="chapter" data-level="4.3" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#factors-and-data-frames"><i class="fa fa-check"></i><b>4.3</b> Factors and Data frames</a></li>
+<li class="chapter" data-level="4.4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#exercises-1"><i class="fa fa-check"></i><b>4.4</b> Exercises</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-1"><i class="fa fa-check"></i><b>4.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-1"><i class="fa fa-check"></i><b>4.4.2</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#answers-to-exercises-1"><i class="fa fa-check"></i><b>4.5</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-2"><i class="fa fa-check"></i><b>4.5.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.5.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-2"><i class="fa fa-check"></i><b>4.5.2</b> Matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html"><i class="fa fa-check"></i><b>5</b> Choosing data: subscripts and subsetting</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts"><i class="fa fa-check"></i><b>5.0.1</b> Subscripts</a></li>
+<li class="chapter" data-level="5.0.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#boolean-logic-and-more-complex-subscripting"><i class="fa fa-check"></i><b>5.0.2</b> Boolean logic and more complex subscripting</a></li>
+<li class="chapter" data-level="5.0.3" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-in-matrices-and-data-frames"><i class="fa fa-check"></i><b>5.0.3</b> Subscripts in matrices and data frames</a></li>
+<li class="chapter" data-level="5.0.4" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subset"><i class="fa fa-check"></i><b>5.0.4</b> Subset</a></li>
+<li class="chapter" data-level="5.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#exercises-2"><i class="fa fa-check"></i><b>5.1</b> Exercises</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors"><i class="fa fa-check"></i><b>5.1.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.1.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices"><i class="fa fa-check"></i><b>5.1.2</b> Subscripts and matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#answers-to-exercises-2"><i class="fa fa-check"></i><b>5.2</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors-1"><i class="fa fa-check"></i><b>5.2.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices-1"><i class="fa fa-check"></i><b>5.2.2</b> Subscripts and matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html"><i class="fa fa-check"></i><b>6</b> R scripts and your R workflow</a><ul>
+<li class="chapter" data-level="6.1" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#writing-and-using-r-scripts"><i class="fa fa-check"></i><b>6.1</b> Writing and using R scripts</a></li>
+<li class="chapter" data-level="6.2" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-an-r-script-window"><i class="fa fa-check"></i><b>6.2</b> Running code from an R script window</a></li>
+<li class="chapter" data-level="6.3" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-files-using-source"><i class="fa fa-check"></i><b>6.3</b> Running code from files using <code>source()</code></a></li>
+<li class="chapter" data-level="6.4" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#workflow-structure-or-what-should-i-put-in-my-script"><i class="fa fa-check"></i><b>6.4</b> Workflow structure, or what should I put in my script?</a></li>
+<li class="chapter" data-level="6.5" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#keep-it-neat-making-your-script-easy-to-read"><i class="fa fa-check"></i><b>6.5</b> Keep it neat — making your script easy to read</a></li>
+<li class="chapter" data-level="6.6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#i-wish-i-hadnt-commented-my-code-so-much-said-no-one-ever-4."><i class="fa fa-check"></i><b>6.6</b> “I wish I hadn’t commented my code so much”, said no-one, ever.</a></li>
+<li class="chapter" data-level="6.7" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#using-rstudio-to-write-scripts"><i class="fa fa-check"></i><b>6.7</b> Using RStudio to write scripts</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html"><i class="fa fa-check"></i><b>7</b> Help files and packages</a><ul>
+<li class="chapter" data-level="7.1" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#using-the-help-files"><i class="fa fa-check"></i><b>7.1</b> Using the help files</a></li>
+<li class="chapter" data-level="7.2" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#packages"><i class="fa fa-check"></i><b>7.2</b> Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>8</b> Importing Data</a><ul>
+<li class="chapter" data-level="8.1" data-path="importing-data.html"><a href="importing-data.html#the-rules"><i class="fa fa-check"></i><b>8.1</b> The Rules</a></li>
+<li class="chapter" data-level="8.2" data-path="importing-data.html"><a href="importing-data.html#importing-your-text-file"><i class="fa fa-check"></i><b>8.2</b> Importing your Text File</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="importing-data.html"><a href="importing-data.html#the-simple-way"><i class="fa fa-check"></i><b>8.2.1</b> The simple way</a></li>
+<li class="chapter" data-level="8.2.2" data-path="importing-data.html"><a href="importing-data.html#the-less-simple-way"><i class="fa fa-check"></i><b>8.2.2</b> The less simple way</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="importing-data.html"><a href="importing-data.html#importing-character-data"><i class="fa fa-check"></i><b>8.3</b> Importing character data</a></li>
+<li class="chapter" data-level="8.4" data-path="importing-data.html"><a href="importing-data.html#data-on-the-web"><i class="fa fa-check"></i><b>8.4</b> Data on the web</a></li>
+<li class="chapter" data-level="8.5" data-path="importing-data.html"><a href="importing-data.html#using-read.table"><i class="fa fa-check"></i><b>8.5</b> Using <code>read.table()</code></a></li>
+<li class="chapter" data-level="8.6" data-path="importing-data.html"><a href="importing-data.html#what-to-do-once-youve-managed-to-import-your-data."><i class="fa fa-check"></i><b>8.6</b> What to do once you’ve managed to import your data.</a></li>
+<li class="chapter" data-level="8.7" data-path="importing-data.html"><a href="importing-data.html#importing-data-directly-from-excel"><i class="fa fa-check"></i><b>8.7</b> Importing data directly from Excel</a></li>
+<li class="chapter" data-level="8.8" data-path="importing-data.html"><a href="importing-data.html#other-data-formats"><i class="fa fa-check"></i><b>8.8</b> Other data formats</a></li>
+<li class="chapter" data-level="8.9" data-path="importing-data.html"><a href="importing-data.html#importing-data-into-rstudio"><i class="fa fa-check"></i><b>8.9</b> Importing data into RStudio</a></li>
+<li class="chapter" data-level="8.10" data-path="importing-data.html"><a href="importing-data.html#to-attach-or-not-to-attach"><i class="fa fa-check"></i><b>8.10</b> To attach or not to attach?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><i class="fa fa-check"></i><b>9</b> R graphics I — drawing graphs and changing plot symbols and colours using the base graphics system</a><ul>
+<li class="chapter" data-level="9.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-versus-ggplot2-versus-lattice-versus-whaaat"><i class="fa fa-check"></i><b>9.1</b> Base graphics versus ggplot2 versus lattice versus whaaat???</a></li>
+<li class="chapter" data-level="9.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-example-ufo-reports-again"><i class="fa fa-check"></i><b>9.2</b> Base graphics example: UFO reports again</a></li>
+<li class="chapter" data-level="9.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#scatterplots"><i class="fa fa-check"></i><b>9.3</b> Scatterplots</a></li>
+<li class="chapter" data-level="9.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plot-symbols"><i class="fa fa-check"></i><b>9.4</b> Plot symbols</a></li>
+<li class="chapter" data-level="9.5" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colours"><i class="fa fa-check"></i><b>9.5</b> Colours</a></li>
+<li class="chapter" data-level="9.6" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plotting-multiple-symbols-or-colours"><i class="fa fa-check"></i><b>9.6</b> Plotting multiple symbols or colours</a></li>
+<li class="chapter" data-level="9.7" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colour-palettes-in-r"><i class="fa fa-check"></i><b>9.7</b> Colour palettes in R</a></li>
+<li class="chapter" data-level="9.8" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#using-transparency-in-your-graphs"><i class="fa fa-check"></i><b>9.8</b> Using transparency in your graphs</a></li>
+<li class="chapter" data-level="9.9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histograms-and-multiple-plots-in-the-same-window"><i class="fa fa-check"></i><b>9.9</b> Histograms and multiple plots in the same window</a></li>
+<li class="chapter" data-level="9.10" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#boxplots"><i class="fa fa-check"></i><b>9.10</b> Boxplots</a></li>
+<li class="chapter" data-level="9.11" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#bar-charts"><i class="fa fa-check"></i><b>9.11</b> Bar charts</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#more-complex-barplots"><i class="fa fa-check"></i><b>9.11.1</b> More complex barplots</a></li>
+</ul></li>
+<li class="chapter" data-level="9.12" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#other-types-of-plot"><i class="fa fa-check"></i><b>9.12</b> Other types of plot</a><ul>
+<li class="chapter" data-level="9.12.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histogram-with-overlaid-probability-density-estimate"><i class="fa fa-check"></i><b>9.12.1</b> Histogram with overlaid probability density estimate</a></li>
+<li class="chapter" data-level="9.12.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#pie-graph"><i class="fa fa-check"></i><b>9.12.2</b> Pie graph</a></li>
+<li class="chapter" data-level="9.12.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#d-scatterplot"><i class="fa fa-check"></i><b>9.12.3</b> 3D scatterplot</a></li>
+<li class="chapter" data-level="9.12.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#contour-plot"><i class="fa fa-check"></i><b>9.12.4</b> Contour plot</a></li>
+</ul></li>
+<li class="chapter" data-level="9.13" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#exporting-graphics"><i class="fa fa-check"></i><b>9.13</b> Exporting Graphics</a><ul>
+<li class="chapter" data-level="9.13.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-easy-way"><i class="fa fa-check"></i><b>9.13.1</b> The easy way</a></li>
+<li class="chapter" data-level="9.13.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-hard-way"><i class="fa fa-check"></i><b>9.13.2</b> The hard way</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html"><i class="fa fa-check"></i><b>10</b> R graphics II — Adding elements to an existing graph</a><ul>
+<li class="chapter" data-level="10.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#simple-regression-lines"><i class="fa fa-check"></i><b>10.1</b> Simple regression lines</a></li>
+<li class="chapter" data-level="10.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#multiple-regression-lines"><i class="fa fa-check"></i><b>10.2</b> Multiple regression lines</a></li>
+<li class="chapter" data-level="10.3" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#legends"><i class="fa fa-check"></i><b>10.3</b> Legends</a></li>
+<li class="chapter" data-level="10.4" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#curves"><i class="fa fa-check"></i><b>10.4</b> Curves</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-curve"><i class="fa fa-check"></i><b>10.4.1</b> Adding a curve using <code>curve()</code></a></li>
+<li class="chapter" data-level="10.4.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-lines-or-points."><i class="fa fa-check"></i><b>10.4.2</b> Adding a curve using <code>lines()</code> or <code>points()</code>.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#text-and-arrows"><i class="fa fa-check"></i><b>10.5</b> Text and arrows</a></li>
+<li class="chapter" data-level="10.6" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#confidence-bands-for-fitted-lines"><i class="fa fa-check"></i><b>10.6</b> Confidence bands for fitted lines</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-bands-using-lines"><i class="fa fa-check"></i><b>10.6.1</b> Adding confidence bands using <code>lines()</code></a></li>
+<li class="chapter" data-level="10.6.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-intervals-to-fitted-lines-using-polygon"><i class="fa fa-check"></i><b>10.6.2</b> Adding confidence intervals to fitted lines using <code>polygon()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#error-bars"><i class="fa fa-check"></i><b>10.7</b> Error bars</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-error-bars-using-arrows"><i class="fa fa-check"></i><b>10.7.1</b> Adding error bars using <code>arrows()</code></a></li>
+<li class="chapter" data-level="10.7.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#plotting-means-and-error-bars-using-plotmeans"><i class="fa fa-check"></i><b>10.7.2</b> Plotting means and error bars using <code>plotmeans()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html"><i class="fa fa-check"></i><b>11</b> Graphics with ggplot2</a><ul>
+<li class="chapter" data-level="11.1" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#ggplot2-introduced"><i class="fa fa-check"></i><b>11.1</b> ggplot2 introduced</a></li>
+<li class="chapter" data-level="11.2" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#scaling-axes-and-varying-colour-or-shapes-by-factor-levels"><i class="fa fa-check"></i><b>11.2</b> Scaling axes and varying colour or shapes by factor levels</a></li>
+<li class="chapter" data-level="11.3" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#facets"><i class="fa fa-check"></i><b>11.3</b> Facets</a></li>
+<li class="chapter" data-level="11.4" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#histograms"><i class="fa fa-check"></i><b>11.4</b> Histograms</a></li>
+<li class="chapter" data-level="11.5" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#boxplots-1"><i class="fa fa-check"></i><b>11.5</b> Boxplots</a></li>
+<li class="chapter" data-level="11.6" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#final-word"><i class="fa fa-check"></i><b>11.6</b> Final word</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html"><i class="fa fa-check"></i><b>12</b> Basic Statistical Concepts</a><ul>
+<li class="chapter" data-level="12.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#populations-and-samples"><i class="fa fa-check"></i><b>12.1</b> Populations and Samples</a></li>
+<li class="chapter" data-level="12.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#descriptive-and-exploratory-statistics"><i class="fa fa-check"></i><b>12.2</b> Descriptive and exploratory statistics</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#maximum-and-minimum"><i class="fa fa-check"></i><b>12.2.1</b> Maximum and minimum</a></li>
+<li class="chapter" data-level="12.2.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#frequency-distribution"><i class="fa fa-check"></i><b>12.2.2</b> Frequency distribution</a></li>
+<li class="chapter" data-level="12.2.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#kinds-of-frequency-distribution"><i class="fa fa-check"></i><b>12.2.3</b> Kinds of frequency distribution</a></li>
+<li class="chapter" data-level="12.2.4" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-central-tendency"><i class="fa fa-check"></i><b>12.2.4</b> Measures of central tendency</a></li>
+<li class="chapter" data-level="12.2.5" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-dispersion"><i class="fa fa-check"></i><b>12.2.5</b> Measures of dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#standard-errors-and-confidence-intervals"><i class="fa fa-check"></i><b>12.3</b> Standard errors and confidence intervals</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#code-used-to-draw-figure-6"><i class="fa fa-check"></i><b>12.3.1</b> Code used to draw figure 6</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html"><i class="fa fa-check"></i><b>13</b> What is statistical testing?</a><ul>
+<li class="chapter" data-level="13.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#the-problem"><i class="fa fa-check"></i><b>13.1</b> The problem</a></li>
+<li class="chapter" data-level="13.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#statistical-testing-in-a-nutshell"><i class="fa fa-check"></i><b>13.2</b> Statistical testing in a nutshell</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#decide-on-the-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.2.1</b> Decide on the null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.2.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#calculate-the-size-of-the-effect."><i class="fa fa-check"></i><b>13.2.2</b> Calculate the size of the effect.</a></li>
+<li class="chapter" data-level="13.2.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#transform-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.2.3</b> Transform the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.2.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#ask-what-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true."><i class="fa fa-check"></i><b>13.2.4</b> Ask what the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true.</a></li>
+<li class="chapter" data-level="13.2.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#think-about-what-the-result-means."><i class="fa fa-check"></i><b>13.2.5</b> Think about what the result means.</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#how-a-statistical-test-works"><i class="fa fa-check"></i><b>13.3</b> How a statistical test works</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-1-generating-our-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.3.1</b> Step 1 generating our null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.3.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-2-calculating-the-size-of-the-effect"><i class="fa fa-check"></i><b>13.3.2</b> Step 2 calculating the size of the effect</a></li>
+<li class="chapter" data-level="13.3.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-3-transforming-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.3.3</b> Step 3 Transforming the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.3.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-4-what-is-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true"><i class="fa fa-check"></i><b>13.3.4</b> Step 4 What is the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true?</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#what-statistical-testing-does-and-doesnt-tell-us"><i class="fa fa-check"></i><b>13.4</b> What statistical testing does and doesn’t tell us</a></li>
+<li class="chapter" data-level="13.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#code-used-to-draw-figure-5"><i class="fa fa-check"></i><b>13.5</b> Code used to draw figure 5</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><i class="fa fa-check"></i><b>14</b> The Chi-squared Test and a Classic Dataset on Smoking and Cancer</a><ul>
+<li class="chapter" data-level="14.1" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-who-smoke-more-likely-to-be-heavy-smokers"><i class="fa fa-check"></i><b>14.1</b> Are lung cancer patients who smoke more likely to be heavy smokers?</a></li>
+<li class="chapter" data-level="14.2" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#the-chi-squared-test"><i class="fa fa-check"></i><b>14.2</b> The Chi-squared test</a></li>
+<li class="chapter" data-level="14.3" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#chi-squared-test-with-contingency-tables"><i class="fa fa-check"></i><b>14.3</b> Chi-squared test with contingency tables</a></li>
+<li class="chapter" data-level="14.4" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#assumptions-and-limitations-of-the-chi-squared-test"><i class="fa fa-check"></i><b>14.4</b> Assumptions and limitations of the chi-squared test</a></li>
+<li class="chapter" data-level="14.5" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-more-likely-to-be-smokers-than-controls"><i class="fa fa-check"></i><b>14.5</b> Are lung cancer patients more likely to be smokers than controls?</a></li>
+<li class="chapter" data-level="14.6" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#fishers-exact-test"><i class="fa fa-check"></i><b>14.6</b> Fisher’s exact test</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><i class="fa fa-check"></i><b>15</b> Comparing immune responses between two caterpillar species using a t-test</a><ul>
+<li class="chapter" data-level="15.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#assumptions-and-limitations-of-standard-parametric-statistics"><i class="fa fa-check"></i><b>15.1</b> Assumptions and limitations of standard parametric statistics</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#normal-errors."><i class="fa fa-check"></i><b>15.1.1</b> Normal errors.</a></li>
+<li class="chapter" data-level="15.1.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#independence-of-data-points."><i class="fa fa-check"></i><b>15.1.2</b> Independence of data points.</a></li>
+<li class="chapter" data-level="15.1.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#equal-variances."><i class="fa fa-check"></i><b>15.1.3</b> Equal variances.</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#importing-the-data"><i class="fa fa-check"></i><b>15.2</b> Importing the Data</a></li>
+<li class="chapter" data-level="15.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#descriptives-and-initial-exploration"><i class="fa fa-check"></i><b>15.3</b> Descriptives and Initial Exploration</a></li>
+<li class="chapter" data-level="15.4" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#comparing-two-means-with-a-t-test"><i class="fa fa-check"></i><b>15.4</b> Comparing Two Means With a t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="correlation-analysis.html"><a href="correlation-analysis.html"><i class="fa fa-check"></i><b>16</b> Correlation analysis</a><ul>
+<li class="chapter" data-level="16.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#calculating-the-correlation-coefficient"><i class="fa fa-check"></i><b>16.1</b> Calculating the correlation coefficient</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#interpreting-our-correlation-coefficient."><i class="fa fa-check"></i><b>16.1.1</b> Interpreting our correlation coefficient.</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="correlation-analysis.html"><a href="correlation-analysis.html#statistical-significance-of-r"><i class="fa fa-check"></i><b>16.2</b> Statistical significance of <em>r</em></a></li>
+<li class="chapter" data-level="16.3" data-path="correlation-analysis.html"><a href="correlation-analysis.html#assumptions-of-correlation-analysis"><i class="fa fa-check"></i><b>16.3</b> Assumptions of correlation analysis</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#comparing-correlations-between-swim-run-and-bike-splits"><i class="fa fa-check"></i><b>16.3.1</b> Comparing correlations between swim, run and bike splits</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="correlation-analysis.html"><a href="correlation-analysis.html#correlation-causality-sample-size-and-significance."><i class="fa fa-check"></i><b>16.4</b> Correlation, causality, sample size and significance.</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><i class="fa fa-check"></i><b>17</b> Using Linear Regression to Analyse TB trends in the UK</a><ul>
+<li class="chapter" data-level="17.0.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#least-squares-line-fitting"><i class="fa fa-check"></i><b>17.0.1</b> Least squares line fitting</a></li>
+<li class="chapter" data-level="17.0.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#significance-tests-for-linear-regression"><i class="fa fa-check"></i><b>17.0.2</b> Significance tests for linear regression</a></li>
+<li class="chapter" data-level="17.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#bovine-tb"><i class="fa fa-check"></i><b>17.1</b> Bovine TB</a></li>
+<li class="chapter" data-level="17.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>17.2</b> Assumptions of linear regression</a><ul>
+<li class="chapter" data-level="17.2.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots"><i class="fa fa-check"></i><b>17.2.1</b> Diagnostic plots</a></li>
+<li class="chapter" data-level="17.2.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots-for-our-m.bovis-regression"><i class="fa fa-check"></i><b>17.2.2</b> Diagnostic plots for our <em>M.bovis</em> regression</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#interpreting-our-regression-and-predicting-future-cases"><i class="fa fa-check"></i><b>17.3</b> Interpreting our regression and predicting future cases</a></li>
+<li class="chapter" data-level="17.4" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#multi-drug-resistant-tb"><i class="fa fa-check"></i><b>17.4</b> Multi-drug resistant TB</a></li>
+<li class="chapter" data-level="17.5" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#fitting-a-quadratic-model"><i class="fa fa-check"></i><b>17.5</b> Fitting a quadratic model</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="anova-and-football.html"><a href="anova-and-football.html"><i class="fa fa-check"></i><b>18</b> ANOVA and Football</a><ul>
+<li class="chapter" data-level="18.1" data-path="anova-and-football.html"><a href="anova-and-football.html#analysis-of-variance"><i class="fa fa-check"></i><b>18.1</b> Analysis of Variance</a></li>
+<li class="chapter" data-level="18.2" data-path="anova-and-football.html"><a href="anova-and-football.html#interpreting-anova-results"><i class="fa fa-check"></i><b>18.2</b> Interpreting ANOVA results</a></li>
+<li class="chapter" data-level="18.3" data-path="anova-and-football.html"><a href="anova-and-football.html#what-makes-a-professional-footballer"><i class="fa fa-check"></i><b>18.3</b> What makes a professional footballer?</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html"><i class="fa fa-check"></i><b>19</b> Yeast sex and two factor ANOVA.</a><ul>
+<li class="chapter" data-level="19.1" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#yeast-sexual-selection"><i class="fa fa-check"></i><b>19.1</b> Yeast sexual selection</a></li>
+<li class="chapter" data-level="19.2" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#understanding-the-coefficients-table"><i class="fa fa-check"></i><b>19.2</b> Understanding the coefficients table</a></li>
+<li class="chapter" data-level="19.3" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#which-statistical-tests-to-use-with-lm"><i class="fa fa-check"></i><b>19.3</b> Which statistical tests to use with <code>lm()</code>?</a></li>
+<li class="chapter" data-level="19.4" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#diagnostics"><i class="fa fa-check"></i><b>19.4</b> Diagnostics</a></li>
+<li class="chapter" data-level="19.5" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#visualising-the-data"><i class="fa fa-check"></i><b>19.5</b> Visualising the data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="help-files-and-packages" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Help files and packages</h1>
+<div id="using-the-help-files" class="section level2">
+<h2><span class="header-section-number">7.1</span> Using the help files</h2>
+<p>When you’re using R you can’t just pull all the menus down looking for one that has ‘linear regression’ somewhere, like you might do with another piece of software. This means that you will find yourself consulting the help files more than you might do with other packages.
+If you know the name of the function you wish to use, you can get the help file by just typing the function name prefixed with a <code>?</code>:</p>
+<pre><code>?cor.test
+?log
+?glm</code></pre>
+<p>This opens a new window with the help file for that command, or if you’re using RStudio it will show the help file in the ’help’tab. All the help files follow the same format, and if you’re not familiar with the layout they can seem bizarrely incomprehensible. Let’s walk through the important bits of the help file for <code>cor.test()</code>:</p>
+<pre><code>cor.test                package:stats                R Documentation
+Test for Association/Correlation Between Paired Samples
+Description:
+     Test for association between paired samples, using one of
+     Pearson&#39;s product moment correlation coefficient, Kendall&#39;s tau or
+     Spearman&#39;s rho.</code></pre>
+<p>This tells you which package it’s in (this gets important when you want to do more obscure analysis and have to load new packages), and then tells you what it does. The “usage” section…</p>
+<pre><code>Usage:
+     cor.test(x, ...)
+     ## Default S3 method:
+     cor.test(x, y,
+              alternative = c(&quot;two.sided&quot;, &quot;less&quot;, &quot;greater&quot;),
+              method = c(&quot;pearson&quot;, &quot;kendall&quot;, &quot;spearman&quot;),
+              exact = NULL, conf.level = 0.95, ...)
+     ## S3 method for class &#39;formula&#39;:
+     cor.test(formula, data, subset, na.action, ...)</code></pre>
+<p>…tells you how to use it. The default method is to type <code>cor.test(</code> and then give the names of the two variables to be tested, separated by commas. There is then a list of the different arguments that can be included in the command. These arguments are followed by some of the possible options, so you can specify <em>method=“spearman”</em> if you want a Spearman’s r instead of a Pearson. Don’t worry about what it means by “S3 method” - this refers to the method that R uses to deal with the code and is something that you don’t need to concern yourself with if you need to read this book. The next bit then lets you know that you can also use it by inputting a formula. The arguments and their options are then described in a bit more detail:</p>
+<pre><code>Arguments:
+    x, y: numeric vectors of data values.  &#39;x&#39; and &#39;y&#39; must have the
+          same length.
+alternative: indicates the alternative hypothesis and must be one of
+          &#39;&quot;two.sided&quot;&#39;, &#39;&quot;greater&quot;&#39; or &#39;&quot;less&quot;&#39;.  You can specify just
+          the initial letter.  &#39;&quot;greater&quot;&#39; corresponds to positive
+          association, &#39;&quot;less&quot;&#39; to negative association.
+  method: a character string indicating which correlation coefficient
+          is to be  used for the test.  One of &#39;&quot;pearson&quot;&#39;,
+          &#39;&quot;kendall&quot;&#39;, or &#39;&quot;spearman&quot;&#39;, can be abbreviated.
+</code></pre>
+<p>and so on. For each of the arguments there is a line or paragraph telling you what each one does, and in some cases giving a list of what the various options do for that argument. Next up is the section called “Details”.</p>
+<pre><code>Details
+
+The three methods each estimate the association between paired samples 
+and compute a test of the value being zero. They use different measures 
+of association, all in the range [-1, 1] with 0 indicating no association. 
+These are sometimes referred to as tests of no correlation, but that 
+term is often confined to the default method...</code></pre>
+<p>This section of the help file gives you some more information about what the function does and how some of the arguments alter the way it works. In the case of <code>cor.test()</code> this is mostly concerned with the specifics of the way that each of the three options available (Pearson’s, Spearman’s and Kendall’s Tau) are calculated.</p>
+<p>The next section is called “Value”.</p>
+<pre><code>Value:
+     A list with class &#39;&quot;htest&quot;&#39; containing the following components: 
+statistic: the value of the test statistic.
+parameter: the degrees of freedom of the test statistic in the case
+          that it follows a t distribution.
+ p.value: the p-value of the test.
+estimate: the estimated measure of association, with name &#39;&quot;cor&quot;&#39;,
+          &#39;&quot;tau&quot;&#39;, or &#39;&quot;rho&quot;&#39; correspoding to the method employed.</code></pre>
+<p>This part tells you what the output of the function consists of. If you just tell R to do a <code>cor.test()</code> analysis all of this appears in the console, but if you set up an object containing the output from the test then it is useful to know what information is actually stored there and what it’s all called so that you can access it You might not want to do this for a simple correlation analysis, but it gets very useful for more complex analyses because the object will contain handy things like the residuals. When you know what the names of the various pieces of information in the object are you can access them using the object name and a dollar symbol in the same way you can access a variable within a data frame:</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="help-files-and-packages.html#cb175-1"></a>obj&lt;-<span class="kw">cor.test</span>(WeightF, WeightM)</span>
+<span id="cb175-2"><a href="help-files-and-packages.html#cb175-2"></a></span>
+<span id="cb175-3"><a href="help-files-and-packages.html#cb175-3"></a>obj<span class="op">$</span>p.value</span>
+<span id="cb175-4"><a href="help-files-and-packages.html#cb175-4"></a>[<span class="dv">1</span>] <span class="fl">0.7358413</span></span>
+<span id="cb175-5"><a href="help-files-and-packages.html#cb175-5"></a></span>
+<span id="cb175-6"><a href="help-files-and-packages.html#cb175-6"></a>obj<span class="op">$</span>statistic</span>
+<span id="cb175-7"><a href="help-files-and-packages.html#cb175-7"></a>        t </span>
+<span id="cb175-8"><a href="help-files-and-packages.html#cb175-8"></a><span class="fl">0.3414815</span> </span></code></pre></div>
+<p>The remainder is a couple of references and then an example of how the function might be used. This last is sometimes very useful and sometimes less so. Note that you can just cut and paste the text from the example into the R console window if you want to run the example.</p>
+<p>That’s all fine if you know what the name of the function is. It’s a little like road signs in London though, which are useful so long as you know exactly where you are and how to get to wherever you’re going. If you don’t know what the name of the function you’re after is then you need to search for it, which you can do by using the <code>help.search()</code> function, which will look through the help files for a character string for you.</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="help-files-and-packages.html#cb176-1"></a><span class="kw">help.search</span>(<span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<p>will search for things containing “spearman” in the help files and will hopefully get you where you want to go. You can also search the help files by just typing a double question mark and then whatever it is you want to search for.</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="help-files-and-packages.html#cb177-1"></a>??spearman</span></code></pre></div>
+<p>Will give you the same result as <code>help.search("spearman")</code> and is easier to type.</p>
+<p>Unfortunately the search facility sometimes fails to find what you’re after, and you’ll sometimes have to use other sources: books, manuals, the archives of the R-help mailing list and, if you wish to venture where angels fear to tread, stackoverflow.</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="help-files-and-packages.html#cb178-1"></a><span class="kw">help.search</span>(<span class="st">&quot;Mann-Whitney&quot;</span>)</span></code></pre></div>
+<pre><code>No help files found matching &#39;Mann-Whitney&#39; using fuzzy matching</code></pre>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="help-files-and-packages.html#cb180-1"></a><span class="kw">help.search</span>(<span class="st">&quot;Mann.Whitney&quot;</span>)</span></code></pre></div>
+<pre><code>No help files found matching &#39;Mann-Whitney&#39; using fuzzy matching</code></pre>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="help-files-and-packages.html#cb182-1"></a><span class="kw">help.search</span>(<span class="st">&quot;mann-whitney&quot;</span>)</span></code></pre></div>
+<pre><code>No help files found matching &#39;Mann-Whitney&#39; using fuzzy matching</code></pre>
+<p>Aaargh! Off to the R-help archives to search for Mann-Whitney</p>
+<blockquote>
+<p>From: Jonathan XXXXX <br>
+Date: Thu Jan 23 2003 - 13:52:03 EST <br>
+On 01/23/03 13:39, Jan YYYYYYY wrote: <br>
+&gt; hi, <br>
+&gt; i can not find the mann whitney u test in R. <br>
+&gt; could someone help me with that ? <br>
+See wilcox.test in the ctest package (which loads automatically, <br>
+so just say ?wilcox.test) <br></p>
+</blockquote>
+<p>So thanks to this person who got made to feel stupid so that I didn’t have to.</p>
+</div>
+<div id="packages" class="section level2">
+<h2><span class="header-section-number">7.2</span> Packages</h2>
+<p>The basic R installation comes with a core set of functions that will allow you to do a wide range of analyses and draw a wide variety of graphs. If you want to go further, however, you’ll come across one of the best features of R — the availability of downloadable “packages” that load new functions and other objects into your base R installation, enabling you to use an almost infinite range of analysis techniques. Creating a new package is straightforward, and because R is now so widely used in academia the majority of authors of publications describing new analysis techniques release an R package when they publish their new ideas. To give a flavour of how widespread this is, the figure below is a screenshot of part of the contents page from the December 2012 edition of Methods in Ecology and Evolution. The part of the contents page I’ve focussed on is the “Applications” section, is where new statistical techniques tend to get reported in the journal. As you can see, of the seven papers published in this section, five are associated with R packages.</p>
+<p><img src="Methods Ecol Evol screenshot.png" width="50%" height="50%"/></p>
+<p>Figure 1. Screenshot of contents table from December 2012 Methods in Ecology and Evolution.</p>
+<p>Some packages come with the base installation of R but are not automatically loaded when you start the software. These include:</p>
+<ul>
+<li><code>lattice</code>, which includes functions for a range of advanced graphics,</li>
+<li><code>MASS</code>, a package associated with the book “Modern Applied Statistics with S” by Venables and Ripley (2002, Springer-Verlag) containing a variety of useful functions to do things like fit generalized linear models with negative binomial errors,</li>
+<li><code>nlme</code> which lets you fit linear and non-linear mixed-effects models,</li>
+<li><code>cluster</code> which brings a range of functions for cluster analysis and</li>
+<li><code>survival</code> which has functions for survival analysis (surprise!).</li>
+</ul>
+<p>These will already probably be loaded onto your computer, but to make sure you can use the <code>installed.packages()</code> function. Just type it in with nothing between the brackets and you’ll get more information about what’s there than you really need. If you want to use one of them you can load them into R by using the <code>library()</code> function: so to load the cluster package you just need to type <code>library(cluster)</code> and it will be loaded.</p>
+<p>If you want to know a bit more about what’s in a particular package you can type <code>library(help=PACKAGE)</code> where <code>PACKAGE</code> is the name of, well, the package. This will get you some information about the package and a list of the various functions that are included in the package. If you want to know more then one of the easiest ways of finding out more information is to go to <a href="http://cran.r-project.org/web/packages/available_packages_by_name.html" class="uri">http://cran.r-project.org/web/packages/available_packages_by_name.html</a>, which lists all 10000+ packages currently available for R. If you click on the name of a package you’ll be able to navigate to a link for the package manual which should tell you everything you might ever want to know. It might be difficult to follow if you’re a biologist because it’s likely to be written for consumption by statisticians, but you’ll just need to persevere.</p>
+<p>Most of the R packages out there aren’t installed on your machine by default, of course. Let’s say you’re a community ecologist and you want to use the <code>vegan</code> package, which codes for a wide variety of functions to do things like calculate diversity indices and carry out ordinations. If you look on CRAN you can find the web page for vegan at <a href="http://cran.r-project.org/web/packages/vegan/index.html" class="uri">http://cran.r-project.org/web/packages/vegan/index.html</a>, which lets you look at the manual for the package and also provides links to a number of “vignettes” - documents giving details of how to carry out specific analyses using the package. These can be very useful once you’ve got the package installed: when it’s three o’clock in the morning and you’re so desperate you would sell your cat’s soul to Satan just to get that NMDS done those vignettes can preserve your sanity, but there’s nothing obvious on the web page that you can click on to actually install it on your computer.</p>
+<p>What you need to know before you install a package is that the central repository for R stuff, CRAN (Comprehensive R Archive Network) has a series of mirror sites around the World. When you download something you should choose a mirror site near to you so that you can avoid overloading the main CRAN site. A list of CRAN mirrors is available at <a href="http://cran.r-project.org/mirrors.html" class="uri">http://cran.r-project.org/mirrors.html</a>. Take a look at it and find some mirror sites near where you are.</p>
+<p>Now that you’ve got an idea of which mirror sites you might want to use, you can set a mirror site by using <code>chooseCRANmirror()</code>, which will bring up a window that lets you choose the mirror site you’d like to use, and then you can install the package using the <code>install.packages()</code> function.</p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="help-files-and-packages.html#cb184-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;vegan&quot;</span>)</span></code></pre></div>
+<pre><code>also installing the dependency ‘permute’
+trying URL &#39;http://www.stats.bris.ac.uk/R/bin/macosx/leopard/contrib/2.15/permute_0.7-0.tgz&#39;
+Content type &#39;application/x-gzip&#39; length 220346 bytes (215 Kb)
+opened URL
+==================================================
+downloaded 215 Kb
+
+trying URL &#39;http://www.stats.bris.ac.uk/R/bin/macosx/leopard/contrib/2.15/vegan_2.0-5.tgz&#39;
+Content type &#39;application/x-gzip&#39; length 2353906 bytes (2.2 Mb)
+opened URL
+==================================================
+downloaded 2.2 Mb
+
+
+The downloaded binary packages are in
+  /var/folders/qm/_szqszq95c34jn73g8b03bbh0000gn/T//Rtmpm0BWXn/downloaded_packages</code></pre>
+<p>If you use the <code>install.packages()</code> function without specifying a mirror site you might well get a pop-up window asking you to choose a mirror site anyway, but it’s more straightforward to do it first. Once the package is installed then load it by using the <code>library()</code> function and you’re ready to go.</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="help-files-and-packages.html#cb186-1"></a><span class="kw">library</span>(vegan)</span></code></pre></div>
+<p>If you’re using RStudio then you’ll see that one of the panes has a tab labelled “Packages”. If you select this you can get a list of the packages which are currently installed, and you can install new packages using the “install” button on the top right of the pane. There is a search bar but note that this searches in your list of installed packages, so you can’t find and install a package using this.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="r-scripts-and-your-r-workflow.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="importing-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["3rd_Edition.pdf", "3rd_Edition.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

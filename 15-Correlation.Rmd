@@ -1,0 +1,216 @@
+
+
+# Correlation analysis
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
+```
+
+```{r echo=FALSE, cache=FALSE}
+options(digits = 5)  ##Sets number of sig. figs to display output to
+```
+
+
+Correlation. Heaven and hell in science: how nice to be presenting your results at a conference and to be able to say "...and as predicted, we found an clear negative correlation, providing strong support for our theory and suggesting that the alternative theory put forward by Dr Smythe (_bloke who turned me down for a job three years ago_) is unlikely to be correct", how unpleasant when you submit your results to the _Journal of Awesome Science_, they send it out for review (to Dr Smythe?) and the first line of the comments reads "Of course, since this is only a correlational study we have no indication of cause and effect: in my opinion it is extremely difficult to draw any conclusions at all from the data presented here...".
+
+For those not familiar with it, correlation analysis is a statistical technique for telling you the extent by which variation in one variable is associated with variation in another variable. Are low values of variable 1 generally associated with low values of variable 2, and high values of variable 2 generally found with high values of variable 1? If so, then we have a _positive correlation_ - our values for variable 2 tend to get bigger as values for variable 1 get bigger. If it's the other way around, and we have low values of variable 1 associated with high values of variable 2 then we have a _negative correlation_. In this chapter we're going to deviate a little from the mostly biological and medical data we've looked at elsewhere to use correlation analysis to look at the results from the Ironman Triathlon World Championships in Hawaii from 2012, a set of data which we've briefly seen already when looking at graphics. Just to remind you, these are the results from a race which involves competitors swimming 3.8km, cycling 180km and then running a full marathon (42.195km). If you think about the three sports involved, you might expect that cycling and running performance should be more closely correlated than cycling and swimming or running and swimming, since cycling and running both use the leg muscles and swimming is much more dependent on arm and shoulder muscles. We'll start by looking at how closely correlated the times for the swim and for the cycle (called the 'splits') are with each other: are good swimmers also good bikers?. Let's load the data and check it using `str()`.
+
+```{r}
+IMH<-read.table("Data/IMH2012.txt", header = TRUE, stringsAsFactors = TRUE)
+str(IMH)
+```
+We have data for 1879 competitors, and for each one we have gender, category (Pro or an age class) and then we have their swim, bike and run split and their overall time. Let's plot the relationship between swim time and bike time. As in the graphics chapter, we're using an _alpha channel_ to make the points a bit transparent to make the high-density areas of the graph with lots of overlap more obvious. The hex code we're using is the one that corresponds to the "steelblue" colour, which you might have noticed I have a bit of thing for.
+
+```{r fig.cap="Bike split versus swim split for IM Hawaii 2012"}
+plot(
+  IMH$Swim,
+  IMH$Overall,
+  pch = 16,
+  col = "#4682B4A0",
+  xlab = "Swim split (hours)",
+  ylab = "Bike split (hours)"
+)
+```
+
+Just looking at this you can see that there's an obvious relationship between swim split and bike time. Fast swimmers tend to be fast bikers, and slow swimmers tend to be slow bikers. The data are rather bunched up towards the bottom left hand corner of the graph, however, and it might be useful to try to spread them out a little more. We can do this by log-transforming each value, which gives us a graph like this.
+
+```{r fig.cap="Log bike split versus log swim split for IM Hawaii 2012"}
+plot(
+  log(IMH$Swim),
+  log(IMH$Bike),
+  pch = 16,
+  col = "#4682B4A0",
+  xlab = "Log swim split (hours)",
+  ylab = "Log bike split (hours)"
+)
+```
+We can just look at a graph and see the relationship, but we also want to quantify how close that relationship is. For this we want to calculate a statistic which goes by the grandiose name of _Pearson's Product-Moment Correlation Coefficient_: that's a bit of a mouthful so most people just call it a correlation coefficient, or just _r_.
+
+## Calculating the correlation coefficient
+
+Firstly, let's draw our graph again, but this time divided up into four quadrants by the mean values for the swim split and the overall time.
+
+```{r fig.cap="Log bike split versus log swim split for IM Hawaii 2012"}
+plot(
+  log(IMH$Swim),
+  log(IMH$Bike),
+  pch = 16,
+  col = "#4682B4A0",
+  xlab = "Log swim split (hours)",
+  ylab = "Log bike split (hours)"
+)
+
+abline(v = mean(log(IMH$Swim)), lty = 3)
+
+abline(h = mean(log(IMH$Bike)), lty = 3)
+```
+
+Just looking at the graph you can see that the majority of the data points are in the lower left hand and upper right hand quadrants, with fewer points in the upper left and lower right ones. This is what we expect with a positive correlation: data points with low _x_ values (lower than the mean) tend also to have low _y_ values, and so they are found in the part of the graph that is below the mean for both variables, and data points with high _x_ values tend also to have high _y_ values and since they have both _x_ and _y_ values that are greater than the respeoctive mean they are found in the top right quadrant. For a negative correlation the opposite would be the case, with many data points having high _y_ values but low _x_ values, and being in the top left quadrant, or having high _x_ values but low _y_ values and being in the bottom right quadrant.
+
+We can use this to start to calculate our correlation coefficient. For each data point we can subtract the mean value of _x_, $\bar{x}$, from the _x_ value, and the mean value of _y_, $\bar{y}$, from the _y_ value, and multiply the two numbers that we get together. The sign of the number that we end up with will depend on the quadrant of the graph that it's in.
+
+|Quadrant          | $x - \bar{x}$ | $y-\bar{y}$ | $x - \bar{x} * y - \bar{y}$ |
+|:-----------------|:--------------|:------------|:--------------------------------|
+| Bottom left      | Negative      | Negative    | Positive                        |
+| Bottom right     | Positive      | Negative    | Negative                        |
+| Top left         | Negative      | Positive    | Positive                        |
+| Top right        | Positive      | Positive    | Positive                        |
+
+ <p><img alt="" src="../Images/Ch10Table1.png" width="350" /></p>
+
+If we calculate $x - \bar{x} * y - \bar{y}$ for each data point, and add them together, therefore, we should end up with a number which tells us something about the direction of any correlation in the data. If the sum of these values is positive then the general trend should be towards a positive correlation, and if negative then a negative correlation is indicated. Let's work this out for our triathlon data.
+
+```{r}
+sum((log(IMH$Swim) - mean(log(IMH$Swim))) * (log(IMH$Bike) - mean(log(IMH$Bike))))
+```
+
+As we might expect, the answer is a reasonably large positive number. That's telling us something about the nature of the relationship between the two variables, but as it is it's not a lot of use. Because it's just the sum of all the values we calculated it will depend on the sample size: for two dataset with the same relationship between _x_ and _y_, the one with the larger sample size will give a more positive or more negative value. We can correct this by dividing our number by the sample size, _n_ to give us an average value that should stay roughly the same as the sample size goes up or down. In fact we divide by the _degrees of freedom_ which in this case is _n-1_. This gives us a figure called the _covariance_.
+
+$$ \Large cov_{x,y} = \frac{\sum{(x-\bar{x})(y-\bar{y})}}{n-1}$$
+
+ To understand why we divide by the degrees of freedom instead of just _n_ it's useful to think about calculating a correlation when _n_=1 - if we just divided by _n_ then we would end up with a figure of zero for our covariance, implying that there is neither a positive nor a negative relationship between _x_ and _y_. This is not correct --- in fact, we cannot make an estimate of the covariance between _x_ and _y_ if we only have a sample size of 1, and of dividing by n-1 gives us a division by zero so we cannot compute an answer.
+
+ The covariance for the dataset we're interested in at the moment is easy to calculate.
+
+```{r}
+cov1 <-
+  sum((log(IMH$Swim) - mean(log(IMH$Swim))) * (log(IMH$Bike) - mean(log(IMH$Bike)))) /
+  (length(IMH$Swim) - 1)
+
+cov1
+```
+This gives us a more useful statistic to help us understand the patterns in our data, but it's still not especially useful for making comparisons between data sets because the value of the covariance will be determined by the variances of the _x_ and _y_ variables: a dataset with small variances will return a smaller value for the covariance than one with large variances. What we can do to correct for this is divide the covariance itself by the product of the standard deviations of the two variables $s_{x}s_{y}$. This will _standardise_ our covariance to a value between -1 and 1, giving us the Pearson's Product Moment Correlation Coefficient, or _r_.
+
+$$ \Large r = \frac{\sum{(x-\bar{x})(y-\bar{y})}}{n-1}/s_{x}s_{y}$$
+
+
+
+We can calculate this easily from our covariance, which we've already calculated.
+
+```{r}
+cor1 <- cov1 / (sd(log(IMH$Swim)) * sd(log(IMH$Bike)))
+
+cor1
+```
+
+Of course, we don't have to go through all of these calculations every time we want to calculate _r_. We can use the `cor()` function.
+
+
+```{r}
+cor(log(IMH$Swim), log(IMH$Bike))
+```
+Gratifyingly this gives us exactly the same result to 4 decimal places.
+
+### Interpreting our correlation coefficient.
+
+The interpetation of _r_ is straightforward. If _r_ is close to one then there is close to a perfect positive correlation, if it is zero there is no correlation and if it is close to -1 there is a nearly perfect negative correlation. Here are some figures to illustrate this.
+
+```{r corr4, fig.width=8, echo=FALSE,fig.cap="Strong and weak positive correlation"}
+set.seed(101)
+
+X1<-rnorm(100,0,2)
+Y1<-rnorm(100,0,2)
+cor1<-round(cor(X1,Y1),2)
+Y2<-X1+rnorm(100,0,0.4)
+cor2<-round(cor(X1,Y2),2)
+Y3<-X1+rnorm(100,0,2)
+cor3<-round(cor(X1,Y3),2)
+Y4<--X1+rnorm(100,0,0.4)
+cor4<-round(cor(X1,Y4),2)
+Y5<--X1+rnorm(100,0,2)
+cor5<-round(cor(X1,Y5),2)
+
+par(mfrow=c(1,2))
+
+plot(X1,Y2,pch=16,main="Strong positive correlation",xlab="",ylab="",cex.main=1.2,sub=paste("r=",cor2))
+plot(X1,Y3,pch=16,main="Weak positive correlation",xlab="",ylab="",cex.main=1.2,sub=paste("r=",cor3))
+```
+
+```{r corr4a, fig.width=8, echo=FALSE,  fig.cap="Strong and weak negative correlation"}
+par(mfrow=c(1,2))
+plot(X1,Y4,pch=16,main="Strong negative correlation",xlab="",ylab="",cex.main=1.2, sub=paste("r=",cor4))
+plot(X1,Y5,pch=16,main="Weak negative correlation",xlab="",ylab="",cex.main=1.2, sub=paste("r=",cor5))
+```
+```{r corr4b, fig.width=4, echo=FALSE, fig.cap="No correlation"}
+plot(X1,Y1,pch=16,main="Effectively no correlation",xlab="",ylab="",cex.main=1.2, sub=paste("r=",cor1))
+
+```
+
+One useful extension of our calculation of _r_ is to calculate _r^2_. This is a value which is properly called the _coefficient of determination_ but in practise everyone calls it "r-squared". What r^2 tells us is the proportion of the variance in one variable which is accounted for by the variance in the other variable, so it's a measure of how good a job one variable does in predicting the other. If r^2 is near to one then you have a very tight correlation and can predict _y_ quite precisely if you know _x_. If r^2 is near to one then you're probably also not an ecologist, or if you are you're worried that you've done something wrong.
+
+## Statistical significance of _r_
+
+We can test for the statistical significance of our estimate of _r_ by doing a t-test, because if you do some algebra you can show that it's possible to calculate a t-statistic from _r_ as follows.
+
+$$\Large t = \frac{r \sqrt{n-2}}{1-r^2}$$
+
+
+If the null hypothesis, which in this case would be that there is no correlation between _x_ and _y_ is true then we would expect this value to be distributed on a t-distribution with _n-2_ degrees of freedom. If we're using R then we can do this using the `cor.test()` function.
+
+```{r}
+cor.test(log(IMH$Swim), log(IMH$Bike))
+```
+
+The output from this gives us our t-test, and the statistical significance of our correlation turns out, unsurprisingly, to be a very small number indeed, meaning that we can provisionally reject the null hypothesis and accept the alternative. We also get the 95% confidence intervals for our estimate of _r_, which can be useful for all sorts of things.
+
+## Assumptions of correlation analysis
+
+The analysis we've used here is only really valid if our data meet three criteria. Firstly, this analysis assumes that both _x_ and _y_ variables are at least approximately normally distributed, and severe deviation from this is likely to cause problems. It's worth noting here that this is one of the few analyses that assumes that the actual data are normally distributed, not that the _errors_ are normal: there are sections on this in the assumptions sections of several of the other chapters. Secondly, it is assumed that the variannce in _y_ stays roughly the same across the range of values of _x_, and _vice-versa_. If this is not the case (i.e. if the data look like the figure below) then this can cause spuriously high estimates of _r_ to be produced. See the chapter on _linear regression_ for more on this problem of _heteroscedasticity_.
+
+```{r echo=FALSE, fig.cap="Example of data where the variance of y increases as x increases"}
+X1<-rnorm(100,5,2)
+Y1<-X1+0.3*X1*rnorm(100,0.5)
+plot(X1,Y1,pch=16,xlab="X",ylab="Y")
+``` 
+
+Finally, this analysis assumes that the relationship between _x_ and _y_ is at least approximately a straight line. If the relationship is curved then a correlation analysis doesn't mean much, and if it's very curved then a correlation analysis can be quite misleading as shown below.
+
+```{r echo=FALSE,fig.cap="Non-linear relationship between X and Y. In this case the correlation coefficient is -0.02, which is not even approaching being significantly different from zero (p=0.8). If you look at the graph you can clearly see the relationship between X and Y however."}
+set.seed(55)
+X<-runif(100,-1,2)
+Y<-(X-X^2)+3+rnorm(100,0,0.25)
+plot(X,Y,pch=16)
+```
+### Comparing correlations between swim, run and bike splits
+
+Now we've worked out our correlation coefficient for the correlation between swim times and bike times, but we also want to know about some other correlations, especially the ones between bike time and run time and swim time and run time. One thing to know about `cor()` is that if you feed it more than two numerical variables it will give you a correlation coefficient for all the pairwise comparisons, so we can give it the third, fourth and fifth columns in our data frame like this.
+
+```{r}
+cor(IMH[,3:5])
+```
+
+Since `cor()` gives us _all_ the pairwise comparisons you can see from the diagonal going from top right to bottom left that swim time perfectly correlates with swim time, and bike time with bike time... but the numbers we want are in the part of the matrix above the diagonal. You can see that bike time and run time are about as closely correlated as bike time and swim time, but that swim time and run time are correlated rather less well. So good swim times are associated with good bike times, and good bike times are associated with good run times, and good swim times are still somewhat associated with good run times but to a lesser extent than the other two relationships.
+
+## Correlation, causality, sample size and significance.
+
+You'll hear it in every introductory statistics class, but it's worth repeating: _correlation does not imply causality_. Just because _y_ is correlated with _x_, it does not follow that _x_ causes _y_. It is quite possible that a strong correlation is caused by a third variable which we haven't measured. In the case of our swim and run splits, it's not likely that swimming ability is causing the athletes to ride their bikes at a certain speed: the correlation is likely to reflect the athlete's overall fitness plus a contribution from gender and age. This is an example where it's fairly obvious that _x_ does not cause _y_, but in other cases it can be easy to fall into the trap of attributing causality when you have only found a correlation. If you want to be confident about causality you need to do an experiment.
+
+```{r echo=FALSE, fig.cap="Example of a 'spurious correlation' showing why care must be taken in interpreting correlations even when the relationship is strong (r is 0.98 for this relationship). While it might seem at first that use of Microsoft Internet Explorer is driving the US murder rate, if you look at the years you can see that in fact each is declining over time: the 'third variable' that each is correlated with is the year, and in fact there is no direct relationship between web browser choice and homicide."}
+###Spurious correlation example
+year<-c(2006,2007,2008,2009,2010,2011)
+murder<-c(5.7,5.6,5.4,5,4.8,4.7)  ##US murder rate per 100,000 people source http:/www.deathpenaltyinfo.org/
+IE<-c(85,79,78,69,61,56)    ###Internet Explorer market share in Q1 of each year source Wikipedia
+plot(IE,murder,pch=16,xlim=c(55,89),ylim=c(4.6,5.8),ylab="US murder rate per 100,000",xlab="Internet Explorer market share",cex=1.5)
+text(IE+0.5,murder,year,pos=4)
+```
+A final caveat is that when you're thinking about correlations it's important to remember that statistical significance doesn't tell you how strong the correlation is: with a large sample size it's possible for a very weak correlation indeed to have statistical significance. You should always look at the _r_ value or the _r^2_ when you're trying to work out what a correlation means. The constant media reporting of very large epidemiological studies finding correlations between everything you eat or do and either an increased or decreased risk of cancer (see [http://www.anorak.co.uk/288298/scare-stories/the-daily-mails-list-of-things-that-give-you-cancer-from-a-to-z.html/](http://www.anorak.co.uk/288298/scare-stories/the-daily-mails-list-of-things-that-give-you-cancer-from-a-to-z.html/)) is at least partly driven by this: the next time someone tells you that yoga, bananas, coffee or underarm deodorant will either cure or cause cancer then the first thing to ask is what the _effect size_ is: how strong is the relationship that has been found? The next thing to do, of course, is to emulate Dr Smythe and ask about causality. 

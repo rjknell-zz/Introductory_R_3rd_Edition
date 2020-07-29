@@ -1,0 +1,497 @@
+
+# ANOVA and Football
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
+```
+
+```{r echo=FALSE, cache=FALSE}
+options(digits = 5)  ##Sets number of sig. figs to display output to
+```
+
+
+## Analysis of Variance
+
+The analysis we're going to be using in this chapter is the ANalysis Of VAriance, or ANOVA. ANOVA was originally developed to address a problem called the _multiple comparisons problem_ which arises when we want to make more than one statistical test. If we do one statistical test with the significance level set at p=0.05 then the probability of a type 1 error, or a false positive [^17.1] is 0.05. If we do two tests, however, the probability that we make *at least one* type 1 error is 1-0.95^2^ which is 0.0975, if we do three tests the probability of at least one error is 1-0.95^3^ = 0.143 and if we do twenty tests it is 1-0.95^20^ = 0.642: so with lots of tests you're more likely than not to have at least one erroneous result. So if we have more than two means to compare, how do we do it?
+
+ANOVA allows us to make comparisons between sets of more than two means while keeping the error rate low, and it does this by analysing the _variance_ in the data set. By breaking the variance down into the variance that can be explained by the differences between the means and the variance that can't we can test whether there are differences between the means. This is very different at first sight from the t-test for comparing means. As we've seen, for a t-test we calculate the difference between our two means, adjust that difference so that it's on a standardised scale and then ask how likely we would be to see a difference as big or bigger than the one we've got if both samples were drawn from populations that actually had the same means. It's all about the means... yet ANOVA tests for differences between means without calculating a single difference between any of them. Sounds a bit weird? Let's look at some example datasets and with luck all will become clear.
+
+
+
+```{r}
+set.seed(101)
+
+# Generate some dummy data
+
+Y1 <-
+  c(
+    rnorm(n = 500, mean = 5, sd = 1),
+    rnorm(n = 500, mean = 5.01, sd = 1),
+    rnorm(n = 500, mean = 5.05, sd = 1)
+  )
+
+Y2 <-
+  c(rnorm(n = 500, mean = 5, sd = 1),
+    rnorm(n = 500, mean = 5.1, sd = 1),
+    rnorm(n = 500, mean = 7, sd = 1))
+
+F1 <- factor(rep(c("A", "B", "C"), each = 500))
+``` 
+This code give us two sets of dummy data. The first one (Y1) is drawn from three normal distributions with means that are very similar (5,5.2 and 6), and the second (Y2) is drawn from normal distributions with means that are rather different (5, 6 and 9). We also have a factor (F1) with three levels, A, B and C which we can use to distinguish the three groups in our two sets of data. Let's plot the frequency distributions of our two random vectors. Because we'll be plotting them on top of each other we'll use something called a _kernel density estimate_ for each one rather than a histogram because this will make it easier to see the important patterns.
+
+<details><summary><b>Click here for code</b></summary>
+
+```{r anova1, fig.cap="Kernel density estimates for two sets of data. The upper graph shows a data set drawn from three normal distributions with similar means, and the lower one shows one drawn from three normal distributions which have different means.", eval = FALSE}
+
+# Set up the plot area to accept two graphs, one above the other
+par(mfrow = c(2, 2))
+
+# Adjust the margins
+par(mar = c(4,4,1,1))
+
+# Plot the density for factor level A and variable Y1
+plot(
+  density(Y1[F1 == "A"], adjust = 1.5),
+  col = "darkgreen",
+  xlim = c(2, 12),
+  ylim = c(0, 0.4),
+  xlab = "Y1",
+  main = ""
+)
+
+# Add the densities for factor levels B and C for variable Y1
+points(density(Y1[F1 == "B"], adjust = 1.5), 
+       type = "l", col = "steelblue")
+
+points(density(Y1[F1 == "C"], adjust = 1.5), 
+       type = "l", col = "darkred")
+
+# Plot the density for the total dataset for Y1
+plot(
+  density(Y1, adjust = 1.5),
+  col = "grey50",
+  xlim = c(2, 12),
+  ylim = c(0, 0.4),
+  xlab = "Y1",
+  main = ""
+)
+
+# Plot the density for factor level A and variable Y2
+plot(
+  density(Y2[F1 == "A"], adjust = 1.5),
+  col = "darkgreen",
+  xlim = c(2, 12),
+  ylim = c(0, 0.4),
+  xlab = "Y2",
+  main = ""
+)
+
+# Add the densities for factor levels B and C for variable Y1
+points(density(Y2[F1 == "B"], adjust = 1.5), 
+       type = "l", col = "steelblue")
+
+points(density(Y2[F1 == "C"], adjust = 1.5), 
+       type = "l", col = "darkred")
+
+# Plot the density for the total dataset for Y2
+plot(
+  density(Y2, adjust = 1.5),
+  col = "grey50",
+  xlim = c(2, 12),
+  ylim = c(0, 0.4),
+  xlab = "Y2",
+  main = ""
+)
+```
+</details>
+
+```{r anova1a, fig.cap="Kernel density estimates for two sets of data. The upper graph shows a data set drawn from three normal distributions with similar means, and the lower one shows one drawn from three normal distributions which have different means.", echo = FALSE}
+
+# Set up the plot area to accept two graphs, one above the other
+par(mfrow = c(2, 2))
+
+# Adjust the margins
+par(mar = c(4,4,1,1))
+
+# Plot the density for factor level A and variable Y1
+plot(
+  density(Y1[F1 == "A"], adjust = 1.5),
+  col = "darkgreen",
+  xlim = c(2, 12),
+  ylim = c(0, 0.4),
+  xlab = "Y1",
+  main = ""
+)
+
+# Add the densities for factor levels B and C for variable Y1
+points(density(Y1[F1 == "B"], adjust = 1.5), 
+       type = "l", col = "steelblue")
+
+points(density(Y1[F1 == "C"], adjust = 1.5), 
+       type = "l", col = "darkred")
+
+# Plot the density for the total dataset for Y1
+plot(
+  density(Y1, adjust = 1.5),
+  col = "grey50",
+  xlim = c(2, 12),
+  ylim = c(0, 0.4),
+  xlab = "Y1",
+  main = ""
+)
+
+# Plot the density for factor level A and variable Y2
+plot(
+  density(Y2[F1 == "A"], adjust = 1.5),
+  col = "darkgreen",
+  xlim = c(2, 12),
+  ylim = c(0, 0.4),
+  xlab = "Y2",
+  main = ""
+)
+
+# Add the densities for factor levels B and C for variable Y1
+points(density(Y2[F1 == "B"], adjust = 1.5), 
+       type = "l", col = "steelblue")
+
+points(density(Y2[F1 == "C"], adjust = 1.5), 
+       type = "l", col = "darkred")
+
+# Plot the density for the total dataset for Y2
+plot(
+  density(Y2, adjust = 1.5),
+  col = "grey50",
+  xlim = c(2, 12),
+  ylim = c(0, 0.4),
+  xlab = "Y2",
+  main = ""
+)
+```
+
+The plots on the right show the frequency distribution for the whole of Y1 or Y2, whereas those on the left show them split by the three factor levels. Looking at the variables in their entirety you can see that the upper dataset has a much lower variance than the lower one, which has a lot more spread: the bulk of the data in upper one has a value somewhere between about 3 and about 7, whereas the majority of the data in the lower one is between around 3 and around 10. We can confirm this by calculating the variances.
+
+```{r}
+var(Y1)
+var(Y2)
+```
+Y2 has a variance that is roughly twice that of Y1. If we look at the variances of the individual groups that make up our variables, however, they are approximately equal between the two variables (hardly surprising since we've just randomly generated them from distributions with the same standard deviations...).
+
+```{r}
+tapply(Y1,F1,var)
+tapply(Y2,F1,var)
+``` 
+This tells us that *the extra variance that we see in Y2 is a consequence of the bigger differences between the groups*. This is the crucial point behind ANOVA: if there are differences between groups this contributes to the overall variance in a variable, and the bigger the differences the bigger the contribution to the overall variance arising from those differences. To put it more formally, there is a certain amount of variance that's derived from the spread within each group --- this is known as the *within-groups variance* or the _error variance_ ---  and a certain amount of variance that's derived from the differences between the groups - the *between groups variance*, or the _treatment variance_, or sometimes the _factor variance_.  What ANOVA does is to compare the treatment variance and the error variance. If the former is significantly bigger than the latter, then there is a significant difference between at least one of our means and at least one other.
+
+There we go. ANOVA explained in a short paragraph. Of course, while that might sound simple the mechanics of actually calculating the error and treatment variances are rather more complex. ANOVA does most of its work with _sums of squares_. if you think back to how a variance is calculated, you might remember that it's done by subtracting the mean from each data point, squaring them, adding those squared values together and dividing by the degrees of freedom.
+
+$$ \Large s^2 = \frac{\sum{(x-\bar{x})^2}}{n-1}$$
+
+The sum of squares is just the top part of the fraction, or the variance before it's divided by the degrees of freedom. These are used in the calculation of an ANOVA because they are _additive_, so if you know the treatment sum of squares and the total sum of squares you can find the error sum of squares by subtracting the former form the latter. The total sum of squares for our Y1 and Y2 datasets are:
+
+```{r}
+SSTY1<-sum((Y1-mean(Y1))^2)
+SSTY2<-sum((Y2-mean(Y2))^2)
+SSTY1
+SSTY2
+```
+We can calculate the error sum of squares for Y1 and Y2 by simply calculating the sum of squares for each group individually and adding them together.
+
+```{r}
+SSerrorY1 <-
+  sum((Y1[F1 == "A"] - mean(Y1[F1 == "A"])) ^ 2) +
+  sum((Y1[F1 == "B"] - mean(Y1[F1 == "B"])) ^ 2) +
+  sum((Y1[F1 == "C"] - mean(Y1[F1 == "C"])) ^ 2)
+  
+
+SSerrorY2 <-
+  sum((Y2[F1 == "A"] - mean(Y2[F1 == "A"])) ^ 2) +
+  sum((Y2[F1 == "B"] - mean(Y2[F1 == "B"])) ^ 2) +
+  sum((Y2[F1 == "C"] - mean(Y2[F1 == "C"])) ^ 2)
+    
+SSerrorY1
+SSerrorY2
+```
+
+The total sum of squares is equal to the treatment sum of squares and the error sum of squares added together. Since we know the total and error sum of squares we can find the treatment sum of squares for each dataset by subtraction.
+
+```{r}
+SStreatY1<-SSTY1-SSerrorY1
+
+SStreatY2<-SSTY2-SSerrorY2
+
+SStreatY1
+SStreatY2
+```
+Now that we have these values, we can start to assemble an **ANOVA table** for Y1 and for Y2.
+
+**ANOVA table for Y1**
+
+| Source of variance | df | Sum of squares | Mean Square | F    | p
+|:-------------------|:---|:---------------|:------------|:-----|:-----
+| Treatment          |    |  5.3           |             |      |
+| Error              |    |  1467          |             |      |
+| Total              |    |  1473          |             |      |
+
+**ANOVA table for Y2**
+
+| Source of variance | df | Sum of squares | Mean Square | F    | p
+|:-------------------|:---|:---------------|:------------|:-----|:-----
+| Treatment          |    |  1321          |             |      |
+| Error              |    |  1475          |             |      |
+| Total              |    |  2796          |             |      |
+
+The _mean squares_ column actually has the calculated variances. To work these out we need to know the degrees of freedom for the treatment and error variances. These are k-1 for the treatment variance, where k is the number of factor levels, so 3-1=2 for both Y1 and Y2, and n-k for the error variance, where n is the sample size, so 1500-3=1497 for both. We already know that the df for the total variance is n-1 so 1500-1=1499. The mean squares are then calculated by dividing the sums of squares by the df. 
+
+**ANOVA table for Y1**
+
+| Source of variance | df | Sum of squares | Mean Square | F    | p
+|:-------------------|:---|:---------------|:------------|:-----|:-----
+| Treatment          |  2 |  5.3         |    2.65    |      |
+| Error              |1497|  1467          |    0.980    |      |
+| Total              |1499|  1473          |   0.983     |      |
+
+**ANOVA table for Y2**
+
+| Source of variance | df | Sum of squares | Mean Square | F    | p
+|:-------------------|:---|:---------------|:------------|:-----|:-----
+| Treatment          |  2 |  1321          |    660.5     |      |
+| Error              |1497|  1475          |    0.985    |      |
+| Total              |1499|  2796          |    1.865    |      |
+
+Now that we have our mean square treatment and mean square errors calculated, all that remains is to use an F-test to compare them. We do this by calculating a test statistic, _F_ which is simply the treatment mean squares divided by the error mean squares, and then comparing this with an _F-distribution_ on (in this case) 2 and 1497 degrees of freedom (the F-distribution is defined by two separate degrees of freedom).
+
+For Y1:
+
+```{r}
+1-pf(q = 2.65/0.98, df1 = 2, df2 = 1497)
+```
+
+and for Y2:
+
+```{r}
+1-pf(q = 660.5/0.985, df1 = 2, df2 = 1497)
+```
+
+**ANOVA table for Y1**
+
+| Source of variance | df | Sum of squares | Mean Square | F    | p
+|:-------------------|:---|:---------------|:------------|:-----|:-----
+| Treatment          |  2 |  7.589         |    3.795    |3.872 | 0.067
+| Error              |1497|  1467          |    0.980    |      |
+| Total              |1499|  1489          |    1.993    |      |
+
+**ANOVA table for Y2**
+
+| Source of variance | df | Sum of squares | Mean Square | F    | p
+|:-------------------|:---|:---------------|:------------|:-----|:-----
+| Treatment          |  2 |  4487          |    2244     |  2278| <0.00001
+| Error              |1497|  1475          |    0.985    |      |
+| Total              |1499|  5962          |    3.977    |      |
+
+Both our ANOVAs return a p-value of less than 0.05. In the case of the first data set the ANOVA is only marginally significant, whereas in the case of the second the result is very highly significant indeed. These results are what we would expect: both data sets are large, with 500 observations per group, and the differences between the means of the populations they're sampled from are small in the case of Y1 but large in the case of Y2.
+
+Of course, as with everything else, we don't want to do these calculations in this laborious fashion and unsurprisingly R has a function that will do an ANOVA for you. In fact it has two:`lm()` and `aov()`. We'll use `aov()` for the moment, and use the `summary()` function which will produce an ANOVA table for you.
+
+
+```{r}
+aovY1<-aov(Y1~F1)
+aovY2<-aov(Y2~F1)
+summary(aovY1)
+summary(aovY2)
+```
+The ANOVA tables that R gives us are a little bit different from the ones that we've made: there isn't a row for the total variance, and the row for the error variance calculations is called "residuals", but aside from that they're the same and importantly the numbers and the p-values are the same.
+
+## Interpreting ANOVA results
+
+How should we interpret a signficant result from an ANOVA? We are (in this case) comparing three means, and the p-value only tells us if there is at least one significant difference somewhere between these means. With three means there are three possible comparisions, and a significant result doesn't tell us which comparison, or comparisons are signficant. One option we can use if we do get a significant result from our ANOVA is a _post-hoc test_, a statistical test designed to be used once we know there is a significant difference somewhere in our set of possible comparisons. In R the one you'd usually want to use is _Tukey's HSD test_ (HSD stands for Honest Significant Difference), and you can feed this an ANOVA fitted with `aov()` as an argument. It doesn't work with ANOVAs fitted with `lm()`.
+
+```{r}
+TukeyHSD(aovY1)
+TukeyHSD(aovY2)
+```
+The output of the Tukey HSD test gives us a confidence interval for the difference between each pair of means [^17.3] and then a p-value for that difference. You can see that in the case of Y1 we end up with a significant difference for the comparison between B and A, no hint of a significant difference between C and B and a marginally non-significant difference between C and A. Since we made these data up we know that the means of the populations that A, B and C were drawn from were 5, 5.1 and 5.05 respectively so they were actually all different, although the differences were quite small. Even with a sample size of 500 per group we've not detected differences in two of the three comparisons made. What do we get if we run a Tukey test on our other ANOVA, where the 
+
+Let's have a look at our mean values and 95% confidence intervals ---NB these are the confidence intervals for the means, not for the differences between the means. We'll use the `plotmeans()` function from the gplots package again.
+
+```{r anova2, fig.cap="Mean and 95% confidence intervals for the three groups in the variable Y1"}
+library(gplots)
+plotmeans(Y1~F1, connect=F, barcol='black', pch=16, cex=2, n.label=F, ylab="Y1",xlab="F1")
+```
+
+
+You can really see here how little difference there is between the estimated means and 95% confidence intervals for our B and C groups, and if you look at the actual estimates for the means you'll see that none of them are spot on: the estimate for A is too low, whereas that for C is a bit too high. Also noteworthy is that the confidence intervals for the means forgroups A and B overlap a little. You might have heard that you can look for overlap between confidence intervals, and if there is no overlap then as a rule of thumb two estimates are likely to be significantly different. This is true, but there can also be statistically significant differences when confidence intervals do overlap by a small amount. Overall, since we're really trying to think in terms of how confident we are in the existence or otherwise of a difference we should really think about it in more gradual ways: a big gap means high confidence, a small gap means less confidence, a little bit of overlap means lower confidence still and a lot of overlap means very little confidence, if any, that there is a difference.
+
+A further resource that you can use to help you interpret the results of an ANOVA is something called the coefficients table. This becomes enormously important when you are analysing data using the more complex statistical model of which ANOVA is only a small part, the General Linear Model, but if you're dealing with a simple one-way ANOVA it is still very useful, if a little obscure on first sight.
+
+```{r}
+coef(summary.lm(aovY1))
+```
+Here I've used the `summary.lm` function to extract the kind of summary you'd get if you'd fitted your ANOVA with `lm()` instead if `aov()`, and I've used the `coef()` function so that we only get the coefficients table. As you'll see later `summary.lm` gives you a lot of other information as well but let's focus on just this table for the moment.
+
+Post-hoc tests like the Tukey HSD test are quite conservative because they're adjusted to take account of multiple comparisons, so if you just rely on their output you run the risk of discounting differences between means that you should really regard as significant. This is why a lot of people, myself included, would recommend interpreting ANOVA results by looking at effect sizes and thinking about means and 95% CIs rather than just following the p-values that are spat out by something like a Tukey HSD test. Rather than saying "There's a significant difference between B and A but none of the other comparisons are significant" we should recognise the uncertainty in the result, especially in the case of the difference between C and A. 
+
+## What makes a professional footballer?
+
+Football is big business, and several contries have large programmes in place screening youth players to try to identify future talent. These programmes generate data, and we can use these data to ask questions about what traits we should be looking for in youngsters that might predict whether they might go on to be successful players in the professional sphere. Here, we're going to look at some data originally pubished by Oliver Höner and co-workers from Eberhard Karls University in Tübingen, Germany [^17.2].
+
+This study used data from 14,178 under 12 football players who were screened by the German football talent development programme in 2004-6. Each player was put through a series of tests: sprint time measured by a 20m sprint, agility measured as the time to run a slalom course, ball dribbling ability measured as the time to complete the slalom course while dribbling a ball, ball control measured as the time to make six passes with a ball against a pair of walls, and shooting ability estimated from a series of shots at three different targets with a football. Some years later in 2014-15 the status of each of these players was classified as professional (playing in one of the top three German leagues), semi-professional (playing in one of the fourth or fifth division leagues) or non-professional (not playing in one of the above leagues). Höner and colleagues used these data to make comparisons between the scores of players who went on to be professional, semi-professional and non-professional later in life. They made their data publically accessible so we can use it to repeat some of their analyses. Let's load it into R.
+
+```{r}
+# Load data
+football <- read.table("Data/football.txt", sep = " ", header = TRUE)
+
+# Recode missing values
+football[football == 999] <- NA
+football[football == -99] <- NA
+
+# set up new factor for professional status
+football$status[football$apl == 1] <- "Professional"
+football$status[football$apl == 2] <- "Semi-professional"
+football$status[football$apl == 3] <- "Non-professional"
+
+# Make sure that the factor levels are ordered with professional first and non-professional last.
+football$status <- factor(football$status,
+                          levels  = c("Professional", 
+                                      "Semi-professional", 
+                                      "Non-professional"))
+
+
+
+str(football)
+```
+It's very common that when you import someone else's data you have to do some cleanup. In this case the data are provided as a text file with spaces as separators, so we have to specify this in our `read.table()` call. There are some missing values but these are not coded as `NA`, rather as either 999 or -99, so we have to convert these to `NA`. Finally in the original data the players' professional status is coded numerically as 1,2 or 3 which is a bit clunky, so we set up a new factor  called "status" which has them coded as "Professional", "Semi-Professional" or "Non-professional".
+
+Looking at our `status` factor a little more closely shows us a very important aspect of these data:
+
+```{r}
+summary(football$status)
+```
+
+The dataset is imbalanced. Only 89 of those kids made it to the top three leagues of German football, 913 are playing semi-professionally and 13,176 have not made any sort of a career out of football and are hopefully living  useful and constructive lives instead. This is something that we will have to bear in mind when doing our analysis: fortunately the number of professionals is not desperately small, which would really cause problems, but our analyses will still be less powerful than they would have been if the dataset were more balanced.
+
+We're not going to reanalyse the whole dataset, instead we'll look at whether height and one of the measures of skill, dribbling speed, vary between the groups, giving us two examples of how to do single factor ANOVA. Why dribbling speed? Mainly because I'm just amused by the word "dribbling", but also because the analysis is a bit more complex than that for height, so it's a useful example of what challenges you might find analysing real data. Let's kick off (see what I did there?) by looking at a boxplot of height conditioned on status.
+
+
+```{r fig.cap = "Boxplot of height for youth players who went on to become professional, semi-professional and non-professional football players"}
+
+boxplot(hei ~ status, 
+        data = football,
+        ylab = "Height as a youth player (cm)",
+        xlab = "Adult status")
+```
+
+Well, there is a suggestion of a difference in height between the groups, although it's certainly not clear. Bear in mind, however, that what you're seeing is the total dataset visualised --- the information that's displayed in a boxplot, such as the inter-quartile range and the median, are not telling you much, if anything about how confident we can be in any differences between groups. With big sample sizes, and high confidence in the location of values such as means, very small differences can be highly significant. Conversely, with small sample sizes and low confidence in parameter estimates, appareantly large differences can be non-significant.
+
+When we're thinking about ANOVA the two things that can really cause trouble are non-normal errors and big differences in the variance between groups. Fortunately there's nothing to indicate any problems with the error structure —-- everything looks roughly symmetrical and the boxes and the whiskers are nicely even on either side of the medians, so there's nothing here to suggest that we might have to worry about the errors deviating much from normal. What about the variance though? There is rather more spread in the data for non-professionals than for professionals, and this might be a cause for worry since equal (or somewhere near equal) variances for each group is quite an important assumption for ANOVA. Don't panic: if you look more closely it is really only obvious in the "outliers" indicated on the boxplot though and the IQRs etc. look roughly the same. Remember that there are more than 100 times as many data points in the non-professional group than in the professional one, so we would expect a lot more extreme data points just because of the larger sample size. We should probably check the variances of each group anyway just to be sure, since the unbalanced design makes it a bit harder to be sure about what's going on.
+
+ `tapply()` lets us apply a function to all the data corresponding to the different levels of a factor. We have to use the somewhat obscure `function(x) var(x, na.rm = TRUE)` rather than just `var` because there are missing values in our dataset and the default behaviour for `var` is just to return `NA` if there are any missing values in the dataset. More on this in the chapter on Vector and Matrix Operations.
+
+```{r}
+tapply(football$hei, INDEX = football$status, FUN = function(x) var(x, na.rm = TRUE))
+```
+
+Interesting... despite what it looks like on the boxplot the highest variance is actually among the players who went on to become professionals. The differences between groups are pretty small and I don't think we need to worry about this small amount of *heteroscedasticity* (a very long word meaning that variances are difference between groups).
+
+Now that we've had an initial look at our data and not found any obvious red lights, we can go ahead with our analysis. We'll use `aov()` here and then use `summary()` on the saved `aov()` object to get our ANOVA table.
+
+```{r}
+aov1 <- aov(hei ~ status, data = football)
+
+summary(aov1)
+```
+That gives us a very small p-value indeed, indicating that there is a significant difference between at least one of our means and at least one other. If we want to know which means are different from which other means, we could use a post-hoc test despite my misgivings about them.
+
+```{r}
+TukeyHSD(aov1)
+```
+This gives us the estimate of the difference between means, lower and upper confidence intervals on that estimate (don't forget, these are CIs for the estimated *difference* between means) and then a p-value for each pairwise comparison. YOu can see that the confidence intervals on the differences between non-professionals and both semi-professionals and professionals are nowhere near zero, and that the p-values are correspondingly small. When we look at the differences between semi-professional and professional players, however, the confidence intervals on the difference skate perilously close to zero (the upper CI is -0.035) and the p-value is only fractionally lower than 0.05. What this is indicating is that we have a lot of confidence that being tall as a youth is associated with status as an adult when we're thinking about comparisons between non-professionals and players who are either semi-professional or fully professinal. We have rather less confidence in whether height as a youth is different between semi-professionals and professionals however: we do have a significant difference but it is not so clear.
+
+As an aside, you can see that the estimated *effect size* (the difference between the estimated means) for the difference between semi-professionals and professionals is actually bigger, at 1.79cm, than the effect size for the difference between non- and semi-professionals, which is 1.59cm, yet the p-value is much smaller for the latter and the confidence intervals are a great deal narrower. This is because of the smaller sample sizes for professionals and to a lesser degree semi-professionals, which means that we are less confident about the estimated means for these two groups.
+
+Finally, let's visualise our means and confidence intervals using `plotmeans()` again.
+
+```{r fig.cap = "Mean height as a youth compared between professional, semi-professional and non-rpofessional football players. Error bars indiciated 95% confidence intervals", warning = FALSE, comment = FALSE }
+library(gplots)
+plotmeans(hei~status, data = football, connect=F, barcol='black', pch=16, cex=2, n.label=F, ylab="Height (cm)",xlab="Status")
+```
+There isn't a confidence interval plotted for the non-professional players because the massive sample size (n = 13176) gives us a confidence interval on the estimated mean that is smaller than the plot point. You can see how the confidence intervals for semi-professionals (n = 913) and professionals (n = 89) are correspondingly larger as a consequence of the smaller samples. One other thing to notice is that, like the previous example, the confidence intervals for semi-professionals and professionals do overlap a little even though we have a statistically significan difference between the two means.
+
+
+
+
+```{r fig.cap = "Boxplot of dribbling speed measured for youth players who went on to become professional, semi-professional and non-professional football players"}
+
+boxplot(dri ~ status, 
+        data = football,
+        ylab = "Dribbling speed",
+        xlab = "Adult status")
+```
+
+There are three important things we can see from this boxplot. Firstly, there does seem to be some effect of status: players who went on to become professional are faster dribblers. Secondly, it looks like there might be some positive skew in these data since the extreme values we can see  plotted are almost all above the main boxplots, rather than below. Thirdly, the variances of the three groups might be different. You can see that there's a lot more spread in the data for the semi- and non-professional groups, but it's not easy to interpret this because the sample sizes for these groups are also very different. Since we have more than 100 times as many non-professional players as professionals, we should expect to get more extreme values in our dataset just because we have a much bigger sample. So don't be distracted by those extreme values: a better indicator of whether the variances might be different is given by the size of the boxes, which show us the interquartile range. Looking at them there might be something going on but the differences aren't huge. 
+ 
+Maybe we should ask what the actual variances are for each group.
+
+```{r}
+tapply(football$dri, football$status, function(x) var(x, na.rm = TRUE))
+```
+ `tapply()` lets us apply a function to all the data corresponding to the different levels of a factor. We have to use the somewhat obscure `function(x) var(x, na.rm = TRUE)` rather than just `var` because there are missing values in our dataset and the default behaviour for `var` is just to return `NA` if there are any missing values in the dataset. More on this in the chapter on Vector and Matrix Operations.
+ 
+ Back to the numbers, you can see that yes, the variance is higher for the non-professional players, but not drastically so. Do we need to do something about this? Maybe... let's fit a model and look at the diagnostics. We've already seen that we can either use `lm()` or `aov()` for this, let's start with `lm()`, but we'll also fit a model using `aov()` just so that we can do a Tukey test and I can make a point about significance and multiple comparisons.
+ 
+```{r}
+lm1 <- lm(dri ~ status, data = football)
+aov1 <- aov(dri ~ status, data = football)
+```
+
+Let's get an ANOVA table to assess the overall significance of any difference between means.
+
+```{r}
+anova(lm1)
+```
+
+This should now be approaching familiar, at least if you've read the first part of the chapter, but let's just go through it again. First we have the degrees of freedom, which are $k-1$ for the treatment (indicated here by `status`, the name of the factor), and $n-1 - (k-1)$ for the error or residual df. $n-1$ is the overall df for the total variance, and we subtract the treatment df from this value to get the error df. If you're sharp of wit you might have noticed that this value seems a little low since the total number of observations in the dataset is `r dim(football)[1]` (`dim(football)[1]`), but there are quite a few missing values. If we count these using `sum(is.na(football$dri) == FALSE)` we get `r sum(is.na(football$dri) == FALSE)` which makes more sense. The sum of squares column corresponds to the treatment and error sum of squares we've seen before, and the mean square values are calculated by dividing the sums of squares by their df. The F statistic is the mean square for treatment divided by the mean square error (118.8 / 1.1) and this test statistic gives us a very low probability indeed of observing it if the null hypothesis of there being no difference between the means were true.
+
+OK, that's pretty conclusive, we have a very highly significant F test: F~2,13616~ = 113, p<0.0001. This tells us that at least one mean is different from at least one other, but we would like to know a bit more about where those differences lie. We've already seen the use of Tukey's HSD test, and also discussed the problems with multiple comparisons tests a little, but let's see what this gives us.
+
+```{r}
+TukeyHSD(aov1)
+```
+
+This is telling us that we have a non-significant difference (p>0.05) between semi-professional and professionals, but that the other two differences, between non-professionals and either semi-professionals or professionals are both highly statistically significant. That's one way to interpret these data, but the alternative, which I prefer, is to look at the table of effect sizes that you get if you ask R to summarise an `lm()` object for you.
+
+
+```{r}
+summary(lm1)
+```
+
+This brings up a bunch of stuff: a reminder of what the model you fitted was, some quick summary statistics about the residuals, a bunch of data on how good the fit is and other things at the bottom and then in the middle the table of coefficients. We'llbe meeting this again... and again... as we go deeper into linear modelling, and it is one of the most important, and obscure, pieces of output that you can get in this form of analysis. What have we got? There's a set ow row names, namely `(Intercept)`, `statusSemi-professional` and `statusNon-professional`, and then there's a series of columns of values, namely `Estimate`, `Std. Error`, `t value` and `Pr(>|t|)`. None of this is intuitive or obvious: if we have Semi- and Non-professional appearing, where's Professional? Why are the values under "estimate" so weird? Are those p-values in the last column (yes) and if so where have they come from?
+
+Before you panic, let's start with the number in the top left under "Estimate". The one in the row labelled "Intercept". How can there be an intercept, you ask, since we're not fitting a line? Well, recall that ANOVA and linear regression are two sides of the same coin and that we can actually put them together in the General Linear Model... so there is sort of an intercept for an ANOVA, but in this case it's the first estimated mean. Normally R ordersfactor levels alphabetically, but when we set up the `status` factor we told R to order the levels with Professional first and then Semi- and finally Non-professional. So the "intercept" is in fact the mean for the Professional group. we can check this: `mean(football$dri[football$status == "Professional"])` gives us `r mean(football$dri[football$status == "Professional"])`. The "Std. Error" column has the standard error for the estimate, the "t value" column has a value for *t* calculated from the estimate divided by the standard error and the the "Pr(>|t|)" column is indeed a p-value, and it's telling us that the mean dribbling time for footballers who went on to become professionals is significantly greater than zero, which is not all that surprising. So the top line is of questionable value, at lesat for our purposes here.
+
+The second line, however, is where things start getting interesting. Remember all that talk about *effect sizes*? Well, the effect in this case is the *difference* between the means, and the "Estimate" given for the second column here is the difference between the means for those who went on to be professionals and those who ended up classes as semi-professionals. The table below has the means and the differences as calculated from the raw data and you can see that the two match up. So this row is all about the *contrasts* between the second factor level and the first. For Semi-professionals we then have the standard error, not of the mean but of the difference between means, and then a t-test which tells us that the *difference* between the two means is statistically signficant at p=0.026: in other words, the mean for semi-professionals is significantly different from the mean for professionals, although the p-value is not particularly small. It's worth pausing here and comparing this result with the one from the Tukey test above --- this is giving us a different answer to the question of "did kids who went on to become professionals complete the dribbling challenge significantly faster than those who went on to become semi-professionals?". Back to that in a bit.
+
+```{r echo = FALSE}
+means <- tapply(football$dri, football$status, function(x) mean(x, na.rm = TRUE))
+```
+
+| Status              | mean           | Difference from Professional
+|:---------------------|:--------------|:---------------
+| Professional         |  `r means[1]` |  0
+| Semi-professional    |`r means[2]`   |  `r means[2] - means[1]` 
+| Non-professional      |`r means[3]`   |  `r means[3] - means[1]`      
+
+The final row gives us the *contrasts* between those who eventually became non-professionals and those who became professionals. The effect size here is larger than for the difference between semi-professionals and professionals, and because of the small standard error for this difference we have a high value of *t* and a very small p-value, so the difference between those who became non-professionals and those who became professional is highly significant.
+
+This table of coefficients therefore gives us a lot of information. What it doesn't tell us is the one remaining contrast, that between semi- and non-professionals. The reason for this is that this table is actually derived from the matrix algegra that R is doing to fit a linear model, and the way it works means that not every contrast needs to be worked out. I won't go into detail but despite what you might think there is method to the apparent madness. Is this contrast important? Not really in this case, since I think that the contrasts with the players who went on to be professionals are the really important ones, and that's why I tampered with the order of the levels early on in the analysis: by making the `Professional` factor level the first one I ensured that I'd get the contrasts in the order I wanted them [^17.4].
+
+
+
+
+
+[^17.1]: There are several ways to make an error with a statistical test but the two most obvious are a *false positive*, when you think you've found an effect but in reality there isn't one, and a *false negative* when you fail to detect an existing effect. A different way to put this is that a false positive means you've rejected the null hypothesis incorrectly, and a false negative that you've accepted the null hypothesis incorrectly. Rather than describing these as false positive or negative results, however, statisticians call them *type 1* (false positive) and *type 2* errors. This is of course monstrously hard to remember and is opaque and confusing for anyone who isn't themselves a statistician. It's almost as though they don't want people to understand...
+
+[^17.2]: Höner, O., Leyhr, D. & Kelava, A. (2017) The influence of speed abilities and technical skills in early adolescence on adult success in soccer: A long-term prospective analysis using ANOVA and SEM approaches. PloS one, 12, e0182211.
+
+[17.3]: Don't get confused between these confidence intervals and the confidence intervals of the means. These are the confidence intervals for our estimate of the *difference between the means* rather than those for the means themselves.
+
+[^17.4]: See also the `relevel()` function which will allow you to set the "reference level" for a factor, i.e. the one that will correspond with the intercept in a linear model.

@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Basics: arithmetic, objects and functions | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</title>
+  <meta name="description" content="null" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Basics: arithmetic, objects and functions | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="null" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Basics: arithmetic, objects and functions | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  
+  <meta name="twitter:description" content="null" />
+  
+
+<meta name="author" content="Rob Knell" />
+
+
+<meta name="date" content="2020-07-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="a-first-r-session.html"/>
+<link rel="next" href="data-vectors-matrices-and-data-frames.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introductory R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-this-book"><i class="fa fa-check"></i><b>1.1</b> Why this book?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i><b>1.2</b> How to use this book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-first-r-session.html"><a href="a-first-r-session.html"><i class="fa fa-check"></i><b>2</b> A first R session</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-first-r-session.html"><a href="a-first-r-session.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="a-first-r-session.html"><a href="a-first-r-session.html#a-first-r-session-1"><i class="fa fa-check"></i><b>2.2</b> A first R session</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html"><i class="fa fa-check"></i><b>3</b> Basics: arithmetic, objects and functions</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#arithmetic"><i class="fa fa-check"></i><b>3.0.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.0.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#logical-operations"><i class="fa fa-check"></i><b>3.0.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.0.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects"><i class="fa fa-check"></i><b>3.0.3</b> Objects</a></li>
+<li class="chapter" data-level="3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#kinds-of-data"><i class="fa fa-check"></i><b>3.1</b> Kinds of data</a></li>
+<li class="chapter" data-level="3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#whats-in-my-workspace"><i class="fa fa-check"></i><b>3.2</b> What’s in my workspace?</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions"><i class="fa fa-check"></i><b>3.2.1</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#exercises"><i class="fa fa-check"></i><b>3.3</b> Exercises</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations"><i class="fa fa-check"></i><b>3.3.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-1"><i class="fa fa-check"></i><b>3.3.2</b> Objects</a></li>
+<li class="chapter" data-level="3.3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#answers-to-exercises"><i class="fa fa-check"></i><b>3.4</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations-1"><i class="fa fa-check"></i><b>3.4.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.4.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-2"><i class="fa fa-check"></i><b>3.4.2</b> Objects</a></li>
+<li class="chapter" data-level="3.4.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-2"><i class="fa fa-check"></i><b>3.4.3</b> Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html"><i class="fa fa-check"></i><b>4</b> Data: Vectors, Matrices and Data Frames</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors"><i class="fa fa-check"></i><b>4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices"><i class="fa fa-check"></i><b>4.2</b> Matrices</a></li>
+<li class="chapter" data-level="4.3" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#factors-and-data-frames"><i class="fa fa-check"></i><b>4.3</b> Factors and Data frames</a></li>
+<li class="chapter" data-level="4.4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#exercises-1"><i class="fa fa-check"></i><b>4.4</b> Exercises</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-1"><i class="fa fa-check"></i><b>4.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-1"><i class="fa fa-check"></i><b>4.4.2</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#answers-to-exercises-1"><i class="fa fa-check"></i><b>4.5</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-2"><i class="fa fa-check"></i><b>4.5.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.5.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-2"><i class="fa fa-check"></i><b>4.5.2</b> Matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html"><i class="fa fa-check"></i><b>5</b> Choosing data: subscripts and subsetting</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts"><i class="fa fa-check"></i><b>5.0.1</b> Subscripts</a></li>
+<li class="chapter" data-level="5.0.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#boolean-logic-and-more-complex-subscripting"><i class="fa fa-check"></i><b>5.0.2</b> Boolean logic and more complex subscripting</a></li>
+<li class="chapter" data-level="5.0.3" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-in-matrices-and-data-frames"><i class="fa fa-check"></i><b>5.0.3</b> Subscripts in matrices and data frames</a></li>
+<li class="chapter" data-level="5.0.4" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subset"><i class="fa fa-check"></i><b>5.0.4</b> Subset</a></li>
+<li class="chapter" data-level="5.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#exercises-2"><i class="fa fa-check"></i><b>5.1</b> Exercises</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors"><i class="fa fa-check"></i><b>5.1.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.1.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices"><i class="fa fa-check"></i><b>5.1.2</b> Subscripts and matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#answers-to-exercises-2"><i class="fa fa-check"></i><b>5.2</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors-1"><i class="fa fa-check"></i><b>5.2.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices-1"><i class="fa fa-check"></i><b>5.2.2</b> Subscripts and matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html"><i class="fa fa-check"></i><b>6</b> R scripts and your R workflow</a><ul>
+<li class="chapter" data-level="6.1" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#writing-and-using-r-scripts"><i class="fa fa-check"></i><b>6.1</b> Writing and using R scripts</a></li>
+<li class="chapter" data-level="6.2" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-an-r-script-window"><i class="fa fa-check"></i><b>6.2</b> Running code from an R script window</a></li>
+<li class="chapter" data-level="6.3" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-files-using-source"><i class="fa fa-check"></i><b>6.3</b> Running code from files using <code>source()</code></a></li>
+<li class="chapter" data-level="6.4" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#workflow-structure-or-what-should-i-put-in-my-script"><i class="fa fa-check"></i><b>6.4</b> Workflow structure, or what should I put in my script?</a></li>
+<li class="chapter" data-level="6.5" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#keep-it-neat-making-your-script-easy-to-read"><i class="fa fa-check"></i><b>6.5</b> Keep it neat — making your script easy to read</a></li>
+<li class="chapter" data-level="6.6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#i-wish-i-hadnt-commented-my-code-so-much-said-no-one-ever-4."><i class="fa fa-check"></i><b>6.6</b> “I wish I hadn’t commented my code so much”, said no-one, ever.</a></li>
+<li class="chapter" data-level="6.7" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#using-rstudio-to-write-scripts"><i class="fa fa-check"></i><b>6.7</b> Using RStudio to write scripts</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html"><i class="fa fa-check"></i><b>7</b> Help files and packages</a><ul>
+<li class="chapter" data-level="7.1" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#using-the-help-files"><i class="fa fa-check"></i><b>7.1</b> Using the help files</a></li>
+<li class="chapter" data-level="7.2" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#packages"><i class="fa fa-check"></i><b>7.2</b> Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>8</b> Importing Data</a><ul>
+<li class="chapter" data-level="8.1" data-path="importing-data.html"><a href="importing-data.html#the-rules"><i class="fa fa-check"></i><b>8.1</b> The Rules</a></li>
+<li class="chapter" data-level="8.2" data-path="importing-data.html"><a href="importing-data.html#importing-your-text-file"><i class="fa fa-check"></i><b>8.2</b> Importing your Text File</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="importing-data.html"><a href="importing-data.html#the-simple-way"><i class="fa fa-check"></i><b>8.2.1</b> The simple way</a></li>
+<li class="chapter" data-level="8.2.2" data-path="importing-data.html"><a href="importing-data.html#the-less-simple-way"><i class="fa fa-check"></i><b>8.2.2</b> The less simple way</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="importing-data.html"><a href="importing-data.html#importing-character-data"><i class="fa fa-check"></i><b>8.3</b> Importing character data</a></li>
+<li class="chapter" data-level="8.4" data-path="importing-data.html"><a href="importing-data.html#data-on-the-web"><i class="fa fa-check"></i><b>8.4</b> Data on the web</a></li>
+<li class="chapter" data-level="8.5" data-path="importing-data.html"><a href="importing-data.html#using-read.table"><i class="fa fa-check"></i><b>8.5</b> Using <code>read.table()</code></a></li>
+<li class="chapter" data-level="8.6" data-path="importing-data.html"><a href="importing-data.html#what-to-do-once-youve-managed-to-import-your-data."><i class="fa fa-check"></i><b>8.6</b> What to do once you’ve managed to import your data.</a></li>
+<li class="chapter" data-level="8.7" data-path="importing-data.html"><a href="importing-data.html#importing-data-directly-from-excel"><i class="fa fa-check"></i><b>8.7</b> Importing data directly from Excel</a></li>
+<li class="chapter" data-level="8.8" data-path="importing-data.html"><a href="importing-data.html#other-data-formats"><i class="fa fa-check"></i><b>8.8</b> Other data formats</a></li>
+<li class="chapter" data-level="8.9" data-path="importing-data.html"><a href="importing-data.html#importing-data-into-rstudio"><i class="fa fa-check"></i><b>8.9</b> Importing data into RStudio</a></li>
+<li class="chapter" data-level="8.10" data-path="importing-data.html"><a href="importing-data.html#to-attach-or-not-to-attach"><i class="fa fa-check"></i><b>8.10</b> To attach or not to attach?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><i class="fa fa-check"></i><b>9</b> R graphics I — drawing graphs and changing plot symbols and colours using the base graphics system</a><ul>
+<li class="chapter" data-level="9.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-versus-ggplot2-versus-lattice-versus-whaaat"><i class="fa fa-check"></i><b>9.1</b> Base graphics versus ggplot2 versus lattice versus whaaat???</a></li>
+<li class="chapter" data-level="9.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-example-ufo-reports-again"><i class="fa fa-check"></i><b>9.2</b> Base graphics example: UFO reports again</a></li>
+<li class="chapter" data-level="9.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#scatterplots"><i class="fa fa-check"></i><b>9.3</b> Scatterplots</a></li>
+<li class="chapter" data-level="9.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plot-symbols"><i class="fa fa-check"></i><b>9.4</b> Plot symbols</a></li>
+<li class="chapter" data-level="9.5" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colours"><i class="fa fa-check"></i><b>9.5</b> Colours</a></li>
+<li class="chapter" data-level="9.6" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plotting-multiple-symbols-or-colours"><i class="fa fa-check"></i><b>9.6</b> Plotting multiple symbols or colours</a></li>
+<li class="chapter" data-level="9.7" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colour-palettes-in-r"><i class="fa fa-check"></i><b>9.7</b> Colour palettes in R</a></li>
+<li class="chapter" data-level="9.8" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#using-transparency-in-your-graphs"><i class="fa fa-check"></i><b>9.8</b> Using transparency in your graphs</a></li>
+<li class="chapter" data-level="9.9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histograms-and-multiple-plots-in-the-same-window"><i class="fa fa-check"></i><b>9.9</b> Histograms and multiple plots in the same window</a></li>
+<li class="chapter" data-level="9.10" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#boxplots"><i class="fa fa-check"></i><b>9.10</b> Boxplots</a></li>
+<li class="chapter" data-level="9.11" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#bar-charts"><i class="fa fa-check"></i><b>9.11</b> Bar charts</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#more-complex-barplots"><i class="fa fa-check"></i><b>9.11.1</b> More complex barplots</a></li>
+</ul></li>
+<li class="chapter" data-level="9.12" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#other-types-of-plot"><i class="fa fa-check"></i><b>9.12</b> Other types of plot</a><ul>
+<li class="chapter" data-level="9.12.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histogram-with-overlaid-probability-density-estimate"><i class="fa fa-check"></i><b>9.12.1</b> Histogram with overlaid probability density estimate</a></li>
+<li class="chapter" data-level="9.12.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#pie-graph"><i class="fa fa-check"></i><b>9.12.2</b> Pie graph</a></li>
+<li class="chapter" data-level="9.12.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#d-scatterplot"><i class="fa fa-check"></i><b>9.12.3</b> 3D scatterplot</a></li>
+<li class="chapter" data-level="9.12.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#contour-plot"><i class="fa fa-check"></i><b>9.12.4</b> Contour plot</a></li>
+</ul></li>
+<li class="chapter" data-level="9.13" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#exporting-graphics"><i class="fa fa-check"></i><b>9.13</b> Exporting Graphics</a><ul>
+<li class="chapter" data-level="9.13.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-easy-way"><i class="fa fa-check"></i><b>9.13.1</b> The easy way</a></li>
+<li class="chapter" data-level="9.13.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-hard-way"><i class="fa fa-check"></i><b>9.13.2</b> The hard way</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html"><i class="fa fa-check"></i><b>10</b> R graphics II — Adding elements to an existing graph</a><ul>
+<li class="chapter" data-level="10.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#simple-regression-lines"><i class="fa fa-check"></i><b>10.1</b> Simple regression lines</a></li>
+<li class="chapter" data-level="10.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#multiple-regression-lines"><i class="fa fa-check"></i><b>10.2</b> Multiple regression lines</a></li>
+<li class="chapter" data-level="10.3" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#legends"><i class="fa fa-check"></i><b>10.3</b> Legends</a></li>
+<li class="chapter" data-level="10.4" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#curves"><i class="fa fa-check"></i><b>10.4</b> Curves</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-curve"><i class="fa fa-check"></i><b>10.4.1</b> Adding a curve using <code>curve()</code></a></li>
+<li class="chapter" data-level="10.4.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-lines-or-points."><i class="fa fa-check"></i><b>10.4.2</b> Adding a curve using <code>lines()</code> or <code>points()</code>.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#text-and-arrows"><i class="fa fa-check"></i><b>10.5</b> Text and arrows</a></li>
+<li class="chapter" data-level="10.6" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#confidence-bands-for-fitted-lines"><i class="fa fa-check"></i><b>10.6</b> Confidence bands for fitted lines</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-bands-using-lines"><i class="fa fa-check"></i><b>10.6.1</b> Adding confidence bands using <code>lines()</code></a></li>
+<li class="chapter" data-level="10.6.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-intervals-to-fitted-lines-using-polygon"><i class="fa fa-check"></i><b>10.6.2</b> Adding confidence intervals to fitted lines using <code>polygon()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#error-bars"><i class="fa fa-check"></i><b>10.7</b> Error bars</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-error-bars-using-arrows"><i class="fa fa-check"></i><b>10.7.1</b> Adding error bars using <code>arrows()</code></a></li>
+<li class="chapter" data-level="10.7.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#plotting-means-and-error-bars-using-plotmeans"><i class="fa fa-check"></i><b>10.7.2</b> Plotting means and error bars using <code>plotmeans()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html"><i class="fa fa-check"></i><b>11</b> Graphics with ggplot2</a><ul>
+<li class="chapter" data-level="11.1" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#ggplot2-introduced"><i class="fa fa-check"></i><b>11.1</b> ggplot2 introduced</a></li>
+<li class="chapter" data-level="11.2" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#scaling-axes-and-varying-colour-or-shapes-by-factor-levels"><i class="fa fa-check"></i><b>11.2</b> Scaling axes and varying colour or shapes by factor levels</a></li>
+<li class="chapter" data-level="11.3" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#facets"><i class="fa fa-check"></i><b>11.3</b> Facets</a></li>
+<li class="chapter" data-level="11.4" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#histograms"><i class="fa fa-check"></i><b>11.4</b> Histograms</a></li>
+<li class="chapter" data-level="11.5" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#boxplots-1"><i class="fa fa-check"></i><b>11.5</b> Boxplots</a></li>
+<li class="chapter" data-level="11.6" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#final-word"><i class="fa fa-check"></i><b>11.6</b> Final word</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html"><i class="fa fa-check"></i><b>12</b> Basic Statistical Concepts</a><ul>
+<li class="chapter" data-level="12.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#populations-and-samples"><i class="fa fa-check"></i><b>12.1</b> Populations and Samples</a></li>
+<li class="chapter" data-level="12.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#descriptive-and-exploratory-statistics"><i class="fa fa-check"></i><b>12.2</b> Descriptive and exploratory statistics</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#maximum-and-minimum"><i class="fa fa-check"></i><b>12.2.1</b> Maximum and minimum</a></li>
+<li class="chapter" data-level="12.2.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#frequency-distribution"><i class="fa fa-check"></i><b>12.2.2</b> Frequency distribution</a></li>
+<li class="chapter" data-level="12.2.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#kinds-of-frequency-distribution"><i class="fa fa-check"></i><b>12.2.3</b> Kinds of frequency distribution</a></li>
+<li class="chapter" data-level="12.2.4" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-central-tendency"><i class="fa fa-check"></i><b>12.2.4</b> Measures of central tendency</a></li>
+<li class="chapter" data-level="12.2.5" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-dispersion"><i class="fa fa-check"></i><b>12.2.5</b> Measures of dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#standard-errors-and-confidence-intervals"><i class="fa fa-check"></i><b>12.3</b> Standard errors and confidence intervals</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#code-used-to-draw-figure-6"><i class="fa fa-check"></i><b>12.3.1</b> Code used to draw figure 6</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html"><i class="fa fa-check"></i><b>13</b> What is statistical testing?</a><ul>
+<li class="chapter" data-level="13.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#the-problem"><i class="fa fa-check"></i><b>13.1</b> The problem</a></li>
+<li class="chapter" data-level="13.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#statistical-testing-in-a-nutshell"><i class="fa fa-check"></i><b>13.2</b> Statistical testing in a nutshell</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#decide-on-the-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.2.1</b> Decide on the null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.2.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#calculate-the-size-of-the-effect."><i class="fa fa-check"></i><b>13.2.2</b> Calculate the size of the effect.</a></li>
+<li class="chapter" data-level="13.2.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#transform-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.2.3</b> Transform the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.2.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#ask-what-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true."><i class="fa fa-check"></i><b>13.2.4</b> Ask what the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true.</a></li>
+<li class="chapter" data-level="13.2.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#think-about-what-the-result-means."><i class="fa fa-check"></i><b>13.2.5</b> Think about what the result means.</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#how-a-statistical-test-works"><i class="fa fa-check"></i><b>13.3</b> How a statistical test works</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-1-generating-our-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.3.1</b> Step 1 generating our null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.3.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-2-calculating-the-size-of-the-effect"><i class="fa fa-check"></i><b>13.3.2</b> Step 2 calculating the size of the effect</a></li>
+<li class="chapter" data-level="13.3.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-3-transforming-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.3.3</b> Step 3 Transforming the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.3.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-4-what-is-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true"><i class="fa fa-check"></i><b>13.3.4</b> Step 4 What is the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true?</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#what-statistical-testing-does-and-doesnt-tell-us"><i class="fa fa-check"></i><b>13.4</b> What statistical testing does and doesn’t tell us</a></li>
+<li class="chapter" data-level="13.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#code-used-to-draw-figure-5"><i class="fa fa-check"></i><b>13.5</b> Code used to draw figure 5</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><i class="fa fa-check"></i><b>14</b> The Chi-squared Test and a Classic Dataset on Smoking and Cancer</a><ul>
+<li class="chapter" data-level="14.1" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-who-smoke-more-likely-to-be-heavy-smokers"><i class="fa fa-check"></i><b>14.1</b> Are lung cancer patients who smoke more likely to be heavy smokers?</a></li>
+<li class="chapter" data-level="14.2" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#the-chi-squared-test"><i class="fa fa-check"></i><b>14.2</b> The Chi-squared test</a></li>
+<li class="chapter" data-level="14.3" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#chi-squared-test-with-contingency-tables"><i class="fa fa-check"></i><b>14.3</b> Chi-squared test with contingency tables</a></li>
+<li class="chapter" data-level="14.4" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#assumptions-and-limitations-of-the-chi-squared-test"><i class="fa fa-check"></i><b>14.4</b> Assumptions and limitations of the chi-squared test</a></li>
+<li class="chapter" data-level="14.5" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-more-likely-to-be-smokers-than-controls"><i class="fa fa-check"></i><b>14.5</b> Are lung cancer patients more likely to be smokers than controls?</a></li>
+<li class="chapter" data-level="14.6" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#fishers-exact-test"><i class="fa fa-check"></i><b>14.6</b> Fisher’s exact test</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><i class="fa fa-check"></i><b>15</b> Comparing immune responses between two caterpillar species using a t-test</a><ul>
+<li class="chapter" data-level="15.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#assumptions-and-limitations-of-standard-parametric-statistics"><i class="fa fa-check"></i><b>15.1</b> Assumptions and limitations of standard parametric statistics</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#normal-errors."><i class="fa fa-check"></i><b>15.1.1</b> Normal errors.</a></li>
+<li class="chapter" data-level="15.1.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#independence-of-data-points."><i class="fa fa-check"></i><b>15.1.2</b> Independence of data points.</a></li>
+<li class="chapter" data-level="15.1.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#equal-variances."><i class="fa fa-check"></i><b>15.1.3</b> Equal variances.</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#importing-the-data"><i class="fa fa-check"></i><b>15.2</b> Importing the Data</a></li>
+<li class="chapter" data-level="15.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#descriptives-and-initial-exploration"><i class="fa fa-check"></i><b>15.3</b> Descriptives and Initial Exploration</a></li>
+<li class="chapter" data-level="15.4" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#comparing-two-means-with-a-t-test"><i class="fa fa-check"></i><b>15.4</b> Comparing Two Means With a t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="correlation-analysis.html"><a href="correlation-analysis.html"><i class="fa fa-check"></i><b>16</b> Correlation analysis</a><ul>
+<li class="chapter" data-level="16.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#calculating-the-correlation-coefficient"><i class="fa fa-check"></i><b>16.1</b> Calculating the correlation coefficient</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#interpreting-our-correlation-coefficient."><i class="fa fa-check"></i><b>16.1.1</b> Interpreting our correlation coefficient.</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="correlation-analysis.html"><a href="correlation-analysis.html#statistical-significance-of-r"><i class="fa fa-check"></i><b>16.2</b> Statistical significance of <em>r</em></a></li>
+<li class="chapter" data-level="16.3" data-path="correlation-analysis.html"><a href="correlation-analysis.html#assumptions-of-correlation-analysis"><i class="fa fa-check"></i><b>16.3</b> Assumptions of correlation analysis</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#comparing-correlations-between-swim-run-and-bike-splits"><i class="fa fa-check"></i><b>16.3.1</b> Comparing correlations between swim, run and bike splits</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="correlation-analysis.html"><a href="correlation-analysis.html#correlation-causality-sample-size-and-significance."><i class="fa fa-check"></i><b>16.4</b> Correlation, causality, sample size and significance.</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><i class="fa fa-check"></i><b>17</b> Using Linear Regression to Analyse TB trends in the UK</a><ul>
+<li class="chapter" data-level="17.0.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#least-squares-line-fitting"><i class="fa fa-check"></i><b>17.0.1</b> Least squares line fitting</a></li>
+<li class="chapter" data-level="17.0.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#significance-tests-for-linear-regression"><i class="fa fa-check"></i><b>17.0.2</b> Significance tests for linear regression</a></li>
+<li class="chapter" data-level="17.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#bovine-tb"><i class="fa fa-check"></i><b>17.1</b> Bovine TB</a></li>
+<li class="chapter" data-level="17.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>17.2</b> Assumptions of linear regression</a><ul>
+<li class="chapter" data-level="17.2.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots"><i class="fa fa-check"></i><b>17.2.1</b> Diagnostic plots</a></li>
+<li class="chapter" data-level="17.2.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots-for-our-m.bovis-regression"><i class="fa fa-check"></i><b>17.2.2</b> Diagnostic plots for our <em>M.bovis</em> regression</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#interpreting-our-regression-and-predicting-future-cases"><i class="fa fa-check"></i><b>17.3</b> Interpreting our regression and predicting future cases</a></li>
+<li class="chapter" data-level="17.4" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#multi-drug-resistant-tb"><i class="fa fa-check"></i><b>17.4</b> Multi-drug resistant TB</a></li>
+<li class="chapter" data-level="17.5" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#fitting-a-quadratic-model"><i class="fa fa-check"></i><b>17.5</b> Fitting a quadratic model</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="anova-and-football.html"><a href="anova-and-football.html"><i class="fa fa-check"></i><b>18</b> ANOVA and Football</a><ul>
+<li class="chapter" data-level="18.1" data-path="anova-and-football.html"><a href="anova-and-football.html#analysis-of-variance"><i class="fa fa-check"></i><b>18.1</b> Analysis of Variance</a></li>
+<li class="chapter" data-level="18.2" data-path="anova-and-football.html"><a href="anova-and-football.html#interpreting-anova-results"><i class="fa fa-check"></i><b>18.2</b> Interpreting ANOVA results</a></li>
+<li class="chapter" data-level="18.3" data-path="anova-and-football.html"><a href="anova-and-football.html#what-makes-a-professional-footballer"><i class="fa fa-check"></i><b>18.3</b> What makes a professional footballer?</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html"><i class="fa fa-check"></i><b>19</b> Yeast sex and two factor ANOVA.</a><ul>
+<li class="chapter" data-level="19.1" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#yeast-sexual-selection"><i class="fa fa-check"></i><b>19.1</b> Yeast sexual selection</a></li>
+<li class="chapter" data-level="19.2" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#understanding-the-coefficients-table"><i class="fa fa-check"></i><b>19.2</b> Understanding the coefficients table</a></li>
+<li class="chapter" data-level="19.3" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#which-statistical-tests-to-use-with-lm"><i class="fa fa-check"></i><b>19.3</b> Which statistical tests to use with <code>lm()</code>?</a></li>
+<li class="chapter" data-level="19.4" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#diagnostics"><i class="fa fa-check"></i><b>19.4</b> Diagnostics</a></li>
+<li class="chapter" data-level="19.5" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#visualising-the-data"><i class="fa fa-check"></i><b>19.5</b> Visualising the data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="basics-arithmetic-objects-and-functions" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Basics: arithmetic, objects and functions</h1>
+<div id="arithmetic" class="section level3">
+<h3><span class="header-section-number">3.0.1</span> Arithmetic</h3>
+<p>The simplest way to interact with R is by typing something into the console at the command prompt and pressing enter. If what you’ve typed makes sense to R it’ll do what it’s told, if not then you’ll get an error message. The simplest things you can get R to do are straightforward sums. Just type in a calculation and press enter.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="basics-arithmetic-objects-and-functions.html#cb6-1"></a><span class="dv">6</span><span class="op">+</span><span class="dv">3</span></span>
+<span id="cb6-2"><a href="basics-arithmetic-objects-and-functions.html#cb6-2"></a>[<span class="dv">1</span>] <span class="dv">9</span></span>
+<span id="cb6-3"><a href="basics-arithmetic-objects-and-functions.html#cb6-3"></a><span class="dv">3</span><span class="op">^</span><span class="dv">3</span></span>
+<span id="cb6-4"><a href="basics-arithmetic-objects-and-functions.html#cb6-4"></a>[<span class="dv">1</span>] <span class="dv">27</span></span></code></pre></div>
+<p>There are a couple of things to notice here. Firstly, you don’t need to type an equals sign – just hit enter. Secondly, arithmetic operators are mostly the same as in many other packages.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Symbol</th>
+<th align="left">Does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">+</td>
+<td align="left">addition</td>
+</tr>
+<tr class="even">
+<td align="left">-</td>
+<td align="left">subtraction</td>
+</tr>
+<tr class="odd">
+<td align="left">*</td>
+<td align="left">multiplication</td>
+</tr>
+<tr class="even">
+<td align="left">/</td>
+<td align="left">division</td>
+</tr>
+<tr class="odd">
+<td align="left">^</td>
+<td align="left">raised to the power</td>
+</tr>
+</tbody>
+</table>
+<p>Thirdly, why does the answer have a [1] in front? Because there’s only one number in the answer. R is written to be good at dealing not only with single numbers but with groups of numbers: vectors and matrices. When it gives you an answer that contains more than one number it uses numbering like this to indicate where in the group of numbers each answer is. We’ll see more of this as we go on.</p>
+<p>When you’re asking R to do calculations that are more complex than just a single arithmetic operation then it will carry out the calculations in the following order from left to right: first of all calculations in brackets, then exponents, then multiplication and division, then addition and subtraction. When in doubt use brackets to make sure that the calculation that you want to be done is the one that’s actually done.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="basics-arithmetic-objects-and-functions.html#cb7-1"></a><span class="dv">22</span><span class="op">*</span><span class="dv">15</span><span class="op">+</span><span class="dv">6</span></span>
+<span id="cb7-2"><a href="basics-arithmetic-objects-and-functions.html#cb7-2"></a>[<span class="dv">1</span>] <span class="dv">336</span></span></code></pre></div>
+<p>22 and 15 are multiplied, and then 6 is added to the result of that calculation.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="basics-arithmetic-objects-and-functions.html#cb8-1"></a><span class="dv">22</span><span class="op">*</span>(<span class="dv">15</span><span class="op">+</span><span class="dv">6</span>)</span>
+<span id="cb8-2"><a href="basics-arithmetic-objects-and-functions.html#cb8-2"></a>[<span class="dv">1</span>] <span class="dv">462</span></span></code></pre></div>
+<p>By adding a pair of brackets we change the order that the calculations are done in: this time 15 and 6 are added together, and 22 is then multiplied by the sum of the two numbers.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="basics-arithmetic-objects-and-functions.html#cb9-1"></a><span class="dv">22</span><span class="op">^</span><span class="dv">2</span><span class="op">+</span><span class="dv">7</span></span>
+<span id="cb9-2"><a href="basics-arithmetic-objects-and-functions.html#cb9-2"></a>[<span class="dv">1</span>] <span class="dv">491</span></span></code></pre></div>
+<p>For this calculation 22 is raised to the power 2 and 7 is then added to the result of that calculation.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="basics-arithmetic-objects-and-functions.html#cb10-1"></a><span class="dv">22</span><span class="op">^</span>(<span class="dv">2</span><span class="op">+</span><span class="dv">7</span>)</span>
+<span id="cb10-2"><a href="basics-arithmetic-objects-and-functions.html#cb10-2"></a>[<span class="dv">1</span>] <span class="fl">1.207269e+12</span></span></code></pre></div>
+<p>By adding a pair of brackets we make sure that the first calculation is to add 2 and 7, and 22 is then raised to the power of the sum of those two numbers. The result of this calculation is a number that’s too big for R to display normally, so it’s using scientific notation: 1.207e+12 is the way that R expresses 1.207 x 10^12, or 1,207,000,000,000.</p>
+<p>You can use multiple brackets, and you can nest your brackets essentially <em>ad infinitum</em>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="basics-arithmetic-objects-and-functions.html#cb11-1"></a>(<span class="dv">2</span><span class="op">*</span>(<span class="fl">17.2</span><span class="op">+</span><span class="dv">5</span>))<span class="op">/</span><span class="dv">56</span></span>
+<span id="cb11-2"><a href="basics-arithmetic-objects-and-functions.html#cb11-2"></a>[<span class="dv">1</span>] <span class="fl">0.7928571</span></span></code></pre></div>
+</div>
+<div id="logical-operations" class="section level3">
+<h3><span class="header-section-number">3.0.2</span> Logical operations</h3>
+<p>R doesn’t just deal with straightforward arithmetic. You can carry out logical operations as well:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="basics-arithmetic-objects-and-functions.html#cb12-1"></a><span class="dv">8</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span></span>
+<span id="cb12-2"><a href="basics-arithmetic-objects-and-functions.html#cb12-2"></a>[<span class="dv">1</span>] <span class="ot">TRUE</span></span></code></pre></div>
+<p>returns <code>TRUE</code> whereas</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="basics-arithmetic-objects-and-functions.html#cb13-1"></a>(<span class="dv">8</span><span class="op">/</span><span class="dv">2</span>) <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span></span>
+<span id="cb13-2"><a href="basics-arithmetic-objects-and-functions.html#cb13-2"></a>[<span class="dv">1</span>] <span class="ot">FALSE</span></span></code></pre></div>
+<p>returns <code>FALSE</code>. The full list of logical operators is:</p>
+<table>
+<colgroup>
+<col width="30%" />
+<col width="69%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Operator</th>
+<th align="left">Test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">&gt;</td>
+<td align="left">Greater than</td>
+</tr>
+<tr class="even">
+<td align="left">&lt;</td>
+<td align="left">Less than</td>
+</tr>
+<tr class="odd">
+<td align="left">&gt;=</td>
+<td align="left">Greater than or equal to</td>
+</tr>
+<tr class="even">
+<td align="left">&lt;=</td>
+<td align="left">Less than or equal to</td>
+</tr>
+<tr class="odd">
+<td align="left">==</td>
+<td align="left">Exactly equal to. Note this is a double equals sign. Forgetting to use the double equals sign in a logical test is a super-common error.</td>
+</tr>
+<tr class="even">
+<td align="left">!=</td>
+<td align="left">Not equal to</td>
+</tr>
+<tr class="odd">
+<td align="left">|</td>
+<td align="left">Or</td>
+</tr>
+<tr class="even">
+<td align="left">&amp;</td>
+<td align="left">And</td>
+</tr>
+</tbody>
+</table>
+<p>So</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="basics-arithmetic-objects-and-functions.html#cb14-1"></a></span>
+<span id="cb14-2"><a href="basics-arithmetic-objects-and-functions.html#cb14-2"></a>(<span class="dv">5</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">25</span>) <span class="op">|</span><span class="st"> </span>(<span class="dv">5</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">3</span>)</span>
+<span id="cb14-3"><a href="basics-arithmetic-objects-and-functions.html#cb14-3"></a>[<span class="dv">1</span>] <span class="ot">TRUE</span></span></code></pre></div>
+<p>Returns <code>TRUE</code> because although 5 is not greater than 25 it is greater than 3, whereas</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="basics-arithmetic-objects-and-functions.html#cb15-1"></a>(<span class="dv">5</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">25</span>) <span class="op">&amp;</span><span class="st"> </span>(<span class="dv">5</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">3</span>)</span>
+<span id="cb15-2"><a href="basics-arithmetic-objects-and-functions.html#cb15-2"></a>[<span class="dv">1</span>] <span class="ot">FALSE</span></span></code></pre></div>
+<p>Returns <code>FALSE</code> because now we are asking whether 5 is greater than 25 <strong>and</strong> 3.</p>
+</div>
+<div id="objects" class="section level3">
+<h3><span class="header-section-number">3.0.3</span> Objects</h3>
+<p>These simple calculations don’t produce any kind of output that is remembered by R: the answers appear in the console window but that’s all. Sometimes that’s OK but a lot of the time we want to store the answer of one of our calculations. The name given to R’s “memory” is the <strong>workspace</strong>, and the way to tell R to store something in the workspace is to use something like this:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="basics-arithmetic-objects-and-functions.html#cb16-1"></a>answer &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">+</span><span class="dv">2</span></span></code></pre></div>
+<p>Here, we are telling R to add 2+2 and store the answer in an object called <code>answer</code>. Take particular note of the middle symbol, <code>&lt;-</code>, in the instruction above. This is the <strong>allocation symbol</strong>, formed of a “less than” arrow <code>&lt;</code> and a hyphen <code>-</code> and it looks like an arrow pointing towards <code>answer</code>. It means “make the object on the left into the output of the command on the right”. It also works the other way around: 2+2-&gt;answer.</p>
+<p>To find out what is stored in <code>answer</code>, just type its name:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="basics-arithmetic-objects-and-functions.html#cb17-1"></a>answer</span>
+<span id="cb17-2"><a href="basics-arithmetic-objects-and-functions.html#cb17-2"></a>[<span class="dv">1</span>] <span class="dv">4</span></span></code></pre></div>
+<p>In some older versions of R, and in S-Plus, the underscore character can also be used for allocation, but this is no longer available in recent releases of R. It’s useful to know this so that when you try to use someone’s old S-Plus code in R you can work out why it doesn’t work.</p>
+<p>There wasn’t an object in the workspace called <code>answer</code> until we ran this code. If there is an allocation to a new name, R will create the new object and store the output of the code to the right of the allocation symbol there. If there is already an object with that name, R will just write the output of the new code to that object, overwriting whatever was stored there in the first place. There is no undo and no “are you sure” dialogue box, so be careful.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="basics-arithmetic-objects-and-functions.html#cb18-1"></a>answer</span>
+<span id="cb18-2"><a href="basics-arithmetic-objects-and-functions.html#cb18-2"></a>[<span class="dv">1</span>] <span class="dv">4</span></span></code></pre></div>
+<p>Our object has the number 4 stored.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="basics-arithmetic-objects-and-functions.html#cb19-1"></a>answer &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span><span class="dv">3</span></span>
+<span id="cb19-2"><a href="basics-arithmetic-objects-and-functions.html#cb19-2"></a></span>
+<span id="cb19-3"><a href="basics-arithmetic-objects-and-functions.html#cb19-3"></a>answer</span>
+<span id="cb19-4"><a href="basics-arithmetic-objects-and-functions.html#cb19-4"></a>[<span class="dv">1</span>] <span class="dv">6</span></span></code></pre></div>
+<p>Now it has been overwritten.</p>
+<p>You can use objects in calculations in exactly the same way you have already seen numbers being used above.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="basics-arithmetic-objects-and-functions.html#cb20-1"></a>answer2 &lt;-<span class="st"> </span>(<span class="fl">3.5</span><span class="op">+</span><span class="dv">1</span>)<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb20-2"><a href="basics-arithmetic-objects-and-functions.html#cb20-2"></a>answer <span class="op">+</span><span class="st"> </span>answer2</span>
+<span id="cb20-3"><a href="basics-arithmetic-objects-and-functions.html#cb20-3"></a>[<span class="dv">1</span>] <span class="fl">26.25</span></span></code></pre></div>
+<p>You can also store the results of a calculation done with objects as another object.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="basics-arithmetic-objects-and-functions.html#cb21-1"></a>answer3&lt;-answer<span class="op">/</span>answer2</span>
+<span id="cb21-2"><a href="basics-arithmetic-objects-and-functions.html#cb21-2"></a>answer3</span>
+<span id="cb21-3"><a href="basics-arithmetic-objects-and-functions.html#cb21-3"></a>[<span class="dv">1</span>] <span class="fl">0.2962963</span></span></code></pre></div>
+<p>We’ve already seen that we can do logical operations as well as straightforward arithmetic, and we can store the output of these as objects as well.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="basics-arithmetic-objects-and-functions.html#cb22-1"></a>test1 &lt;-<span class="st"> </span>answer <span class="op">&lt;</span><span class="st"> </span><span class="dv">2</span></span></code></pre></div>
+<p>Asks whether the value stored as the object <code>answer</code> is less than 2, and stores the answer as a new object called test1.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="basics-arithmetic-objects-and-functions.html#cb23-1"></a>test1</span>
+<span id="cb23-2"><a href="basics-arithmetic-objects-and-functions.html#cb23-2"></a>[<span class="dv">1</span>] <span class="ot">FALSE</span></span></code></pre></div>
+</div>
+<div id="kinds-of-data" class="section level2">
+<h2><span class="header-section-number">3.1</span> Kinds of data</h2>
+<p>So far we have seen examples of R storing two different kinds of data: number, or numerical data, and logical data, stored as <code>TRUE</code> or <code>FALSE</code>. R can also store data as “Character” data: strings of letters, numbers or other characters.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="basics-arithmetic-objects-and-functions.html#cb24-1"></a>name1 &lt;-<span class="st"> &quot;Steve&quot;</span></span></code></pre></div>
+<p>Stores the characters that make up the name “Steve” as an object calles <code>name1</code>. You’ll notice that I put “Steve” in inverted commas.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> This is so that R knows that it’s character data rather than the name of an object or function.</p>
+<p>Numerical data, logical data and character data are all examples of different <strong>data classes</strong>. R deals with each class differently — intuitively, you can add numbers together but not letters. If you want to know what a particular object is you can find out using <code>class()</code>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="basics-arithmetic-objects-and-functions.html#cb25-1"></a><span class="kw">class</span>(name1)</span>
+<span id="cb25-2"><a href="basics-arithmetic-objects-and-functions.html#cb25-2"></a>[<span class="dv">1</span>] <span class="st">&quot;character&quot;</span></span></code></pre></div>
+<p>Tells us that it is character data. What about <code>test1</code> which we used to store the output from a logical expression?</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="basics-arithmetic-objects-and-functions.html#cb26-1"></a><span class="kw">class</span>(test1)</span>
+<span id="cb26-2"><a href="basics-arithmetic-objects-and-functions.html#cb26-2"></a>[<span class="dv">1</span>] <span class="st">&quot;logical&quot;</span></span></code></pre></div>
+<p>Tells us that it is logical data, which is what we expect. Classes for numerical data can be a little bit more complicated. If you ask the class of an object which is storing a number or numbers it will often simply be <code>numeric</code>, which is straightforward:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="basics-arithmetic-objects-and-functions.html#cb27-1"></a><span class="kw">class</span>(answer)</span>
+<span id="cb27-2"><a href="basics-arithmetic-objects-and-functions.html#cb27-2"></a>[<span class="dv">1</span>] <span class="st">&quot;numeric&quot;</span></span></code></pre></div>
+<p>You will sometimes see other classes though, including <code>integer</code> if the numbers are all integers, <code>double</code> which means a high-precision number with lots of numbers after the decimal point and <code>complex</code> which refers to a complex number with an imaginary component (if you don’t know what this last is, don’t worry and stay happy). In practice, these really only matter if you’re starting to think about the nitty-gritty of how data are stored in R. R does a good job of converting between the classes in the background if it has to so you don’t need to.</p>
+<p>One thing to be wary of:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="basics-arithmetic-objects-and-functions.html#cb28-1"></a>answer</span>
+<span id="cb28-2"><a href="basics-arithmetic-objects-and-functions.html#cb28-2"></a>[<span class="dv">1</span>] <span class="dv">6</span></span>
+<span id="cb28-3"><a href="basics-arithmetic-objects-and-functions.html#cb28-3"></a></span>
+<span id="cb28-4"><a href="basics-arithmetic-objects-and-functions.html#cb28-4"></a><span class="kw">is.integer</span>(answer)</span>
+<span id="cb28-5"><a href="basics-arithmetic-objects-and-functions.html#cb28-5"></a>[<span class="dv">1</span>] <span class="ot">FALSE</span></span></code></pre></div>
+<p><code>answer</code> is equal to 6, which is an integer, but the is.integer function tells us that it is not. This is because is.integer is telling us about how the number is <em>stored</em>, not about what it is, and the number associated with the <code>answer</code> object is not stored as an integer even though it could be. We can change this if we need to:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="basics-arithmetic-objects-and-functions.html#cb29-1"></a>answer &lt;-<span class="st"> </span><span class="kw">as.integer</span>(answer)</span>
+<span id="cb29-2"><a href="basics-arithmetic-objects-and-functions.html#cb29-2"></a></span>
+<span id="cb29-3"><a href="basics-arithmetic-objects-and-functions.html#cb29-3"></a><span class="kw">is.integer</span>(answer)</span>
+<span id="cb29-4"><a href="basics-arithmetic-objects-and-functions.html#cb29-4"></a>[<span class="dv">1</span>] <span class="ot">TRUE</span></span></code></pre></div>
+</div>
+<div id="whats-in-my-workspace" class="section level2">
+<h2><span class="header-section-number">3.2</span> What’s in my workspace?</h2>
+<p>When you first open R, there are no objects stored, but after you’ve been using it for a while you might have lots. You can get a list of what’s in the workspace by using the ls() function (functions are explained in more detail in the next section).</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="basics-arithmetic-objects-and-functions.html#cb30-1"></a><span class="kw">ls</span>()</span>
+<span id="cb30-2"><a href="basics-arithmetic-objects-and-functions.html#cb30-2"></a>[<span class="dv">1</span>] <span class="st">&quot;answer&quot;</span>            <span class="st">&quot;answer2&quot;</span>           <span class="st">&quot;answer3&quot;</span>          </span>
+<span id="cb30-3"><a href="basics-arithmetic-objects-and-functions.html#cb30-3"></a>[<span class="dv">4</span>] <span class="st">&quot;name1&quot;</span>             <span class="st">&quot;nearest.neighbour&quot;</span> <span class="st">&quot;test1&quot;</span>            </span>
+<span id="cb30-4"><a href="basics-arithmetic-objects-and-functions.html#cb30-4"></a>[<span class="dv">7</span>] <span class="st">&quot;testosterone&quot;</span>     </span></code></pre></div>
+<p>You can remove an object from the workspace by using the rm() function.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="basics-arithmetic-objects-and-functions.html#cb31-1"></a><span class="kw">rm</span>(answer2)</span></code></pre></div>
+<p>Notice that when you type this, once again it doesn’t ask you if you’re sure, or give you any other sort of warning, nor does it let you know whether it’s done as you asked. The object you asked it to remove has just gone: you can confirm this by using ls() again.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="basics-arithmetic-objects-and-functions.html#cb32-1"></a><span class="kw">ls</span>()</span>
+<span id="cb32-2"><a href="basics-arithmetic-objects-and-functions.html#cb32-2"></a>[<span class="dv">1</span>] <span class="st">&quot;answer&quot;</span>            <span class="st">&quot;answer3&quot;</span>           <span class="st">&quot;name1&quot;</span>            </span>
+<span id="cb32-3"><a href="basics-arithmetic-objects-and-functions.html#cb32-3"></a>[<span class="dv">4</span>] <span class="st">&quot;nearest.neighbour&quot;</span> <span class="st">&quot;test1&quot;</span>             <span class="st">&quot;testosterone&quot;</span>     </span></code></pre></div>
+<p>It’s gone, sure enough. If you try to delete an object that doesn’t exist you’ll get an error message. It’s quite common when using R to be pleased when you type in a command and see nothing happen except for the command prompt popping up again. When nothing seems to happen that means that there haven’t been any errors, at least as far as R is concerned, which implies that everything has gone smoothly.</p>
+<p>R doesn’t just store numbers as objects in the workspace******</p>
+<div id="functions" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Functions</h3>
+<p>You can get so far by typing in calculations, but that’s obviously not going to be much use for most statistical analyses. Remember that R is not so much a statistical package in the traditional sense, like Minitab, but is really a programming language designed to be good for carrying out statistical analyses. R comes with a huge variety of (mostly) (fairly) short ready-made pieces of code that will do things like manage your data, do more complex mathematical operations on your data, draw graphs and carry out statistical analyses ranging from the simple and straightforward to the eye-wateringly complex. These ready-made pieces of code are called functions. Each function name ends in a pair of round brackets<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, and for many of the more straightforward functions you just type the name of the function and put the name of the object you’d like the procedure carried out on in the brackets.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="basics-arithmetic-objects-and-functions.html#cb33-1"></a><span class="kw">log</span>(<span class="dv">27</span>)</span>
+<span id="cb33-2"><a href="basics-arithmetic-objects-and-functions.html#cb33-2"></a>[<span class="dv">1</span>] <span class="fl">3.295837</span></span></code></pre></div>
+<p>The natural log of 27</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="basics-arithmetic-objects-and-functions.html#cb34-1"></a><span class="kw">exp</span>(<span class="dv">3</span>)</span>
+<span id="cb34-2"><a href="basics-arithmetic-objects-and-functions.html#cb34-2"></a>[<span class="dv">1</span>] <span class="fl">20.08554</span></span></code></pre></div>
+<p><em>e</em> raised to the power 3</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="basics-arithmetic-objects-and-functions.html#cb35-1"></a><span class="kw">sqrt</span>(<span class="dv">225</span>)</span>
+<span id="cb35-2"><a href="basics-arithmetic-objects-and-functions.html#cb35-2"></a>[<span class="dv">1</span>] <span class="dv">15</span></span></code></pre></div>
+<p>Square root of 225</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="basics-arithmetic-objects-and-functions.html#cb36-1"></a><span class="kw">abs</span>(<span class="op">-</span><span class="dv">9</span>)</span>
+<span id="cb36-2"><a href="basics-arithmetic-objects-and-functions.html#cb36-2"></a>[<span class="dv">1</span>] <span class="dv">9</span></span></code></pre></div>
+<p>Absolute (i.e. unsigned) value of −9</p>
+<p>You can carry out more complex calculations by making the argument of the function (the bit between the brackets) a calculation itself:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="basics-arithmetic-objects-and-functions.html#cb37-1"></a><span class="kw">sin</span>(<span class="dv">17</span><span class="op">+</span>answer)</span></code></pre></div>
+<p>will add 17 and whatever the value of the object “answer” is, in this case 6, and then calculate the sine of the sum of the two values.</p>
+<p>You can use more brackets within the function’s brackets to make sure that complicated calculations are carried out in the correct order:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="basics-arithmetic-objects-and-functions.html#cb38-1"></a><span class="kw">exp</span>((x<span class="op">*</span><span class="dv">2</span>)<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>))</span></code></pre></div>
+<p>Will take whatever the value of x is, multiply it by 2, raise it to the power of 1/3 and then calculate the value of <em>e</em> raised to the power of that value. In other words, this will calculate <em>e</em> to the power of the cube root of 2x).</p>
+<p>You can use functions in creating new objects:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="basics-arithmetic-objects-and-functions.html#cb39-1"></a>D&lt;-<span class="dv">1</span><span class="op">/</span><span class="kw">sqrt</span>(x)</span></code></pre></div>
+<p>creates an object called “D” that has the value of 1 divided by the square root of the value of the object x.</p>
+<p>So far we’ve only looked at functions that have a single argument between the brackets. It’s often possible to control specific aspects of the way that the function operates, however, by adding further <strong>arguments</strong>, separated by commas. These extra arguments serve to do things like modify the way that the function is applied, or tell it to only use part of a dataset, or specify how the function should deal with missing datapoints. Here’s a straightforward example. The function <code>round()</code> rounds off a number to a certain number of decimal places. You can tell it the number you want to round off by typing it in between the brackets after the function, and then you can tell it how many decimal places to round to by adding a second argument, <code>digits=</code>, with a comma separating it from the first argument.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="basics-arithmetic-objects-and-functions.html#cb40-1"></a><span class="kw">round</span>(<span class="fl">14.5378</span>, <span class="dt">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb40-2"><a href="basics-arithmetic-objects-and-functions.html#cb40-2"></a>[<span class="dv">1</span>] <span class="fl">14.54</span></span>
+<span id="cb40-3"><a href="basics-arithmetic-objects-and-functions.html#cb40-3"></a></span>
+<span id="cb40-4"><a href="basics-arithmetic-objects-and-functions.html#cb40-4"></a><span class="kw">round</span>(<span class="fl">14.5378</span>, <span class="dt">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb40-5"><a href="basics-arithmetic-objects-and-functions.html#cb40-5"></a>[<span class="dv">1</span>] <span class="fl">14.5</span></span></code></pre></div>
+<p>Most R functions have default values specified for most of their arguments, and if nothing is specified the function will just use the default value. If we don’t define a number of digits for <code>round()</code>, it will assume you want the number rounded off to no decimal places.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="basics-arithmetic-objects-and-functions.html#cb41-1"></a><span class="kw">round</span>(<span class="fl">14.5378</span>)</span>
+<span id="cb41-2"><a href="basics-arithmetic-objects-and-functions.html#cb41-2"></a>[<span class="dv">1</span>] <span class="dv">15</span></span></code></pre></div>
+<p>A few other examples.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="basics-arithmetic-objects-and-functions.html#cb42-1"></a><span class="kw">logb</span>(<span class="dv">27</span>, <span class="dt">base=</span><span class="fl">3.5</span>)</span>
+<span id="cb42-2"><a href="basics-arithmetic-objects-and-functions.html#cb42-2"></a>[<span class="dv">1</span>] <span class="fl">2.630854</span></span></code></pre></div>
+<p>This calculates the logarithm of 27 to the base 3.5. In other words, it calculates the number that 3.5 has to be raised to to get 27.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="basics-arithmetic-objects-and-functions.html#cb43-1"></a><span class="kw">signif</span>(pi, <span class="dt">digits=</span><span class="dv">3</span>)</span>
+<span id="cb43-2"><a href="basics-arithmetic-objects-and-functions.html#cb43-2"></a>[<span class="dv">1</span>] <span class="fl">3.14</span></span>
+<span id="cb43-3"><a href="basics-arithmetic-objects-and-functions.html#cb43-3"></a><span class="kw">signif</span>(pi, <span class="dt">digits=</span><span class="dv">5</span>)</span>
+<span id="cb43-4"><a href="basics-arithmetic-objects-and-functions.html#cb43-4"></a>[<span class="dv">1</span>] <span class="fl">3.1416</span></span></code></pre></div>
+<p>In this case we specified the arguments precisely. Very often in R the function can work out what the arguments mean simply by their position in the function call, so if you give the <code>signif()</code> function two arguments it assumes that the first is the number to be rounded and the second is the number of signficant digits to round it to.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="basics-arithmetic-objects-and-functions.html#cb44-1"></a><span class="kw">signif</span>(pi, <span class="dv">3</span>)</span>
+<span id="cb44-2"><a href="basics-arithmetic-objects-and-functions.html#cb44-2"></a>[<span class="dv">1</span>] <span class="fl">3.14</span></span></code></pre></div>
+<p>This can make for less typing but it also makes your code somewhat harder to understand. It’s up to you how much you wish to use argument names but I would suggest doing it more often than you might think necessary. It can make things easier when you come to read through the code again.</p>
+</div>
+</div>
+<div id="exercises" class="section level2">
+<h2><span class="header-section-number">3.3</span> Exercises</h2>
+<div id="calculations" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Calculations</h3>
+<p>Use R to carry out the following calculations (answers are at the end of the chapter if you wish to check):</p>
+<ul>
+<li><p>3 x 5</p></li>
+<li><p>5^2</p></li>
+<li><p>Add 8 to 22 and then multiply the answer by 3</p></li>
+<li><p>Subtract 2.8 from 12 and then raise the answer to the power of 1.5 plus 1.3924</p></li>
+<li><p>Subtract 2.8 from 12, raise the answer to the power of 1.5 and then add 1.3924</p></li>
+<li><p>Divide 8 by 2.5 and then divide the answer by 3</p></li>
+<li><p>Subtract 2.5 from 8 and then divide the answer by 3</p></li>
+<li><p>Divide 2.5 by 3 and subtract the answer from 8</p></li>
+</ul>
+</div>
+<div id="objects-1" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Objects</h3>
+<ul>
+<li><p>Create an object called “X1” which is the number 73</p></li>
+<li><p>Create another object called “X2” which is the answer to the sum 101+36</p></li>
+<li><p>Multiply X1 and X2 together and store the object as another object called X3</p></li>
+<li><p>Subtract 1 from X3 and calculate the 4th root (NB you can calculate the fourth root of a number by raising it to the power of 1/4)</p></li>
+<li><p>The answer should be 10</p></li>
+</ul>
+</div>
+<div id="functions-1" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Functions</h3>
+<ul>
+<li><p>Calculate the log to the base 10 of x1 using the function <code>log10()</code></p></li>
+<li><p>Calculate the square root of x2 using the function <code>sqrt()</code></p></li>
+<li><p>Calculate the square root of x2 by raising it to the power 0.5: your answer should be the same as when you used the <code>sqrt()</code> function</p></li>
+<li><p>use the function <code>sum()</code> to add x1 and x2: you’ll need to put both object names inside the brackets and separate them with a comma</p></li>
+<li><p>Create an object called “x4” which is equal to 67.8953</p></li>
+<li><p>The function <code>round()</code> will round a number to a given number of decimal places. The default is zero so start by using this function to round x4 off to zero decimal places</p></li>
+<li><p>Now use the round function to give you the value specified by x4 rounded off to three decimal places</p></li>
+<li><p><code>floor()</code> and <code>ceiling()</code> can also be used to trim a number down to an integer: apply both of these functions to x4 and compare the output.</p></li>
+</ul>
+</div>
+</div>
+<div id="answers-to-exercises" class="section level2">
+<h2><span class="header-section-number">3.4</span> Answers to exercises</h2>
+<div id="calculations-1" class="section level3">
+<h3><span class="header-section-number">3.4.1</span> Calculations</h3>
+<ul>
+<li>3 x 5</li>
+</ul>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="basics-arithmetic-objects-and-functions.html#cb45-1"></a><span class="dv">3</span><span class="op">*</span><span class="dv">5</span></span>
+<span id="cb45-2"><a href="basics-arithmetic-objects-and-functions.html#cb45-2"></a>[<span class="dv">1</span>] <span class="dv">15</span></span></code></pre></div>
+<ul>
+<li>5^2</li>
+</ul>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="basics-arithmetic-objects-and-functions.html#cb46-1"></a><span class="dv">5</span><span class="op">^</span><span class="dv">2</span>   </span>
+<span id="cb46-2"><a href="basics-arithmetic-objects-and-functions.html#cb46-2"></a>[<span class="dv">1</span>] <span class="dv">25</span></span></code></pre></div>
+<ul>
+<li>Add 8 to 22 and then multiply the answer by 3</li>
+</ul>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="basics-arithmetic-objects-and-functions.html#cb47-1"></a>(<span class="dv">8</span><span class="op">+</span><span class="dv">22</span>)<span class="op">^</span><span class="dv">3</span></span>
+<span id="cb47-2"><a href="basics-arithmetic-objects-and-functions.html#cb47-2"></a>[<span class="dv">1</span>] <span class="dv">27000</span></span></code></pre></div>
+<ul>
+<li>Subtract 2.8 from 12 and then raise the answer to the power of 1.5 plus 1.3924</li>
+</ul>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="basics-arithmetic-objects-and-functions.html#cb48-1"></a>(<span class="dv">12</span><span class="fl">-2.8</span>)<span class="op">^</span>(<span class="fl">1.5+1.3924</span>)</span>
+<span id="cb48-2"><a href="basics-arithmetic-objects-and-functions.html#cb48-2"></a>[<span class="dv">1</span>] <span class="fl">613.2816</span></span></code></pre></div>
+<ul>
+<li>Subtract 2.8 from 12, raise the answer to the power of 1.5 and then add 1.3924</li>
+</ul>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="basics-arithmetic-objects-and-functions.html#cb49-1"></a>(<span class="dv">12</span><span class="fl">-2.8</span>)<span class="op">^</span><span class="fl">1.5+1.3924</span></span>
+<span id="cb49-2"><a href="basics-arithmetic-objects-and-functions.html#cb49-2"></a>[<span class="dv">1</span>] <span class="fl">29.29738</span></span></code></pre></div>
+<ul>
+<li>Divide 8 by 2.5 and then divide the answer by 3</li>
+</ul>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="basics-arithmetic-objects-and-functions.html#cb50-1"></a>(<span class="dv">8</span><span class="op">/</span><span class="fl">2.5</span>)<span class="op">/</span><span class="dv">3</span></span>
+<span id="cb50-2"><a href="basics-arithmetic-objects-and-functions.html#cb50-2"></a>[<span class="dv">1</span>] <span class="fl">1.066667</span></span></code></pre></div>
+<ul>
+<li>Subtract 2.5 from 8 and then divide the answer by 3</li>
+</ul>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="basics-arithmetic-objects-and-functions.html#cb51-1"></a>(<span class="dv">8</span><span class="fl">-2.5</span>)<span class="op">/</span><span class="dv">3</span></span>
+<span id="cb51-2"><a href="basics-arithmetic-objects-and-functions.html#cb51-2"></a>[<span class="dv">1</span>] <span class="fl">1.833333</span></span></code></pre></div>
+<ul>
+<li>Divide 2.5 by 3 and subtract the answer from 8</li>
+</ul>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="basics-arithmetic-objects-and-functions.html#cb52-1"></a><span class="dv">8</span><span class="fl">-2.5</span><span class="op">/</span><span class="dv">3</span>       </span>
+<span id="cb52-2"><a href="basics-arithmetic-objects-and-functions.html#cb52-2"></a>[<span class="dv">1</span>] <span class="fl">7.166667</span></span></code></pre></div>
+</div>
+<div id="objects-2" class="section level3">
+<h3><span class="header-section-number">3.4.2</span> Objects</h3>
+<ul>
+<li>Create an object called “X1” which is the number 73</li>
+</ul>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="basics-arithmetic-objects-and-functions.html#cb53-1"></a>x1&lt;-<span class="dv">73</span>       </span></code></pre></div>
+<ul>
+<li>Create another object called “X2” which is the answer to the sum 101+36</li>
+</ul>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="basics-arithmetic-objects-and-functions.html#cb54-1"></a>x2&lt;-<span class="dv">101</span><span class="op">+</span><span class="dv">36</span>      </span></code></pre></div>
+<ul>
+<li>Multiply X1 and X2 together and store the object as another object called X3</li>
+</ul>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="basics-arithmetic-objects-and-functions.html#cb55-1"></a>x3&lt;-x1<span class="op">*</span>x2    </span></code></pre></div>
+<ul>
+<li><p>Subtract 1 from X3 and calculate the 4th root (NB you can calculate the fourth root of a number by raising it to the power of 1/4)</p></li>
+<li><p>The answer should be 10</p></li>
+</ul>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="basics-arithmetic-objects-and-functions.html#cb56-1"></a>(x3<span class="dv">-1</span>)<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)</span>
+<span id="cb56-2"><a href="basics-arithmetic-objects-and-functions.html#cb56-2"></a>[<span class="dv">1</span>] <span class="dv">10</span></span></code></pre></div>
+</div>
+<div id="functions-2" class="section level3">
+<h3><span class="header-section-number">3.4.3</span> Functions</h3>
+<ul>
+<li>Calculate the log to the base 10 of x1 using the function log10()</li>
+</ul>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="basics-arithmetic-objects-and-functions.html#cb57-1"></a><span class="kw">log10</span>(x1)</span>
+<span id="cb57-2"><a href="basics-arithmetic-objects-and-functions.html#cb57-2"></a>[<span class="dv">1</span>] <span class="fl">1.863323</span></span></code></pre></div>
+<ul>
+<li>Calculate the square root of x2 using the function sqrt()</li>
+</ul>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="basics-arithmetic-objects-and-functions.html#cb58-1"></a><span class="kw">sqrt</span>(x2)</span>
+<span id="cb58-2"><a href="basics-arithmetic-objects-and-functions.html#cb58-2"></a>[<span class="dv">1</span>] <span class="fl">11.7047</span></span></code></pre></div>
+<ul>
+<li>Calculate the square root of x2 by raising it to the power 0.5: your answer should be the same as when you
+used the sqrt() function</li>
+</ul>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="basics-arithmetic-objects-and-functions.html#cb59-1"></a>x2<span class="op">^</span><span class="fl">0.5</span></span>
+<span id="cb59-2"><a href="basics-arithmetic-objects-and-functions.html#cb59-2"></a>[<span class="dv">1</span>] <span class="fl">11.7047</span></span></code></pre></div>
+<ul>
+<li>use the function sum() to add x1 and x2: you’ll need to put both object names inside the brackets and
+separate them with a comma</li>
+</ul>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="basics-arithmetic-objects-and-functions.html#cb60-1"></a><span class="kw">sum</span>(x1<span class="op">+</span>x2)</span>
+<span id="cb60-2"><a href="basics-arithmetic-objects-and-functions.html#cb60-2"></a>[<span class="dv">1</span>] <span class="dv">210</span></span></code></pre></div>
+<ul>
+<li>Create an object called “x4” which is equal to 67.8953</li>
+</ul>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="basics-arithmetic-objects-and-functions.html#cb61-1"></a>x4&lt;-<span class="fl">67.8953</span></span></code></pre></div>
+<ul>
+<li>The function “round()” will round a number to a given number of decimal places. The default is zero so start by using this function to round x4 off to zero decimal places</li>
+</ul>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="basics-arithmetic-objects-and-functions.html#cb62-1"></a><span class="kw">round</span>(x4)</span>
+<span id="cb62-2"><a href="basics-arithmetic-objects-and-functions.html#cb62-2"></a>[<span class="dv">1</span>] <span class="dv">68</span></span></code></pre></div>
+<ul>
+<li>Now use the round function to give you the value specified by x4 rounded off to three decimal places</li>
+</ul>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="basics-arithmetic-objects-and-functions.html#cb63-1"></a><span class="kw">round</span>(x4,<span class="dv">3</span>)</span>
+<span id="cb63-2"><a href="basics-arithmetic-objects-and-functions.html#cb63-2"></a>[<span class="dv">1</span>] <span class="fl">67.895</span></span></code></pre></div>
+<ul>
+<li>floor() and ceiling() can also be used to trim a number down to an integer: apply both of these functions to x3 and compare the output.</li>
+</ul>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="basics-arithmetic-objects-and-functions.html#cb64-1"></a><span class="kw">floor</span>(x4)</span>
+<span id="cb64-2"><a href="basics-arithmetic-objects-and-functions.html#cb64-2"></a>[<span class="dv">1</span>] <span class="dv">67</span></span>
+<span id="cb64-3"><a href="basics-arithmetic-objects-and-functions.html#cb64-3"></a><span class="kw">ceiling</span>(x4)       </span>
+<span id="cb64-4"><a href="basics-arithmetic-objects-and-functions.html#cb64-4"></a>[<span class="dv">1</span>] <span class="dv">68</span></span></code></pre></div>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>I am British so I call them “Inverted commas” If you’re from elsewhere you might call them “Quote marks”. It’s all part of the English language’s rich diversity<a href="basics-arithmetic-objects-and-functions.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>See previous comments about the rich diversity of English. “Brackets” are what we usually call “Parentheses” here in the UK.<a href="basics-arithmetic-objects-and-functions.html#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="a-first-r-session.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-vectors-matrices-and-data-frames.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["3rd_Edition.pdf", "3rd_Edition.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

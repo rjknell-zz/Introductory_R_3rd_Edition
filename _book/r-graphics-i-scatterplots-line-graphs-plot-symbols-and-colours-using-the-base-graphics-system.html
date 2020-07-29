@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 R graphics I — scatterplots &amp; line graphs, plot symbols and colours using the base graphics system | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</title>
+  <meta name="description" content="null" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 R graphics I — scatterplots &amp; line graphs, plot symbols and colours using the base graphics system | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="null" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 R graphics I — scatterplots &amp; line graphs, plot symbols and colours using the base graphics system | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  
+  <meta name="twitter:description" content="null" />
+  
+
+<meta name="author" content="Rob Knell" />
+
+
+<meta name="date" content="2020-04-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="importing-data.html"/>
+<link rel="next" href="r-graphics-ii-adding-elements-to-an-existing-graph.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introductory R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-this-book"><i class="fa fa-check"></i><b>1.1</b> Why this book?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i><b>1.2</b> How to use this book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-first-r-session.html"><a href="a-first-r-session.html"><i class="fa fa-check"></i><b>2</b> A first R session</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-first-r-session.html"><a href="a-first-r-session.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="a-first-r-session.html"><a href="a-first-r-session.html#a-first-r-session-1"><i class="fa fa-check"></i><b>2.2</b> A first R session</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html"><i class="fa fa-check"></i><b>3</b> Basics: arithmetic, objects and functions</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#arithmetic"><i class="fa fa-check"></i><b>3.0.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.0.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#logical-operations"><i class="fa fa-check"></i><b>3.0.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.0.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects"><i class="fa fa-check"></i><b>3.0.3</b> Objects</a></li>
+<li class="chapter" data-level="3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#kinds-of-data"><i class="fa fa-check"></i><b>3.1</b> Kinds of data</a></li>
+<li class="chapter" data-level="3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#whats-in-my-workspace"><i class="fa fa-check"></i><b>3.2</b> What’s in my workspace?</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions"><i class="fa fa-check"></i><b>3.2.1</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#exercises"><i class="fa fa-check"></i><b>3.3</b> Exercises</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations"><i class="fa fa-check"></i><b>3.3.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-1"><i class="fa fa-check"></i><b>3.3.2</b> Objects</a></li>
+<li class="chapter" data-level="3.3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#answers-to-exercises"><i class="fa fa-check"></i><b>3.4</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations-1"><i class="fa fa-check"></i><b>3.4.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.4.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-2"><i class="fa fa-check"></i><b>3.4.2</b> Objects</a></li>
+<li class="chapter" data-level="3.4.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-2"><i class="fa fa-check"></i><b>3.4.3</b> Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html"><i class="fa fa-check"></i><b>4</b> Data: Vectors, Matrices and Data Frames</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors"><i class="fa fa-check"></i><b>4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices"><i class="fa fa-check"></i><b>4.2</b> Matrices</a></li>
+<li class="chapter" data-level="4.3" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#factors-and-data-frames"><i class="fa fa-check"></i><b>4.3</b> Factors and Data frames</a></li>
+<li class="chapter" data-level="4.4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#exercises-1"><i class="fa fa-check"></i><b>4.4</b> Exercises</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-1"><i class="fa fa-check"></i><b>4.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-1"><i class="fa fa-check"></i><b>4.4.2</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#answers-to-exercises-1"><i class="fa fa-check"></i><b>4.5</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-2"><i class="fa fa-check"></i><b>4.5.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.5.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-2"><i class="fa fa-check"></i><b>4.5.2</b> Matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html"><i class="fa fa-check"></i><b>5</b> Choosing data: subscripts and subsetting</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts"><i class="fa fa-check"></i><b>5.0.1</b> Subscripts</a></li>
+<li class="chapter" data-level="5.0.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-in-matrices-and-data-frames"><i class="fa fa-check"></i><b>5.0.2</b> Subscripts in matrices and data frames</a></li>
+<li class="chapter" data-level="5.0.3" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subset"><i class="fa fa-check"></i><b>5.0.3</b> Subset</a></li>
+<li class="chapter" data-level="5.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#exercises-2"><i class="fa fa-check"></i><b>5.1</b> Exercises</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors"><i class="fa fa-check"></i><b>5.1.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.1.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices"><i class="fa fa-check"></i><b>5.1.2</b> Subscripts and matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#answers-to-exercises-2"><i class="fa fa-check"></i><b>5.2</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors-1"><i class="fa fa-check"></i><b>5.2.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices-1"><i class="fa fa-check"></i><b>5.2.2</b> Subscripts and matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html"><i class="fa fa-check"></i><b>6</b> R scripts and your R workflow</a><ul>
+<li class="chapter" data-level="6.1" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#writing-and-using-r-scripts"><i class="fa fa-check"></i><b>6.1</b> Writing and using R scripts</a></li>
+<li class="chapter" data-level="6.2" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-an-r-script-window"><i class="fa fa-check"></i><b>6.2</b> Running code from an R script window</a></li>
+<li class="chapter" data-level="6.3" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-files-using-source"><i class="fa fa-check"></i><b>6.3</b> Running code from files using <code>source()</code></a></li>
+<li class="chapter" data-level="6.4" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#workflow-structure-or-what-should-i-put-in-my-script"><i class="fa fa-check"></i><b>6.4</b> Workflow structure, or what should I put in my script?</a></li>
+<li class="chapter" data-level="6.5" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#keep-it-neat-making-your-script-easy-to-read"><i class="fa fa-check"></i><b>6.5</b> Keep it neat — making your script easy to read</a></li>
+<li class="chapter" data-level="6.6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#i-wish-i-hadnt-commented-my-code-so-much-said-no-one-ever-4."><i class="fa fa-check"></i><b>6.6</b> “I wish I hadn’t commented my code so much”, said no-one, ever [^4].</a></li>
+<li class="chapter" data-level="6.7" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#using-rstudio-to-write-scripts"><i class="fa fa-check"></i><b>6.7</b> Using RStudio to write scripts</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html"><i class="fa fa-check"></i><b>7</b> Help files and packages</a><ul>
+<li class="chapter" data-level="7.1" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#using-the-help-files"><i class="fa fa-check"></i><b>7.1</b> Using the help files</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>8</b> Importing Data</a><ul>
+<li class="chapter" data-level="8.1" data-path="importing-data.html"><a href="importing-data.html#the-rules"><i class="fa fa-check"></i><b>8.1</b> The Rules</a></li>
+<li class="chapter" data-level="8.2" data-path="importing-data.html"><a href="importing-data.html#importing-your-text-file"><i class="fa fa-check"></i><b>8.2</b> Importing your Text File</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="importing-data.html"><a href="importing-data.html#the-simple-way"><i class="fa fa-check"></i><b>8.2.1</b> The simple way</a></li>
+<li class="chapter" data-level="8.2.2" data-path="importing-data.html"><a href="importing-data.html#the-less-simple-way"><i class="fa fa-check"></i><b>8.2.2</b> The less simple way</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="importing-data.html"><a href="importing-data.html#importing-character-data"><i class="fa fa-check"></i><b>8.3</b> Importing character data</a></li>
+<li class="chapter" data-level="8.4" data-path="importing-data.html"><a href="importing-data.html#data-on-the-web"><i class="fa fa-check"></i><b>8.4</b> Data on the web</a></li>
+<li class="chapter" data-level="8.5" data-path="importing-data.html"><a href="importing-data.html#using-read.table"><i class="fa fa-check"></i><b>8.5</b> Using <code>read.table()</code></a></li>
+<li class="chapter" data-level="8.6" data-path="importing-data.html"><a href="importing-data.html#what-to-do-once-youve-managed-to-import-your-data."><i class="fa fa-check"></i><b>8.6</b> What to do once you’ve managed to import your data.</a></li>
+<li class="chapter" data-level="8.7" data-path="importing-data.html"><a href="importing-data.html#importing-data-directly-from-excel"><i class="fa fa-check"></i><b>8.7</b> Importing data directly from Excel</a></li>
+<li class="chapter" data-level="8.8" data-path="importing-data.html"><a href="importing-data.html#other-data-formats"><i class="fa fa-check"></i><b>8.8</b> Other data formats</a></li>
+<li class="chapter" data-level="8.9" data-path="importing-data.html"><a href="importing-data.html#importing-data-into-rstudio"><i class="fa fa-check"></i><b>8.9</b> Importing data into RStudio</a></li>
+<li class="chapter" data-level="8.10" data-path="importing-data.html"><a href="importing-data.html#to-attach-or-not-to-attach"><i class="fa fa-check"></i><b>8.10</b> To attach or not to attach?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><i class="fa fa-check"></i><b>9</b> R graphics I — scatterplots &amp; line graphs, plot symbols and colours using the base graphics system</a><ul>
+<li class="chapter" data-level="9.1" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-versus-ggplot2-versus-lattice-versus-whaaat"><i class="fa fa-check"></i><b>9.1</b> Base graphics versus ggplot2 versus lattice versus whaaat???</a></li>
+<li class="chapter" data-level="9.2" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-example-ufo-reports-again"><i class="fa fa-check"></i><b>9.2</b> Base graphics example: UFO reports again</a></li>
+<li class="chapter" data-level="9.3" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#scatterplots"><i class="fa fa-check"></i><b>9.3</b> Scatterplots</a></li>
+<li class="chapter" data-level="9.4" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#plot-symbols"><i class="fa fa-check"></i><b>9.4</b> Plot symbols</a></li>
+<li class="chapter" data-level="9.5" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#colours"><i class="fa fa-check"></i><b>9.5</b> Colours</a></li>
+<li class="chapter" data-level="9.6" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#plotting-multiple-symbols-or-colours"><i class="fa fa-check"></i><b>9.6</b> Plotting multiple symbols or colours</a></li>
+<li class="chapter" data-level="9.7" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#colour-palettes-in-r"><i class="fa fa-check"></i><b>9.7</b> Colour palettes in R</a></li>
+<li class="chapter" data-level="9.8" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#histograms-and-multiple-plots-in-the-same-window"><i class="fa fa-check"></i><b>9.8</b> Histograms and multiple plots in the same window</a></li>
+<li class="chapter" data-level="9.9" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#boxplots"><i class="fa fa-check"></i><b>9.9</b> Boxplots</a></li>
+<li class="chapter" data-level="9.10" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#bar-charts"><i class="fa fa-check"></i><b>9.10</b> Bar charts</a><ul>
+<li class="chapter" data-level="9.10.1" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#more-complex-barplots"><i class="fa fa-check"></i><b>9.10.1</b> More complex barplots</a></li>
+</ul></li>
+<li class="chapter" data-level="9.11" data-path="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#other-types-of-plot"><i class="fa fa-check"></i><b>9.11</b> Other types of plot</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html"><i class="fa fa-check"></i><b>10</b> R graphics II — Adding elements to an existing graph</a><ul>
+<li class="chapter" data-level="10.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-simple-regression-line-to-a-scatterplot-using-abline"><i class="fa fa-check"></i><b>10.1</b> Adding a simple regression line to a scatterplot using <code>abline()</code></a></li>
+<li class="chapter" data-level="10.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-multiple-regression-lines-to-a-scatterplot-based-on-a-factor"><i class="fa fa-check"></i><b>10.2</b> Adding multiple regression lines to a scatterplot based on a factor</a></li>
+<li class="chapter" data-level="10.3" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-legend"><i class="fa fa-check"></i><b>10.3</b> Adding a legend</a></li>
+<li class="chapter" data-level="10.4" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-curve."><i class="fa fa-check"></i><b>10.4</b> Adding a curve using <code>curve()</code>.</a></li>
+<li class="chapter" data-level="10.5" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-lines-or-points."><i class="fa fa-check"></i><b>10.5</b> Adding a curve using <code>lines()</code> or <code>points()</code>.</a></li>
+<li class="chapter" data-level="10.6" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-text-and-arrows-using-text-and-arrows"><i class="fa fa-check"></i><b>10.6</b> Adding text and arrows using <code>text()</code> and <code>arrows()</code></a></li>
+<li class="chapter" data-level="10.7" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-intervals-to-fitted-lines-using-lines"><i class="fa fa-check"></i><b>10.7</b> Adding confidence intervals to fitted lines using <code>lines()</code></a></li>
+<li class="chapter" data-level="10.8" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-intervals-to-fitted-lines-using-polygon"><i class="fa fa-check"></i><b>10.8</b> Adding confidence intervals to fitted lines using <code>polygon()</code></a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> R graphics I — scatterplots &amp; line graphs, plot symbols and colours using the base graphics system</h1>
+<p>When it comes to drawing graphs, using R gives you the same benefits and costs that you get when analysing data. Everything is done through a command-line interface that can be difficult to use and sometimes counterintuitive. Whereas with other software you get a nice GUI and can just point and click until you achieve what it is you’re after, if you’re drawing graphs in R you might have to do some research first to find out how to draw the graph you’re after. That initial difficulty, however, is more than counterbalanced by the huge benefits of using R as your platform for data visualisation: R is almost infinitely flexible and can draw an extraordinary range of graphs, and you’ll find that in many cases the default options are very good starting points; unlike those in a certain popular spreadsheet application, for example, they have been designed by people possessed of both brains and colour vision. Finally, generating a script when you draw your graph means that you can easily return and edit your graph, and if you want to draw a similar graph with different data you can re-use your script with a few edits. Finally, you can use <em>other peoples’ scripts</em>. There are plenty of online resources with examples of graphs produced in R, and many of these have the code used to draw the graph associated with them. If you find an example of the sort of graph you want to make, you can use the code that’s already there as the basis of your own script. Have a look at the <a href="https://www.r-graph-gallery.com/">R Graph Gallery</a>, a web resource set up for exactly this purpose, for an idea of the range of options available.</p>
+<div id="base-graphics-versus-ggplot2-versus-lattice-versus-whaaat" class="section level2">
+<h2><span class="header-section-number">9.1</span> Base graphics versus ggplot2 versus lattice versus whaaat???</h2>
+<p>As a budding R user, your life has been made more complicated by the presence of a number of different options for creating graphics in R. Firstly, there is the graphics system which is built into R which is called <em>base</em> graphics. Despite the implication from the name that it’s a bit basic, this is a sophisticated and powerful system which can easily generate publication-quality graphs… which is sometimes a surprise to the ggplot2 fanbois. There are then two main alternative systems, <em>lattice</em> and <em>ggplot2</em>, which work very differently to the base system. Of these, ggplot2 has become the most well-known, and many people are now using it exclusively. I don’t think it’s possible to be a fully functional R user nowadays without knowing at least the fundamentals of ggplot2, so in this chapter and the next we’ll take an in-depth look at base graphics, and then we’ll move on to some ggplot2 basics.</p>
+</div>
+<div id="base-graphics-example-ufo-reports-again" class="section level2">
+<h2><span class="header-section-number">9.2</span> Base graphics example: UFO reports again</h2>
+<p>We’ll start off with looking at an example of how to produce a graph in R. In the previous chapter we looked at a script which drew a graph for you: the plot of UFO reports by month since 1900. Let’s have another look at that script and go through the code. Here it is again.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># Script to read data on UFO reports and plot the data since 1900</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># Audrey Bloggs 25th December 2022</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># Load data from website</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">UFO &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.introductoryr.co.uk/UFO_data.csv&quot;</span>,</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">     <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co"># Convert &#39;Reports&#39; variable to date</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">UFO<span class="op">$</span>Reports &lt;-<span class="st"> </span><span class="kw">as.Date</span>(UFO<span class="op">$</span>Reports, <span class="dt">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co"># Trim off dates before 1900 which have a different format and convert to NA</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">UFO &lt;-<span class="st"> </span>UFO[<span class="kw">which</span>((<span class="op">!</span><span class="kw">is.na</span>(UFO<span class="op">$</span>Reports))), ]</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co"># Check the data structure</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="kw">str</span>(UFO)</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co"># Plot the data</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="kw">plot</span>(UFO<span class="op">$</span>Count <span class="op">~</span><span class="st"> </span>UFO<span class="op">$</span>Reports,</a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">     <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,</a>
+<a class="sourceLine" id="cb1-20" data-line-number="20">     <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>,</a>
+<a class="sourceLine" id="cb1-21" data-line-number="21">     <span class="dt">xlab =</span> <span class="st">&quot;Year&quot;</span>,</a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">     <span class="dt">ylab =</span> <span class="st">&quot;Number of UFO reports by month&quot;</span>,</a>
+<a class="sourceLine" id="cb1-23" data-line-number="23">     <span class="dt">main  =</span> <span class="st">&quot;UFO reports by month since 1900&quot;</span>)</a></code></pre></div>
+<p>The first two thirds of the script are devoted to importing the data, cleaning it up and checking that everything’s gone well, and then we have the <code>plot()</code> function call which actually draws the graph. <code>plot()</code> is a particularly flexible and powerful R function, and it can produce a wide range of different outputs depending on the nature of the data or R objects that we feed to it. Our complete function call looks like this.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">plot</span>(UFO<span class="op">$</span>Count <span class="op">~</span><span class="st"> </span>UFO<span class="op">$</span>Reports,</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">     <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">     <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>,</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;Year&quot;</span>,</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">     <span class="dt">ylab =</span> <span class="st">&quot;Number of UFO reports by month&quot;</span>,</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">     <span class="dt">main  =</span> <span class="st">&quot;UFO reports by month since 1900&quot;</span>)</a></code></pre></div>
+<p>Just like other functions in R we have a series of <em>arguments</em> within the brackets, with each argument separated from the previous one by a comma. I’ve got each argument after the first on a separate line, which makes it easier to see what’s happening in this piece of code. The first argument that we’re giving to our <code>plot()</code> function tells it where to find the data to plot. In this case we’re giving it two data variables, a numeric variable, <code>UFO$Count</code> and a date variable <code>UFO$Reports</code>, and they are separated by a tilde <code>~</code>. The tilde is an important symbol in R. This is the first time you’ve met it, but you’ll see it a lot in defining formulas for statistical tests. You can think of it as meaning “is explained by” or as something which separates a <em>dependent</em> variable from an <em>independent</em> variable, or a <em>response</em> variable from an <em>explanatory</em> variable: if we think that one variable <em>depends</em> on the value of the other then the former would be the dependent or response variable and the latter the independent or explanatory variable. In this case the number of UFO reports <em>depends</em> on the year: there is clearly a big effect of year in determining the number of reports logged, but the year deosn’t depend on the number of reports. No-one is going to say “there have been 215 UFO reports, so we will call this year 2003”. Conventionally we put a dependent variable on the y-axis and an independent one on the x-axis, and this is what R will do.</p>
+<p>If we just use the first argument, <code>UFO$Count ~ UFO$Reports</code> and none of the rest then R will go for the default option for a graph with continuous variables for both the x- and the y-axis, and draw a scatterplot with each data point represented by an open circle.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">plot</span>(UFO<span class="op">$</span>Count <span class="op">~</span><span class="st"> </span>UFO<span class="op">$</span>Reports)</a></code></pre></div>
+<div class="figure"><span id="fig:graph1"></span>
+<img src="3rd_Edition_files/figure-html/graph1-1.png" alt="Scatterplot of UFO reports by year" width="672" />
+<p class="caption">
+Figure 9.1: Scatterplot of UFO reports by year
+</p>
+</div>
+<p>That’s not really what we’re after and doesn’t really show the important patterns in the data. We can tell R to draw a line connecting each data point instead of the scatterplot by adding the <code>type = 'l'</code> argument:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">plot</span>(UFO<span class="op">$</span>Count <span class="op">~</span><span class="st"> </span>UFO<span class="op">$</span>Reports,</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">     <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:graph2"></span>
+<img src="3rd_Edition_files/figure-html/graph2-1.png" alt="Line plot of UFO reports by year" width="672" />
+<p class="caption">
+Figure 9.2: Line plot of UFO reports by year
+</p>
+</div>
+<p>which gives something much closer to what we’re after. We can change the colour of the line using the <code>col = &quot;steelblue&quot;</code> argument, <code>xlab = &quot;Year&quot;</code> sets the axis label for the x-axis, <code>ylab = &quot;Number of UFO reports by month&quot;</code> does the same for the y-axis and finally <code>main  = &quot;UFO reports by month since 1900&quot;</code> gives us a main title for the graph…</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">plot</span>(UFO<span class="op">$</span>Count <span class="op">~</span><span class="st"> </span>UFO<span class="op">$</span>Reports,</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">     <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">     <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;Year&quot;</span>,</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">     <span class="dt">ylab =</span> <span class="st">&quot;Number of UFO reports by month&quot;</span>,</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">     <span class="dt">main  =</span> <span class="st">&quot;UFO reports by month since 1900&quot;</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>… and with remarkably little fuss we have a nice, publication quality graph displaying our data. This example shows us the basics of producing graphs in R: the <code>plot()</code> function produces a particular kind of graph depending on the data that you feed it, but you can then modify the look of the graph and change things like the axis labels by using further arguments to your <code>plot()</code> function call. It’s worth pointing out here that these arguments are often called graphical <em>parameters</em> when we’re referring to arguments that change the appearance of a graph, but they work in the same way as arguments for other types of function. We’ll talk a little more about graphical parameters later on in the chapter.</p>
+</div>
+<div id="scatterplots" class="section level2">
+<h2><span class="header-section-number">9.3</span> Scatterplots</h2>
+<p>Let’s look at scatterplots in rather more detail. We’ll draw a scatterplot and then specify the shape and colour of the datapoints according to some classification, then finally we’ll add some fitted lines to our data. The dataset we’ll be using is from a paper published in the Journal of Evolutionary Biology by John Fitzpatrick and coauthors<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> on the subject of how brain size in pinnipeds (seals, walruses and sea lions) relates to their mating system. The fundamental question they were addressing is whether brain size varies between seals where the males defend groups of females (“harems”), and species where males pair up with single females.</p>
+<p>The dataset is online and you can load it straight into R from the web by running this line of code.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">pinniped &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.introductoryr.co.uk/Pinniped_brains.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p>As always, we want to know whether our dataset has imported properly so we check using the <code>str()</code> function.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">str</span>(pinniped)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">&#39;data.frame&#39;</span><span class="op">:</span><span class="st">   </span><span class="dv">33</span> obs. of  <span class="dv">11</span> variables<span class="op">:</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st"> </span><span class="er">$</span><span class="st"> </span>Species        <span class="op">:</span><span class="st"> </span>chr  <span class="st">&quot;Monachus schauinslandi&quot;</span> <span class="st">&quot;Monachus monachus&quot;</span> <span class="st">&quot;Mirounga angustirostris&quot;</span> <span class="st">&quot;Mirounga leonina&quot;</span> ...</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"> <span class="op">$</span><span class="st"> </span>Male_brain     <span class="op">:</span><span class="st"> </span>num  <span class="dv">370</span> <span class="dv">480</span> <span class="dv">700</span> <span class="dv">1431</span> <span class="dv">535</span> ...</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"> <span class="op">$</span><span class="st"> </span>Female_brain   <span class="op">:</span><span class="st"> </span>num  <span class="ot">NA</span> <span class="dv">480</span> <span class="dv">640</span> <span class="dv">899</span> <span class="dv">638</span> ...</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"> <span class="op">$</span><span class="st"> </span>Male_mass      <span class="op">:</span><span class="st"> </span>num  <span class="dv">173</span> <span class="dv">260</span> <span class="dv">2275</span> <span class="dv">3510</span> <span class="dv">450</span> ...</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"> <span class="op">$</span><span class="st"> </span>Female_mass    <span class="op">:</span><span class="st"> </span>num  <span class="dv">272</span> <span class="dv">275</span> <span class="dv">488</span> <span class="dv">566</span> <span class="dv">447</span> ...</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"> <span class="op">$</span><span class="st"> </span>Harem          <span class="op">:</span><span class="st"> </span>num  <span class="dv">1</span> <span class="dv">1</span> <span class="dv">13</span> <span class="dv">48</span> <span class="dv">3</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> ...</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"> <span class="op">$</span><span class="st"> </span>Small_intestine<span class="op">:</span><span class="st"> </span>int  <span class="dv">1030</span> <span class="dv">870</span> <span class="dv">3820</span> <span class="dv">12100</span> <span class="dv">2700</span> <span class="dv">790</span> <span class="dv">2530</span> <span class="dv">2190</span> <span class="dv">2520</span> <span class="dv">2164</span> ...</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"> <span class="op">$</span><span class="st"> </span>Gestation      <span class="op">:</span><span class="st"> </span>int  <span class="dv">330</span> <span class="dv">330</span> <span class="dv">230</span> <span class="dv">225</span> <span class="dv">263</span> <span class="dv">248</span> <span class="dv">255</span> <span class="dv">276</span> <span class="dv">234</span> <span class="dv">270</span> ...</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"> <span class="op">$</span><span class="st"> </span>Lifespan       <span class="op">:</span><span class="st"> </span>num  <span class="dv">360</span> <span class="dv">284</span> <span class="dv">244</span> <span class="dv">276</span> <span class="dv">300</span> ...</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"> <span class="op">$</span><span class="st"> </span>Lactation      <span class="op">:</span><span class="st"> </span>int  <span class="dv">38</span> <span class="dv">42</span> <span class="dv">26</span> <span class="dv">23</span> <span class="dv">50</span> <span class="dv">30</span> <span class="dv">17</span> <span class="dv">29</span> <span class="dv">4</span> <span class="dv">24</span> ...</a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"> <span class="op">$</span><span class="st"> </span>Dive_duration  <span class="op">:</span><span class="st"> </span>num  <span class="dv">12</span> <span class="ot">NA</span> <span class="dv">62</span> <span class="dv">120</span> <span class="dv">82</span> <span class="fl">9.8</span> <span class="fl">10.8</span> <span class="ot">NA</span> <span class="dv">52</span> <span class="dv">25</span> ...</a></code></pre></div>
+<p>All good: we have quite a few variables including a character vector of species names, male and female brain mass (g), male and female body mass (Kg) and the average harem size, where 1 indicates each male is only mating with a single female at a time and values greater than 1 tell us that males, if they are able, will guard females in groups.</p>
+<p>Let’s plot male brain mass against body mass to start with.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">plot</span>(pinniped<span class="op">$</span>Male_brain<span class="op">~</span>pinniped<span class="op">$</span>Male_mass)</a></code></pre></div>
+<div class="figure"><span id="fig:graph3"></span>
+<img src="3rd_Edition_files/figure-html/graph3-1.png" alt="Brain mass versus body mass for 33 species of male pinniped" width="672" />
+<p class="caption">
+Figure 9.3: Brain mass versus body mass for 33 species of male pinniped
+</p>
+</div>
+<p>This plot is showing us that there is some sort of relationship between brain mass and body mass, but it is difficult to tell much from it because both the brain mass and body mass data are squished down into the bottom left corner. This is because both of these variables are <em>positively skewed</em>: there are lots of seals and their relatives with body mass between about 50 and about 500Kg, but then there are a few which are much heavier up to <em>Mirounga leonina</em>, the Southern Elephant Seal, which is an absolute chonker with males weighing in at about 3.5 metric tonnes. We need to do something to spread the data out more evenly, and usually when dealing with this sort of <em>positively skewed</em> data we’d plot the log transformed data rather than the raw data. There are two easy ways to do this in R: you can generate new variables which are the logged values that you want to plot, or you can use an argument within the <code>plot()</code> function call to tell it to plot the data on a log scale.</p>
+<p>Here is the first option.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">#Generate new variables with the log transformed data</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">log_Male_brain &lt;-<span class="st"> </span><span class="kw">log</span>(pinniped<span class="op">$</span>Male_brain)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">log_Male_mass &lt;-<span class="st"> </span><span class="kw">log</span>(pinniped<span class="op">$</span>Male_mass)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#plot our new variables</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="kw">plot</span>(log_Male_brain<span class="op">~</span>log_Male_mass)</a></code></pre></div>
+<div class="figure"><span id="fig:graph4"></span>
+<img src="3rd_Edition_files/figure-html/graph4-1.png" alt="Log brain mass versus log body mass for 33 species of male pinniped" width="672" />
+<p class="caption">
+Figure 9.4: Log brain mass versus log body mass for 33 species of male pinniped
+</p>
+</div>
+<p>You can see that log transforming these data gives us a nice looking plot with the data spread out so that we can see any patterns that might be there. How about the other alternative?</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">plot</span>(pinniped<span class="op">$</span>Male_brain <span class="op">~</span><span class="st"> </span>pinniped<span class="op">$</span>Male_mass,</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">     <span class="dt">log  =</span> <span class="st">&quot;xy&quot;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:graph5"></span>
+<img src="3rd_Edition_files/figure-html/graph5-1.png" alt="Brain mass versus body mass for 33 species of male pinniped, plotted on log scaled axes" width="672" />
+<p class="caption">
+Figure 9.5: Brain mass versus body mass for 33 species of male pinniped, plotted on log scaled axes
+</p>
+</div>
+<p>The positioning of the points is exactly the same, but the numbers on the axes are different. What’s happened here is that instead of log-transforming the data we’ve plotted the untransformed data on axes that are on log scales —– you can see this by looking at the numbers on the x-axis in particular, where the distance from 100 to 200 is about the same as the distance from 1000 to 2000. If you only wanted the y-axis plotted on a log scale you could use <code>log = &quot;y&quot;</code> and if you only wanted the x-axis on a log scale then <code>log = &quot;x&quot;</code> would do.</p>
+<p>Which of these options for plotting logged data you use is up to you and the best option will depend on the context. I generally prefer the latter, since you retain the original units for your axes which makes it easier to understand what each data point represents.</p>
+<p>Talking of units, the axis labels on our plot are not especially informative, so let’s fix that by telling the <code>plot()</code> function what we want our axis labels to be. We can do that using the <code>xlab =</code> and <code>ylab =</code> arguments.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">plot</span>(pinniped<span class="op">$</span>Male_brain <span class="op">~</span><span class="st"> </span>pinniped<span class="op">$</span>Male_mass,</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">     <span class="dt">log  =</span> <span class="st">&quot;xy&quot;</span>,</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">     <span class="dt">xlab =</span> <span class="st">&quot;Body mass (Kg)&quot;</span>,</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">     <span class="dt">ylab =</span> <span class="st">&quot;Brain mass (g)&quot;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:graph6"></span>
+<img src="3rd_Edition_files/figure-html/graph6-1.png" alt="Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes" width="672" />
+<p class="caption">
+Figure 9.6: Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes
+</p>
+</div>
+<p>Good. This is now looking like a graph that we might start to think about publishing. You can see how the default options for things like axis limits and plot symbols are clean and well chosen in base R graphics. We’ve not finished though: we want to change our graph so that the viewer can differentiate between species with “harem” mating systems and other species.</p>
+<p>The Harem variable in our data set tells us the average size of the group of females that a male will defend for each species, so if Harem = 1 then we can classify a species as a non-harem one, and if Harem &gt; 1 then we can classify a species as one with a harem mating system. We can then use subscripting to allocate a specific colour or plot symbol to the data points for harem or non-harem species.</p>
+</div>
+<div id="plot-symbols" class="section level2">
+<h2><span class="header-section-number">9.4</span> Plot symbols</h2>
+<p>We can get R to draw different plot symbols by using the <code>pch =</code> graphical parameter. R has a set of built in symbols that are represented by the numbers 1 to 25. Here they are: the code used to draw this figure is at the end of this chapter.</p>
+<div class="figure"><span id="fig:graph7"></span>
+<img src="3rd_Edition_files/figure-html/graph7-1.png" alt="Plot symbols used in R" width="672" />
+<p class="caption">
+Figure 9.7: Plot symbols used in R
+</p>
+</div>
+<p>So if we’d like to plot our data with filled circles instead of open ones, we can set <code>pch = 16</code> as one of our graphical arguments, like this.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">plot</span>(pinniped<span class="op">$</span>Male_brain <span class="op">~</span><span class="st"> </span>pinniped<span class="op">$</span>Male_mass,</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">     <span class="dt">log  =</span> <span class="st">&quot;xy&quot;</span>,</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">     <span class="dt">xlab =</span> <span class="st">&quot;Body mass (Kg)&quot;</span>,</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">     <span class="dt">ylab =</span> <span class="st">&quot;Brain mass (g)&quot;</span>, </a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">     <span class="dt">pch =</span> <span class="dv">16</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:graph8"></span>
+<img src="3rd_Edition_files/figure-html/graph8-1.png" alt="Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes using closed circles as plot symbols" width="672" />
+<p class="caption">
+Figure 9.8: Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes using closed circles as plot symbols
+</p>
+</div>
+</div>
+<div id="colours" class="section level2">
+<h2><span class="header-section-number">9.5</span> Colours</h2>
+<p>The colour or colours that your plot symbols are drawn with (or the colours of the boxes in a boxplot, or the bars in a histogram or bar plot) can be set in R by using the <em>col</em> parameter, and other parameters such as <em>bg</em>, <em>col.axis</em>, <em>col.lab</em> set the colours for other parts of the plot: these examples will allow you to change the background colour and the colours of the axes and the axis labels respectively. For a full list of these take a look at <code>?par</code> which will bring up a description of all of the graphical parameters. The actual colours to be used can be named in a confusing variety of different ways, but for the beginner the easiest thing to do is simply to use the name: “red”, “blue”, “green” or “lightblue” or “darkgreen”. In fact, R has a rather surprising number of named colours that you can use, and an even more surprising range of names, from “aliceblue” through “darkgoldenrod2”, “hotpink1”, “lemonchiffon3” to “tomato4”. The function <code>colours()</code>, or <code>colors()</code> if you prefer the American spelling will produce a list of all 657 named colours in R. Appendix 1 has a series of charts showing each colour with its name.</p>
+<p>If you’re familiar with how colours are described in computers then you can use the RGB hexadecimal code for the colour: this begins with a hash symbol and then has two numbers for the red channel (computers think in hexadecimal to each one is 0-9 and the A-F), two for the green and two for the blue, so #0000FF is blue, #FF0000 is red, #000000 is black and #FFFFFF is white. We’ll talk about using these hex codes a little later when we discuss using <em>alpha channels</em> to make elements of your graph semi-transparent.</p>
+<p>If we wanted to change the colours of our plot symbols from the default black option we just need to add another argument specifying the exact colour we want. If we wanted <em>aquamarine4</em> as our plot colour then our code would look like this.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">plot</span>(pinniped<span class="op">$</span>Male_brain <span class="op">~</span><span class="st"> </span>pinniped<span class="op">$</span>Male_mass,</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">     <span class="dt">log  =</span> <span class="st">&quot;xy&quot;</span>,</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">     <span class="dt">xlab =</span> <span class="st">&quot;Body mass (Kg)&quot;</span>,</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">     <span class="dt">ylab =</span> <span class="st">&quot;Brain mass (g)&quot;</span>, </a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">     <span class="dt">pch =</span> <span class="dv">16</span>,</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">     <span class="dt">col =</span> <span class="st">&quot;aquamarine4&quot;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:graph9"></span>
+<img src="3rd_Edition_files/figure-html/graph9-1.png" alt="Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes with both plot symbol and colour specified" width="672" />
+<p class="caption">
+Figure 9.9: Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes with both plot symbol and colour specified
+</p>
+</div>
+</div>
+<div id="plotting-multiple-symbols-or-colours" class="section level2">
+<h2><span class="header-section-number">9.6</span> Plotting multiple symbols or colours</h2>
+<p>One of the most important uses of colour or plot symbols is to distinguish between different classes of data, and this is something that we can do in R: if we have a variable which classifies our data into groups, then we can use that to tell R which colours or symbols to use. Using our data on pinnipeds, we can divide our species into harem breeders, where males defend groups of more than one female during the mating season, and non-harem breeders where each male is only associated with a single female. The variable <code>Harem</code> gives us the number of females that a male might be associated with and we can use this to set up a new factor called <code>Mating_system</code> which has two levels, <code>Harem</code> for males who will seek to defend more than one female and <code>Non harem</code> for males who only associate with a single female at a time.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">Mating_system &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>(pinniped<span class="op">$</span>Harem <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;Non harem&quot;</span>, <span class="st">&quot;Harem&quot;</span>))</a></code></pre></div>
+<p>Here we’ve used the <code>ifelse()</code> function which takes a logical statement, in this case whether the value of <code>Harem</code> is equal to one, and returns one value, in this case <code>&quot;Non harem&quot;</code>, if the logical statement is true and a second value (<code>&quot;Harem&quot;</code>) if the statement is false. Now we can plot our data and indicate to the viewer which mating system is associated with each data point. Firstly we’ll do this with colours, and then with different plot symbols.</p>
+<p>To indicate how our points are classified we need a vector of colours for R to use in our plot. This example has only two but if you have more groups you just need more colours in your vector.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">colours &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;aquamarine4&quot;</span>, <span class="st">&quot;chocolate2&quot;</span>)</a></code></pre></div>
+<p>Now we have a vector of colours and a factor which classifies our data. How do we use these to generate a plot with each data point colour coded by the factor levels? The answer lies in some clever use of subscripts. <code>colours</code> is a character vector and we can retrieve the first or second value by using a subscript:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">colours[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">[<span class="dv">1</span>] <span class="st">&quot;chocolate2&quot;</span></a></code></pre></div>
+<p>returns the second value in the vector. If we have a second vector of numbers which correspond to the useable subscripts for our <code>colours</code> vector then we can use this to generate a new vector of colour names:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">example &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">colours[example]</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">[<span class="dv">1</span>] <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;chocolate2&quot;</span> </a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">[<span class="dv">6</span>] <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;aquamarine4&quot;</span></a></code></pre></div>
+<p>which returns a vector with seven colour names, each corresponding to the relevant value in our <code>example</code> vector. Now let’s go back to our <code>Mating_system</code> factor. This has two levels, <code>Harem</code> and <code>Non harem</code> and these levels will be coded by R as <code>1</code> for <code>Harem</code>, which coes first alphabetically, and <code>2</code> for <code>Non harem</code> which comes second. If, therefore, we use <code>Mating_system</code> as a subscript for <code>colours</code> it should return <code>&quot;aquamarine4&quot;</code> for each value of <code>Non harem</code> in <code>Mating_system</code> and <code>&quot;chocolate2&quot;</code> for each value of <code>Harem</code>. Let’s try that out.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">colours[Mating_system]</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"> [<span class="dv">1</span>] <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"> [<span class="dv">6</span>] <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;chocolate2&quot;</span> </a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">[<span class="dv">11</span>] <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;chocolate2&quot;</span> </a>
+<a class="sourceLine" id="cb18-5" data-line-number="5">[<span class="dv">16</span>] <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;chocolate2&quot;</span>  <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span></a>
+<a class="sourceLine" id="cb18-6" data-line-number="6">[<span class="dv">21</span>] <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span></a>
+<a class="sourceLine" id="cb18-7" data-line-number="7">[<span class="dv">26</span>] <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span></a>
+<a class="sourceLine" id="cb18-8" data-line-number="8">[<span class="dv">31</span>] <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span> <span class="st">&quot;aquamarine4&quot;</span></a></code></pre></div>
+<p><em>Et voilà!</em> we can generate a vector of colours which we can include in our <code>plot()</code> function call with only a very brief piece of code.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">plot</span>(pinniped<span class="op">$</span>Male_brain <span class="op">~</span><span class="st"> </span>pinniped<span class="op">$</span>Male_mass,</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">     <span class="dt">log  =</span> <span class="st">&quot;xy&quot;</span>,</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">     <span class="dt">xlab =</span> <span class="st">&quot;Body mass (Kg)&quot;</span>,</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">     <span class="dt">ylab =</span> <span class="st">&quot;Brain mass (g)&quot;</span>, </a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">     <span class="dt">pch =</span> <span class="dv">16</span>,</a>
+<a class="sourceLine" id="cb19-6" data-line-number="6">     <span class="dt">col =</span> colours[Mating_system])</a></code></pre></div>
+<div class="figure"><span id="fig:graph10"></span>
+<img src="3rd_Edition_files/figure-html/graph10-1.png" alt="Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, orange symbols indicate non-harem breeders and green indicate harem breeders" width="672" />
+<p class="caption">
+Figure 9.10: Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, orange symbols indicate non-harem breeders and green indicate harem breeders
+</p>
+</div>
+<p>There we are. Now, if I were given chocolate that colour to eat I’d be rather dubious, but aside from that we’ve achieved our goal.</p>
+<p>We can vary the plot symbol using the exact same logic. If we wanted to indicate mating system by using a filled circle (plot symbol 16) for <code>Harem</code> and a filled triangle (plot symbol 17) for <code>Non harem</code> we need to set up a vector containing these two numbers:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">symbols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">16</span>,<span class="dv">17</span>)</a></code></pre></div>
+<p>and then we can use this in our <code>plot()</code> function call with a subscript in the same way that we did for colours.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">plot</span>(pinniped<span class="op">$</span>Male_brain <span class="op">~</span><span class="st"> </span>pinniped<span class="op">$</span>Male_mass,</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">     <span class="dt">log  =</span> <span class="st">&quot;xy&quot;</span>,</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">     <span class="dt">xlab =</span> <span class="st">&quot;Body mass (Kg)&quot;</span>,</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4">     <span class="dt">ylab =</span> <span class="st">&quot;Brain mass (g)&quot;</span>, </a>
+<a class="sourceLine" id="cb21-5" data-line-number="5">     <span class="dt">pch =</span> symbols[Mating_system])</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-14"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-14-1.png" alt="Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, triangles indicate non-harem breeders and circles indicate harem breeders" width="672" />
+<p class="caption">
+Figure 9.11: Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, triangles indicate non-harem breeders and circles indicate harem breeders
+</p>
+</div>
+</div>
+<div id="colour-palettes-in-r" class="section level2">
+<h2><span class="header-section-number">9.7</span> Colour palettes in R</h2>
+<p>You don’t have to choose your own colours for your plots. R has a number of built-in selections of colours which are known as “palettes”. There is a default palette which is a vector of 8 different colours which can be found using the <code>palette()</code> function.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">palette</span>()</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">[<span class="dv">1</span>] <span class="st">&quot;black&quot;</span>   <span class="st">&quot;#DF536B&quot;</span> <span class="st">&quot;#61D04F&quot;</span> <span class="st">&quot;#2297E6&quot;</span> <span class="st">&quot;#28E2E5&quot;</span> <span class="st">&quot;#CD0BBC&quot;</span> <span class="st">&quot;#F5C710&quot;</span></a>
+<a class="sourceLine" id="cb22-3" data-line-number="3">[<span class="dv">8</span>] <span class="st">&quot;gray62&quot;</span> </a></code></pre></div>
+<p>If you’re just interested in a quick look at your data then you can just use code like this where I’ve specified our <code>Mating_system</code> factor for the <code>col =</code> argument, and R will use the first two colours in the default palette.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">plot</span>(pinniped<span class="op">$</span>Male_brain <span class="op">~</span><span class="st"> </span>pinniped<span class="op">$</span>Male_mass,</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">     <span class="dt">log  =</span> <span class="st">&quot;xy&quot;</span>,</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">     <span class="dt">xlab =</span> <span class="st">&quot;Body mass (Kg)&quot;</span>,</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4">     <span class="dt">ylab =</span> <span class="st">&quot;Brain mass (g)&quot;</span>, </a>
+<a class="sourceLine" id="cb23-5" data-line-number="5">     <span class="dt">pch =</span> <span class="dv">16</span>,</a>
+<a class="sourceLine" id="cb23-6" data-line-number="6">     <span class="dt">col =</span> Mating_system)</a></code></pre></div>
+<div class="figure"><span id="fig:graph11"></span>
+<img src="3rd_Edition_files/figure-html/graph11-1.png" alt="Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, colour coded for mating system" width="672" />
+<p class="caption">
+Figure 9.12: Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, colour coded for mating system
+</p>
+</div>
+<p>That doesn’t look too bad but you might not want to use it for a presentation or a publication. The default R palette has something of a bad reputation and the potential combinations of bright red, green and blue is enough to give most people a headache, not to mention the possible problems for people with red-green colourblindness. There will be a new and less offensive default palette <a href="https://developer.r-project.org/Blog/public/2019/11/21/a-new-palette-for-r/index.html">coming to R soon</a> but at the time of writing this hasn’t been implemented yet. The good news though is that there are a lot of other palettes now available in a base R installation as part of the grDevices package, and there are also some really nice ones available as installable packages. The <code>ncl.pals()</code> function will give you a list of what’s available in your base installation so long as it’s a fairly recent one.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">hcl.pals</span>()</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">  [<span class="dv">1</span>] <span class="st">&quot;Pastel 1&quot;</span>      <span class="st">&quot;Dark 2&quot;</span>        <span class="st">&quot;Dark 3&quot;</span>        <span class="st">&quot;Set 2&quot;</span>        </a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">  [<span class="dv">5</span>] <span class="st">&quot;Set 3&quot;</span>         <span class="st">&quot;Warm&quot;</span>          <span class="st">&quot;Cold&quot;</span>          <span class="st">&quot;Harmonic&quot;</span>     </a>
+<a class="sourceLine" id="cb24-4" data-line-number="4">  [<span class="dv">9</span>] <span class="st">&quot;Dynamic&quot;</span>       <span class="st">&quot;Grays&quot;</span>         <span class="st">&quot;Light Grays&quot;</span>   <span class="st">&quot;Blues 2&quot;</span>      </a>
+<a class="sourceLine" id="cb24-5" data-line-number="5"> [<span class="dv">13</span>] <span class="st">&quot;Blues 3&quot;</span>       <span class="st">&quot;Purples 2&quot;</span>     <span class="st">&quot;Purples 3&quot;</span>     <span class="st">&quot;Reds 2&quot;</span>       </a>
+<a class="sourceLine" id="cb24-6" data-line-number="6"> [<span class="dv">17</span>] <span class="st">&quot;Reds 3&quot;</span>        <span class="st">&quot;Greens 2&quot;</span>      <span class="st">&quot;Greens 3&quot;</span>      <span class="st">&quot;Oslo&quot;</span>         </a>
+<a class="sourceLine" id="cb24-7" data-line-number="7"> [<span class="dv">21</span>] <span class="st">&quot;Purple-Blue&quot;</span>   <span class="st">&quot;Red-Purple&quot;</span>    <span class="st">&quot;Red-Blue&quot;</span>      <span class="st">&quot;Purple-Orange&quot;</span></a>
+<a class="sourceLine" id="cb24-8" data-line-number="8"> [<span class="dv">25</span>] <span class="st">&quot;Purple-Yellow&quot;</span> <span class="st">&quot;Blue-Yellow&quot;</span>   <span class="st">&quot;Green-Yellow&quot;</span>  <span class="st">&quot;Red-Yellow&quot;</span>   </a>
+<a class="sourceLine" id="cb24-9" data-line-number="9"> [<span class="dv">29</span>] <span class="st">&quot;Heat&quot;</span>          <span class="st">&quot;Heat 2&quot;</span>        <span class="st">&quot;Terrain&quot;</span>       <span class="st">&quot;Terrain 2&quot;</span>    </a>
+<a class="sourceLine" id="cb24-10" data-line-number="10"> [<span class="dv">33</span>] <span class="st">&quot;Viridis&quot;</span>       <span class="st">&quot;Plasma&quot;</span>        <span class="st">&quot;Inferno&quot;</span>       <span class="st">&quot;Dark Mint&quot;</span>    </a>
+<a class="sourceLine" id="cb24-11" data-line-number="11"> [<span class="dv">37</span>] <span class="st">&quot;Mint&quot;</span>          <span class="st">&quot;BluGrn&quot;</span>        <span class="st">&quot;Teal&quot;</span>          <span class="st">&quot;TealGrn&quot;</span>      </a>
+<a class="sourceLine" id="cb24-12" data-line-number="12"> [<span class="dv">41</span>] <span class="st">&quot;Emrld&quot;</span>         <span class="st">&quot;BluYl&quot;</span>         <span class="st">&quot;ag_GrnYl&quot;</span>      <span class="st">&quot;Peach&quot;</span>        </a>
+<a class="sourceLine" id="cb24-13" data-line-number="13"> [<span class="dv">45</span>] <span class="st">&quot;PinkYl&quot;</span>        <span class="st">&quot;Burg&quot;</span>          <span class="st">&quot;BurgYl&quot;</span>        <span class="st">&quot;RedOr&quot;</span>        </a>
+<a class="sourceLine" id="cb24-14" data-line-number="14"> [<span class="dv">49</span>] <span class="st">&quot;OrYel&quot;</span>         <span class="st">&quot;Purp&quot;</span>          <span class="st">&quot;PurpOr&quot;</span>        <span class="st">&quot;Sunset&quot;</span>       </a>
+<a class="sourceLine" id="cb24-15" data-line-number="15"> [<span class="dv">53</span>] <span class="st">&quot;Magenta&quot;</span>       <span class="st">&quot;SunsetDark&quot;</span>    <span class="st">&quot;ag_Sunset&quot;</span>     <span class="st">&quot;BrwnYl&quot;</span>       </a>
+<a class="sourceLine" id="cb24-16" data-line-number="16"> [<span class="dv">57</span>] <span class="st">&quot;YlOrRd&quot;</span>        <span class="st">&quot;YlOrBr&quot;</span>        <span class="st">&quot;OrRd&quot;</span>          <span class="st">&quot;Oranges&quot;</span>      </a>
+<a class="sourceLine" id="cb24-17" data-line-number="17"> [<span class="dv">61</span>] <span class="st">&quot;YlGn&quot;</span>          <span class="st">&quot;YlGnBu&quot;</span>        <span class="st">&quot;Reds&quot;</span>          <span class="st">&quot;RdPu&quot;</span>         </a>
+<a class="sourceLine" id="cb24-18" data-line-number="18"> [<span class="dv">65</span>] <span class="st">&quot;PuRd&quot;</span>          <span class="st">&quot;Purples&quot;</span>       <span class="st">&quot;PuBuGn&quot;</span>        <span class="st">&quot;PuBu&quot;</span>         </a>
+<a class="sourceLine" id="cb24-19" data-line-number="19"> [<span class="dv">69</span>] <span class="st">&quot;Greens&quot;</span>        <span class="st">&quot;BuGn&quot;</span>          <span class="st">&quot;GnBu&quot;</span>          <span class="st">&quot;BuPu&quot;</span>         </a>
+<a class="sourceLine" id="cb24-20" data-line-number="20"> [<span class="dv">73</span>] <span class="st">&quot;Blues&quot;</span>         <span class="st">&quot;Lajolla&quot;</span>       <span class="st">&quot;Turku&quot;</span>         <span class="st">&quot;Blue-Red&quot;</span>     </a>
+<a class="sourceLine" id="cb24-21" data-line-number="21"> [<span class="dv">77</span>] <span class="st">&quot;Blue-Red 2&quot;</span>    <span class="st">&quot;Blue-Red 3&quot;</span>    <span class="st">&quot;Red-Green&quot;</span>     <span class="st">&quot;Purple-Green&quot;</span> </a>
+<a class="sourceLine" id="cb24-22" data-line-number="22"> [<span class="dv">81</span>] <span class="st">&quot;Purple-Brown&quot;</span>  <span class="st">&quot;Green-Brown&quot;</span>   <span class="st">&quot;Blue-Yellow 2&quot;</span> <span class="st">&quot;Blue-Yellow 3&quot;</span></a>
+<a class="sourceLine" id="cb24-23" data-line-number="23"> [<span class="dv">85</span>] <span class="st">&quot;Green-Orange&quot;</span>  <span class="st">&quot;Cyan-Magenta&quot;</span>  <span class="st">&quot;Tropic&quot;</span>        <span class="st">&quot;Broc&quot;</span>         </a>
+<a class="sourceLine" id="cb24-24" data-line-number="24"> [<span class="dv">89</span>] <span class="st">&quot;Cork&quot;</span>          <span class="st">&quot;Vik&quot;</span>           <span class="st">&quot;Berlin&quot;</span>        <span class="st">&quot;Lisbon&quot;</span>       </a>
+<a class="sourceLine" id="cb24-25" data-line-number="25"> [<span class="dv">93</span>] <span class="st">&quot;Tofino&quot;</span>        <span class="st">&quot;ArmyRose&quot;</span>      <span class="st">&quot;Earth&quot;</span>         <span class="st">&quot;Fall&quot;</span>         </a>
+<a class="sourceLine" id="cb24-26" data-line-number="26"> [<span class="dv">97</span>] <span class="st">&quot;Geyser&quot;</span>        <span class="st">&quot;TealRose&quot;</span>      <span class="st">&quot;Temps&quot;</span>         <span class="st">&quot;PuOr&quot;</span>         </a>
+<a class="sourceLine" id="cb24-27" data-line-number="27">[<span class="dv">101</span>] <span class="st">&quot;RdBu&quot;</span>          <span class="st">&quot;RdGy&quot;</span>          <span class="st">&quot;PiYG&quot;</span>          <span class="st">&quot;PRGn&quot;</span>         </a>
+<a class="sourceLine" id="cb24-28" data-line-number="28">[<span class="dv">105</span>] <span class="st">&quot;BrBG&quot;</span>          <span class="st">&quot;RdYlBu&quot;</span>        <span class="st">&quot;RdYlGn&quot;</span>        <span class="st">&quot;Spectral&quot;</span>     </a>
+<a class="sourceLine" id="cb24-29" data-line-number="29">[<span class="dv">109</span>] <span class="st">&quot;Zissou 1&quot;</span>      <span class="st">&quot;Cividis&quot;</span>      </a></code></pre></div>
+<p>This long list is in fact an implementation of the colour palettes available in the <a href="https://cran.r-project.org/web/packages/colorspace/vignettes/colorspace.html">colorspace</a> package for R, and these are themselves a mix of palettes from a variety of sources: for example the <code>Viridis</code> palette is from the eponymous <a href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html">Viridis</a> package.</p>
+<p>I personally find a lot of these built-in colour palettes to be rather uninspiring and I prefer to use palettes from the <code>RColorBrewer</code> package. <code>RColorBrewer</code> gives you an R implementation of the palettes available on the <a href="http://colorbrewer2.org/">Color Brewer</a> website. The website is oriented towards cartographers but the palettes are useful for all sorts of data visualisations. The package will need to be installed if you don’t already have it so you’d need to run <code>install.packages(&quot;RColorBrewer&quot;)</code>.</p>
+<p>The palettes in <code>RColorBrewer</code> and elsewhere are usually grouped into “sequential”, “diverging” and “qualitative” palettes. Sequential ones are suited for data on an ordered scale and tend to have a single underlying colour which is presented at varying degrees of lightness. Here are the available palettes from <code>RColorBrewer</code>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">library</span>(RColorBrewer)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw">display.brewer.all</span>(<span class="dt">type =</span> <span class="st">&quot;seq&quot;</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>Diverging palettes, like the sequential ones are suited for data where there is some sort of order but these palettes have contrasting colours for high and low values and (usually) pale shades for mid-range values.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">display.brewer.all</span>(<span class="dt">type =</span> <span class="st">&quot;div&quot;</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>Finally, qualitative palettes do not have any implied ordering and are best for representing data where the differences between data points are themselves not ordered.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">display.brewer.all</span>(<span class="dt">type =</span> <span class="st">&quot;qual&quot;</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>These palettes have a variety of numbers of colours, and chances are that you’ll want to use a different number from the default. You can’t use more than the maximum, but you can easily generate and visualise sub-palettes with fewer colours present. As an example, if you wanted a palette based on the Dark2 palette but with seven colours only you can use the <code>display.brewer.pal()</code> function to visualise it and the <code>brewer.pal()</code> function to generate a new object with the appropriate hex codes.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">display.brewer.pal</span>(<span class="dt">n =</span> <span class="dv">7</span>, <span class="dt">name =</span> <span class="st">&#39;Dark2&#39;</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">palette1 &lt;-<span class="st"> </span><span class="kw">brewer.pal</span>(<span class="dt">n=</span><span class="dv">7</span>, <span class="dt">name =</span> <span class="st">&quot;Dark2&quot;</span>)</a></code></pre></div>
+<p>giving us a character vector called <code>palette1</code> with seven elements which are the hex codes for our colours.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">palette1</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2">[<span class="dv">1</span>] <span class="st">&quot;#1B9E77&quot;</span> <span class="st">&quot;#D95F02&quot;</span> <span class="st">&quot;#7570B3&quot;</span> <span class="st">&quot;#E7298A&quot;</span> <span class="st">&quot;#66A61E&quot;</span> <span class="st">&quot;#E6AB02&quot;</span> <span class="st">&quot;#A6761D&quot;</span></a></code></pre></div>
+<p>Let’s use this palette to plot a graph. The World_bank_data_2014.csv dataset contains a wide variety of data on economics and development measured in 2014 for 186 countries around the World, as published by the <a href="https://data.worldbank.org/">World Bank</a>. Two variables are the percentage of the surface area which are classified as forested (<code>Forest_area</code>) and the annual rainfall in mm (<code>Precipitation</code>). Let’s plot these out, and colour code our data points by region (which happens to have seven values…)</p>
+<p>First of all we need to load the data. I’m running R4.0 so I’ll need to specify the variables that I’d like to use as factors.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">WB &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.introductoryr.co.uk/World_bank_data_2014.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3">WB<span class="op">$</span>Region &lt;-<span class="st"> </span><span class="kw">as.factor</span>(WB<span class="op">$</span>Region)</a>
+<a class="sourceLine" id="cb31-4" data-line-number="4">WB<span class="op">$</span>Income_group &lt;-<span class="st"> </span><span class="kw">as.factor</span>(WB<span class="op">$</span>Income_group)</a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="kw">str</span>(WB)</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7"><span class="st">&#39;data.frame&#39;</span><span class="op">:</span><span class="st">   </span><span class="dv">186</span> obs. of  <span class="dv">22</span> variables<span class="op">:</span></a>
+<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="st"> </span><span class="er">$</span><span class="st"> </span>Country_Name              <span class="op">:</span><span class="st"> </span>chr  <span class="st">&quot;Afghanistan&quot;</span> <span class="st">&quot;Angola&quot;</span> <span class="st">&quot;Albania&quot;</span> <span class="st">&quot;Andorra&quot;</span> ...</a>
+<a class="sourceLine" id="cb31-9" data-line-number="9"> <span class="op">$</span><span class="st"> </span>Country_Code              <span class="op">:</span><span class="st"> </span>chr  <span class="st">&quot;AFG&quot;</span> <span class="st">&quot;AGO&quot;</span> <span class="st">&quot;ALB&quot;</span> <span class="st">&quot;AND&quot;</span> ...</a>
+<a class="sourceLine" id="cb31-10" data-line-number="10"> <span class="op">$</span><span class="st"> </span>Region                    <span class="op">:</span><span class="st"> </span>Factor w<span class="op">/</span><span class="st"> </span><span class="dv">7</span> levels <span class="st">&quot;East Asia &amp; Pacific&quot;</span>,..<span class="op">:</span><span class="st"> </span><span class="dv">6</span> <span class="dv">7</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">4</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">1</span> <span class="dv">2</span> ...</a>
+<a class="sourceLine" id="cb31-11" data-line-number="11"> <span class="op">$</span><span class="st"> </span>Income_group              <span class="op">:</span><span class="st"> </span>Factor w<span class="op">/</span><span class="st"> </span><span class="dv">4</span> levels <span class="st">&quot;High income&quot;</span>,..<span class="op">:</span><span class="st"> </span><span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">4</span> <span class="dv">4</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> ...</a>
+<a class="sourceLine" id="cb31-12" data-line-number="12"> <span class="op">$</span><span class="st"> </span>Population                <span class="op">:</span><span class="st"> </span>int  <span class="dv">33370794</span> <span class="dv">26941779</span> <span class="dv">2889104</span> <span class="dv">79213</span> <span class="dv">9214175</span> <span class="dv">42669500</span> <span class="dv">2912403</span> <span class="dv">92562</span> <span class="dv">23475686</span> <span class="dv">8546356</span> ...</a>
+<a class="sourceLine" id="cb31-13" data-line-number="13"> <span class="op">$</span><span class="st"> </span>Land_area                 <span class="op">:</span><span class="st"> </span>num  <span class="dv">652860</span> <span class="dv">1246700</span> <span class="dv">27400</span> <span class="dv">470</span> <span class="dv">71020</span> ...</a>
+<a class="sourceLine" id="cb31-14" data-line-number="14"> <span class="op">$</span><span class="st"> </span>Forest_area               <span class="op">:</span><span class="st"> </span>num  <span class="fl">2.07</span> <span class="fl">46.51</span> <span class="fl">28.19</span> <span class="fl">34.04</span> <span class="fl">4.53</span> ...</a>
+<a class="sourceLine" id="cb31-15" data-line-number="15"> <span class="op">$</span><span class="st"> </span>Precipitation             <span class="op">:</span><span class="st"> </span>int  <span class="dv">327</span> <span class="dv">1010</span> <span class="dv">1485</span> <span class="ot">NA</span> <span class="dv">78</span> <span class="dv">591</span> <span class="dv">562</span> <span class="dv">1030</span> <span class="dv">534</span> <span class="dv">1110</span> ...</a>
+<a class="sourceLine" id="cb31-16" data-line-number="16"> <span class="op">$</span><span class="st"> </span>Population_density        <span class="op">:</span><span class="st"> </span>num  <span class="fl">51.1</span> <span class="fl">21.6</span> <span class="fl">105.4</span> <span class="fl">168.5</span> <span class="fl">129.7</span> ...</a>
+<a class="sourceLine" id="cb31-17" data-line-number="17"> <span class="op">$</span><span class="st"> </span>Capital_lat               <span class="op">:</span><span class="st"> </span>int  <span class="dv">33</span> <span class="dv">-13</span> <span class="dv">41</span> <span class="dv">43</span> <span class="dv">24</span> <span class="dv">-34</span> <span class="dv">40</span> <span class="dv">17</span> <span class="dv">-35</span> <span class="dv">47</span> ...</a>
+<a class="sourceLine" id="cb31-18" data-line-number="18"> <span class="op">$</span><span class="st"> </span>GNP_per_Cap               <span class="op">:</span><span class="st"> </span>int  <span class="dv">630</span> <span class="dv">5010</span> <span class="dv">4540</span> <span class="ot">NA</span> <span class="dv">44330</span> <span class="dv">12350</span> <span class="dv">4140</span> <span class="dv">12730</span> <span class="dv">65150</span> <span class="dv">50370</span> ...</a>
+<a class="sourceLine" id="cb31-19" data-line-number="19"> <span class="op">$</span><span class="st"> </span>Population_growth         <span class="op">:</span><span class="st"> </span>num  <span class="fl">3.356</span> <span class="fl">3.497</span> <span class="fl">-0.207</span> <span class="fl">-1.951</span> <span class="fl">0.177</span> ...</a>
+<a class="sourceLine" id="cb31-20" data-line-number="20"> <span class="op">$</span><span class="st"> </span>Cereal_yield              <span class="op">:</span><span class="st"> </span>num  <span class="dv">2018</span> <span class="dv">888</span> <span class="dv">4893</span> <span class="ot">NA</span> <span class="dv">12543</span> ...</a>
+<a class="sourceLine" id="cb31-21" data-line-number="21"> <span class="op">$</span><span class="st"> </span>Under_<span class="dv">5</span>_mortality         <span class="op">:</span><span class="st"> </span>num  <span class="fl">73.6</span> <span class="fl">92.9</span> <span class="dv">10</span> <span class="fl">3.4</span> <span class="fl">7.9</span> <span class="dv">12</span> <span class="fl">15.1</span> <span class="fl">7.6</span> <span class="dv">4</span> <span class="fl">3.8</span> ...</a>
+<a class="sourceLine" id="cb31-22" data-line-number="22"> <span class="op">$</span><span class="st"> </span>Renewables                <span class="op">:</span><span class="st"> </span>num  <span class="fl">19.314</span> <span class="fl">50.797</span> <span class="fl">38.69</span> <span class="fl">19.886</span> <span class="fl">0.146</span> ...</a>
+<a class="sourceLine" id="cb31-23" data-line-number="23"> <span class="op">$</span><span class="st"> </span>CO2                       <span class="op">:</span><span class="st"> </span>num  <span class="fl">0.294</span> <span class="fl">1.29</span> <span class="fl">1.979</span> <span class="fl">5.833</span> <span class="fl">22.94</span> ...</a>
+<a class="sourceLine" id="cb31-24" data-line-number="24"> <span class="op">$</span><span class="st"> </span>PM25                      <span class="op">:</span><span class="st"> </span>num  <span class="dv">59</span> <span class="dv">33</span> <span class="fl">18.9</span> <span class="fl">10.8</span> <span class="dv">38</span> ...</a>
+<a class="sourceLine" id="cb31-25" data-line-number="25"> <span class="op">$</span><span class="st"> </span>Women_in_parliament       <span class="op">:</span><span class="st"> </span>num  <span class="fl">27.7</span> <span class="fl">36.8</span> <span class="dv">20</span> <span class="dv">50</span> <span class="fl">17.5</span> <span class="fl">36.6</span> <span class="fl">10.7</span> <span class="fl">11.1</span> <span class="dv">26</span> <span class="fl">32.2</span> ...</a>
+<a class="sourceLine" id="cb31-26" data-line-number="26"> <span class="op">$</span><span class="st"> </span>GINI_index                <span class="op">:</span><span class="st"> </span>num  <span class="ot">NA</span> <span class="ot">NA</span> <span class="ot">NA</span> <span class="ot">NA</span> <span class="ot">NA</span> <span class="fl">41.7</span> <span class="fl">31.5</span> <span class="ot">NA</span> <span class="fl">35.8</span> <span class="fl">30.5</span> ...</a>
+<a class="sourceLine" id="cb31-27" data-line-number="27"> <span class="op">$</span><span class="st"> </span>Govt_spend_education      <span class="op">:</span><span class="st"> </span>num  <span class="fl">3.7</span> <span class="ot">NA</span> <span class="ot">NA</span> <span class="dv">3</span> <span class="ot">NA</span> ...</a>
+<a class="sourceLine" id="cb31-28" data-line-number="28"> <span class="op">$</span><span class="st"> </span>Secondary_school_enrolment<span class="op">:</span><span class="st"> </span>num  <span class="fl">52.6</span> <span class="ot">NA</span> <span class="fl">97.7</span> <span class="ot">NA</span> <span class="ot">NA</span> ...</a>
+<a class="sourceLine" id="cb31-29" data-line-number="29"> <span class="op">$</span><span class="st"> </span>School_gender_parity      <span class="op">:</span><span class="st"> </span>num  <span class="fl">0.654</span> <span class="ot">NA</span> <span class="fl">0.977</span> <span class="ot">NA</span> <span class="ot">NA</span> ...</a></code></pre></div>
+<p>Now that we have our data a little housekeeping is in order. We’re going to want to add a legend ot our plot in the right hand margin so we need to adjust the sizes of the figure margins using <code>par(mar = c(5,4,4,12))</code>. The vector of numbers is the size of the margins in the order of bottom, left, top, right and it would normally be set at <code>c(5,4,4,2) + 0.1</code> so we’re making the right hand margin much bigger than it would normally be.</p>
+<p><code>par(xpd = TRUE)</code> sets R so that we can plot our legend in the margin: normally in base graphics it would be restricted to inside the plotting area.</p>
+<p>Now that we’ve done that we can plot our graph, add the legend and then finally set our two parameters back to their default values. It’s always a good idea to do this because if you don’t then you’ll inevitably forget and then you’ll end up wondering why your graph looks odd.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">13</span>))</a>
+<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="kw">par</span>(<span class="dt">xpd =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb32-5" data-line-number="5"><span class="kw">plot</span>(WB<span class="op">$</span>Forest_area <span class="op">~</span><span class="st"> </span>WB<span class="op">$</span>Precipitation, </a>
+<a class="sourceLine" id="cb32-6" data-line-number="6">     <span class="dt">col =</span> palette1[WB<span class="op">$</span>Region], </a>
+<a class="sourceLine" id="cb32-7" data-line-number="7">     <span class="dt">pch =</span> <span class="dv">16</span>,</a>
+<a class="sourceLine" id="cb32-8" data-line-number="8">     <span class="dt">xlab =</span> <span class="st">&quot;Precipitation (mm per year)&quot;</span>,</a>
+<a class="sourceLine" id="cb32-9" data-line-number="9">     <span class="dt">ylab =</span> <span class="st">&quot;Forest area (%)&quot;</span>)</a>
+<a class="sourceLine" id="cb32-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb32-11" data-line-number="11"><span class="kw">legend</span>(<span class="dt">x=</span><span class="dv">3500</span>, <span class="dt">y=</span><span class="dv">80</span>, </a>
+<a class="sourceLine" id="cb32-12" data-line-number="12">       <span class="dt">col =</span> palette1, </a>
+<a class="sourceLine" id="cb32-13" data-line-number="13">       <span class="dt">pch =</span> <span class="dv">16</span>, </a>
+<a class="sourceLine" id="cb32-14" data-line-number="14">       <span class="dt">legend =</span> <span class="kw">levels</span>(WB<span class="op">$</span>Region), </a>
+<a class="sourceLine" id="cb32-15" data-line-number="15">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, </a>
+<a class="sourceLine" id="cb32-16" data-line-number="16">       <span class="dt">title =</span> <span class="st">&quot;Region&quot;</span>)</a>
+<a class="sourceLine" id="cb32-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb32-18" data-line-number="18"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb32-19" data-line-number="19"><span class="kw">par</span>(<span class="dt">xpd =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p>Before we look at our final plot, let’s just run through those <code>plot()</code> and <code>legend()</code> function calls and see what all the arguments do.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">plot</span>(WB<span class="op">$</span>Forest_area <span class="op">~</span><span class="st"> </span>WB<span class="op">$</span>Precipitation, </a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">     <span class="dt">col =</span> palette1[WB<span class="op">$</span>Region], </a>
+<a class="sourceLine" id="cb33-3" data-line-number="3">     <span class="dt">pch =</span> <span class="dv">16</span>,</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;Precipitation (mm per year)&quot;</span>,</a>
+<a class="sourceLine" id="cb33-5" data-line-number="5">     <span class="dt">ylab =</span> <span class="st">&quot;Forest area (%)&quot;</span>)</a></code></pre></div>
+<p>This is the function call that plots the graph. We start off by giving <code>plot()</code> the names of two continuous variables (<code>Forest_area</code> and <code>Precipitation</code>), both from the <code>WB</code> data frame. These are separated by a tilde <code>~</code> which means “the one on the left of the tilde as explained by the one on the right”… so <code>plot()</code> will draw us a scatterplot with <code>Forest_area</code> on the y-axis and <code>Precipitation</code> on the x-axis.</p>
+<p>Next comes <code>col = palette1[WB$Region],</code> which determines the colours used in the plot. We’ve already set up <code>palette1</code> which is a vector of seven colours derived from the RColorBrewer Dark2 palette. Using the factor <code>Region</code> from the <code>WB</code> data frame as a subscript generates a vector of colours corresponding to the factor levels, as we saw above. Finally we have three fairly simple arguments. <code>pch = 16</code> sets the plot symbol to be a filled circle, and <code>xlab =</code> and <code>ylab =</code> set the two axis labels.</p>
+<p>This plots our graph. Moving on to the <code>legend()</code> function call, this is one of a number of R functions which you can use to draw things like lines, text or more data on to an existing graph and we’ll discuss these in detail in the next chapter. For the moment, I’ll just quickly run you thorugh what the various arguments are doing.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">legend</span>(<span class="dt">x=</span><span class="dv">3500</span>, <span class="dt">y=</span><span class="dv">80</span>, </a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">       <span class="dt">col =</span> palette1, </a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">       <span class="dt">pch =</span> <span class="dv">16</span>, </a>
+<a class="sourceLine" id="cb34-4" data-line-number="4">       <span class="dt">legend =</span> <span class="kw">levels</span>(WB<span class="op">$</span>Region), </a>
+<a class="sourceLine" id="cb34-5" data-line-number="5">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, </a>
+<a class="sourceLine" id="cb34-6" data-line-number="6">       <span class="dt">title =</span> <span class="st">&quot;Region&quot;</span>)</a></code></pre></div>
+<p>The <code>x=3500, y=80</code> arguments are telling R where to put the top left corner of the legend. The units are the same as those that the graph is plotted in, which makes life a bit easier. Note that 3500 is outside the range of the x-axis, so we’re asking R to plot the legend next to the graph rather than inside the graph box, which is why we have to set <code>par(xpd = TRUE)</code>.</p>
+<p><code>col = palette1</code> tells <code>legend()</code> which colours to include, and <code>pch = 16</code> tells it which plot symbol to use. <code>legend = levels(WB$Region)</code> is the code which tells <code>legend()</code> what text to use. In this case the <code>levels()</code> function will give us the names of the levels of the <code>WB$Region</code> factor, and this is the information we’d like on the legend. Two final arguments are <code>bty = &quot;n&quot;</code> — <code>bty</code> stands for “box type” and setting this to “n” means that there isn’t a box drawn around the legend, and finally <code>title = &quot;Region&quot;</code> specifies a title for the legend.</p>
+<p>Here’s the final graph:</p>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-27-1.png" width="768" /></p>
+<p>This is an interesting graph. You can see that there is a strong but messy relationship between total precipitation and forest cover, so almost all of the nations with high forest cover also have relatively high precipitation. There are, however, some nations with high precipitation but rather low forest cover. The colour coding lets us see which regions fall where on this graph, so high ofrest cover and high precipitation nations are mostly from the East Asia &amp; Pacific and Latin America &amp; Caribbean regions. The Middle East and North Africa has, of course, a lot of desert and a generally very low rainfall and these nations can all be seen clustering close to the origin.</p>
+</div>
+<div id="histograms-and-multiple-plots-in-the-same-window" class="section level2">
+<h2><span class="header-section-number">9.8</span> Histograms and multiple plots in the same window</h2>
+<p>R doesn’t only draw scatterplots, of course. When you have continuous data of any sort then you might well want to draw a <em>frequency histogram</em> which will show the shape of the dataset. The R function which draws histograms is <code>hist()</code> and if you’re just doing some exploratory analysis this is a super-speedy way of having a look at the shape of your data.</p>
+<p>Here are two examples:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="kw">hist</span>(WB<span class="op">$</span>CO2, </a>
+<a class="sourceLine" id="cb35-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;CO&quot;</span>[<span class="dv">2</span>], <span class="st">&quot; production per capita (tonnes)&quot;</span>)), </a>
+<a class="sourceLine" id="cb35-5" data-line-number="5">     <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb35-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="kw">hist</span>(WB<span class="op">$</span>Population_growth, </a>
+<a class="sourceLine" id="cb35-8" data-line-number="8">     <span class="dt">xlab =</span> <span class="st">&quot;Population growth (%)&quot;</span>, </a>
+<a class="sourceLine" id="cb35-9" data-line-number="9">     <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<p>I’ve introduced a couple of new things here in addition to the <code>hist()</code> function calls. Firstly there is the use of <code>par(mfrow = c(1,2))</code> as the first line of code. This allows us to draw more than one plot: the actual number is determined by the numbers that the paramter os set to. The first value (1 in this case) is the number of rows and the second is the number of columns: so here I’m telling R to give me a graphics device into which I can draw two plots side-by-side. <code>par(mfrow = c(2,1))</code> would give one above the other and <code>par(mfrow = c(2,2))</code> would give four plots arranged in a square. R will fill the graphics device in as new <code>plot()</code> or similar instructions arrive, so in this ase the first histogram goes on the left side and the second on the right. If we were to use a third <code>hist()</code> function R would clear the graphics device and draw the new one on the left, leaving the right hand slot blank.</p>
+<p>Two important things must you know about setting the <code>mfrow</code> parameter to anything other than <code>c(1,1)</code>. Firstly, once you have plotted a second (or third…) plot you cannot add anything more to the first (or second…). So if you are planning to add a line or some text, or a legend (see the next chapter for details of how to do this), you have to do it <strong>before</strong> the next plot is drawn. Secondly, it’s really good practice always to reset the parameter to <code>c(1,1)</code> whenever you’ve finished, otherwise you can just get in a mess.</p>
+<p>ONe other thing that’s new is the somewhat complex code the the x-axis label of the first histogram which is there to get the subscript in CO<sub>2</sub> this is a bit of a complex sunject and for the moment let’s just say that without something like this it’s difficult to get things like subscripts and mathematical symbols in axis labels. More in the next chapter.</p>
+<p>Now that we’ve covered that, let’s look at those histograms. We’ve fed R some continuous data, R has divided our data into a series of intervals (e.g. intervals defined by 0,5,10,15,20 etc. for CO<sub>2</sub> production) and then counted the number of data points which fall into each interval. The number of intervals (or “bins” as they are usually called) is determined by an internal algorithm which is meant to find a good number to show the shape of the data, but you will often want to have more or fewer than the default option: as an example, in this case the algorithm has decided to have 12 bins for the population growth data but only 7 for the CO<sub>2</sub> production data despite the sample sizes being the same. If we wanted to have the same number of bins for both histograms we could use the <code>breaks =</code> argument to force <code>hist()</code> into drawing what we want. Here we’re going to use the <code>seq()</code> function to generate 13 equally spaced values with the lowest being 0 and the highest 35. This will give us a histogram with 12 equally sized bins for CO<sub>2</sub> production.</p>
+<p>We’re also going to make the histograms look a little better by colouring the bars usng the <code>col =</code> parameter.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="kw">hist</span>(WB<span class="op">$</span>CO2,</a>
+<a class="sourceLine" id="cb37-4" data-line-number="4">     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">35</span>, <span class="dt">length =</span> <span class="dv">13</span>),</a>
+<a class="sourceLine" id="cb37-5" data-line-number="5">     <span class="dt">col =</span> <span class="st">&quot;aquamarine4&quot;</span>,</a>
+<a class="sourceLine" id="cb37-6" data-line-number="6">     <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;CO&quot;</span>[<span class="dv">2</span>], <span class="st">&quot; production per capita (tonnes)&quot;</span>)), </a>
+<a class="sourceLine" id="cb37-7" data-line-number="7">     <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb37-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb37-9" data-line-number="9"><span class="kw">hist</span>(WB<span class="op">$</span>Population_growth,</a>
+<a class="sourceLine" id="cb37-10" data-line-number="10">     <span class="dt">col =</span> <span class="st">&quot;aquamarine4&quot;</span>,</a>
+<a class="sourceLine" id="cb37-11" data-line-number="11">     <span class="dt">xlab =</span> <span class="st">&quot;Population growth (%)&quot;</span>, </a>
+<a class="sourceLine" id="cb37-12" data-line-number="12">     <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<p>The default option fot <code>hist()</code> is to draw a histogram showing the numbers in each bin. If you want what many people would regard as a <em>true frequency histogram</em> then rather than the numbers for each bin you wuld want to plot the histogram with the frequencies nornalised to 1, so that the values for all bins summed together add up to 1. This can be done by setting the <code>freq =</code> argument to <code>FALSE</code>.</p>
+<p>You can also draw histograms with bins of different widths if you want: let’s say that you wanted to put all the countries with CO<sub>2</sub> production below 5 tonnes per year into a single bin, and then have the rest binned in intervals of 1 tonne each. Here’s that histogram drawn with <code>freq = FALSE</code> so the <em>area</em> of all the bars adds up to 1.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">break1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">5</span>, <span class="dt">to =</span> <span class="dv">35</span>, <span class="dt">by =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="kw">hist</span>(WB<span class="op">$</span>CO2,</a>
+<a class="sourceLine" id="cb39-4" data-line-number="4">     <span class="dt">breaks =</span> break1,</a>
+<a class="sourceLine" id="cb39-5" data-line-number="5">     <span class="dt">freq =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb39-6" data-line-number="6">     <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>,</a>
+<a class="sourceLine" id="cb39-7" data-line-number="7">     <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;CO&quot;</span>[<span class="dv">2</span>], <span class="st">&quot; production per capita (tonnes)&quot;</span>)), </a>
+<a class="sourceLine" id="cb39-8" data-line-number="8">     <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+</div>
+<div id="boxplots" class="section level2">
+<h2><span class="header-section-number">9.9</span> Boxplots</h2>
+<p>One of the most useful and common types of graph is the <em>boxplot</em> - a method of plotting data which shows not only the central tendency but also the amount of dispersion in your data. R can do this in one of two ways. Firstly, you can use the <code>boxplot()</code> function, which will draw either a boxplot of a single continuous variable or a continuous variable against the levels of a factor or even more than one factor.</p>
+<p>Here are the boxplots corresponding to the CO<sub>2</sub> and population growth data which we drew some histograms of in the previous section.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="kw">boxplot</span>(WB<span class="op">$</span>CO2, </a>
+<a class="sourceLine" id="cb40-4" data-line-number="4">        <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;CO&quot;</span>[<span class="dv">2</span>], <span class="st">&quot; production per capita (tonnes)&quot;</span>)))</a>
+<a class="sourceLine" id="cb40-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb40-6" data-line-number="6"><span class="kw">boxplot</span>(WB<span class="op">$</span>Population_growth, </a>
+<a class="sourceLine" id="cb40-7" data-line-number="7">        <span class="dt">ylab =</span> <span class="st">&quot;Population growth (%)&quot;</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<p>One thing to note is that whereas <code>hist()</code> festoons its outputs with axis labels and titles to the point where you usually have to go out of your way to get rid of them, <code>boxplot()</code> has no truck with such tomfoolery and will only add these fripperies if you ask it to do so. Welcome to R.</p>
+<p>If you’ve not seen a boxplot before they can be a little hard to understand, but they are a really good way to visualise the distribution of data in a particular variable. The heavy line is the <em>median</em>, so it’s telling you where the middle value is. The box shows the <em>interquartile range</em> —– the lower boundary is the 1st quartile, below which are the 25% lowest data values, and the upper boundary is the 3rd quartile, above which are the 25% highest values. Between these boundaries you will find 50% of all the values in your dataset.</p>
+<p>Next, the lines extending from the box. These are often called the “whiskers”, and indeed you’ll sometimes hear these plots referred to as “box-and-whisker plots”. This is where it gets a bit harder. For the upper whisker, a line is drawn from the 3rd quartile to the last point which is less than 1.5 times the interquartile range from the 3rd quartile. The same is done with the lower whisker, with the line extending to the last data point which is less than 1.5 times the interquartile range from the 1st quartile. This might sound a bit mad but these values do have some meaning. If the data beng described are from a normal distribution, then roughly speaking 24.5% (actually 24.65%) of the data should be within the regions delimited by the whiskers, and roughly 1% of the data (actually 0.7%) should fall outside the whiskers.</p>
+<p>Datapoints which fall outside the whiskers are plotted individually and are often referred to as “outliers”. Be very careful when using this word: in my opinion it’s not really appropriate to call data points that are simply rare but expected members of the expected distribution of data “outliers” since they have a perfectly good right to be there.</p>
+<p>In the example above you can see that the boxplots show us the shape of the distribution very clearly. The CO<sub>2</sub> data are strongly positively skewed and you can see that the boxplot is strongly asymmetrical, with the lower whisker, 1st quartile and median all squished together at the bottom of the plot and the part of the plot above that being stretched upwards. There are also a whole lot of data points which fall outside the upper whisker, which is exactly what we’d expect from a skewed distribution. None of these “outlier” data points are unexpected given the shape of the frequency distribution and there’s no reason to think that any of them are in any way anomalous. The population growth data is approximately normal and you can see the symmetrical boxplot with only three datapoints outside the whiskers, which is entirely reasonable for &gt;100 data points coming from something close to a normal distribution.</p>
+<p>To draw a boxplot with a continuous variable divided by the levels of a factor, then input a <em>formula</em> into <code>boxplot()</code>:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw">boxplot</span>(WB<span class="op">$</span>CO2 <span class="op">~</span><span class="st"> </span>WB<span class="op">$</span>Income_group)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-32"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-32-1.png" alt="CO~2~ production per capita by income group" width="672" />
+<p class="caption">
+Figure 9.13: CO<sub>2</sub> production per capita by income group
+</p>
+</div>
+<p>This gives us a boxplot showing the CO<sub>2</sub> production per capita of each country in our dataset by income group. The overall pattern is hardly a surprise… nonetheless we could make the graph a bit clearer. It need some axis labels, and it would be nice to have our factor levels in a more sensible order. Maybe we might want to shade the boxes as well.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">WB<span class="op">$</span>Income_group &lt;-<span class="st"> </span><span class="kw">factor</span>(</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2">  WB<span class="op">$</span>Income_group,</a>
+<a class="sourceLine" id="cb43-3" data-line-number="3">  <span class="dt">levels =</span> <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb43-4" data-line-number="4">    <span class="st">&quot;Low income&quot;</span>,</a>
+<a class="sourceLine" id="cb43-5" data-line-number="5">    <span class="st">&quot;Lower middle income&quot;</span>,</a>
+<a class="sourceLine" id="cb43-6" data-line-number="6">    <span class="st">&quot;Upper middle income&quot;</span>,</a>
+<a class="sourceLine" id="cb43-7" data-line-number="7">    <span class="st">&quot;High income&quot;</span></a>
+<a class="sourceLine" id="cb43-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb43-9" data-line-number="9">)</a>
+<a class="sourceLine" id="cb43-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb43-11" data-line-number="11"><span class="kw">boxplot</span>(</a>
+<a class="sourceLine" id="cb43-12" data-line-number="12">  WB<span class="op">$</span>CO2 <span class="op">~</span><span class="st"> </span>WB<span class="op">$</span>Income_group,</a>
+<a class="sourceLine" id="cb43-13" data-line-number="13">  <span class="dt">xlab =</span> <span class="st">&quot;Income group&quot;</span>,</a>
+<a class="sourceLine" id="cb43-14" data-line-number="14">  <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(CO[<span class="dv">2</span>], <span class="st">&quot; production per capita (tonnes)&quot;</span>)),</a>
+<a class="sourceLine" id="cb43-15" data-line-number="15">  <span class="dt">col =</span> <span class="st">&quot;grey70&quot;</span>,</a>
+<a class="sourceLine" id="cb43-16" data-line-number="16">  <span class="dt">cex.axis =</span> <span class="fl">0.8</span></a>
+<a class="sourceLine" id="cb43-17" data-line-number="17">)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-33"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-33-1.png" alt="Boxplot showing CO~2~ production per capita by income group with income group ordered from low to high" width="672" />
+<p class="caption">
+Figure 9.14: Boxplot showing CO<sub>2</sub> production per capita by income group with income group ordered from low to high
+</p>
+</div>
+<p><code>boxplot()</code> will also plot graphs with more complex combinations of factors. Let’s say that we want to look at the way that income relates to CO<sub>2</sub> production, but we’d like to divide our data up by region to see if the effect of income varies goegraphically. A plot with four income levels for each of the seven regions would be prohibitively complex, but we could divide income simply into “high” and “low”.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">income &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(WB<span class="op">$</span>Income_group) <span class="op">&lt;</span><span class="dv">3</span>, <span class="st">&quot;Low income&quot;</span>, <span class="st">&quot;High income&quot;</span>))</a></code></pre></div>
+<p>We’ve already set our <code>Income_group</code> factor so that the levels are ordered from low to high, so if we convert the factor to a numeric variable then our two lower income groups will have the values 1 and 2 and our higher income groups will have the values 3 and 4. We can then use the <code>ifelse()</code> function to generate a new vector with “Low income” if <code>Income_group</code> gives us a number 1 or 2 and “High income” if it is three or four. Finally we’re using the <code>factor()</code> function to convert this to a factor. Now we can use this in a <code>boxplot()</code> function call to draw a plot of CO<sub>2</sub> output conditioned on region and on income.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">boxplot</span>(WB<span class="op">$</span>CO2 <span class="op">~</span><span class="st"> </span>income <span class="op">*</span><span class="st"> </span>WB<span class="op">$</span>Region, <span class="dt">col =</span> <span class="st">&quot;grey70&quot;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-35"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-35-1.png" alt="Boxplot of national carbon dioxide production per capita by region and income group" width="672" />
+<p class="caption">
+Figure 9.15: Boxplot of national carbon dioxide production per capita by region and income group
+</p>
+</div>
+<p>Hmmm. It’s worked but it’s not a useable plot at the moment. The x-axis labels are a mess and it’s impossible to work out which regions and incomes are represented by what. The plot is also a bit hard to read because the skewed nature of the data means that a lot of our boxes and whiskers are squished down along the x-axis.</p>
+<p>Let’s remedy the easier things by log<sub>10</sub> transforming the data and by colour coding our boxes depending on income. We can also switch the axis labelling to vertical by setting the parameter <code>las = 2</code> which might make things a little easier.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb46-2" data-line-number="2">palette1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cadetblue4&quot;</span>, <span class="st">&quot;orange&quot;</span>)</a>
+<a class="sourceLine" id="cb46-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="kw">boxplot</span>(<span class="kw">log10</span>(WB<span class="op">$</span>CO2) <span class="op">~</span><span class="st"> </span>income <span class="op">*</span><span class="st"> </span>WB<span class="op">$</span>Region,  </a>
+<a class="sourceLine" id="cb46-5" data-line-number="5">        <span class="dt">col =</span> palette1, </a>
+<a class="sourceLine" id="cb46-6" data-line-number="6">        <span class="dt">las =</span> <span class="dv">2</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>Well, some of that worked and some didn’t. We’ve got our log transformation and our colour coding, but the axis is still a disaster and we also need a legend to tell the reader what the colours mean.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">9.5</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>))</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="kw">boxplot</span>(<span class="kw">log10</span>(WB<span class="op">$</span>CO2) <span class="op">~</span><span class="st"> </span>income <span class="op">*</span><span class="st"> </span>WB<span class="op">$</span>Region,  </a>
+<a class="sourceLine" id="cb47-4" data-line-number="4">        <span class="dt">col =</span> palette1, </a>
+<a class="sourceLine" id="cb47-5" data-line-number="5">        <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>,</a>
+<a class="sourceLine" id="cb47-6" data-line-number="6">        <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb47-7" data-line-number="7">        <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(Log[<span class="dv">10</span>] , CO[<span class="dv">2</span>], <span class="st">&quot; Production (tonnes)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)))</a>
+<a class="sourceLine" id="cb47-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb47-9" data-line-number="9"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb47-10" data-line-number="10">     <span class="dt">at =</span> <span class="kw">seq</span>(<span class="fl">1.5</span>, <span class="fl">13.5</span>, <span class="dt">by =</span> <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb47-11" data-line-number="11">     <span class="dt">labels =</span> <span class="kw">levels</span>(WB<span class="op">$</span>Region),</a>
+<a class="sourceLine" id="cb47-12" data-line-number="12">     <span class="dt">las =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb47-13" data-line-number="13">     <span class="dt">cex.axis =</span> <span class="fl">0.8</span>)</a>
+<a class="sourceLine" id="cb47-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb47-15" data-line-number="15"><span class="kw">par</span>(<span class="dt">xpd =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb47-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb47-17" data-line-number="17"><span class="kw">legend</span>(<span class="dt">x =</span> <span class="dv">15</span>, <span class="dt">y =</span> <span class="fl">1.5</span>,</a>
+<a class="sourceLine" id="cb47-18" data-line-number="18">       <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;High&quot;</span>, <span class="st">&quot;Low&quot;</span>),</a>
+<a class="sourceLine" id="cb47-19" data-line-number="19">       <span class="dt">fill =</span> palette1,</a>
+<a class="sourceLine" id="cb47-20" data-line-number="20">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</a>
+<a class="sourceLine" id="cb47-21" data-line-number="21">       <span class="dt">title =</span> <span class="st">&quot;Income&quot;</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+</div>
+<div id="bar-charts" class="section level2">
+<h2><span class="header-section-number">9.10</span> Bar charts</h2>
+<p>The bar chart is one of the most common types of graphic that you’ll see used to show patterns in data. As with boxplots, R has a specific function for drawing these: <code>barplot()</code>. The output is perhaps a little eccentric but it can easily be made more conventional. Here’s an example using the data on CO<sub>2</sub> production by income group that we saw when we were looking at boxplots. We want to plot the mean CO<sub>2</sub> production per capita for each group so we need to calculate this before we do anything else. We’ll use the <code>tapply()</code> function to do this.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">CO2_means &lt;-<span class="st"> </span><span class="kw">tapply</span>(WB<span class="op">$</span>CO2, WB<span class="op">$</span>Income_group, mean)</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">CO2_means</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">         Low income Lower middle income Upper middle income         High income </a>
+<a class="sourceLine" id="cb48-5" data-line-number="5">            <span class="fl">0.31712</span>             <span class="fl">1.21814</span>             <span class="fl">4.05665</span>             <span class="fl">9.46772</span> </a></code></pre></div>
+<p>Let’s see what we get if we just feed this to <code>barplot()</code>.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">barplot</span>(CO2_means)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-39"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-39-1.png" alt="Barplot of mean carbon dioxide production per capita by income group" width="672" />
+<p class="caption">
+Figure 9.16: Barplot of mean carbon dioxide production per capita by income group
+</p>
+</div>
+<p>Overall it’s not bad but could obviously be better, especially with regards to the x-axis labels. We can fix the x-axis labels by making them smaller and losing the word “income” from each to make them more concise.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="kw">names</span>(CO2_means) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Low&quot;</span>, <span class="st">&quot;Lower middle&quot;</span>, <span class="st">&quot;Upper middle&quot;</span>, <span class="st">&quot;High&quot;</span>)</a>
+<a class="sourceLine" id="cb50-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb50-4" data-line-number="4"><span class="kw">barplot</span>(CO2_means,</a>
+<a class="sourceLine" id="cb50-5" data-line-number="5">        <span class="dt">cex.axis =</span> <span class="fl">0.7</span>,</a>
+<a class="sourceLine" id="cb50-6" data-line-number="6">        <span class="dt">cex.lab =</span> <span class="fl">0.9</span>,</a>
+<a class="sourceLine" id="cb50-7" data-line-number="7">        <span class="dt">cex.names =</span> <span class="fl">0.7</span>,</a>
+<a class="sourceLine" id="cb50-8" data-line-number="8">        <span class="dt">xlab =</span> <span class="st">&quot;Income group&quot;</span>,</a>
+<a class="sourceLine" id="cb50-9" data-line-number="9">        <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(Log[<span class="dv">10</span>] , CO[<span class="dv">2</span>], <span class="st">&quot; Production (tonnes)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)))</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>Not bad. Let’s run through that code and see what it all does.</p>
+<p><code>names(CO2_means) &lt;- c(&quot;Low&quot;, &quot;Lower middle&quot;, &quot;Upper middle&quot;, &quot;High&quot;)</code></p>
+<p>Changes then names for each entry in the <code>CO2_means</code> object. <code>barplot()</code> uses these names for the x-axis names so this changes them in the plot as well.</p>
+<p><code>barplot(CO2_means,</code></p>
+<p>Tells <code>barplot()</code> where to find the data.</p>
+<pre><code>   `cex.axis = 0.7,
+    cex.lab = 0.9,
+    cex.names = 0.7,`
+    </code></pre>
+<p>Adjusts the sizes of the numbers on the y-axis (<code>cex.axis</code>), the axis labels (<code>cex.lab</code>) and the names on the x-axis (<code>cex.names</code>). Recall that <code>cex</code> is short for <strong>C</strong>haracter <strong>EX</strong>pansion so a value of 1 is keep the default size, 0.5 is plot at half the default size and 2 is twice the default size.</p>
+<pre><code>   `xlab = &quot;Income group&quot;,
+    ylab = expression(paste(Log[10] , CO[2], &quot; Production (tonnes)&quot;, sep = &quot; &quot;)))`
+    </code></pre>
+<p>These two arguments specifiy the text for the axis labels and as before we’re using a somewhat complex <code>expression()</code> function call to give us a proper subscript in CO<sub>2</sub>.</p>
+<p>One thing that might be causing concern here is the lack of a “proper” x-axis with a line and tickmarks. If you need one you can add one using <code>axis()</code>.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="kw">barplot</span>(CO2_means,</a>
+<a class="sourceLine" id="cb53-3" data-line-number="3">        <span class="dt">cex.axis =</span> <span class="fl">0.7</span>,</a>
+<a class="sourceLine" id="cb53-4" data-line-number="4">        <span class="dt">cex.lab =</span> <span class="fl">0.9</span>,</a>
+<a class="sourceLine" id="cb53-5" data-line-number="5">        <span class="dt">cex.names =</span> <span class="fl">0.7</span>,</a>
+<a class="sourceLine" id="cb53-6" data-line-number="6">        <span class="dt">xlab =</span> <span class="st">&quot;Income group&quot;</span>,</a>
+<a class="sourceLine" id="cb53-7" data-line-number="7">        <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(Log[<span class="dv">10</span>] , CO[<span class="dv">2</span>], <span class="st">&quot; Production (tonnes)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)))</a>
+<a class="sourceLine" id="cb53-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb53-9" data-line-number="9">ticks &lt;-<span class="st"> </span><span class="kw">barplot</span>(CO2_means, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb53-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb53-11" data-line-number="11"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">at =</span> ticks, <span class="dt">labels =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>Here <code>axis(side = 1, at = ticks, labels = FALSE)</code> draws in an axis on the x-axis only (<code>side = 1</code>) with no labels etc. The trick with drawing an axis for a bar plot is that the location of the centres of the bars is not obvious: it’s not 1,2,3 &amp; 4 as you might expect. To extract the locations we’ve used</p>
+<p><code>ticks &lt;- barplot(CO2_means, plot = FALSE)</code></p>
+<p>which takes advantage of the fact that if you save the output of a <code>barplot()</code> call to an object what it saves is in fact the locations of the bar centres and nothing else (of course). The <code>plot = FALSE</code> argument stops it drawing the barplot in your graphics window unnecessarily.</p>
+<div id="more-complex-barplots" class="section level3">
+<h3><span class="header-section-number">9.10.1</span> More complex barplots</h3>
+<p>Lots of people like making complicated bar charts with groups of different means displayed together. If you’re one of these people (I am not) you will want to know how to do this in R. Let’s generate a more complicated set of means using the “income” factor which we used when making boxplots, so we’ll have a mean CO<sub>2</sub> productoin figure forhogh and low income countries in each of our regions.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">income &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(WB<span class="op">$</span>Income_group) <span class="op">&lt;</span><span class="dv">3</span>, <span class="st">&quot;Low income&quot;</span>, <span class="st">&quot;High income&quot;</span>))</a>
+<a class="sourceLine" id="cb54-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb54-3" data-line-number="3">CO2_means2 &lt;-<span class="st"> </span><span class="kw">tapply</span>(WB<span class="op">$</span>CO2, <span class="dt">INDEX =</span> <span class="kw">list</span>(income, WB<span class="op">$</span>Region), mean)</a>
+<a class="sourceLine" id="cb54-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb54-5" data-line-number="5">CO2_means2</a>
+<a class="sourceLine" id="cb54-6" data-line-number="6">            East Asia <span class="op">&amp;</span><span class="st"> </span>Pacific Europe <span class="op">&amp;</span><span class="st"> </span>Central Asia Latin America <span class="op">&amp;</span><span class="st"> </span>Caribbean</a>
+<a class="sourceLine" id="cb54-7" data-line-number="7">High income              <span class="fl">7.8760</span>                <span class="fl">6.6059</span>                    <span class="fl">4.1153</span></a>
+<a class="sourceLine" id="cb54-8" data-line-number="8">Low income               <span class="fl">1.3309</span>                <span class="fl">2.4207</span>                    <span class="fl">1.0050</span></a>
+<a class="sourceLine" id="cb54-9" data-line-number="9">            Middle East <span class="op">&amp;</span><span class="st"> </span>North Africa North America South Asia</a>
+<a class="sourceLine" id="cb54-10" data-line-number="10">High income                    <span class="fl">11.7631</span>          <span class="fl">13.5</span>    <span class="fl">1.97681</span></a>
+<a class="sourceLine" id="cb54-11" data-line-number="11">Low income                      <span class="fl">1.6521</span>            <span class="ot">NA</span>    <span class="fl">0.83957</span></a>
+<a class="sourceLine" id="cb54-12" data-line-number="12">            Sub<span class="op">-</span>Saharan Africa</a>
+<a class="sourceLine" id="cb54-13" data-line-number="13">High income            <span class="fl">4.32719</span></a>
+<a class="sourceLine" id="cb54-14" data-line-number="14">Low income             <span class="fl">0.37091</span></a></code></pre></div>
+<p>There is one missing value, this is because there are no “Low income” nations in the North America region. What we want is a bar chart with two bars side by side for each region. Let’s see what <code>barplot()</code> makes of our matrix.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">barplot</span>(CO2_means2, </a>
+<a class="sourceLine" id="cb55-2" data-line-number="2">        <span class="dt">beside =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb55-3" data-line-number="3">        <span class="dt">legend =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p>Two things to look at in the code are the extra arguments I’ve added to the <code>barplot()</code> function call. <code>beside = TRUE</code> means that the bars are plotted next to each other: the alternative with <code>beside = FALSE</code> is a stacked bar chart, which (in my opinion at least) is rarely useful. Secondly we have <code>legend = TRUE</code>. <code>barplot()</code> is one of the few (maybe the only?) plotting functions in Base R which will automatically generate a legend for you. YOu can see this in the top right of our figure.</p>
+<p>Note that if the grouping is not what you want (in this case if the bars were grouped by income not region) you can switch them by using the <code>t()</code> function which will transpose our matrix, or in other words flip it on its side. This is because <code>barplot()</code> uses the columns in a matrix of data for grouping, so <code>barplot(t(CO2_means2), ...</code> would give the other grouping.</p>
+<p>OK, let’s finish up by making this a publication-quality chart. We need to deal with the labels for the x-axis as we did when we plotted a similar chart using <code>boxplot()</code>, by rotating the x-axis labels and enlarging the lower margin. We’re going to shrink the text size and add an axis, and we’re going use the same colour scheme that we used for our boxplot.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="co">#Set up colour palette</span></a>
+<a class="sourceLine" id="cb56-2" data-line-number="2">palette1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cadetblue4&quot;</span>, <span class="st">&quot;orange&quot;</span>) </a>
+<a class="sourceLine" id="cb56-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb56-4" data-line-number="4"><span class="co">#Alter the margins</span></a>
+<a class="sourceLine" id="cb56-5" data-line-number="5"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">9.5</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>))</a>
+<a class="sourceLine" id="cb56-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb56-7" data-line-number="7"><span class="co">#Find where the ticks should be for the x-axis</span></a>
+<a class="sourceLine" id="cb56-8" data-line-number="8">ticks &lt;-<span class="st"> </span><span class="kw">barplot</span>(CO2_means2, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb56-9" data-line-number="9">ticks &lt;-<span class="st"> </span><span class="kw">colMeans</span>(ticks)</a>
+<a class="sourceLine" id="cb56-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb56-11" data-line-number="11"><span class="co">#Draw the graph</span></a>
+<a class="sourceLine" id="cb56-12" data-line-number="12"><span class="kw">barplot</span>(CO2_means2, </a>
+<a class="sourceLine" id="cb56-13" data-line-number="13">        <span class="dt">beside =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb56-14" data-line-number="14">        <span class="dt">legend =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb56-15" data-line-number="15">        <span class="dt">col =</span> palette1,</a>
+<a class="sourceLine" id="cb56-16" data-line-number="16">        <span class="dt">las =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb56-17" data-line-number="17">        <span class="dt">cex.axis =</span> <span class="fl">0.8</span>,</a>
+<a class="sourceLine" id="cb56-18" data-line-number="18">        <span class="dt">cex.names =</span> <span class="fl">0.8</span>,</a>
+<a class="sourceLine" id="cb56-19" data-line-number="19">        <span class="dt">cex.lab =</span> <span class="fl">0.9</span>)</a>
+<a class="sourceLine" id="cb56-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb56-21" data-line-number="21"><span class="co">#Add the axis</span></a>
+<a class="sourceLine" id="cb56-22" data-line-number="22"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">at =</span> ticks, <span class="dt">labels =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="3rd_Edition_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p>All should be relatively clear, but you might be wondering about this:</p>
+<p><code>#Find where the ticks should be for the x-axis ticks &lt;- barplot(CO2_means2, beside = TRUE, plot = FALSE) ticks &lt;- colMeans(ticks)</code></p>
+<p>Why use <code>colMeans()</code> here? The answer is that the first line <code>ticks &lt;- barplot(CO2_means2, beside = TRUE, plot = FALSE)</code></p>
+</div>
+</div>
+<div id="other-types-of-plot" class="section level2">
+<h2><span class="header-section-number">9.11</span> Other types of plot</h2>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>Fitzpatrick, J.L., Almbro, M., Gonzalez-Voyer, A., Hamada, S., Pennington, C., Scanlan, J. &amp; Kolm, N. (2012) Sexual selection uncouples the evolution of brain and body size in pinnipeds. Journal of evolutionary biology, 25, 1321–1330.<a href="r-graphics-i-scatterplots-line-graphs-plot-symbols-and-colours-using-the-base-graphics-system.html#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="importing-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="r-graphics-ii-adding-elements-to-an-existing-graph.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["3rd_Edition.pdf", "3rd_Edition.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

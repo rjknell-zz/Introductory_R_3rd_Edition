@@ -1,0 +1,499 @@
+# Basics: arithmetic, objects and functions
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
+```
+
+### Arithmetic
+
+The simplest way to interact with R is by typing something into the console at the command prompt and pressing enter. If what you’ve typed makes sense to R it’ll do what it’s told, if not then you’ll get an error message. The simplest things you can get R to do are straightforward sums. Just type in a calculation and press enter.
+
+
+```{r}
+6+3
+3^3
+```
+
+There are a couple of things to notice here. Firstly, you don’t need to type an equals sign – just hit enter. Secondly, arithmetic operators are mostly the same as in many other packages.
+
+Symbol | Does
+:----------|:--------
+\+     		|addition
+\- 				|subtraction
+\* 				|multiplication
+/ 				|division
+^			  	|raised to the power
+
+Thirdly, why does the answer have a [1] in front? Because there’s only one number in the answer. R is written to be good at dealing not only with single numbers but with groups of numbers: vectors and matrices. When it gives you an answer that contains more than one number it uses numbering like this to indicate where in the group of numbers each answer is. We’ll see more of this as we go on.
+
+When you're asking R to do calculations that are more complex than just a single arithmetic operation then it will carry out the calculations in the following order from left to right: first of all calculations in brackets, then exponents, then multiplication and division, then addition and subtraction. When in doubt use brackets to make sure that the calculation that you want to be done is the one that's actually done.
+
+```{r}
+22*15+6
+```
+22 and 15 are multiplied, and then 6 is added to the result of that calculation.
+
+```{r}
+22*(15+6)
+```
+By adding a pair of brackets we change the order that the calculations are done in: this time 15 and 6 are added together, and 22 is then multiplied by the sum of the two numbers.
+
+```{r}
+22^2+7
+```
+For this calculation 22 is raised to the power 2 and 7 is then added to the result of that calculation.
+
+```{r}
+22^(2+7)
+```
+By adding a pair of brackets we make sure that the first calculation is to add 2 and 7, and 22 is then raised to the power of the sum of those two numbers. The result of this calculation is a number that's too big for R to display normally, so it's using scientific notation: 1.207e+12 is the way that R expresses 1.207 x 10^12, or 1,207,000,000,000.  
+
+You can use multiple brackets, and you can nest your brackets essentially _ad infinitum_.
+
+```{r}
+(2*(17.2+5))/56
+```
+
+
+### Logical operations
+
+R doesn't just deal with straightforward arithmetic. You can carry out logical operations as well:
+
+```{r}
+8 > 5
+```
+
+returns `TRUE` whereas 
+
+```{r}
+(8/2) > 5
+```
+
+returns `FALSE`. The full list of logical operators is:
+
+Operator | Test
+:-------|:-----------------
+\>        |Greater than  
+<         |Less than  
+>=        |Greater than or equal to  
+<=        |Less than or equal to  
+==        |Exactly equal to. Note this is a double equals sign. Forgetting to use the double equals sign in a logical test is a super-common error.  
+!=        |Not equal to  
+\|         |Or  
+&         |And  
+
+So
+
+```{r}
+
+(5 > 25) | (5 > 3)
+
+```
+
+Returns `TRUE` because although 5 is not greater than 25 it is greater than 3, whereas
+
+```{r}
+(5 > 25) & (5 > 3)
+```
+
+Returns `FALSE` because now we are asking whether 5 is greater than 25 **and** 3.
+
+### Objects
+
+These simple calculations don’t produce any kind of output that is remembered by R: the answers appear in the console window but that’s all. Sometimes that's OK but a lot of the time we want to store the answer of one of our calculations. The name given to R's "memory" is the **workspace**, and the way to tell R to store something in the workspace is to use something like this:
+
+```{r}
+answer <- 2+2
+```
+Here, we are telling R to add 2+2 and store the answer in an object called `answer`. Take particular note of the middle symbol, `<-`, in the instruction above. This is the **allocation symbol**, formed of a "less than" arrow `<` and a hyphen `-` and it looks like an arrow pointing towards `answer`. It means "make the object on the left into the output of the command on the right". It also works the other way around: 2+2->answer.
+
+To find out what is stored in `answer`, just type its name:
+
+```{r}
+answer
+```
+  
+
+In some older versions of R, and in S-Plus, the underscore character can also be used for allocation, but this is no longer available in recent releases of R. It’s useful to know this so that when you try to use someone's old S-Plus code in R you can work out why it doesn’t work.
+
+There wasn't an object in the workspace called `answer` until we ran this code. If there is an allocation to a new name, R will create the new object and store the output of the code to the right of the allocation symbol there. If there is already an object with that name, R will just write the output of the new code to that object, overwriting whatever was stored there in the first place. There is no undo and no "are you sure" dialogue box, so be careful.
+
+```{r}
+answer
+```
+
+Our object has the number 4 stored.
+
+```{r}
+answer <- 2*3
+
+answer
+```
+
+Now it has been overwritten.
+
+You can use objects in calculations in exactly the same way you have already seen numbers being used above.
+
+```{r}
+answer2 <- (3.5+1)^2
+answer + answer2
+```
+
+You can also store the results of a calculation done with objects as another object.
+
+```{r}
+answer3<-answer/answer2
+answer3
+```
+
+We've already seen that we can do logical operations as well as straightforward arithmetic, and we can store the output of these as objects as well.
+
+```{r}
+test1 <- answer < 2
+```
+
+Asks whether the value stored as the object `answer` is less than 2, and stores the answer as a new object called test1.
+
+```{r}
+test1
+```
+
+
+## Kinds of data
+So far we have seen examples of R storing two different kinds of data: number, or numerical data, and logical data, stored as `TRUE` or `FALSE`. R can also store data as "Character" data: strings of letters, numbers or other characters. 
+
+```{r}
+name1 <- "Steve"
+```
+
+Stores the characters that make up the name "Steve" as an object calles `name1`. You'll notice that I put "Steve" in inverted commas [^3.1]. This is so that R knows that it's character data rather than the name of an object or function.
+
+Numerical data, logical data and character data are all examples of different **data classes**. R deals with each class differently --- intuitively, you can add numbers together but not letters. If you want to know what a particular object is you can find out using `class()`:
+
+```{r}
+class(name1)
+```
+
+Tells us that it is character data. What about `test1` which we used to store the output from a logical expression? 
+
+```{r}
+class(test1)
+```
+
+Tells us that it is logical data, which is what we expect. Classes for numerical data can be a little bit more complicated. If you ask the class of an object which is storing a number or numbers it will often simply be `numeric`, which is straightforward:
+
+```{r}
+class(answer)
+```
+
+You will sometimes see other classes though, including `integer` if the numbers are all integers, `double` which means a high-precision number with lots of numbers after the decimal point and `complex` which refers to a complex number with an imaginary component (if you don't know what this last is, don't worry and stay happy). In practice, these really only matter if you're starting to think about the nitty-gritty of how data are stored in R. R does a good job of converting between the classes in the background if it has to so you don't need to.
+
+One thing to be wary of:
+
+```{r}
+answer
+
+is.integer(answer)
+```
+
+`answer` is equal to 6, which is an integer, but the is.integer function tells us that it is not. This is because is.integer is telling us about how the number is *stored*, not about what it is, and the number associated with the `answer` object is not stored as an integer even though it could be. We can change this if we need to:
+
+```{r}
+answer <- as.integer(answer)
+
+is.integer(answer)
+```
+
+
+
+
+## What's in my workspace?
+When you first open R, there are no objects stored, but after you’ve been using it for a while you might have lots. You can get a list of what’s in the workspace by using the ls() function (functions are explained in more detail in the next section).
+
+```{r}
+ls()
+```
+
+You can remove an object from the workspace by using the rm() function.
+
+```{r}
+rm(answer2)
+```
+Notice that when you type this, once again it doesn’t ask you if you’re sure, or give you any other sort of warning, nor does it let you know whether it’s done as you asked. The object you asked it to remove has just gone: you can confirm this by using ls() again.
+
+```{r}
+ls()
+```
+
+It’s gone, sure enough. If you try to delete an object that doesn’t exist you’ll get an error message. It’s quite common when using R to be pleased when you type in a command and see nothing happen except for the command prompt popping up again. When nothing seems to happen that means that there haven’t been any errors, at least as far as R is concerned, which implies that everything has gone smoothly.
+
+R doesn't just store numbers as objects in the workspace******
+
+### Functions
+
+You can get so far by typing in calculations, but that’s obviously not going to be much use for most statistical analyses. Remember that R is not so much a statistical package in the traditional sense, like Minitab, but is really a programming language designed to be good for carrying out statistical analyses. R comes with a huge variety of (mostly) (fairly) short ready-made pieces of code that will do things like manage your data, do more complex mathematical operations on your data, draw graphs and carry out statistical analyses ranging from the simple and straightforward to the eye-wateringly complex. These ready-made pieces of code are called functions. Each function name ends in a pair of round brackets[^3.2], and for many of the more straightforward functions you just type the name of the function and put the name of the object you’d like the procedure carried out on in the brackets.
+
+```{r}
+log(27)
+```
+The natural log of 27
+
+```{r}
+exp(3)
+```
+_e_ raised to the power 3
+
+```{r}
+sqrt(225)
+```
+Square root of 225
+
+```{r}
+abs(-9)
+```
+Absolute (i.e. unsigned) value of −9  
+
+You can carry out more complex calculations by making the argument of the function (the bit between the brackets) a calculation itself:
+
+```{r eval=FALSE}
+sin(17+answer)
+```
+will add 17 and whatever the value of the object “answer” is, in this case 6, and then calculate the sine of the sum of the two values.
+
+You can use more brackets within the function’s brackets to make sure that complicated calculations are carried out in the correct order: 
+
+```{r eval=FALSE}
+exp((x*2)^(1/3))
+```
+Will take whatever the value of x is, multiply it by 2, raise it to the power of 1/3 and then calculate the value of *e* raised to the power of that value. In other words, this will calculate *e* to the power of the cube root of 2x).  
+
+You can use functions in creating new objects:
+
+```{r eval=FALSE}
+D<-1/sqrt(x)
+```
+creates an object called “D” that has the value of 1 divided by the square root of the value of the object x. 
+
+So far we’ve only looked at functions that have a single argument between the brackets. It’s often possible to control specific aspects of the way that the function operates, however, by adding further **arguments**, separated by commas. These extra arguments serve to do things like modify the way that the function is applied, or tell it to only use part of a dataset, or specify how the function should deal with missing datapoints. Here’s a straightforward example. The function `round()` rounds off a number to a certain number of decimal places. You can tell it the number you want to round off by typing it in between the brackets after the function, and then you can tell it how many decimal places to round to by adding a second argument, `digits=`, with a comma separating it from the first argument.
+
+```{r}
+round(14.5378, digits = 2)
+
+round(14.5378, digits = 1)
+```
+Most R functions have default values specified for most of their arguments, and if nothing is specified the function will just use the default value. If we don’t define a number of digits for `round()`, it will assume you want the number rounded off to no decimal places.
+
+```{r}
+round(14.5378)
+```
+A few other examples.
+
+```{r}
+logb(27, base=3.5)
+```
+
+This calculates the logarithm of 27 to the base 3.5. In other words, it calculates the number that 3.5  has to be raised to to get 27.
+
+```{r}
+signif(pi, digits=3)
+signif(pi, digits=5)
+```
+In this case we specified the arguments precisely. Very often in R the function can work out what the arguments mean simply by their position in the function call, so if you give the `signif()` function two arguments it assumes that the first is the number to be rounded and the second is the number of signficant digits to round it to.
+
+```{r}
+signif(pi, 3)
+```
+
+This can make for less typing but it also makes your code somewhat harder to understand. It's up to you how much you wish to use argument names but I would suggest doing it more often than you might think necessary. It can make things easier when you come to read through the code again.
+
+## Exercises 
+
+
+### Calculations
+Use R to carry out the following calculations (answers are at the end of the chapter if you wish to check):
+
+* 3 x 5
+
+* 5^2
+
+* Add 8 to 22 and then multiply the answer by 3
+
+* Subtract 2.8 from 12 and then raise the answer to the power of 1.5 plus 1.3924
+
+* Subtract 2.8 from 12, raise the answer to the power of 1.5 and then add 1.3924
+
+* Divide 8 by 2.5 and then divide the answer by 3
+
+* Subtract 2.5 from 8 and then divide the answer by 3
+
+* Divide 2.5 by 3 and subtract the answer from 8
+
+### Objects
+* Create an object called "X1" which is the number 73  
+
+* Create another object called "X2" which is the answer to the sum 101+36  
+
+* Multiply X1 and X2 together and store the object as another object called X3  
+
+* Subtract 1 from X3 and calculate the 4th root (NB you can calculate the fourth root of a number by raising it to the power of 1/4)  
+
+* The answer should be 10  
+
+### Functions
+* Calculate the log to the base 10 of x1 using the function `log10()`  
+
+* Calculate the square root of x2 using the function `sqrt()`  
+
+* Calculate the square root of x2 by raising it to the power 0.5: your answer should be the same as when you used the `sqrt()` function  
+
+* use the function `sum()` to add x1 and x2: you'll need to put both object names inside the brackets and separate them with a comma  
+
+* Create an object called "x4" which is equal to 67.8953  
+
+* The function `round()` will round a number to a given number of decimal places. The default is zero so start by using this function to round x4 off to zero decimal places  
+
+* Now use the round function to give you the value specified by x4 rounded off to three decimal places  
+
+* `floor()` and `ceiling()` can also be used to trim a number down to an integer: apply both of these functions to x4 and compare the output.
+
+
+
+
+
+
+
+
+
+
+## Answers to exercises
+
+
+
+
+### Calculations
+
+* 3 x 5
+
+```{r}
+3*5
+```       
+
+* 5^2
+
+```{r}
+5^2   
+```
+
+* Add 8 to 22 and then multiply the answer by 3
+
+```{r}
+(8+22)^3
+```
+
+* Subtract 2.8 from 12 and then raise the answer to the power of 1.5 plus 1.3924
+
+```{r}
+(12-2.8)^(1.5+1.3924)
+```
+
+* Subtract 2.8 from 12, raise the answer to the power of 1.5 and then add 1.3924
+
+```{r}
+(12-2.8)^1.5+1.3924
+```
+
+* Divide 8 by 2.5 and then divide the answer by 3
+
+```{r}
+(8/2.5)/3
+```       
+
+* Subtract 2.5 from 8 and then divide the answer by 3
+
+```{r}
+(8-2.5)/3
+```
+
+* Divide 2.5 by 3 and subtract the answer from 8
+
+```{r}
+8-2.5/3       
+```
+
+### Objects
+
+* Create an object called "X1" which is the number 73  
+
+```{r}
+x1<-73       
+```
+* Create another object called "X2" which is the answer to the sum 101+36  
+
+```{r}
+x2<-101+36      
+```
+* Multiply X1 and X2 together and store the object as another object called X3  
+
+```{r}
+x3<-x1*x2    
+```
+
+* Subtract 1 from X3 and calculate the 4th root (NB you can calculate the fourth root of a number by raising it to the power of 1/4)  
+
+* The answer should be 10  
+
+
+```{r}
+(x3-1)^(1/4)
+```       
+
+### Functions
+
+* Calculate the log to the base 10 of x1 using the function log10()  
+```{r}
+log10(x1)
+```       
+* Calculate the square root of x2 using the function sqrt()  
+
+```{r}
+sqrt(x2)
+```       
+* Calculate the square root of x2 by raising it to the power 0.5: your answer should be the same as when you 
+used the sqrt() function  
+
+```{r}
+x2^0.5
+```       
+* use the function sum() to add x1 and x2: you'll need to put both object names inside the brackets and 
+separate them with a comma  
+
+```{r}
+sum(x1+x2)
+```       
+
+* Create an object called "x4" which is equal to 67.8953  
+
+```{r}
+x4<-67.8953
+```       
+* The function "round()" will round a number to a given number of decimal places. The default is zero so start by using this function to round x4 off to zero decimal places  
+
+```{r}
+round(x4)
+```       
+* Now use the round function to give you the value specified by x4 rounded off to three decimal places  
+
+```{r}
+round(x4,3)
+```       
+* floor() and ceiling() can also be used to trim a number down to an integer: apply both of these functions to x3 and compare the output.
+
+```{r}
+floor(x4)
+ceiling(x4)       
+```       
+
+[^3.1]: I am British so I call them "Inverted commas" If you're from elsewhere you might call them "Quote marks". It's all part of the English language's rich diversity
+
+
+[^3.2]: See previous comments about the rich diversity of English. "Brackets" are what we usually call "Parentheses" here in the UK.

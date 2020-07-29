@@ -1,0 +1,329 @@
+
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
+```
+
+# Choosing data: subscripts and subsetting
+
+As we saw in the last section, R is set up to deal with data in groups (vectors, matrices and dataframes), and most of the time that you’re analysing real data you’ll be dealing with data in one of these forms. For some simpler analyses you might be happy just looking at all the data in a particular set of results, but a lot of the time you’ll end up thinking “but what if we exclude males from the analysis?”, or “does the result hold if we leave out that animal that might have been sick?” or “do we still see the trade-off of we only include the plants that flowered?”. All of these can be done quite easily in R, and your chief weapons for such purposes are subscripts, which we’ll deal with now,  and the `subset()` command, which we’ll talk about once we’ve dealt with subscripts.
+
+### Subscripts
+Every number in a vector can be identified by its place in the sequence, and every number in a matrix can be identified by its row and column numbers. You can use subscripts to find individual numbers or groups within data structures. They’re remarkably flexible and extremely useful.
+
+```{r}
+Z  <-  rnorm(10, mean = 2, sd = 0.1)
+```
+This creates a vector called X made up of 10 random numbers drawn from a normal distribution with mean 2 and standard deviation 0.1. NB: if you try to do this your numbers won’t be the same as mine, because they’re drawn randomly each time.
+
+```{r}
+Z
+```       
+
+
+If we want to find out what the fifth number in Z is we could just count along until we get there, and when R writes out a vector it helpfully puts a number at the start of each row which tells you where you are in the sequence. In this case we have seven numbers in the first row and the first one is numbered [1], then the first number in the second row is numbered [8]. Just counting along a sequence of numbers can obviously get very unwieldy when we have larger datasets, and the potential for error by the counter is high even with each row being numbered. Fortunately we can just ask what the fifth number is by using a subscript which at its simplest is just a number in square brackets after the name of our vector. R will go and look up whatever’s at the position in the vector that corresponds to the number and tell you what it is.
+
+```{r}
+Z[5]
+```
+
+Subscripts do not have to be single numbers. The subscript can be an object.
+
+```{r}
+p  <-  c(2, 5, 7)
+```
+This sets up a new object (`p`) which is a vector containing three numbers. We can now use this object as a subscript to find out what the second, fifth and seventh numbers in `Z` are.
+
+```{r}
+Z[p]
+```
+
+The subscript can even be a function.
+
+```{r}
+Z[seq(from = 1, to = 5, by = 2)]
+```
+We know that seq(from = 1, to = 5, by = 2)) will return the numbers 1, 3 and 5 so here we are asking what the three numbers in `Z` that occupy those positions are.  
+
+The subscript can also ask for the numbers in the vector excluding those specified in the subscript. This is particularly useful if you have some sort of dodgy data point that you want to exclude.
+
+```{r}
+Z[-2]
+```
+This gives us all the numbers in Z except for the second one.  
+
+We can include logical expressions in our subscript.
+
+```{r}
+Z[Z>1.95]
+```
+This returns all the numbers in Z that are greater than 1.95.
+
+```{r}
+Z[Z<=2]
+```
+This gives us all the numbers in Z that are less than or equal to 2.  
+
+You can use subscripts to find out useful things about your data. If you want to know how many numbers in Z are less than or equal to 2 you can combine some subscripting with the `length()` command.
+
+```{r}
+length(Z[Z<=2])
+```
+You can calculate other statistics as well. If you want to know the arithmetic mean of the numbers in Z that are less than or equal to 2 you can use a subscript.
+
+```{r}
+mean(Z[Z<=2])
+```
+
+This approach will work with just about any function. To find out the standard deviation of the same set of numbers use this:
+
+```{r}
+sd(Z[Z<=2])
+```
+and this gives the sum of the numbers in Z that are less than or equal to 2.
+
+```{r}
+sum(Z[Z<=2])
+```
+
+One thing to notice is that using subscripts gives you the values of the numbers that correspond to the criterion[^5.1] you put in the square brackets but doesn’t tell you where in the sequence they are. To do that we can use the function `which()`. To find out which numbers in Z are less than or equal to 2:
+
+```{r}
+which(Z<=2)
+```
+
+If we wanted to, we could then use these numbers in a subscript. Here I’m setting up an object that’s a vector of these seven numbers.
+
+```{r}
+less.than.2 <- which(Z<=2)
+```
+Now I can use this object as a subscript itself.
+
+```{r}
+Z[less.than.2]
+```
+
+The circle is complete. There is actually a serious point to this last part. There are often several different ways of doing the same thing in R. It is often the case that there’s an obvious “best way”, but that isn’t always the case: sometimes one way of doing something isn’t noticeably easier or better than another, or sometimes doing something one way is better in one situation and doing it another way is better in a different situation. If someone else is doing something differently to you it doesn’t necessarily mean that you are wrong: just check what they’re doing and have a quick think about which method is better for what you’re trying to do. If the answer is “my method”, or if it’s “I can’t see any benefit to using the other method” then stick with what you’re doing.  
+
+### Boolean logic and more complex subscripting
+
+R 
+
+### Subscripts in matrices and data frames
+
+Subscripts can also be used to get individual numbers, rows or columns from matrices and data frames in the same way as for vectors, except two numbers are needed to identify an individual cell in these two dimensional data structures. The first number is the row number and the second is the column number. Here’s another matrix.
+
+```{r}
+mat4 <- matrix(data=seq(101, 112), nrow=3, ncol=4)
+mat4
+```
+To ask “What’s the number that’s in the third row and second column of mat2?”, we put the row number first in the subscript, then a comma, then the column number. NB I always have to stop and think about this because I always think it should be column number then row number to make it like xy coordinates.
+
+```{r}
+mat4[3, 2]
+```
+What are the numbers in the third row that are in the second, third and fourth columns?
+
+```{r}
+mat4[3, c(2, 3, 4)]
+```
+
+To get hold of everything in a particular row, just put the row number followed by a comma and don’t put in a number for the column. For example, if you just want the first row of the matrix use a 1.
+
+```{r}
+mat4[1, ]
+```
+
+Likewise, if you want to get hold of a whole column then leave the row number empty.
+
+```{r}
+mat4[, 3]
+```
+This gives us the third column of the matrix
+
+```{r}
+mat4[, 1]+mat4[, 3]
+```
+This adds the first column of the matrix to the third column.
+
+### Subset
+The `subset()` function is useful when you want to extract part of a matrix or dataframe. It takes three main arguments, the first being the name of whatever you want to make a subset of, the second is a logical expression and the third tells R which columns you want to choose. It’s best to show this with an example. Here’s some data that were collected as part of an experiment looking at the effect of environmental temperature on leucocyte count in fish fry. 
+
+```{r}
+Counts <- read.csv("Data/Counts.csv", header=T)
+```
+Let's look at the whole dataset to start with.
+
+```{r}
+Counts
+```
+
+If we wanted to set up a second data frame containing only data from those fish that weighed 70mg or more, we can just specify the first two arguments.
+
+```{r}
+Counts2 <- subset(Counts, Weight>=70)
+
+Counts2
+```
+
+What if we wanted to extract only the data on weights and leucocyte counts for male fish? For this we use the third argument as well, “select”.
+
+```{r}
+Counts3 <- subset(Counts, Sex=="M", select=c(Weight, Count))
+
+Counts3
+```
+
+One thing to notice here is that when we are specifying male fish only in the second argument we use the double equals sign (==). This is what’s used in R when we’re using logical expressions. The “M” is in inverted commas because it’s character data. It’s easy to forget and use a single equals sign, or miss out the inverted commas. If you do the latter you’ll get an error message.
+
+```{r, eval = FALSE}
+Counts4 <- subset(Counts, Sex==M, select=c(Weight, Count))
+```       
+
+<span style="color:red">`Error in eval(e, x, parent.frame()) : object 'M' not found`<span>
+
+
+If you only put a single equals sign in, however, you won’t get an error message. R will ignore the logical expression but it will select the columns specified and your new object will have data from both male and female fish. This could lead to serious errors in your analysis, so always check.
+
+```{r}
+Counts4 <- subset(Counts, Sex="M", select=c(Weight, Count))
+```
+See? No error message, but when you look at the output from this command you find that it hasn't been executed in the way you might wish.
+
+```{r}
+Counts4
+```
+`subset()` can also be used within other functions: if, for example, you only want to analyse part of a dataset but you don’t want to set up a whole new object. We’ll see some examples of this when we look at statistical model fitting in more detail. 
+
+
+## Exercises
+
+### Subscripts and vectors
+
+* Create a vector called `x1` containing the numbers 3.6, 3.2, 5.6, 4.9, 6.0, 3.7, 5.5, 4.4 and 4.7.
+
+* Use a subscript to find out the value of the 3rd number in vector x1
+
+* Use a subscript to find out the value of the numbers in vector x1 that aren't in the 5th position
+
+* Add the 1st number in vector x1 to the 6th number in vector x1
+
+* Create a new vector called "In" which consists of the numbers 1 and 4
+
+* Use subscripts and the "In" vector to calculate the sum of the 1st and 4th numbers in x1
+
+* Calculate the sum of all the numbers in x1 that are less than 4.6
+
+* Calculate the mean of all the numbers in x1 that are greater than or equal to 5
+
+
+
+### Subscripts and matrices
+
+* Generate a matrix called mat1 with 3 rows and 3 columns, using the data from the x1 vector as above. Use the default options for the `matrix()` function so that the matrix is filled by column.
+
+* Multiply the second value in the first row of mat1 by the third value in the second row of mat1
+
+* Create a new vector called "V2" which consists of the numbers in the first row of mat1 added to the numbers in the second row of mat1
+
+* Create a new vector called "V3" which consists of the numbers in the second column of mat1 multiplied by the mean of the numbers in the second row of mat1
+
+* Create a new matrix called "mat3" which consists of the first row of mat1 as the first column and then the first row of mat2 as the second column. Don't forget that you have to give `matrix()` a vector of data to fill the new matrix with so you'll have to use the `c()` function to generate a new vector from the first and third rows of mat1. You can either do this first and create a new object or you can do it within the `matrix()` function call.
+
+## Answers to exercises
+
+
+### Subscripts and vectors
+
+* Create a vector called `x1` containing the numbers 3.6, 3.2, 5.6, 4.9, 6.0, 3.7, 5.5, 4.4 and 4.7.
+```{r}
+x1 <- c(3.6, 3.2, 5.6, 4.9, 6.0, 3.7, 5.5, 4.4, 4.7)
+```
+
+* Use a subscript to find out the value of the 3rd number in vector x1
+
+```{r}
+x1[3]
+```    
+* Use a subscript to find out the value of the numbers in vector x1 that aren't in the 5th position
+
+```{r}
+x1[-5]
+```    
+* Add the 1st number in vector x1 to the 6th number in vector x1
+
+```{r}
+#Lots of options for this. Either:
+x1[1]+x1[6]
+
+#or use the sum() function
+sum(x1[1], x1[6])
+
+#or even do it with a new vector that you generate within the subscript
+sum(x1[c(1,6)])
+```    
+* Create a new vector called "In" which consists of the numbers 1 and 4
+
+```{r}
+In <- c(1,4)
+```    
+* Use subscripts and the "In" vector to calculate the sum of the 1st and 4th numbers in x1
+
+```{r}
+sum(x1[In])
+```    
+* Calculate the sum of all the numbers in x1 that are less than 4.6
+
+```{r}
+sum(x1[x1<4.6])
+```    
+* Calculate the mean of all the numbers in x1 that are greater than or equal to 5
+
+```{r}
+mean(x1[x1>=5])
+```    
+
+### Subscripts and matrices
+
+* Generate a matrix called mat1 with 3 rows and 3 columns, using the data from the x1 vector as above. Use the default options for the `matrix()` function so that the matrix is filled by column.
+
+```{r}
+mat1 <- matrix(data  = x1, nrow = 3, ncol = 3)
+```   
+
+
+* Multiply the second value in the first row of mat1 by the third value in the second row of mat1
+
+```{r}
+mat1[1,2] * mat1[2,3]
+```
+
+
+* Create a new vector called "V2" which consists of the numbers in the first row of mat1 added to the numbers in the second row of mat1
+
+```{r}
+v2 <- mat1[1, ] + mat1[2, ]
+v2       
+```   
+* Create a new vector called "V3" which consists of the numbers in the second column of mat1 multiplied by the mean of the numbers in the second row of mat1
+
+```{r}
+v2 <- mat1[, 2] * mean(mat1[2, ])
+v2
+```   
+* Create a new matrix called "mat3" which consists of the first row of mat1 as the first column and then the third row of mat1 as the second column
+
+```{r}
+# Either generate the new vector of data seperately:
+v3 <- c(mat1[1, ], mat1[3, ])
+mat3 <- matrix(v3, ncol = 2)        
+
+# or do it all in one go within the matrix function.
+# This is cleaner because you don't end up with a 
+# superfluous object (V3) sitting around in your workspace
+mat3 <- matrix(c(mat1[1, ], mat1[3, ]), ncol=2)
+
+
+mat3       
+```   
+[^5.1]: NB for students: this word is the singular of “criteria”.

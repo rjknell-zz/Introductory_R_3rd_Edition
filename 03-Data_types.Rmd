@@ -1,0 +1,419 @@
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
+```
+
+
+# Data: Vectors, Matrices and Data Frames
+
+So far we’ve looked at individual numbers. Interesting data, of course, does not usually consist of simgle numbers, or isolated true/false values: rather, we are likely to be working with lots of data which will be organised into some sort of structure. R is especially good at dealing with objects that are groups of numbers, or groups of character or logical data. In the case of numbers these groups can be can be organised as sequences, which are called vectors[^4.1], or as two dimensional tables of numbers, which are called matrices (singular matrix). R can also deal with tables that contain more than one kind of data: these are called data frames.
+
+## Vectors
+
+It’s worth spending some time looking at vectors and matrices, because a lot of the things you’ll be doing in your analyses involve manipulating sequences and tables of numbers. Let’s start by making a vector. The easiest way to do this uses the `c()` function[^4.2]. If we want a single object containing a series of numbers we can put the numbers as arguments to `c()` and then assign the output from that to an object.
+
+```{r}
+Y1 <- c(2,4,6,8,10,12,14,16,18,20)
+```
+Here, then, we have created a new object called `Y1` which is a vector of 10 numbers. Let's have a look at it.
+
+```{r}
+Y1
+```
+
+
+
+There are many ways to generate vectors of data, and as an example we’re going to make another one using a function called `seq()`, which produces sequences of numbers. The arguments we're using are `from`, `to` and `by`, giving us a function call of `seq(from=1, to=10, by=1)`. This means "make me a sequence of numbers, starting at 1, finishing at 10, and with spacing equal to 1". We could also write a much shorter command, `seq(1, 10)` because we know that R knows that the first argument between the brackets corresponds to the `from=` argument, the second one to the `to=` argument, and the default value for `by=` is 1, but including the argument names makes everything very clear.
+
+```{r}
+
+X1 <- seq(from=1, to=10, by=1)
+
+```
+Creates a new object called X1 (a vector in this case) containing a sequence of numbers counting up from 1 to 10. To see what X is just type its name.
+
+```{r}
+X1
+```
+
+
+R will quite happily do arithmetic with vectors or matrices as well as simple numbers. What happens when we add a number to a vector?
+
+```{r}
+X1+3
+```
+Each number in the vector has 3 added. How about applying a function to a vector?
+
+```{r}
+log(X1)
+```
+
+The `log()` function calculates the natural logarithm, and running it with our X1 vector as an argument gives us a vector with the natural logarithms of the numbers in the original vector. There is an important and powerful point here: when we are using arithmetic, or carrying out logical tests, or using functions which don't summarise sets of numbers in any way, the operation in question is carried out on each number in the vector separately. So
+
+```{r}
+4 > X1
+```
+
+returns a value of `TRUE` or `FALSE` for each member of the vector, rather than a single value. If we were to save the output from this operation as a new object it would be a logical vector of the same length as the original vector which we carried out the operation on.
+
+Some functions return only a single value if we give them a vector as an argument.
+
+```{r}
+mean(X1)
+```
+
+gives us the arithmetic mean of all the numbers in the vector, and 
+
+```{r}
+sum(X1)
+```
+
+returns the sum of all the numbers in the vector.
+
+We can also do arithmetic with two vectors.
+
+```{r}
+X1 * Y1
+Y1 - X1
+```
+
+Both of our vectors, X and Y, are the same length in this example, and R just carries out the instruction on each number in the sequence in turn: the first number in X is multiplied by the first number in Y, then the second in X by the second in Y and so on until the last number. What happens if the two vectors are of different lengths? We can set up a vector half as long as X very simply.
+
+```{r}
+X2 <- seq(1,10,2)
+X2
+```
+Let’s add this 5 number vector to our first 10 number vector and see what happens.
+
+```{r}
+X1 + X2
+```
+What’s happened here? The first number in X (1) has been added to the first number in X2 (1) to give 2. The second numbers in each (2 and 3) have been added in the same way, and so on until we got to the last number in X2, 9, which was added to 5 to give 14. The next number in our answer is 7 - where did that come from? What happens when one vector is shorter than the other is that once all the numbers in the shorter vector have been used, you just start again at the beginning, so the sixth number of X (6) is added to the first number of X2 (1) to give the sixth number in our answer.   
+  
+1+1=2  
+2+3=5  
+3+5=8  
+4+7=11  
+5+9=14  
+6+1=7  
+7+3=10  
+8+5=13  
+9+7=16  
+10+9=19  
+
+
+This still works if the length of the longer vector is not an exact multiple of the length of the shorter one, but you’ll get a warning message.
+
+```{r}
+X3 <- seq(1,10,3)
+X3
+X1 + X3
+```
+
+
+
+## Matrices
+When we have data that are arranged in two dimensions rather than one we have a matrix, although not one that features Agent Smith. We can set one up using the `matrix()` function.
+
+```{r}
+mat1 <-
+  matrix(
+    data = seq(1, 12),
+    nrow = 3,
+    ncol = 4,
+    dimnames = list(c("Row 1", "Row 2", "Row 3"), 
+                    c("Col 1", "Col 2", "Col 3", "Col 4"))
+  )
+```
+This is a complicated looking command. I’ve kept the argument names in to make it clearer what’s going on. We can understand it better by going through each bit in turn.
+
+```{r eval=FALSE}
+mat1<- 
+```
+Sets up an object called mat1.
+
+```{r eval=FALSE}
+matrix(
+  data=seq(1, 12)),
+```
+
+The object is a matrix, and the data in the matrix is a sequence of numbers counting from 1 to 12.
+
+```{r eval=FALSE}
+nrow=3, 
+ncol=4,
+```       
+The number of rows in the matrix is 3 and there are 4 columns.
+
+```{r eval=FALSE}
+dimnames=list(c("Row 1","Row 2","Row 3"), 
+              c("Col 1","Col 2","Col 3","Col 4"))
+)
+```
+This gives the rows and the columns names. We’ll talk about lists later on. Let's take a look at our matrix.
+
+```{r}
+mat1
+```
+Arithmetic and functions which act independently on each member of a vector work in the same way with matrices.
+
+```{r}
+mat2<-mat1/3
+```
+This divides every number in the matrix by three, and allocates the numbers to a new object called "mat2".
+
+```{r}
+mat2
+```
+Here's a second example where we use the `sqrt()` function to calculate the square root of each value in our matrix.
+
+```{r}
+sqrt(mat1)
+```
+
+Functions which return a summary statistic will calculate it on all of the data in the matrix:
+```{r}
+sum(mat1)
+```
+
+gives us the sum of all of the numbers in the matrix.
+
+I’m not going to go into the details of how matrices are added and multiplied but I’ll just tell you that R will do it without batting an eyelid. Here’s an example of R adding two matrices together.
+
+```{r}
+mat3<-matrix(data=seq(101,112), nrow=3, ncol=4)
+```       
+This set up a new matrix with the same dimensions as mat1. Let's check it's what we think it is.
+
+```{r}
+mat3
+```
+
+Now add them together
+
+```{r}
+mat1+mat3
+```
+
+## Factors and Data frames
+
+As we discussed in the last chapter, R data objects can come in a variety of flavours, including as assortment of numeric kinds as well as logical and character. Just in case you need to know you can find out if your vector is numeric using `mode()` and you can find out what kind of numeric it is using `class()`.
+
+```{r}
+X1<-1:12
+mode(X1)
+class(X1)
+```
+
+```{r}
+X2<-sqrt(X1)
+class(X2)
+```
+
+R can also cope with strings of characters as objects. These have to be entered with quote marks around them because otherwise R will think that they're the names of objects and return an error when it can't find them.
+
+```{r}
+X1<-c("Red","Red","Blue","Blue","Green")
+X1
+mode(X1)
+```
+
+
+A special type of data in R which we haven't met yet is a **factor**. When we’re collecting data we don’t just record numbers: we might record whether a subject is male or female, whether a cricket is winged, wingless or intermediate or whether a leucocyte is an eosinophil, a neutrophil or a basophil. This type of data, where things are divided into classes, is called **categorical** or **nominal** data, and in R it is stored as a factor. We can input nominal data into R as numbers if we assign a number to each category, such as 1=red, 2=green and 3=blue and then tell R to make it a factor with the `factor()` function, but this can lead to confusion. Usually it’s better to input data like this as the words themselves as character data and then tell R to make it a factor. 
+
+```{r}
+X2<-factor(X1)
+X2
+```
+
+You can see that now that we have classified X1 as a factor R tells us what the levels are that are found in the factor. Before you start any analysis it's a good idea to check whether you and R are both in agreement over which variables in your data set are factors, because sometimes you will find that you've assumed that something is a factor when it isn't. You can do this with the `is.factor()` function.
+
+```{r}
+is.factor(X1)
+is.factor(X2)
+```
+
+One thing to be aware of is that the `mode` of a factor will be `numeric` even if it's coded as characters. This is because R actually recodes variables and assigns a number to each level: you can see the numbers by using the `as.numeric()` function. 
+
+```{r}
+as.numeric(X2)
+```
+R codes the factor levels according to their alphabetical order, so "Blue" is coded as 1, "Green" as 2 and "Red" as 3.  There's more on this in Chapter 12 when we think about ANOVA, factor levels and summary tables.
+
+It’s normal to end up at the end of a study with a table of data that mixes up two or even three different sorts of data. If you’ve been studying how diet affects whether a species of cricket develops into winged or wingless morphs then for each individual you might have recorded Number (which animal was it) Diet (good or poor), Sex (male or female), Weight (mg), Fat content (mg) and wing morph (winged, wingless or intermediate), giving you a data table looking something like this:
+
+
+Number|Diet|Sex|Weight|Fat.content|Morph|Experimenter
+:-----|:---|:--|:-----|:----------|:----|:----------
+1     |Poor|M  |156   |34         |Winged|Jennifer
+2     |Poor|F  |180   |43         |Winged|Steve
+3     |Good|M  |167   |40         |Wingless|Ahmed
+4     |Good|F  |190   |43         |Intermediate|Anna
+
+Table 3.1 Example cricket data  
+
+We could input these data as a series of individual vectors, some numerical and some character, but that would lead to a lot of opportunity for confusion. It’s better to keep the whole data table as a single object in R, and there is a special type of object which we can do exactly this with. It’s called a **Data frame**, which is easiest to think of as being like a matrix but with different sorts of data in different columns. Most of the time when you’re using real scientific data in R you’ll be using a data frame. If you import a data table with multiple data types present then R will automatically classify your data as a data frame. Alternatively, if you want to input your data directly into R you can set up a data frame using the data.frame() function. Here's an example using the cricket data from above. 
+
+```{r}
+Number <- c(1, 2, 3, 4)
+Diet <- c("Poor", "Poor", "Good", "Good")
+Sex <- c("M", "F", "M", "F") 
+Weight <- c(156, 180, 167, 190) 
+Fat.content <- c(34, 43, 40, 43) 
+Morph <- c("Winged", "Winged", "Wingless", "Intermediate")
+Experimenter <- c("Jennifer", "Steve", "Ahmed", "Anna")
+       
+crickets <- data.frame(Number, 
+                       Diet, 
+                       Sex, 
+                       Weight, 
+                       Fat.content, 
+                       Morph, 
+                       Experimenter)
+
+rm(Number, Diet, Sex, Weight, Fat.content, Morph, Experimenter)
+crickets
+```
+
+What is happening here is that I set up individual vectors for each column of data in our final data frame, and then bind them all together with `data.frame()`. I then remove all the individual vectors with `rm()`, leaving just the compund data frame `crickets`. We can access individual **variables** within a data frame by writing the name of the data frame, then a $ symbol, then the name of the variable:
+
+```{r}
+crickets$Morph
+```
+
+Note that R assumes that the character vectors that are going into the new data frame are factors and makes them so. 
+
+```{r}
+is.factor(crickets$Diet)
+```
+
+This isn't necessarily a good thing: for example, we might not want the `Experimenter` column to be classed as a factor. We can change it back to character data using `as.character()`, like this:
+
+```{r}
+crickets$Experimenter <- as.character(crickets$Experimenter)
+
+is.factor(crickets$Experimenter)
+```
+
+
+The function `str()` (short for structure) is something that is particularly useful with data frames. It tells us the number of rows (observations) of data and the number of columns (variables), then it gives us a list of all the variables in the data frame, what class of variable they are and finally tells you something about their content. If the variable is a factor it tells you how many levels there are, and shows you the first few values for each variable. Let's see what `str()` gives us from our `crickets` data frame.
+
+```{r}
+str(crickets)
+```
+
+This is a really good way of checking that everything's OK with your data before you start analysing it. You can see whether all your variables are what you expect them to be, whether all your factors are factors and you can check the size of the data frame. Here you can see that we were successful in changing `Experimenter` from a factor back to a character variable.
+
+## Exercises
+
+### Vectors
+
+* Check the contents of the workspace using ls(). If they're still there, Delete the objects x1, x2, x3 and x4 that you set up for the previous set of exercises using the rm() function
+
+* Create a vector called "x1" consisting of the numbers 1,3,5 and 7
+
+* Create a vector called "x2" consisting of the numbers 2,4,6 and 8
+
+* Subtract x1 from x2
+ 
+* Create a new vector called "x3" by multiplying vector x1 by vector x2
+
+* Create a new vector called "x4" by taking the square root of each member of x3
+
+* Use the `mean()` function to calculate the arithmetic mean of the numbers in vector x4
+
+* Use the `median()` function to calculate the median value of the numbers in vector x3
+
+### Matrices
+
+* Use the `rm()` function to delete the objects x1, x2, x3, and x4
+
+* Create a new vector called "V1" consisting of the following numbers 1,3,5,7,9,11
+
+* Create a matrix called "mat1" using the following function: `mat1 <- matrix(V1, nrow=2)`
+
+* Create a matrix called "mat2" using the same function but add an extra argument `byrow=TRUE`
+
+* Compare the two matrices and note how the data stored in the vector V1 are used to fill up the cells of the two matrices
+
+## Answers to exercises
+
+### Vectors
+
+* Delete the objects x1, x2, x3 and x4 that you set up for the previous set of exercises using the rm() function
+
+```{r}
+rm(x1,x2,x3,x4)     
+```       
+
+* Create a vector called "x1" consisting of the numbers 1,3,5 and 7
+
+```{r}
+x1 <- c(1, 3, 5, 7)
+```       
+* Create a vector called "x2" consisting of the numbers 2,4,6 and 8
+
+```{r}
+x2 <- c(2, 4, 6, 8)
+```    
+* Subtract x1 from x2
+
+```{r}
+x2 - x1
+```     
+* Create a new vector called "x3" by multiplying vector x1 by vector x2
+
+```{r}
+x3 <- x1 * x2
+```    
+* Create a new vector called "x4" by taking the square root of each member of x3
+
+```{r}
+x4 <- sqrt(x3)
+```    
+* Use the mean() function to calculate the arithmetic mean of the numbers in vector x4
+
+```{r}
+mean(x4)
+```    
+* Use the median() function to calculate the median value of the numbers in vector x3
+
+```{r}
+median(x3)
+```    
+
+### Matrices
+
+* Use the rm() function to delete the objects x1, x2, x3, x4 and In
+
+```{r}
+rm(x1,x2,x3,x4)
+```    
+* Create a new vector called "V1" consisting of the following numbers 1,3,5,7,9,11
+
+```{r}
+V1<-c(1,3,5,7,9,11)
+```   
+* Create a matrix called "mat1" using the following function: mat1<-matrix(V1,nrow=2)
+
+```{r}
+mat1<-matrix(V1,nrow=2)
+```   
+* Create a matrix called "mat2" using the same function but add an extra argument "byrow=TRUE"
+
+```{r}
+mat2<-matrix(V1,nrow=2,byrow=TRUE)
+```   
+* Compare the two matrices and note how the date stored in the vector V1 is used to fill up the cells of the two matrices
+
+```{r}
+mat1
+mat2       
+```
+
+If nothing is specified, the data fill fill up the matrix by column: so row 1, column 1, then row 2 column 1 and so on. If `byrow = TRUE` the the data fill the matrix up by row, so row 1 column 1 then row 1 column 2 &c.
+
+
+[^4.1]: Vectors of data in R are often referred to as "atomic vectors". I'm trying to come up with a witty nuclear-reaction joke about this but I really can't.
+
+[^4.2]: c stands for “concatenate”. Some people think it means “combine” but that’s nowhere near as exciting a word.

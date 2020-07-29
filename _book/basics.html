@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 3 Basics | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 3 Basics | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Basics | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Rob Knell">
+
+
+<meta name="date" content="2019-03-24">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="a-first-r-session.html">
+<link rel="next" href="data-vectors-matrices-and-data-frames.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-this-book"><i class="fa fa-check"></i><b>1.1</b> Why this book?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i><b>1.2</b> How to use this book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-first-r-session.html"><a href="a-first-r-session.html"><i class="fa fa-check"></i><b>2</b> A first R session</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-first-r-session.html"><a href="a-first-r-session.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="a-first-r-session.html"><a href="a-first-r-session.html#a-first-r-session-1"><i class="fa fa-check"></i><b>2.2</b> A first R session</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>3</b> Basics</a><ul>
+<li class="chapter" data-level="3.1" data-path="basics.html"><a href="basics.html#basics-arithmetic-objects-and-functions"><i class="fa fa-check"></i><b>3.1</b> Basics: arithmetic, objects and functions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="basics.html"><a href="basics.html#arithmetic"><i class="fa fa-check"></i><b>3.1.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.1.2" data-path="basics.html"><a href="basics.html#objects"><i class="fa fa-check"></i><b>3.1.2</b> Objects</a></li>
+<li class="chapter" data-level="3.1.3" data-path="basics.html"><a href="basics.html#functions"><i class="fa fa-check"></i><b>3.1.3</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="basics.html"><a href="basics.html#exercises"><i class="fa fa-check"></i><b>3.2</b> Exercises</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="basics.html"><a href="basics.html#calculations"><i class="fa fa-check"></i><b>3.2.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.2.2" data-path="basics.html"><a href="basics.html#objects-1"><i class="fa fa-check"></i><b>3.2.2</b> Objects</a></li>
+<li class="chapter" data-level="3.2.3" data-path="basics.html"><a href="basics.html#functions-1"><i class="fa fa-check"></i><b>3.2.3</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="basics.html"><a href="basics.html#answers-to-exercises"><i class="fa fa-check"></i><b>3.3</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="basics.html"><a href="basics.html#calculations-1"><i class="fa fa-check"></i><b>3.3.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.3.2" data-path="basics.html"><a href="basics.html#objects-2"><i class="fa fa-check"></i><b>3.3.2</b> Objects</a></li>
+<li class="chapter" data-level="3.3.3" data-path="basics.html"><a href="basics.html#functions-2"><i class="fa fa-check"></i><b>3.3.3</b> Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html"><i class="fa fa-check"></i><b>4</b> Data: Vectors, Matrices and Data Frames</a><ul>
+<li class="chapter" data-level="4.0.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors"><i class="fa fa-check"></i><b>4.0.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.0.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices"><i class="fa fa-check"></i><b>4.0.2</b> Matrices</a></li>
+<li class="chapter" data-level="4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#exercises-1"><i class="fa fa-check"></i><b>4.1</b> Exercises</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-1"><i class="fa fa-check"></i><b>4.1.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.1.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-1"><i class="fa fa-check"></i><b>4.1.2</b> Matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html"><i class="fa fa-check"></i><b>5</b> Choosing data: subscripts and subsetting</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts"><i class="fa fa-check"></i><b>5.0.1</b> Subscripts</a></li>
+<li class="chapter" data-level="5.0.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-in-matrices-and-data-frames"><i class="fa fa-check"></i><b>5.0.2</b> Subscripts in matrices and data frames</a></li>
+<li class="chapter" data-level="5.0.3" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subset"><i class="fa fa-check"></i><b>5.0.3</b> Subset</a></li>
+<li class="chapter" data-level="5.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#exercises-2"><i class="fa fa-check"></i><b>5.1</b> Exercises</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors"><i class="fa fa-check"></i><b>5.1.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.1.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices"><i class="fa fa-check"></i><b>5.1.2</b> Subscripts and matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#answers-to-exercises-1"><i class="fa fa-check"></i><b>5.2</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors-1"><i class="fa fa-check"></i><b>5.2.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices-1"><i class="fa fa-check"></i><b>5.2.2</b> Subscripts and matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="basics" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Basics</h1>
+<div id="basics-arithmetic-objects-and-functions" class="section level2">
+<h2><span class="header-section-number">3.1</span> Basics: arithmetic, objects and functions</h2>
+<div id="arithmetic" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Arithmetic</h3>
+<p>The simplest way to interact with R is by typing something into the console at the command prompt and pressing enter. If what you’ve typed makes sense to R it’ll do what it’s told, if not then you’ll get an error message. The simplest things you can get R to do are straightforward sums. Just type in a calculation and press enter.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">6</span><span class="op">+</span><span class="dv">3</span></code></pre>
+<pre><code>## [1] 9</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">3</span><span class="op">^</span><span class="dv">3</span></code></pre>
+<pre><code>## [1] 27</code></pre>
+<p>There are a couple of things to notice here. Firstly, you don’t need to type an equals sign – just hit enter. Secondly, arithmetic operators are mostly the same as in many other packages.</p>
+<p>+ addition</p>
+<p>- subtraction</p>
+<p>* multiplication</p>
+<p>/ division</p>
+<p>^ raised to the power</p>
+<p>Thirdly, why does the answer have a [1] in front? Because there’s only one number in the answer. R is written to be good at dealing not only with single numbers but with groups of numbers: vectors and matrices. When it gives you an answer that contains more than one number it uses numbering like this to indicate where in the group of numbers each answer is. We’ll see more of this as we go on.</p>
+<p>When you’re asking R to do calculations that are more complex than just a single arithmetic operation then it will carry out the calculations in the following order from left to right: first of all calculations in brackets, then exponents, then multiplication and division, then addition and subtraction. When in doubt use brackets to make sure that the calculation that you want to be done is the one that’s actually done.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">22</span><span class="op">*</span><span class="dv">15</span><span class="op">+</span><span class="dv">6</span></code></pre>
+<pre><code>## [1] 336</code></pre>
+<p>22 and 15 are multiplied, and then 6 is added to the result of that calculation.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">22</span><span class="op">*</span>(<span class="dv">15</span><span class="op">+</span><span class="dv">6</span>)</code></pre>
+<pre><code>## [1] 462</code></pre>
+<p>By adding a pair of brackets we change the order that the calculations are done in: this time 15 and 6 are added together, and 22 is then multiplied by the sum of the two numbers.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">22</span><span class="op">^</span><span class="dv">2</span><span class="op">+</span><span class="dv">7</span></code></pre>
+<pre><code>## [1] 491</code></pre>
+<p>For this calculation 22 is raised to the power 2 and 7 is then added to the result of that calculation.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">22</span><span class="op">^</span>(<span class="dv">2</span><span class="op">+</span><span class="dv">7</span>)</code></pre>
+<pre><code>## [1] 1.207269e+12</code></pre>
+<p>By adding a pair of brackets we make sure that the first calculation is to add 2 and 7, and 22 is then raised to the power of the sum of those two numbers. The result of this calculation is a number that’s too big for R to display normally, so it’s using scientific notation: 1.207e+12 is the way that R expresses 1.207 x 10^12, or 1,207,000,000,000.</p>
+<p>You can use multiple brackets, and you can nest your brackets essentially <em>ad infinitum</em>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">(<span class="dv">2</span><span class="op">*</span>(<span class="fl">17.2</span><span class="op">+</span><span class="dv">5</span>))<span class="op">/</span><span class="dv">56</span></code></pre>
+<pre><code>## [1] 0.7928571</code></pre>
+</div>
+<div id="objects" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Objects</h3>
+<p>These simple calculations don’t produce any kind of output that is remembered by R: the answers appear in the console window but that’s all. Sometimes that’s OK but a lot of the time we want to store the answer of one of our calculations. The name given to R’s “memory” is the <strong>workspace</strong>, and the way to tell R to store something in the workspace is to use something like this:</p>
+<pre class="sourceCode r"><code class="sourceCode r">answer &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">+</span><span class="dv">2</span></code></pre>
+<p>Here, we are telling R to add 2+2 and store the answer in an object called <code>answer</code>. Take particular note of the middle symbol, <code>&lt;-</code>, in the instruction above. This is the <strong>allocation symbol</strong>, formed of a “less than” arrow <code>&lt;</code> and a hyphen <code>-</code> and it looks like an arrow pointing towards <code>answer</code>. It means “make the object on the left into the output of the command on the right”. It also works the other way around: 2+2-&gt;answer.</p>
+<p>To find out what is stored in <code>answer</code>, just type its name:</p>
+<pre class="sourceCode r"><code class="sourceCode r">answer</code></pre>
+<pre><code>## [1] 4</code></pre>
+<p>In some older versions of R, and in S-Plus, the underscore character can also be used for allocation, but this is no longer available in recent releases of R. It’s useful to know this so that when you try to use someone’s old S-Plus code in R you can work out why it doesn’t work.</p>
+<p>There wasn’t an object in the workspace called <code>answer</code> until we ran this code. If there is an allocation to a new name, R will create the new object and store the output of the code to the right of the allocation symbol there. If there is already an object with that name, R will just write the output of the new code to that object, overwriting whatever was stored there in the first place. There is no undo and no “are you sure” dialogue box, so be careful.</p>
+<pre class="sourceCode r"><code class="sourceCode r">answer</code></pre>
+<pre><code>## [1] 4</code></pre>
+<p>Our object has the number 4 stored.</p>
+<pre class="sourceCode r"><code class="sourceCode r">answer &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span><span class="dv">3</span>
+
+answer</code></pre>
+<pre><code>## [1] 6</code></pre>
+<p>Now it has been overwritten.</p>
+<p>You can use objects in calculations in exactly the same way you have already seen numbers being used above.</p>
+<pre class="sourceCode r"><code class="sourceCode r">answer2 &lt;-<span class="st"> </span>(<span class="fl">3.5</span><span class="op">+</span><span class="dv">1</span>)<span class="op">^</span><span class="dv">2</span>
+answer <span class="op">+</span><span class="st"> </span>answer2</code></pre>
+<pre><code>## [1] 26.25</code></pre>
+<p>You can also store the results of a calculation done with objects as another object.</p>
+<pre class="sourceCode r"><code class="sourceCode r">answer3&lt;-answer<span class="op">/</span>answer2
+answer3</code></pre>
+<pre><code>## [1] 0.2962963</code></pre>
+<p>When you first open R, there are no objects stored, but after you’ve been using it for a while you might have lots. You can get a list of what’s in the workspace by using the ls() function (functions are explained in more detail in the next section).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ls</span>()</code></pre>
+<pre><code>## [1] &quot;answer&quot;  &quot;answer2&quot; &quot;answer3&quot;</code></pre>
+<p>You can remove an object from the workspace by using the rm() function.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(answer2)</code></pre>
+<p>Notice that when you type this, once again it doesn’t ask you if you’re sure, or give you any other sort of warning, nor does it let you know whether it’s done as you asked. The object you asked it to remove has just gone: you can confirm this by using ls() again.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ls</span>()</code></pre>
+<pre><code>## [1] &quot;answer&quot;  &quot;answer3&quot;</code></pre>
+<p>It’s gone, sure enough. If you try to delete an object that doesn’t exist you’ll get an error message. It’s quite common when using R to be pleased when you type in a command and see nothing happen except for the command prompt popping up again. When nothing seems to happen that means that there haven’t been any errors, at least as far as R is concerned, which implies that everything has gone smoothly.</p>
+</div>
+<div id="functions" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> Functions</h3>
+<p>You can get so far by typing in calculations, but that’s obviously not going to be much use for most statistical analyses. Remember that R is not so much a statistical package in the traditional sense, like Minitab, but is really a programming language designed to be good for carrying out statistical analyses. R comes with a huge variety of (mostly) (fairly) short ready-made pieces of code that will do things like manage your data, do more complex mathematical operations on your data, draw graphs and carry out statistical analyses ranging from the simple and straightforward to the eye-wateringly complex. These ready-made pieces of code are called functions. Each function name ends in a pair of round brackets[^1](I am British so I call them brackets. If you’re from elsewhere you might call them parentheses. It’s all part of the English language’s rich diversity), and for many of the more straightforward functions you just type the name of the function and put the name of the object you’d like the procedure carried out on in the brackets.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">log</span>(<span class="dv">27</span>)</code></pre>
+<pre><code>## [1] 3.295837</code></pre>
+<p>The natural log of 27</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">exp</span>(<span class="dv">3</span>)</code></pre>
+<pre><code>## [1] 20.08554</code></pre>
+<p><em>e</em> raised to the power 3</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="dv">225</span>)</code></pre>
+<pre><code>## [1] 15</code></pre>
+<p>Square root of 225</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">abs</span>(<span class="op">-</span><span class="dv">9</span>)</code></pre>
+<pre><code>## [1] 9</code></pre>
+<p>Absolute (i.e. unsigned) value of −9</p>
+<p>You can carry out more complex calculations by making the argument of the function (the bit between the brackets) a calculation itself:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sin</span>(<span class="dv">17</span><span class="op">+</span>answer)</code></pre>
+<p>will add 17 and whatever the value of the object “answer” is, in this case 6, and then calculate the sine of the sum of the two values.</p>
+<p>You can use more brackets within the function’s brackets to make sure that complicated calculations are carried out in the correct order:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">exp</span>((x<span class="op">*</span><span class="dv">2</span>)<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>))</code></pre>
+<p>Will take whatever the value of x is, multiply it by 2, raise it to the power of 1/3 and then calculate the value of <em>e</em> raised to the power of that value. In other words, this will calculate <em>e</em> to the power of the cube root of 2x).</p>
+<p>You can use functions in creating new objects:</p>
+<pre class="sourceCode r"><code class="sourceCode r">D&lt;-<span class="dv">1</span><span class="op">/</span><span class="kw">sqrt</span>(x)</code></pre>
+<p>creates an object called “D” that has the value of 1 divided by the square root of the value of the object x.</p>
+<p>So far we’ve only looked at functions that have a single argument between the brackets. It’s often possible to control specific aspects of the way that the function operates, however, by adding further <strong>arguments</strong>, separated by commas. These extra arguments serve to do things like modify the way that the function is applied, or tell it to only use part of a dataset, or specify how the function should deal with missing datapoints. Here’s a straightforward example. The function <code>round()</code> rounds off a number to a certain number of decimal places. You can tell it the number you want to round off by typing it in between the brackets after the function, and then you can tell it how many decimal places to round to by adding a second argument, <code>digits=</code>, with a comma separating it from the first argument.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="fl">14.5378</span>, <span class="dt">digits =</span> <span class="dv">2</span>)</code></pre>
+<pre><code>## [1] 14.54</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="fl">14.5378</span>, <span class="dt">digits =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>## [1] 14.5</code></pre>
+<p>Most R functions have default values specified for most of their arguments, and if nothing is specified the function will just use the default value. If we don’t define a number of digits for <code>round()</code>, it will assume you want the number rounded off to no decimal places.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="fl">14.5378</span>)</code></pre>
+<pre><code>## [1] 15</code></pre>
+<p>A few other examples.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logb</span>(<span class="dv">27</span>, <span class="dt">base=</span><span class="fl">3.5</span>)</code></pre>
+<pre><code>## [1] 2.630854</code></pre>
+<p>This calculates the logarithm of 27 to the base 3.5. In other words, it calculates the number that 3.5 has to be raised to to get 27.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">signif</span>(pi, <span class="dt">digits=</span><span class="dv">3</span>)</code></pre>
+<pre><code>## [1] 3.14</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">signif</span>(pi, <span class="dt">digits=</span><span class="dv">5</span>)</code></pre>
+<pre><code>## [1] 3.1416</code></pre>
+<p>In this case we specified the arguments precisely. Very often in R the function can work out what the arguments mean simply by their position in the function call, so if you give the <code>signif()</code> function two arguments it assumes that the first is the number to be rounded and the second is the number of signficant digits to round it to.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">signif</span>(pi, <span class="dv">3</span>)</code></pre>
+<pre><code>## [1] 3.14</code></pre>
+<p>This can make for less typing but it also makes your code somewhat harder to understand. It’s up to you how much you wish to use argument names but I would suggest doing it more often than you might think necessary. It can make things easier when you come to read through the code again.</p>
+</div>
+</div>
+<div id="exercises" class="section level2">
+<h2><span class="header-section-number">3.2</span> Exercises</h2>
+<div id="calculations" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Calculations</h3>
+<p>Use R to carry out the following calculations (answers are at the end of the chapter if you wish to check):</p>
+<ul>
+<li><p>3 x 5</p></li>
+<li><p>5^2</p></li>
+<li><p>Add 8 to 22 and then multiply the answer by 3</p></li>
+<li><p>Subtract 2.8 from 12 and then raise the answer to the power of 1.5 plus 1.3924</p></li>
+<li><p>Subtract 2.8 from 12, raise the answer to the power of 1.5 and then add 1.3924</p></li>
+<li><p>Divide 8 by 2.5 and then divide the answer by 3</p></li>
+<li><p>Subtract 2.5 from 8 and then divide the answer by 3</p></li>
+<li><p>Divide 2.5 by 3 and subtract the answer from 8</p></li>
+</ul>
+</div>
+<div id="objects-1" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Objects</h3>
+<ul>
+<li><p>Create an object called “X1” which is the number 73</p></li>
+<li><p>Create another object called “X2” which is the answer to the sum 101+36</p></li>
+<li><p>Multiply X1 and X2 together and store the object as another object called X3</p></li>
+<li><p>Subtract 1 from X3 and calculate the 4th root (NB you can calculate the fourth root of a number by raising it to the power of 1/4)</p></li>
+<li><p>The answer should be 10</p></li>
+</ul>
+</div>
+<div id="functions-1" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> Functions</h3>
+<ul>
+<li><p>Calculate the log to the base 10 of x1 using the function <code>log10()</code></p></li>
+<li><p>Calculate the square root of x2 using the function <code>sqrt()</code></p></li>
+<li><p>Calculate the square root of x2 by raising it to the power 0.5: your answer should be the same as when you used the <code>sqrt()</code> function</p></li>
+<li><p>use the function <code>sum()</code> to add x1 and x2: you’ll need to put both object names inside the brackets and separate them with a comma</p></li>
+<li><p>Create an object called “x4” which is equal to 67.8953</p></li>
+<li><p>The function <code>round()</code> will round a number to a given number of decimal places. The default is zero so start by using this function to round x4 off to zero decimal places</p></li>
+<li><p>Now use the round function to give you the value specified by x4 rounded off to three decimal places</p></li>
+<li><p><code>floor()</code> and <code>ceiling()</code> can also be used to trim a number down to an integer: apply both of these functions to x4 and compare the output.</p></li>
+</ul>
+</div>
+</div>
+<div id="answers-to-exercises" class="section level2">
+<h2><span class="header-section-number">3.3</span> Answers to exercises</h2>
+<div id="calculations-1" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Calculations</h3>
+<ul>
+<li>3 x 5</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">3</span><span class="op">*</span><span class="dv">5</span></code></pre>
+<pre><code>## [1] 15</code></pre>
+<ul>
+<li>5^2</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">5</span><span class="op">^</span><span class="dv">2</span>   </code></pre>
+<pre><code>## [1] 25</code></pre>
+<ul>
+<li>Add 8 to 22 and then multiply the answer by 3</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">(<span class="dv">8</span><span class="op">+</span><span class="dv">22</span>)<span class="op">^</span><span class="dv">3</span></code></pre>
+<pre><code>## [1] 27000</code></pre>
+<ul>
+<li>Subtract 2.8 from 12 and then raise the answer to the power of 1.5 plus 1.3924</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">(<span class="dv">12</span><span class="fl">-2.8</span>)<span class="op">^</span>(<span class="fl">1.5+1.3924</span>)</code></pre>
+<pre><code>## [1] 613.2816</code></pre>
+<ul>
+<li>Subtract 2.8 from 12, raise the answer to the power of 1.5 and then add 1.3924</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">(<span class="dv">12</span><span class="fl">-2.8</span>)<span class="op">^</span><span class="fl">1.5+1.3924</span></code></pre>
+<pre><code>## [1] 29.29738</code></pre>
+<ul>
+<li>Divide 8 by 2.5 and then divide the answer by 3</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">(<span class="dv">8</span><span class="op">/</span><span class="fl">2.5</span>)<span class="op">/</span><span class="dv">3</span></code></pre>
+<pre><code>## [1] 1.066667</code></pre>
+<ul>
+<li>Subtract 2.5 from 8 and then divide the answer by 3</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">(<span class="dv">8</span><span class="fl">-2.5</span>)<span class="op">/</span><span class="dv">3</span></code></pre>
+<pre><code>## [1] 1.833333</code></pre>
+<ul>
+<li>Divide 2.5 by 3 and subtract the answer from 8</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">8</span><span class="fl">-2.5</span><span class="op">/</span><span class="dv">3</span>       </code></pre>
+<pre><code>## [1] 7.166667</code></pre>
+</div>
+<div id="objects-2" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Objects</h3>
+<ul>
+<li>Create an object called “X1” which is the number 73</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">x1&lt;-<span class="dv">73</span>       </code></pre>
+<ul>
+<li>Create another object called “X2” which is the answer to the sum 101+36</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">x2&lt;-<span class="dv">101</span><span class="op">+</span><span class="dv">36</span>      </code></pre>
+<ul>
+<li>Multiply X1 and X2 together and store the object as another object called X3</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">x3&lt;-x1<span class="op">*</span>x2    </code></pre>
+<ul>
+<li><p>Subtract 1 from X3 and calculate the 4th root (NB you can calculate the fourth root of a number by raising it to the power of 1/4)</p></li>
+<li><p>The answer should be 10</p></li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">(x3<span class="dv">-1</span>)<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)</code></pre>
+<pre><code>## [1] 10</code></pre>
+</div>
+<div id="functions-2" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Functions</h3>
+<ul>
+<li>Calculate the log to the base 10 of x1 using the function log10()</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">log10</span>(x1)</code></pre>
+<pre><code>## [1] 1.863323</code></pre>
+<ul>
+<li>Calculate the square root of x2 using the function sqrt()</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(x2)</code></pre>
+<pre><code>## [1] 11.7047</code></pre>
+<ul>
+<li>Calculate the square root of x2 by raising it to the power 0.5: your answer should be the same as when you
+used the sqrt() function</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">x2<span class="op">^</span><span class="fl">0.5</span></code></pre>
+<pre><code>## [1] 11.7047</code></pre>
+<ul>
+<li>use the function sum() to add x1 and x2: you’ll need to put both object names inside the brackets and
+separate them with a comma</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(x1<span class="op">+</span>x2)</code></pre>
+<pre><code>## [1] 210</code></pre>
+<ul>
+<li>Create an object called “x4” which is equal to 67.8953</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">x4&lt;-<span class="fl">67.8953</span></code></pre>
+<ul>
+<li>The function “round()” will round a number to a given number of decimal places. The default is zero so start by using this function to round x4 off to zero decimal places</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(x4)</code></pre>
+<pre><code>## [1] 68</code></pre>
+<ul>
+<li>Now use the round function to give you the value specified by x4 rounded off to three decimal places</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(x4,<span class="dv">3</span>)</code></pre>
+<pre><code>## [1] 67.895</code></pre>
+<ul>
+<li>floor() and ceiling() can also be used to trim a number down to an integer: apply both of these functions to x3 and compare the output.</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">floor</span>(x4)</code></pre>
+<pre><code>## [1] 67</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ceiling</span>(x4)       </code></pre>
+<pre><code>## [1] 68</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="a-first-r-session.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-vectors-matrices-and-data-frames.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["3rd_Edition.pdf", "3rd_Edition.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

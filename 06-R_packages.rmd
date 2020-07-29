@@ -1,0 +1,208 @@
+# Help files and packages
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
+```
+
+## Using the help files
+
+
+When you're using R you can't just pull all the menus down looking for one that has 'linear regression' somewhere, like you might do with another piece of software. This means that you will find yourself consulting the help files more than you might do with other packages.
+If you know the name of the function you wish to use, you can get the help file by just typing the function name prefixed with a `?`:
+
+```
+?cor.test
+?log
+?glm
+```
+
+This opens a new window with the help file for that command, or if you're using RStudio it will show the help file in the 'help'tab. All the help files follow the same format, and if you're not familiar with the layout they can seem bizarrely incomprehensible. Let's walk through the important bits of the help file for `cor.test()`:
+
+```
+cor.test                package:stats                R Documentation
+Test for Association/Correlation Between Paired Samples
+Description:
+     Test for association between paired samples, using one of
+     Pearson's product moment correlation coefficient, Kendall's tau or
+     Spearman's rho.
+```
+
+This tells you which package it's in (this gets important when you want to do more obscure analysis and have to load new packages), and then tells you what it does. The “usage” section…
+
+```
+Usage:
+     cor.test(x, ...)
+     ## Default S3 method:
+     cor.test(x, y,
+              alternative = c("two.sided", "less", "greater"),
+              method = c("pearson", "kendall", "spearman"),
+              exact = NULL, conf.level = 0.95, ...)
+     ## S3 method for class 'formula':
+     cor.test(formula, data, subset, na.action, ...)
+```
+
+…tells you how to use it. The default method is to type `cor.test(` and then give the names of the two variables to be tested, separated by commas. There is then a list of the different arguments that can be included in the command. These arguments are followed by some of the possible options, so you can specify _method="spearman"_ if you want a Spearman's r instead of a Pearson. Don't worry about what it means by "S3 method" - this refers to the method that R uses to deal with the code and is something that you don't need to concern yourself with if you need to read this book. The next bit then lets you know that you can also use it by inputting a formula. The arguments and their options are then described in a bit more detail:
+
+```
+Arguments:
+    x, y: numeric vectors of data values.  'x' and 'y' must have the
+          same length.
+alternative: indicates the alternative hypothesis and must be one of
+          '"two.sided"', '"greater"' or '"less"'.  You can specify just
+          the initial letter.  '"greater"' corresponds to positive
+          association, '"less"' to negative association.
+  method: a character string indicating which correlation coefficient
+          is to be  used for the test.  One of '"pearson"',
+          '"kendall"', or '"spearman"', can be abbreviated.
+
+```
+and so on. For each of the arguments there is a line or paragraph telling you what each one does, and in some cases giving a list of what the various options do for that argument. Next up is the section called "Details".
+
+```
+Details
+
+The three methods each estimate the association between paired samples 
+and compute a test of the value being zero. They use different measures 
+of association, all in the range [-1, 1] with 0 indicating no association. 
+These are sometimes referred to as tests of no correlation, but that 
+term is often confined to the default method...
+```
+
+
+This section of the help file gives you some more information about what the function does and how some of the arguments alter the way it works. In the case of `cor.test()` this is mostly concerned with the specifics of the way that each of the three options available (Pearson's, Spearman's and Kendall's Tau) are calculated.
+
+The next section is called "Value".
+
+```
+Value:
+     A list with class '"htest"' containing the following components: 
+statistic: the value of the test statistic.
+parameter: the degrees of freedom of the test statistic in the case
+          that it follows a t distribution.
+ p.value: the p-value of the test.
+estimate: the estimated measure of association, with name '"cor"',
+          '"tau"', or '"rho"' correspoding to the method employed.
+```
+
+This part tells you what the output of the function consists of. If you just tell R to do a `cor.test()` analysis all of this appears in the console, but if  you set up an object containing the output from the test then it is useful to know what information is actually stored there and what it's all called so that you can access it You might not want to do this for a simple correlation analysis, but it gets very useful for more complex analyses because the object will contain handy things like the residuals. When you know what the names of the various pieces of information in the object are you can access them using the object name and a dollar symbol in the same way you can access a variable within a data frame:
+
+
+```{r echo=FALSE}
+WeightF<- rnorm(25,65,2)
+WeightM <- rnorm(25,80,3)
+```
+
+```{r}
+obj<-cor.test(WeightF, WeightM)
+
+obj$p.value
+
+obj$statistic
+```
+
+The remainder is a couple of references and then an example of how the function might be used. This last is sometimes very useful and sometimes less so. Note that you can just cut and paste the text from the example into the R console window if you want to run the example.
+
+That's all fine if you know what the name of the function is. It's a little like road signs in London though, which are useful so long as you know exactly where you are and how to get to wherever you're going. If you don't know what the name of the function you're after is then you need to search for it, which you can do by using the `help.search()` function, which will look through the help files for a character string for you.
+
+```{r eval=FALSE}
+help.search("spearman")
+```
+will search for things containing "spearman" in the help files and will hopefully get you where you want to go. You can also search the help files by just typing a double question mark and then whatever it is you want to search for.
+
+```{r eval=FALSE}
+??spearman
+```
+
+Will give you the same result as `help.search("spearman")` and is easier to type.
+
+Unfortunately the search facility sometimes fails to find what you're after, and you'll sometimes have to use other sources: books, manuals, the archives of the R-help mailing list and, if you wish to venture where angels fear to tread, stackoverflow.
+
+```{r}
+help.search("Mann-Whitney")
+```
+```
+No help files found matching 'Mann-Whitney' using fuzzy matching
+```
+```{r}
+help.search("Mann.Whitney")
+```
+```
+No help files found matching 'Mann-Whitney' using fuzzy matching
+```
+```{r}
+help.search("mann-whitney")
+```
+```
+No help files found matching 'Mann-Whitney' using fuzzy matching
+```
+
+Aaargh! Off to the R-help archives to search for Mann-Whitney
+
+
+> From: Jonathan XXXXX <br>
+> Date: Thu Jan 23 2003 - 13:52:03 EST <br>
+> On 01/23/03 13:39, Jan YYYYYYY wrote: <br>
+> \> hi, <br>
+> \> i can not find the mann whitney u test in R. <br>
+> \> could someone help me with that ? <br>
+> See wilcox.test in the ctest package (which loads automatically, <br>
+> so just say ?wilcox.test) <br>
+
+So thanks to this person who got made to feel stupid so that I didn't have to.
+
+Packages
+--------
+
+The basic R installation comes with a core set of functions that will allow you to do a wide range of analyses and draw a wide variety of graphs. If you want to go further, however, you’ll come across one of the best features of R --- the availability of downloadable "packages" that load new functions and other objects into your base R installation, enabling you to use an almost infinite range of analysis techniques. Creating a new package is straightforward, and because R is now so widely used in academia the majority of authors of publications describing new analysis techniques release an R package when they publish their new ideas. To give a flavour of how widespread this is, the figure below is a screenshot of part of the contents page from the December 2012 edition of Methods in Ecology and Evolution. The part of the contents page I’ve focussed on is the “Applications” section, is where new statistical techniques tend to get reported in the journal. As you can see, of the seven papers published in this section, five are associated with R packages.
+
+<img src="Methods Ecol Evol screenshot.png" width="50%" height="50%"/>
+
+Figure 1. Screenshot of contents table from December 2012 Methods in Ecology and Evolution.
+
+Some packages come with the base installation of R but are not automatically loaded when you start the software. These include:
+
+- `lattice`, which includes functions for a range of advanced graphics, 
+- `MASS`, a package associated with the book “Modern Applied Statistics with S” by Venables and Ripley (2002, Springer-Verlag) containing a variety of useful functions to do things like fit generalized linear models with negative binomial errors, 
+- `nlme` which lets you fit linear and non-linear mixed-effects models, 
+- `cluster` which brings a range of functions for cluster analysis and 
+- `survival` which has functions for survival analysis (surprise!).  
+
+These will already probably be loaded onto your computer, but to make sure you can use the `installed.packages()` function. Just type it in with nothing between the brackets and you’ll get more information about what’s there than you really need. If you want to use one of them you can load them into R by using the `library()` function: so to load the cluster package you just need to type `library(cluster)` and it will be loaded. 
+
+If you want to know a bit more about what’s in a particular package you can type `library(help=PACKAGE)` where `PACKAGE` is the name of, well, the package. This will get you some information about the package and a list of the various functions that are included in the package. If you want to know more then one of the easiest ways of finding out more information is to go to http://cran.r-project.org/web/packages/available_packages_by_name.html, which lists all 10000+ packages currently available for R. If you click on the name of a package you’ll be able to navigate to a link for the package manual which should tell you everything you might ever want to know. It might be difficult to follow if you’re a biologist because it’s likely to be written for consumption by statisticians, but you’ll just need to persevere.
+
+Most of the R packages out there aren’t installed on your machine by default, of course. Let’s say you’re a community ecologist and you want to use the `vegan` package, which codes for a wide variety of functions to do things like calculate diversity indices and carry out ordinations. If you look on CRAN you can find the web page for vegan at http://cran.r-project.org/web/packages/vegan/index.html, which lets you look at the manual for the package and also provides links to a number of “vignettes” - documents giving details of how to carry out specific analyses using the package. These can be very useful once you've got the package installed: when it’s three o’clock in the morning and you’re so desperate you would sell your cat’s soul to Satan just to get that NMDS done those vignettes can preserve your sanity, but there’s nothing obvious on the web page that you can click on to actually install it on your computer. 
+
+What you need to know before you install a package is that the central repository for R stuff, CRAN (Comprehensive R Archive Network) has a series of mirror sites around the World. When you download something you should choose a mirror site near to you so that you can avoid overloading the main CRAN site. A list of CRAN mirrors is available at http://cran.r-project.org/mirrors.html. Take a look at it and find some mirror sites near where you are.
+
+Now that you’ve got an idea of which mirror sites you might want to use, you can set a mirror site by using `chooseCRANmirror()`, which will bring up a window that lets you choose the mirror site you’d like to use, and then you can install the package using the `install.packages()` function.
+
+```{r eval=FALSE}
+install.packages("vegan")
+```
+```
+also installing the dependency ‘permute’
+trying URL 'http://www.stats.bris.ac.uk/R/bin/macosx/leopard/contrib/2.15/permute_0.7-0.tgz'
+Content type 'application/x-gzip' length 220346 bytes (215 Kb)
+opened URL
+==================================================
+downloaded 215 Kb
+
+trying URL 'http://www.stats.bris.ac.uk/R/bin/macosx/leopard/contrib/2.15/vegan_2.0-5.tgz'
+Content type 'application/x-gzip' length 2353906 bytes (2.2 Mb)
+opened URL
+==================================================
+downloaded 2.2 Mb
+
+
+The downloaded binary packages are in
+  /var/folders/qm/_szqszq95c34jn73g8b03bbh0000gn/T//Rtmpm0BWXn/downloaded_packages
+```
+
+If you use the `install.packages()` function without specifying a mirror site you might well get a pop-up window asking you to choose a mirror site anyway, but it’s more straightforward to do it first. Once the package is installed then load it by using the `library()` function and you’re ready to go.
+
+```{r eval=FALSE}
+library(vegan)
+```
+
+If you're using RStudio then you'll see that one of the panes has a tab labelled "Packages". If you select this you can get a list of the packages which are currently installed, and you can install new packages using the "install" button on the top right of the pane. There is a search bar but note that this searches in your list of installed packages, so you can't find and install a package using this.

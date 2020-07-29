@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path=""><a href="#chapter-1-a-first-r-session"><i class="fa fa-check"></i><b>1</b> Chapter 1: A first R session</a><ul>
+<li class="chapter" data-level="1.1" data-path=""><a href="#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a></li>
+<li class="chapter" data-level="1.2" data-path=""><a href="#a-first-r-session"><i class="fa fa-check"></i><b>1.2</b> A first R session</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!--bookdown:title:end-->
+<!--bookdown:title:start-->
+<div id="chapter-1-a-first-r-session" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Chapter 1: A first R session</h1>
+<div id="what-is-r" class="section level2">
+<h2><span class="header-section-number">1.1</span> What is R?</h2>
+<p>In the beginning, Bell labs in the States developed a statistical analysis package called S. Nowadays this is most widely encountered as the commercially available package S-plus, distributed by Insightful corp. R is an open-source implementation of S, and differs from S-plus largely in its command-line only format. If you’re not familiar with the concept, open source software is not produced and sold by commercial bodies in the way that software such as Microsoft Office is: rather, it is usually written collaboratively by teams of volunteers and then distributed for free. It’s called open source because the source code is available and anyone can modify it and distribute it themselves if they conform to the requirements of the open source licence. R development is mostly done by the Core Development Team, who are listed here: <a href="http://www.r-project.org/contributors.html">http://www.r-project.org/contributors</a>. Thanks everyone for all your hard work.</p>
+<p>R has a broad set of facilities for doing statistical analyses. In addition, R is also a very powerful statistical programming language. The open-source nature of R means that as new statistical techniques are developed, new packages for R usually become freely available very soon after. There is R code available to do pretty much any sort of analysis that you can think of, and if you do manage to think of a new one you can always write the code yourself. R will carry out important analyses that are difficult or impossible in many other packages, including things like Generalized Linear and Generalized Additive Models, and Linear and Non-Linear Mixed Models. All of these are becoming increasingly widely used in biology, especially at the whole-organism end of things.</p>
+<p>On top of the almost infinite variety of statistical tools available, R is also equipped with a broad range of graph-drawing tools, which make it very easy to produce publication-standard graphs of your data. Because R is produced by people who know about data presentation, rather than graphic design, the default options for R graphs are simple, elegant and sensible, contrasting somewhat with the default options for graphics in certain other well-known data manipulation packages. On top of the base graphics system there are a number of additional graph packages available that give you whole new graphics systems and allow a further variety of graphics to be drawn easily. For a quick look at some of the variety of graphics that can be made in R have a look at some of the examples on show at <a href="http://gallery.r-enthusiasts.com" class="uri">http://gallery.r-enthusiasts.com</a>.</p>
+<p>R is freely downloadable from <a href="http://cran.r-project.org/" class="uri">http://cran.r-project.org/</a>, as is a wide range of documentation. If you’re using Windows or a Mac you can download it and run the installer. If you’re on Linux then check the software management system: you might have to do a bit of jiggery-pokery like specifying the repository, depending on the specifics of the distro you’re using. I’ll assume that if you’re using Linux then you can work all that out for yourself.</p>
+<p>The main R window that you’ll see when you start R is called the console. This is what it looks like when you are using a Mac, and on a PC it’s fairly similar.</p>
+<p><img src = "Images/Mac%20console.png" width="66%" height="66%" /></p>
+</div>
+<div id="a-first-r-session" class="section level2">
+<h2><span class="header-section-number">1.2</span> A first R session</h2>
+<p>You’ve downloaded a copy of R, you’ve started the application and now you’re faced with the command prompt without any nice buttons or menus to help you. This is the point where things usually start going pear-shaped for a good many people, so I’ll talk you through a simple analysis in an attempt to show you that it’s not as intimidatingly hard as you might think. Let’s say you’re doing a research project investigating the effect of density on testosterone levels in a species of lizard. You have a data set from a single population with measurements from 12 male lizards. For each of these you’ve recorded the nearest neighbour distance as a measure of the population density experienced by that animal, and you’ve caught the lizards, taken a blood sample and measured the testosterone level. Here are your testosterone data.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Lizard Number</th>
+<th align="center">Nearest Neighbour (<span class="math inline">\(m\)</span>)</th>
+<th align="center">Plasma testosterone (<span class="math inline">\(ng.ml^{-1}\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">4</td>
+<td align="center">22.2</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">7</td>
+<td align="center">26.1</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">21.5</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">5</td>
+<td align="center">23.8</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">8</td>
+<td align="center">23.8</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td align="center">3</td>
+<td align="center">20.5</td>
+</tr>
+<tr class="odd">
+<td align="center">7</td>
+<td align="center">7</td>
+<td align="center">24.6</td>
+</tr>
+<tr class="even">
+<td align="center">8</td>
+<td align="center">4</td>
+<td align="center">22.6</td>
+</tr>
+<tr class="odd">
+<td align="center">9</td>
+<td align="center">3</td>
+<td align="center">19.9</td>
+</tr>
+<tr class="even">
+<td align="center">10</td>
+<td align="center">5</td>
+<td align="center">23.9</td>
+</tr>
+<tr class="odd">
+<td align="center">11</td>
+<td align="center">5</td>
+<td align="center">19.8</td>
+</tr>
+<tr class="even">
+<td align="center">12</td>
+<td align="center">4</td>
+<td align="center">21.3</td>
+</tr>
+</tbody>
+</table>
+<p>Before doing any sort of analysis we need to get our data loaded into the programme. For a big data set you’d do this by entering the data into a spreadsheet and importing it to R (see the “Importing data” chapter) but in this case, with a relatively small dataset you can enter the data directly at the command prompt. First, the nearest neighbour data. Just type this in at the command prompt and press enter.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nearest.neighbour&lt;-<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">4</span>)</code></pre></div>
+<p>This has created a set of numbers (a vector) in R called nearest.neighbour. The “c” before the brackets tells R to put everything in the brackets together, and the arrow &lt;- means “take what’s to the right of the arrow and make an object with the name that’s to the left of the arrow”. You can check to make sure it’s correct by just typing the name and pressing enter.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nearest.neighbour</code></pre></div>
+<pre><code>##  [1] 4 7 3 5 8 3 7 4 3 5 5 4</code></pre>
+<p>There’s your data. Don’t worry about the [1] at the start. Now you need to do something similar for the testosterone data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">testosterone&lt;-<span class="kw">c</span>(<span class="fl">22.2</span>,<span class="fl">26.1</span>,<span class="fl">21.5</span>,<span class="fl">23.8</span>,<span class="fl">23.8</span>,<span class="fl">20.5</span>,<span class="fl">24.6</span>,<span class="fl">22.6</span>,<span class="fl">19.9</span>,<span class="fl">23.9</span>,<span class="fl">19.8</span>,<span class="fl">21.3</span>)</code></pre></div>
+<p>You can check your numbers here in the same way as before, by typing in the name of the object and pressing enter. Now your data are entered into R you can take a look at them. It’s a good idea to visualise your data before doing any analysis, and you can do this by asking R to plot the data out for you. Type this and you’ll get a scatterplot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(nearest.neighbour,testosterone)</code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-4"></span>
+<img src="01_First_R_Session_files/figure-html/unnamed-chunk-4-1.png" alt="Testosterone titre plotted against the distance to the nearest neighbour" width="672" />
+<p class="caption">
+Figure 1.1: Testosterone titre plotted against the distance to the nearest neighbour
+</p>
+</div>
+<p>Not quite publication quality but not bad. You can look at the data and see that there does seem to be a positive relationship between nearest neighbour distance and testosterone level, and you can also see that there aren’t any data points that are huge outliers that are likely to have a big effect on your analysis. Now you can go ahead and do some analysis: you want to know if there’s a relationship between nearest neighbour distance and testosterone level, so you need to do a correlation analysis. More specifically, you want to know what the correlation coefficient <em>r</em> is for the two variables and whether the correlation coefficient is significantly different from zero (see the chapter on correlation for more on this). Type this in and press enter.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(nearest.neighbour, testosterone)</code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  nearest.neighbour and testosterone
+## t = 3.6238, df = 10, p-value = 0.00466
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.3163493 0.9266613
+## sample estimates:
+##       cor 
+## 0.7534581</code></pre>
+<p>This has everything you need. It tells you exactly what sort of analysis has been done, and the names of the variables you asked it to analyse. Then you get a significance test and a p-value, telling you that there is a statistically significant correlation between the variables. The last thing in the table is the actual estimate of the correlation coefficient (0.75) and you even get 95% confidence intervals for the estimate of r. That’s it. You’ve input your data, drawn a graph and carried out a statistical test. This has hopefully illustrated some important points about how R works to you: you make it do things by typing commands and pressing enter; you can create data objects with your results in; there are commands that make R do things like carry out tests and draw graphs; and at least some of these commands have self-evident names like “plot”. You’ve probably also noticed that there seem to be an awful lot of brackets and commas, and you might have found out that if you make mistakes in what you’re typing the error messages are rarely helpful. You’re halfway there already, but if you want to gain your black belt in command prompt-jitsu you really need to go to the very beginning and start with the basics, which is what the next chapter is all about.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"search": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

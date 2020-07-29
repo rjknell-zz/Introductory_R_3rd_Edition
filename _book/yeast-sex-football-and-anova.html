@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 17 Yeast Sex, Football and ANOVA | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</title>
+  <meta name="description" content="null" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 17 Yeast Sex, Football and ANOVA | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="null" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 17 Yeast Sex, Football and ANOVA | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  
+  <meta name="twitter:description" content="null" />
+  
+
+<meta name="author" content="Rob Knell" />
+
+
+<meta name="date" content="2020-05-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introductory R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-this-book"><i class="fa fa-check"></i><b>1.1</b> Why this book?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i><b>1.2</b> How to use this book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-first-r-session.html"><a href="a-first-r-session.html"><i class="fa fa-check"></i><b>2</b> A first R session</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-first-r-session.html"><a href="a-first-r-session.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="a-first-r-session.html"><a href="a-first-r-session.html#a-first-r-session-1"><i class="fa fa-check"></i><b>2.2</b> A first R session</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html"><i class="fa fa-check"></i><b>3</b> Basics: arithmetic, objects and functions</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#arithmetic"><i class="fa fa-check"></i><b>3.0.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.0.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#logical-operations"><i class="fa fa-check"></i><b>3.0.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.0.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects"><i class="fa fa-check"></i><b>3.0.3</b> Objects</a></li>
+<li class="chapter" data-level="3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#kinds-of-data"><i class="fa fa-check"></i><b>3.1</b> Kinds of data</a></li>
+<li class="chapter" data-level="3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#whats-in-my-workspace"><i class="fa fa-check"></i><b>3.2</b> What’s in my workspace?</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions"><i class="fa fa-check"></i><b>3.2.1</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#exercises"><i class="fa fa-check"></i><b>3.3</b> Exercises</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations"><i class="fa fa-check"></i><b>3.3.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-1"><i class="fa fa-check"></i><b>3.3.2</b> Objects</a></li>
+<li class="chapter" data-level="3.3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#answers-to-exercises"><i class="fa fa-check"></i><b>3.4</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations-1"><i class="fa fa-check"></i><b>3.4.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.4.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-2"><i class="fa fa-check"></i><b>3.4.2</b> Objects</a></li>
+<li class="chapter" data-level="3.4.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-2"><i class="fa fa-check"></i><b>3.4.3</b> Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html"><i class="fa fa-check"></i><b>4</b> Data: Vectors, Matrices and Data Frames</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors"><i class="fa fa-check"></i><b>4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices"><i class="fa fa-check"></i><b>4.2</b> Matrices</a></li>
+<li class="chapter" data-level="4.3" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#factors-and-data-frames"><i class="fa fa-check"></i><b>4.3</b> Factors and Data frames</a></li>
+<li class="chapter" data-level="4.4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#exercises-1"><i class="fa fa-check"></i><b>4.4</b> Exercises</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-1"><i class="fa fa-check"></i><b>4.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-1"><i class="fa fa-check"></i><b>4.4.2</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#answers-to-exercises-1"><i class="fa fa-check"></i><b>4.5</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-2"><i class="fa fa-check"></i><b>4.5.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.5.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-2"><i class="fa fa-check"></i><b>4.5.2</b> Matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html"><i class="fa fa-check"></i><b>5</b> Choosing data: subscripts and subsetting</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts"><i class="fa fa-check"></i><b>5.0.1</b> Subscripts</a></li>
+<li class="chapter" data-level="5.0.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-in-matrices-and-data-frames"><i class="fa fa-check"></i><b>5.0.2</b> Subscripts in matrices and data frames</a></li>
+<li class="chapter" data-level="5.0.3" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subset"><i class="fa fa-check"></i><b>5.0.3</b> Subset</a></li>
+<li class="chapter" data-level="5.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#exercises-2"><i class="fa fa-check"></i><b>5.1</b> Exercises</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors"><i class="fa fa-check"></i><b>5.1.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.1.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices"><i class="fa fa-check"></i><b>5.1.2</b> Subscripts and matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#answers-to-exercises-2"><i class="fa fa-check"></i><b>5.2</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors-1"><i class="fa fa-check"></i><b>5.2.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices-1"><i class="fa fa-check"></i><b>5.2.2</b> Subscripts and matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html"><i class="fa fa-check"></i><b>6</b> R scripts and your R workflow</a><ul>
+<li class="chapter" data-level="6.1" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#writing-and-using-r-scripts"><i class="fa fa-check"></i><b>6.1</b> Writing and using R scripts</a></li>
+<li class="chapter" data-level="6.2" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-an-r-script-window"><i class="fa fa-check"></i><b>6.2</b> Running code from an R script window</a></li>
+<li class="chapter" data-level="6.3" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-files-using-source"><i class="fa fa-check"></i><b>6.3</b> Running code from files using <code>source()</code></a></li>
+<li class="chapter" data-level="6.4" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#workflow-structure-or-what-should-i-put-in-my-script"><i class="fa fa-check"></i><b>6.4</b> Workflow structure, or what should I put in my script?</a></li>
+<li class="chapter" data-level="6.5" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#keep-it-neat-making-your-script-easy-to-read"><i class="fa fa-check"></i><b>6.5</b> Keep it neat — making your script easy to read</a></li>
+<li class="chapter" data-level="6.6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#i-wish-i-hadnt-commented-my-code-so-much-said-no-one-ever-4."><i class="fa fa-check"></i><b>6.6</b> “I wish I hadn’t commented my code so much”, said no-one, ever.</a></li>
+<li class="chapter" data-level="6.7" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#using-rstudio-to-write-scripts"><i class="fa fa-check"></i><b>6.7</b> Using RStudio to write scripts</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html"><i class="fa fa-check"></i><b>7</b> Help files and packages</a><ul>
+<li class="chapter" data-level="7.1" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#using-the-help-files"><i class="fa fa-check"></i><b>7.1</b> Using the help files</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>8</b> Importing Data</a><ul>
+<li class="chapter" data-level="8.1" data-path="importing-data.html"><a href="importing-data.html#the-rules"><i class="fa fa-check"></i><b>8.1</b> The Rules</a></li>
+<li class="chapter" data-level="8.2" data-path="importing-data.html"><a href="importing-data.html#importing-your-text-file"><i class="fa fa-check"></i><b>8.2</b> Importing your Text File</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="importing-data.html"><a href="importing-data.html#the-simple-way"><i class="fa fa-check"></i><b>8.2.1</b> The simple way</a></li>
+<li class="chapter" data-level="8.2.2" data-path="importing-data.html"><a href="importing-data.html#the-less-simple-way"><i class="fa fa-check"></i><b>8.2.2</b> The less simple way</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="importing-data.html"><a href="importing-data.html#importing-character-data"><i class="fa fa-check"></i><b>8.3</b> Importing character data</a></li>
+<li class="chapter" data-level="8.4" data-path="importing-data.html"><a href="importing-data.html#data-on-the-web"><i class="fa fa-check"></i><b>8.4</b> Data on the web</a></li>
+<li class="chapter" data-level="8.5" data-path="importing-data.html"><a href="importing-data.html#using-read.table"><i class="fa fa-check"></i><b>8.5</b> Using <code>read.table()</code></a></li>
+<li class="chapter" data-level="8.6" data-path="importing-data.html"><a href="importing-data.html#what-to-do-once-youve-managed-to-import-your-data."><i class="fa fa-check"></i><b>8.6</b> What to do once you’ve managed to import your data.</a></li>
+<li class="chapter" data-level="8.7" data-path="importing-data.html"><a href="importing-data.html#importing-data-directly-from-excel"><i class="fa fa-check"></i><b>8.7</b> Importing data directly from Excel</a></li>
+<li class="chapter" data-level="8.8" data-path="importing-data.html"><a href="importing-data.html#other-data-formats"><i class="fa fa-check"></i><b>8.8</b> Other data formats</a></li>
+<li class="chapter" data-level="8.9" data-path="importing-data.html"><a href="importing-data.html#importing-data-into-rstudio"><i class="fa fa-check"></i><b>8.9</b> Importing data into RStudio</a></li>
+<li class="chapter" data-level="8.10" data-path="importing-data.html"><a href="importing-data.html#to-attach-or-not-to-attach"><i class="fa fa-check"></i><b>8.10</b> To attach or not to attach?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><i class="fa fa-check"></i><b>9</b> R graphics I — drawing graphs and changing plot symbols and colours using the base graphics system</a><ul>
+<li class="chapter" data-level="9.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-versus-ggplot2-versus-lattice-versus-whaaat"><i class="fa fa-check"></i><b>9.1</b> Base graphics versus ggplot2 versus lattice versus whaaat???</a></li>
+<li class="chapter" data-level="9.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-example-ufo-reports-again"><i class="fa fa-check"></i><b>9.2</b> Base graphics example: UFO reports again</a></li>
+<li class="chapter" data-level="9.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plot-symbols"><i class="fa fa-check"></i><b>9.3</b> Plot symbols</a></li>
+<li class="chapter" data-level="9.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colours"><i class="fa fa-check"></i><b>9.4</b> Colours</a></li>
+<li class="chapter" data-level="9.5" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plotting-multiple-symbols-or-colours"><i class="fa fa-check"></i><b>9.5</b> Plotting multiple symbols or colours</a></li>
+<li class="chapter" data-level="9.6" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colour-palettes-in-r"><i class="fa fa-check"></i><b>9.6</b> Colour palettes in R</a></li>
+<li class="chapter" data-level="9.7" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#using-transparency-in-your-graphs"><i class="fa fa-check"></i><b>9.7</b> Using transparency in your graphs</a></li>
+<li class="chapter" data-level="9.8" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histograms-and-multiple-plots-in-the-same-window"><i class="fa fa-check"></i><b>9.8</b> Histograms and multiple plots in the same window</a></li>
+<li class="chapter" data-level="9.9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#boxplots"><i class="fa fa-check"></i><b>9.9</b> Boxplots</a></li>
+<li class="chapter" data-level="9.10" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#bar-charts"><i class="fa fa-check"></i><b>9.10</b> Bar charts</a><ul>
+<li class="chapter" data-level="9.10.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#more-complex-barplots"><i class="fa fa-check"></i><b>9.10.1</b> More complex barplots</a></li>
+</ul></li>
+<li class="chapter" data-level="9.11" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#other-types-of-plot"><i class="fa fa-check"></i><b>9.11</b> Other types of plot</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histogram-with-overlaid-probability-density-estimate"><i class="fa fa-check"></i><b>9.11.1</b> Histogram with overlaid probability density estimate</a></li>
+<li class="chapter" data-level="9.11.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#pie-graph"><i class="fa fa-check"></i><b>9.11.2</b> Pie graph</a></li>
+<li class="chapter" data-level="9.11.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#d-scatterplot"><i class="fa fa-check"></i><b>9.11.3</b> 3D scatterplot</a></li>
+<li class="chapter" data-level="9.11.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#contour-plot"><i class="fa fa-check"></i><b>9.11.4</b> Contour plot</a></li>
+<li class="chapter" data-level="9.11.5" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-easy-way"><i class="fa fa-check"></i><b>9.11.5</b> The easy way</a></li>
+<li class="chapter" data-level="9.11.6" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-hard-way"><i class="fa fa-check"></i><b>9.11.6</b> The hard way</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html"><i class="fa fa-check"></i><b>10</b> R graphics II — Adding elements to an existing graph</a><ul>
+<li class="chapter" data-level="10.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#simple-regression-lines"><i class="fa fa-check"></i><b>10.1</b> Simple regression lines</a></li>
+<li class="chapter" data-level="10.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#multiple-regression-lines"><i class="fa fa-check"></i><b>10.2</b> Multiple regression lines</a></li>
+<li class="chapter" data-level="10.3" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#legends"><i class="fa fa-check"></i><b>10.3</b> Legends</a></li>
+<li class="chapter" data-level="10.4" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#curves"><i class="fa fa-check"></i><b>10.4</b> Curves</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-curve"><i class="fa fa-check"></i><b>10.4.1</b> Adding a curve using <code>curve()</code></a></li>
+<li class="chapter" data-level="10.4.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-lines-or-points."><i class="fa fa-check"></i><b>10.4.2</b> Adding a curve using <code>lines()</code> or <code>points()</code>.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#text-and-arrows"><i class="fa fa-check"></i><b>10.5</b> Text and arrows</a></li>
+<li class="chapter" data-level="10.6" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#confidence-bands-for-fitted-lines"><i class="fa fa-check"></i><b>10.6</b> Confidence bands for fitted lines</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-bands-using-lines"><i class="fa fa-check"></i><b>10.6.1</b> Adding confidence bands using <code>lines()</code></a></li>
+<li class="chapter" data-level="10.6.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-intervals-to-fitted-lines-using-polygon"><i class="fa fa-check"></i><b>10.6.2</b> Adding confidence intervals to fitted lines using <code>polygon()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#error-bars"><i class="fa fa-check"></i><b>10.7</b> Error bars</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-error-bars-using-arrows"><i class="fa fa-check"></i><b>10.7.1</b> Adding error bars using <code>arrows()</code></a></li>
+<li class="chapter" data-level="10.7.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#plotting-means-and-error-bars-using-plotmeans"><i class="fa fa-check"></i><b>10.7.2</b> Plotting means and error bars using <code>plotmeans()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html"><i class="fa fa-check"></i><b>11</b> Basic Statistical Concepts</a><ul>
+<li class="chapter" data-level="11.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#populations-and-samples"><i class="fa fa-check"></i><b>11.1</b> Populations and Samples</a></li>
+<li class="chapter" data-level="11.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#descriptive-and-exploratory-statistics"><i class="fa fa-check"></i><b>11.2</b> Descriptive and exploratory statistics</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#maximum-and-minimum"><i class="fa fa-check"></i><b>11.2.1</b> Maximum and minimum</a></li>
+<li class="chapter" data-level="11.2.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#frequency-distribution"><i class="fa fa-check"></i><b>11.2.2</b> Frequency distribution</a></li>
+<li class="chapter" data-level="11.2.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#kinds-of-frequency-distribution"><i class="fa fa-check"></i><b>11.2.3</b> Kinds of frequency distribution</a></li>
+<li class="chapter" data-level="11.2.4" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-central-tendency"><i class="fa fa-check"></i><b>11.2.4</b> Measures of central tendency</a></li>
+<li class="chapter" data-level="11.2.5" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-dispersion"><i class="fa fa-check"></i><b>11.2.5</b> Measures of dispersion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html"><i class="fa fa-check"></i><b>12</b> What is statistical testing?</a><ul>
+<li class="chapter" data-level="12.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#the-problem"><i class="fa fa-check"></i><b>12.1</b> The problem</a></li>
+<li class="chapter" data-level="12.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#statistical-testing-in-a-nutshell"><i class="fa fa-check"></i><b>12.2</b> Statistical testing in a nutshell</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#decide-on-the-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>12.2.1</b> Decide on the null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="12.2.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#calculate-the-size-of-the-effect."><i class="fa fa-check"></i><b>12.2.2</b> Calculate the size of the effect.</a></li>
+<li class="chapter" data-level="12.2.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#transform-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>12.2.3</b> Transform the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="12.2.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#ask-what-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true."><i class="fa fa-check"></i><b>12.2.4</b> Ask what the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true.</a></li>
+<li class="chapter" data-level="12.2.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#think-about-what-the-result-means."><i class="fa fa-check"></i><b>12.2.5</b> Think about what the result means.</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#how-a-statistical-test-works"><i class="fa fa-check"></i><b>12.3</b> How a statistical test works</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-1-generating-our-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>12.3.1</b> Step 1 generating our null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="12.3.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-2-calculating-the-size-of-the-effect"><i class="fa fa-check"></i><b>12.3.2</b> Step 2 calculating the size of the effect</a></li>
+<li class="chapter" data-level="12.3.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-3-transforming-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>12.3.3</b> Step 3 Transforming the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="12.3.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-4-what-is-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true"><i class="fa fa-check"></i><b>12.3.4</b> Step 4 What is the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true?</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#what-statistical-testing-does-and-doesnt-tell-us"><i class="fa fa-check"></i><b>12.4</b> What statistical testing does and doesn’t tell us</a></li>
+<li class="chapter" data-level="12.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#code-used-to-draw-figure-5"><i class="fa fa-check"></i><b>12.5</b> Code used to draw figure 5</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><i class="fa fa-check"></i><b>13</b> The Chi-squared Test and a Classic Dataset on Smoking and Cancer</a><ul>
+<li class="chapter" data-level="13.1" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-who-smoke-more-likely-to-be-heavy-smokers"><i class="fa fa-check"></i><b>13.1</b> Are lung cancer patients who smoke more likely to be heavy smokers?</a></li>
+<li class="chapter" data-level="13.2" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#the-chi-squared-test"><i class="fa fa-check"></i><b>13.2</b> The Chi-squared test</a></li>
+<li class="chapter" data-level="13.3" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#chi-squared-test-with-contingency-tables"><i class="fa fa-check"></i><b>13.3</b> Chi-squared test with contingency tables</a></li>
+<li class="chapter" data-level="13.4" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#assumptions-and-limitations-of-the-chi-squared-test"><i class="fa fa-check"></i><b>13.4</b> Assumptions and limitations of the chi-squared test</a></li>
+<li class="chapter" data-level="13.5" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-more-likely-to-be-smokers-than-controls"><i class="fa fa-check"></i><b>13.5</b> Are lung cancer patients more likely to be smokers than controls?</a></li>
+<li class="chapter" data-level="13.6" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#fishers-exact-test"><i class="fa fa-check"></i><b>13.6</b> Fisher’s exact test</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><i class="fa fa-check"></i><b>14</b> Comparing immune responses between two caterpillar species using a t-test</a><ul>
+<li class="chapter" data-level="14.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#assumptions-and-limitations-of-standard-parametric-statistics"><i class="fa fa-check"></i><b>14.1</b> Assumptions and limitations of standard parametric statistics</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#normal-errors."><i class="fa fa-check"></i><b>14.1.1</b> Normal errors.</a></li>
+<li class="chapter" data-level="14.1.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#independence-of-data-points."><i class="fa fa-check"></i><b>14.1.2</b> Independence of data points.</a></li>
+<li class="chapter" data-level="14.1.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#equal-variances."><i class="fa fa-check"></i><b>14.1.3</b> Equal variances.</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#importing-the-data"><i class="fa fa-check"></i><b>14.2</b> Importing the Data</a></li>
+<li class="chapter" data-level="14.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#descriptives-and-initial-exploration"><i class="fa fa-check"></i><b>14.3</b> Descriptives and Initial Exploration</a></li>
+<li class="chapter" data-level="14.4" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#comparing-two-means-with-a-t-test"><i class="fa fa-check"></i><b>14.4</b> Comparing Two Means With a t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="correlation-analysis.html"><a href="correlation-analysis.html"><i class="fa fa-check"></i><b>15</b> Correlation analysis</a><ul>
+<li class="chapter" data-level="15.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#calculating-the-correlation-coefficient"><i class="fa fa-check"></i><b>15.1</b> Calculating the correlation coefficient</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#interpreting-our-correlation-coefficient."><i class="fa fa-check"></i><b>15.1.1</b> Interpreting our correlation coefficient.</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="correlation-analysis.html"><a href="correlation-analysis.html#statistical-significance-of-r"><i class="fa fa-check"></i><b>15.2</b> Statistical significance of <em>r</em></a></li>
+<li class="chapter" data-level="15.3" data-path="correlation-analysis.html"><a href="correlation-analysis.html#assumptions-of-correlation-analysis"><i class="fa fa-check"></i><b>15.3</b> Assumptions of correlation analysis</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#comparing-correlations-between-swim-run-and-bike-splits"><i class="fa fa-check"></i><b>15.3.1</b> Comparing correlations between swim, run and bike splits</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="correlation-analysis.html"><a href="correlation-analysis.html#correlation-causality-sample-size-and-significance."><i class="fa fa-check"></i><b>15.4</b> Correlation, causality, sample size and significance.</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><i class="fa fa-check"></i><b>16</b> Using Linear Regression to Analyse TB trends in the UK</a><ul>
+<li class="chapter" data-level="16.0.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#least-squares-line-fitting"><i class="fa fa-check"></i><b>16.0.1</b> Least squares line fitting</a></li>
+<li class="chapter" data-level="16.0.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#significance-tests-for-linear-regression"><i class="fa fa-check"></i><b>16.0.2</b> Significance tests for linear regression</a></li>
+<li class="chapter" data-level="16.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#bovine-tb"><i class="fa fa-check"></i><b>16.1</b> Bovine TB</a></li>
+<li class="chapter" data-level="16.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>16.2</b> Assumptions of linear regression</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots"><i class="fa fa-check"></i><b>16.2.1</b> Diagnostic plots</a></li>
+<li class="chapter" data-level="16.2.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots-for-our-m.bovis-regression"><i class="fa fa-check"></i><b>16.2.2</b> Diagnostic plots for our <em>M.bovis</em> regression</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#interpreting-our-regression-and-predicting-future-cases"><i class="fa fa-check"></i><b>16.3</b> Interpreting our regression and predicting future cases</a></li>
+<li class="chapter" data-level="16.4" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#multi-drug-resistant-tb"><i class="fa fa-check"></i><b>16.4</b> Multi-drug resistant TB</a></li>
+<li class="chapter" data-level="16.5" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#fitting-a-quadratic-model"><i class="fa fa-check"></i><b>16.5</b> Fitting a quadratic model</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="yeast-sex-football-and-anova.html"><a href="yeast-sex-football-and-anova.html"><i class="fa fa-check"></i><b>17</b> Yeast Sex, Football and ANOVA</a><ul>
+<li class="chapter" data-level="17.1" data-path="yeast-sex-football-and-anova.html"><a href="yeast-sex-football-and-anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>17.1</b> Analysis of Variance</a></li>
+<li class="chapter" data-level="17.2" data-path="yeast-sex-football-and-anova.html"><a href="yeast-sex-football-and-anova.html#single-factor-anova-what-makes-a-professional-footballer"><i class="fa fa-check"></i><b>17.2</b> Single factor ANOVA: what makes a professional footballer?</a></li>
+<li class="chapter" data-level="17.3" data-path="yeast-sex-football-and-anova.html"><a href="yeast-sex-football-and-anova.html#anova-with-more-than-one-factor-and-interactions"><i class="fa fa-check"></i><b>17.3</b> ANOVA with more than one factor and interactions</a></li>
+<li class="chapter" data-level="17.4" data-path="yeast-sex-football-and-anova.html"><a href="yeast-sex-football-and-anova.html#yeast-sexual-selection"><i class="fa fa-check"></i><b>17.4</b> Yeast sexual selection</a></li>
+<li class="chapter" data-level="17.5" data-path="yeast-sex-football-and-anova.html"><a href="yeast-sex-football-and-anova.html#understanding-the-coefficients-table"><i class="fa fa-check"></i><b>17.5</b> Understanding the coefficients table</a></li>
+<li class="chapter" data-level="17.6" data-path="yeast-sex-football-and-anova.html"><a href="yeast-sex-football-and-anova.html#which-statistical-tests-to-use-with-lm"><i class="fa fa-check"></i><b>17.6</b> Which statistical tests to use with <code>lm()</code>?</a></li>
+<li class="chapter" data-level="17.7" data-path="yeast-sex-football-and-anova.html"><a href="yeast-sex-football-and-anova.html#diagnostics"><i class="fa fa-check"></i><b>17.7</b> Diagnostics</a></li>
+<li class="chapter" data-level="17.8" data-path="yeast-sex-football-and-anova.html"><a href="yeast-sex-football-and-anova.html#visualising-the-data"><i class="fa fa-check"></i><b>17.8</b> Visualising the data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="yeast-sex-football-and-anova" class="section level1">
+<h1><span class="header-section-number">Chapter 17</span> Yeast Sex, Football and ANOVA</h1>
+<div id="analysis-of-variance" class="section level2">
+<h2><span class="header-section-number">17.1</span> Analysis of Variance</h2>
+<p>The analysis we’re going to be using in this chapter is the ANalysis Of VAriance, or ANOVA. ANOVA was originally developed to address a problem called the <em>multiple comparisons problem</em> which arises when we want to make more than one statistical test. If we do one statistical test with the significance level set at p=0.05 then the probability of a type 1 error, or a false positive<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> is 0.05. If we do two tests, however, the probability that we make at least one type 1 error is 1-0.95^2 which is 0.0975, if we do three tests the probability of at least one error is 0.143 and if we do twenty tests it is 0.642: so with lots of tests you’re more likely than not to have at least one erroneous result. So if we have more than two means to compare, how do we do it?</p>
+<p>ANOVA is a statistical technique which allows us to make comparisons between sets of more than two means while keeping the error rate low, and it does this by analysing the <em>variance</em> in the data set. By breaking the variance down into the variance that can be explained by the differences between the means and the variance that can’t we can test whether there are differences between the means. This is very different at first sight from the t-test for comparing means. As we’ve seen, for a t-test we calculate the difference between our two means, adjust that difference so that it’s on a standardised scale and then ask how likely we would be to see a difference as big or bigger than the one we’ve got if both samples were drawn from populations that actually had the same means. It’s all about the means… yet ANOVA tests for differences between means without calculating a single difference between any of them. Sounds a bit weird? Let’s look at some example datasets and with luck all will become clear.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">101</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># Generate some dummy data</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">Y1 &lt;-</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="st">  </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">    <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">    <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">mean =</span> <span class="fl">5.1</span>, <span class="dt">sd =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">    <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">mean =</span> <span class="fl">5.05</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">  )</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">Y2 &lt;-</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="st">  </span><span class="kw">c</span>(<span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">    <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">mean =</span> <span class="dv">6</span>, <span class="dt">sd =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">    <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">mean =</span> <span class="dv">9</span>, <span class="dt">sd =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">F1 &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>), <span class="dt">each =</span> <span class="dv">500</span>))</a></code></pre></div>
+<p>This code has produced two sets of dummy data. The first one (Y1) is drawn from three normal distributions with means that are very similar (5,5.2 and 6), and the second (Y2) is drawn from normal distributions with means that are rather different (5, 6 and 9). We also have a factor (F1) with three levels, A, B and C which we can use to distinguish the three groups in our two sets of data. Let’s plot the frequency distributions of our two random vectors. Becuase we’ll be plotting them on top of each other we’ll plot something called a <em>kernel density estimate</em> for each one rather than a histogram because this will make it easier to see the important patterns.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># Set up the plot area to accept two graphs, one above the other</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co"># Plot the density for factor level A and variable Y1</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw">plot</span>(</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">  <span class="kw">density</span>(Y1[F1 <span class="op">==</span><span class="st"> &quot;A&quot;</span>], <span class="dt">adjust =</span> <span class="fl">1.5</span>),</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">  <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>,</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">  <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">12</span>),</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">  <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>),</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">  <span class="dt">xlab =</span> <span class="st">&quot;Y1&quot;</span>,</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">  <span class="dt">main =</span> <span class="st">&quot;&quot;</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">)</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co"># Add the densities for factor levels B and C for variable Y1</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="kw">points</span>(<span class="kw">density</span>(Y1[F1 <span class="op">==</span><span class="st"> &quot;B&quot;</span>], <span class="dt">adjust =</span> <span class="fl">1.5</span>), </a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">       <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>)</a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="kw">points</span>(<span class="kw">density</span>(Y1[F1 <span class="op">==</span><span class="st"> &quot;C&quot;</span>], <span class="dt">adjust =</span> <span class="fl">1.5</span>), </a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">       <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;darkred&quot;</span>)</a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co"># Plot the density for factor level A and variable Y2</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="kw">plot</span>(</a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">  <span class="kw">density</span>(Y2[F1 <span class="op">==</span><span class="st"> &quot;A&quot;</span>], <span class="dt">adjust =</span> <span class="fl">1.5</span>),</a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">  <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>,</a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">  <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">12</span>),</a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">  <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>),</a>
+<a class="sourceLine" id="cb2-28" data-line-number="28">  <span class="dt">xlab =</span> <span class="st">&quot;Y1&quot;</span>,</a>
+<a class="sourceLine" id="cb2-29" data-line-number="29">  <span class="dt">main =</span> <span class="st">&quot;&quot;</span></a>
+<a class="sourceLine" id="cb2-30" data-line-number="30">)</a>
+<a class="sourceLine" id="cb2-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co"># Add the densities for factor levels B and C for variable Y1</span></a>
+<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="kw">points</span>(<span class="kw">density</span>(Y2[F1 <span class="op">==</span><span class="st"> &quot;B&quot;</span>], <span class="dt">adjust =</span> <span class="fl">1.5</span>), </a>
+<a class="sourceLine" id="cb2-34" data-line-number="34">       <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>)</a>
+<a class="sourceLine" id="cb2-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb2-36" data-line-number="36"><span class="kw">points</span>(<span class="kw">density</span>(Y2[F1 <span class="op">==</span><span class="st"> &quot;C&quot;</span>], <span class="dt">adjust =</span> <span class="fl">1.5</span>), </a>
+<a class="sourceLine" id="cb2-37" data-line-number="37">       <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;darkred&quot;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:anova1"></span>
+<img src="3rd_Edition_files/figure-html/anova1-1.png" alt="Kernel density estimates for two sets of data. The upper graph shows a data set drawn from three normal distributions with similar means, and the lower one shows one drawn from three normal distributions which have different means." width="672" />
+<p class="caption">
+Figure 17.1: Kernel density estimates for two sets of data. The upper graph shows a data set drawn from three normal distributions with similar means, and the lower one shows one drawn from three normal distributions which have different means.
+</p>
+</div>
+<p>Look at the two graphs and think about the variances of the total set of data shown in each (all three groups put together). The upper dataset has a much lower variance than the lower one: the bulk of the data in upper one has a value somewhere between about 3 and about 8, whereas the majority of the data in the lower one is between around 3 and around 11. We can confirm this by calculating the variances.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">var</span>(Y1)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">[<span class="dv">1</span>] <span class="fl">0.98386</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">var</span>(Y2)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">[<span class="dv">1</span>] <span class="fl">3.9773</span></a></code></pre></div>
+<p>Y2 has a variance that is roughly three times the variance of Y1. If we look at the variances of the indivual groups that make up Y2, however, they are approximately equal between the two variables (hardly surprising since we’ve just randomly generated them from distributions with the same standard deviations…).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">tapply</span>(Y1,F1,var)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">      A       B       C </a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="fl">0.93380</span> <span class="fl">0.90627</span> <span class="fl">1.10025</span> </a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">tapply</span>(Y2,F1,var)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">      A       B       C </a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="fl">1.06639</span> <span class="fl">0.95645</span> <span class="fl">0.93296</span> </a></code></pre></div>
+<p>This tells us that the extra variance that we see in Y2 is a consequence of the bigger difference between the groups within the variable: there is a certain amount of variance that’s derived from the spread within each group - this is known as the within-groups variance or the <em>error variance</em> - and a certain amount of variance that’s derived from the differences between the groups - the <em>between groups variance</em>, or the <em>treatment variance</em>, or sometimes the <em>factor variance</em>. What ANOVA does is to calculate the treatment variance and the error variance. If the former is significantly bigger than the latter, then there is a significant difference between at least one of our means and at least one other.</p>
+<p>There we go. ANOVA explained in a short paragraph. Of course, while that might sound simple the mechanics of actually calculating the error and treatment variances are rather more complex. ANOVA does most of its work with <em>sums of squares</em>. if you think back to how a variance is calculated, you might remember that it’s done by subtracting the mean from each data point, squaring them, adding those squared values together and dividing by the degrees of freedom.</p>
+<p><span class="math display">\[ \Large s^2 = \frac{\sum{(x-\bar{x})^2}}{n-1}\]</span></p>
+<p>The sum of squares is just the top part of the fraction, or the variance before it’s divided by the degrees of freedom. These are used in the calculation of an ANOVA because they are <em>additive</em>, so if you know the treatment sum of squares and the total sum of squares you can find the error sum of squares by subtracting the former form the latter. The total sum of squares for our Y1 and Y2 datasets are:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">SSTY1&lt;-<span class="kw">sum</span>((Y1<span class="op">-</span><span class="kw">mean</span>(Y1))<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">SSTY2&lt;-<span class="kw">sum</span>((Y2<span class="op">-</span><span class="kw">mean</span>(Y2))<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">SSTY1</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">[<span class="dv">1</span>] <span class="fl">1474.8</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">SSTY2</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">[<span class="dv">1</span>] <span class="dv">5962</span></a></code></pre></div>
+<p>We can calculate the error sum of squares for Y1 and Y2 by simply calculating the sum of squares for each group individually and adding them together.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">SSerrorY1 &lt;-</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw">sum</span>((Y1[F1 <span class="op">==</span><span class="st"> &quot;A&quot;</span>] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Y1[F1 <span class="op">==</span><span class="st"> &quot;A&quot;</span>])) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw">sum</span>((Y1[F1 <span class="op">==</span><span class="st"> &quot;B&quot;</span>] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Y1[F1 <span class="op">==</span><span class="st"> &quot;B&quot;</span>])) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw">sum</span>((Y1[F1 <span class="op">==</span><span class="st"> &quot;C&quot;</span>] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Y1[F1 <span class="op">==</span><span class="st"> &quot;C&quot;</span>])) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">  </a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">SSerrorY2 &lt;-</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="st">  </span><span class="kw">sum</span>((Y2[F1 <span class="op">==</span><span class="st"> &quot;A&quot;</span>] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Y2[F1 <span class="op">==</span><span class="st"> &quot;A&quot;</span>])) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="st">  </span><span class="kw">sum</span>((Y2[F1 <span class="op">==</span><span class="st"> &quot;B&quot;</span>] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Y2[F1 <span class="op">==</span><span class="st"> &quot;B&quot;</span>])) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="st">  </span><span class="kw">sum</span>((Y2[F1 <span class="op">==</span><span class="st"> &quot;C&quot;</span>] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Y2[F1 <span class="op">==</span><span class="st"> &quot;C&quot;</span>])) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">    </a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">SSerrorY1</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13">[<span class="dv">1</span>] <span class="fl">1467.2</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">SSerrorY2</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">[<span class="dv">1</span>] <span class="fl">1474.9</span></a></code></pre></div>
+<p>The total sum of squares is equal to the treatment sum of squares and the error sum of squares added together. Since we know the total and error sum of squares we can find the treatment sum of squares for each dataset by subtraction.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">SStreatY1&lt;-SSTY1<span class="op">-</span>SSerrorY1</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">SStreatY2&lt;-SSTY2<span class="op">-</span>SSerrorY2</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">SStreatY1</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">[<span class="dv">1</span>] <span class="fl">7.5888</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">SStreatY2</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">[<span class="dv">1</span>] <span class="dv">4487</span></a></code></pre></div>
+<p>Now that we have these values, we can start to assemble an <strong>ANOVA table</strong> for Y1 and for Y2.</p>
+<p>ANOVA table for Y1</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Source of variance</th>
+<th align="left">df</th>
+<th align="left">Sum of squares</th>
+<th align="left">Mean Square</th>
+<th align="left">F</th>
+<th align="left">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Treatment</td>
+<td align="left"></td>
+<td align="left">7.589</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Error</td>
+<td align="left"></td>
+<td align="left">1467</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Total</td>
+<td align="left"></td>
+<td align="left">1475</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>ANOVA table for Y2</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Source of variance</th>
+<th align="left">df</th>
+<th align="left">Sum of squares</th>
+<th align="left">Mean Square</th>
+<th align="left">F</th>
+<th align="left">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Treatment</td>
+<td align="left"></td>
+<td align="left">4487</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Error</td>
+<td align="left"></td>
+<td align="left">1475</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Total</td>
+<td align="left"></td>
+<td align="left">5962</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>The <em>mean squares</em> column actually has the calculated variances. To work these out we need to know the degrees of freedom for the treatment and error variances. These are k-1 for the treatment variance, where k is the number of factor levels, so 3-1=2 for both Y1 and Y2, and n-k for the error variance, where n is the sample size, so 1500-3=1497 for both. We already know that the df for the total variance is n-1 so 1500-1=1499. The mean squares are then calculated by dividing the sums of squares by the df.</p>
+<p>ANOVA table for Y1</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Source of variance</th>
+<th align="left">df</th>
+<th align="left">Sum of squares</th>
+<th align="left">Mean Square</th>
+<th align="left">F</th>
+<th align="left">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Treatment</td>
+<td align="left">2</td>
+<td align="left">7.589</td>
+<td align="left">3.795</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Error</td>
+<td align="left">1497</td>
+<td align="left">1467</td>
+<td align="left">0.980</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Total</td>
+<td align="left">1499</td>
+<td align="left">1489</td>
+<td align="left">1.993</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>ANOVA table for Y2</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Source of variance</th>
+<th align="left">df</th>
+<th align="left">Sum of squares</th>
+<th align="left">Mean Square</th>
+<th align="left">F</th>
+<th align="left">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Treatment</td>
+<td align="left">2</td>
+<td align="left">4487</td>
+<td align="left">2244</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Error</td>
+<td align="left">1497</td>
+<td align="left">1475</td>
+<td align="left">0.985</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Total</td>
+<td align="left">1499</td>
+<td align="left">5962</td>
+<td align="left">3.977</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>Now that we have our mean square treatment and mean square errors calculated, all that remains is to use an F-test to compare them. We do this by calculating a test statistic, <em>F</em> which is simply the treatment mean squares divided by the error mean squares, and then comparing this with an <em>F-distribution</em> on (in this case) 2 and 1497 degrees of freedom (the F-distribution is defined by two separate degrees of freedom).</p>
+<p>For Y1:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="dv">1</span><span class="op">-</span><span class="kw">pf</span>(<span class="fl">3.795</span><span class="op">/</span><span class="fl">0.98</span>,<span class="dv">2</span>,<span class="dv">1497</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">[<span class="dv">1</span>] <span class="fl">0.021016</span></a></code></pre></div>
+<p>and for Y2:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="dv">1</span><span class="op">-</span><span class="kw">pf</span>(<span class="dv">2244</span><span class="op">/</span><span class="fl">0.985</span>,<span class="dv">2</span>,<span class="dv">1497</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">[<span class="dv">1</span>] <span class="dv">0</span></a></code></pre></div>
+<p>ANOVA table for Y1</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Source of variance</th>
+<th align="left">df</th>
+<th align="left">Sum of squares</th>
+<th align="left">Mean Square</th>
+<th align="left">F</th>
+<th align="left">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Treatment</td>
+<td align="left">2</td>
+<td align="left">7.589</td>
+<td align="left">3.795</td>
+<td align="left">3.872</td>
+<td align="left">0.021</td>
+</tr>
+<tr class="even">
+<td align="left">Error</td>
+<td align="left">1497</td>
+<td align="left">1467</td>
+<td align="left">0.980</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Total</td>
+<td align="left">1499</td>
+<td align="left">1489</td>
+<td align="left">1.993</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>ANOVA table for Y2</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Source of variance</th>
+<th align="left">df</th>
+<th align="left">Sum of squares</th>
+<th align="left">Mean Square</th>
+<th align="left">F</th>
+<th align="left">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Treatment</td>
+<td align="left">2</td>
+<td align="left">4487</td>
+<td align="left">2244</td>
+<td align="left">2278</td>
+<td align="left">&lt;0.00001</td>
+</tr>
+<tr class="even">
+<td align="left">Error</td>
+<td align="left">1497</td>
+<td align="left">1475</td>
+<td align="left">0.985</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Total</td>
+<td align="left">1499</td>
+<td align="left">5962</td>
+<td align="left">3.977</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>Both our ANOVAs return a p-value of less than 0.05. In the case of the first data set the ANOVA is only marginally significant, whereas in the case of the second the result is very highly significant indeed. These results are what we would expect: both data sets are large, with 500 observations per group, and the differences between the means of the populations they’re sampled from are very small in the case of Y1 but large in the case of Y2.</p>
+<p>Of course, as with everything else, we don’t want to do these calculations in this laborious fashion and unsurprisingly R has a function that will do an ANOVA for you. In fact it has two:<code>lm()</code> and <code>aov()</code>. We’ll use <code>aov()</code> for the moment, and use the <code>summary()</code> function which will produce an ANOVA table for you.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">aovY1&lt;-<span class="kw">aov</span>(Y1<span class="op">~</span>F1)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">aovY2&lt;-<span class="kw">aov</span>(Y2<span class="op">~</span>F1)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw">summary</span>(aovY1)</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">              Df Sum Sq Mean Sq F value <span class="kw">Pr</span>(<span class="op">&gt;</span>F)  </a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">F1             <span class="dv">2</span>      <span class="dv">8</span>    <span class="fl">3.79</span>    <span class="fl">3.87</span>  <span class="fl">0.021</span> <span class="op">*</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">Residuals   <span class="dv">1497</span>   <span class="dv">1467</span>    <span class="fl">0.98</span>                 </a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="op">---</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">Signif. codes<span class="op">:</span><span class="st">  </span><span class="dv">0</span> <span class="st">&#39;***&#39;</span> <span class="fl">0.001</span> <span class="st">&#39;**&#39;</span> <span class="fl">0.01</span> <span class="st">&#39;*&#39;</span> <span class="fl">0.05</span> <span class="st">&#39;.&#39;</span> <span class="fl">0.1</span> <span class="st">&#39; &#39;</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="kw">summary</span>(aovY2)</a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">              Df Sum Sq Mean Sq F value <span class="kw">Pr</span>(<span class="op">&gt;</span>F)    </a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">F1             <span class="dv">2</span>   <span class="dv">4487</span>    <span class="dv">2244</span>    <span class="dv">2277</span> <span class="op">&lt;</span><span class="fl">2e-16</span> <span class="op">**</span><span class="er">*</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">Residuals   <span class="dv">1497</span>   <span class="dv">1475</span>       <span class="dv">1</span>                   </a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="op">---</span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14">Signif. codes<span class="op">:</span><span class="st">  </span><span class="dv">0</span> <span class="st">&#39;***&#39;</span> <span class="fl">0.001</span> <span class="st">&#39;**&#39;</span> <span class="fl">0.01</span> <span class="st">&#39;*&#39;</span> <span class="fl">0.05</span> <span class="st">&#39;.&#39;</span> <span class="fl">0.1</span> <span class="st">&#39; &#39;</span> <span class="dv">1</span></a></code></pre></div>
+<p>The ANOVA tables that R gives us are a little bit different from the ones that we’ve made: there isn’t a row for the total variance, and the row for the error variance calculations is called “residuals”, but aside from that they’re the same and importantly the numbers and the p-values are the same.</p>
+<p>How should we interpret a signficant result from an ANOVA? We are (in this case) comparing three means, and the p-value only tells us if there is at least one significant difference somewhere between these means. With three means there are three possible comparisions, and a significant result doesn’t tell us which comparison, or comparisons are signficant. One option we can use if we do get a significant result from our ANOVA is a <em>post-hoc test</em> a statistical test designed to be used once we know there is a significant difference somewhere in our set of possible comparisons. In R the one you’d usually want to use is <em>Tukey’s HSD test</em> (HSD stands for Honest Signficant Difference), and you can feed this an ANOVA fitted with <code>aov()</code> as an argument. It doesn’t work with ANOVAs fitted with <code>lm()</code>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">TukeyHSD</span>(aovY1)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">  Tukey multiple comparisons of means</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">    <span class="dv">95</span>% family<span class="op">-</span>wise confidence level</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">Fit<span class="op">:</span><span class="st"> </span><span class="kw">aov</span>(<span class="dt">formula =</span> Y1 <span class="op">~</span><span class="st"> </span>F1)</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="op">$</span>F1</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">         diff        lwr     upr   p adj</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9">B<span class="op">-</span>A  <span class="fl">0.155839</span>  <span class="fl">0.0089453</span> <span class="fl">0.30273</span> <span class="fl">0.03450</span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10">C<span class="op">-</span>A  <span class="fl">0.145390</span> <span class="fl">-0.0015036</span> <span class="fl">0.29228</span> <span class="fl">0.05311</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11">C<span class="op">-</span>B <span class="fl">-0.010449</span> <span class="fl">-0.1573422</span> <span class="fl">0.13644</span> <span class="fl">0.98476</span></a></code></pre></div>
+<p>The output of the Tukey HSD test gives us a confidence interval for the difference between each pair of means and then a p-value for that difference. You can see that in the case of Y1 we end up with a signficant difference for the comparison between B and A, no hint of a significant difference between C and B and a marginally non-signficant difference between C and A. Since we made these data up we know that the means of the populations that A, B and C were drawn from were 5, 5.1 and 5.05 respectively so they were actually all different, although the differences were quite small. Even with a sample size of 500 per group we’ve not detected differences in two of the three comparisons made.</p>
+<p>Let’s have a look at our mean values and 95% confidence intervals. We’ll use the <code>plotmeans()</code> function from the gplots package again.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">library</span>(gplots)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">plotmeans</span>(Y1<span class="op">~</span>F1, <span class="dt">connect=</span>F, <span class="dt">barcol=</span><span class="st">&#39;black&#39;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="dv">2</span>, <span class="dt">n.label=</span>F, <span class="dt">ylab=</span><span class="st">&quot;Y1&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;F1&quot;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:anova2"></span>
+<img src="3rd_Edition_files/figure-html/anova2-1.png" alt="Mean and 95% confidence intervals for the three groups in the variable Y1" width="672" />
+<p class="caption">
+Figure 17.2: Mean and 95% confidence intervals for the three groups in the variable Y1
+</p>
+</div>
+<p>You can really see here how little difference there is between the estimated means and 95% confidence intervals for our B and C groups. Post-hoc tests like the Tukey HSD test are quite conservative because they’re adjusted to take account of multiple comparisons, so if you just rely on their output you run the risk of discounting differences between means that you should really regard as significant. This is why a lot of people, myself included, would recommend interpreting ANOVA results by looking at effect sizes and thinking about means and 95% CIs rather than just following the p-values that are spat out by something like a Tukey HSD test. Rather than saying “There’s a significant difference between B and A but none of the other comparisons are significant” we should recognise the uncertainty in the result, especially in the case of the difference between C and A.</p>
+</div>
+<div id="single-factor-anova-what-makes-a-professional-footballer" class="section level2">
+<h2><span class="header-section-number">17.2</span> Single factor ANOVA: what makes a professional footballer?</h2>
+<p>Football is big business, and several contries have large programmes in place screening youth players to try to identify future talent. These programmes generate data, and we can use these data to ask questions about what traits we should be looking for in youngsters that might predict whether they might go on to be successful players in the professional sphere. Here, we’re going to look at some data originally pubished by Oliver Höner and co-workers from Eberhard Karls University in Tübingen, Germany.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+<p>This study used data from 14,178 under 12 football players who were screened by the German football talent development programme in 2004-6. Each player was put through a series of tests: sprint time measured by a 20m sprint, agility measured as the time to run a slalom course, ball dribbling ability measured as the time to complete the slalom course while dribbling a ball, ball control measured as the time to make six passes with a ball against a pair of walls, and shooting ability estimated from a series of shots at three different targets with a football. Some years later in 2014-15 the status of each of these players was classified as professional (playing in one of the top three German leagues), semi-professional (playing in one of the fourth or fifth division leagues) or non-professional (not playing in one of the above leagues). Höner and colleagues used these data to make comparisons between the scores of players who went on to be professional, semi-professional and non-professional later in life. They made their data publically accessible so we can use it to repeat some of their analyses. Let’s load it into R.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Load data</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">football &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;Data/football.txt&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co"># Recode missing values</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">football[football <span class="op">==</span><span class="st"> </span><span class="dv">999</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">football[football <span class="op">==</span><span class="st"> </span><span class="dv">-99</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co"># set up new factor for professional status</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">football<span class="op">$</span>status[football<span class="op">$</span>apl <span class="op">==</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> &quot;Professional&quot;</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10">football<span class="op">$</span>status[football<span class="op">$</span>apl <span class="op">==</span><span class="st"> </span><span class="dv">2</span>] &lt;-<span class="st"> &quot;Semi-professional&quot;</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11">football<span class="op">$</span>status[football<span class="op">$</span>apl <span class="op">==</span><span class="st"> </span><span class="dv">3</span>] &lt;-<span class="st"> &quot;Non-professional&quot;</span></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co"># Make sure that the factor levels are ordered with professional first and non-professional last.</span></a>
+<a class="sourceLine" id="cb13-14" data-line-number="14">football<span class="op">$</span>status &lt;-<span class="st"> </span><span class="kw">factor</span>(football<span class="op">$</span>status, <span class="dt">levels  =</span> <span class="kw">c</span>(<span class="st">&quot;Professional&quot;</span>, <span class="st">&quot;Semi-professional&quot;</span>, <span class="st">&quot;Non-professional&quot;</span>))</a>
+<a class="sourceLine" id="cb13-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb13-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb13-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb13-18" data-line-number="18"><span class="kw">str</span>(football)</a>
+<a class="sourceLine" id="cb13-19" data-line-number="19"><span class="st">&#39;data.frame&#39;</span><span class="op">:</span><span class="st">   </span><span class="dv">14178</span> obs. of  <span class="dv">10</span> variables<span class="op">:</span></a>
+<a class="sourceLine" id="cb13-20" data-line-number="20"><span class="st"> </span><span class="er">$</span><span class="st"> </span>age   <span class="op">:</span><span class="st"> </span>int  <span class="dv">12</span> <span class="dv">12</span> <span class="dv">11</span> <span class="dv">11</span> <span class="dv">11</span> <span class="dv">11</span> <span class="dv">11</span> <span class="dv">12</span> <span class="dv">11</span> <span class="dv">12</span> ...</a>
+<a class="sourceLine" id="cb13-21" data-line-number="21"> <span class="op">$</span><span class="st"> </span>spr   <span class="op">:</span><span class="st"> </span>num  <span class="fl">3.57</span> <span class="fl">3.58</span> <span class="fl">3.59</span> <span class="fl">3.65</span> <span class="fl">4.06</span> <span class="fl">3.79</span> <span class="fl">3.46</span> <span class="fl">3.48</span> <span class="fl">3.96</span> <span class="fl">3.73</span> ...</a>
+<a class="sourceLine" id="cb13-22" data-line-number="22"> <span class="op">$</span><span class="st"> </span>agi   <span class="op">:</span><span class="st"> </span>num  <span class="fl">8.74</span> <span class="fl">7.96</span> <span class="fl">8.06</span> <span class="fl">8.54</span> <span class="fl">8.53</span> <span class="fl">8.68</span> <span class="fl">8.14</span> <span class="fl">7.97</span> <span class="fl">8.94</span> <span class="fl">8.69</span> ...</a>
+<a class="sourceLine" id="cb13-23" data-line-number="23"> <span class="op">$</span><span class="st"> </span>dri   <span class="op">:</span><span class="st"> </span>num  <span class="fl">11.07</span> <span class="fl">10.99</span> <span class="fl">11.88</span> <span class="fl">12.04</span> <span class="fl">9.99</span> ...</a>
+<a class="sourceLine" id="cb13-24" data-line-number="24"> <span class="op">$</span><span class="st"> </span>bc    <span class="op">:</span><span class="st"> </span>num  <span class="dv">12</span> <span class="fl">10.5</span> <span class="fl">11.84</span> <span class="fl">12.62</span> <span class="fl">8.62</span> ...</a>
+<a class="sourceLine" id="cb13-25" data-line-number="25"> <span class="op">$</span><span class="st"> </span>sho   <span class="op">:</span><span class="st"> </span>int  <span class="dv">23</span> <span class="dv">19</span> <span class="dv">24</span> <span class="dv">23</span> <span class="dv">19</span> <span class="dv">24</span> <span class="dv">15</span> <span class="dv">20</span> <span class="dv">20</span> <span class="dv">16</span> ...</a>
+<a class="sourceLine" id="cb13-26" data-line-number="26"> <span class="op">$</span><span class="st"> </span>hei   <span class="op">:</span><span class="st"> </span>int  <span class="dv">160</span> <span class="dv">142</span> <span class="dv">148</span> <span class="dv">142</span> <span class="dv">150</span> <span class="dv">164</span> <span class="dv">155</span> <span class="dv">145</span> <span class="dv">142</span> <span class="dv">151</span> ...</a>
+<a class="sourceLine" id="cb13-27" data-line-number="27"> <span class="op">$</span><span class="st"> </span>wei   <span class="op">:</span><span class="st"> </span>num  <span class="dv">42</span> <span class="dv">38</span> <span class="dv">37</span> <span class="fl">32.2</span> <span class="fl">39.7</span> <span class="dv">56</span> <span class="dv">39</span> <span class="fl">38.2</span> <span class="dv">40</span> <span class="dv">42</span> ...</a>
+<a class="sourceLine" id="cb13-28" data-line-number="28"> <span class="op">$</span><span class="st"> </span>apl   <span class="op">:</span><span class="st"> </span>int  <span class="dv">2</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">3</span> ...</a>
+<a class="sourceLine" id="cb13-29" data-line-number="29"> <span class="op">$</span><span class="st"> </span>status<span class="op">:</span><span class="st"> </span>Factor w<span class="op">/</span><span class="st"> </span><span class="dv">3</span> levels <span class="st">&quot;Professional&quot;</span>,..<span class="op">:</span><span class="st"> </span><span class="dv">2</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">3</span> ...</a></code></pre></div>
+<p>It’s very common that when you import someone else’s data you have to do some cleanup. In this case the data are provided as a text file with spaces as separators, so we have to specify this in our <code>read.table()</code> call. There are some missing values but these are not coded as <code>NA</code>, rather as either 999 or -99, so we have to convert these to <code>NA</code>. Finally in the original data the players’ professional status is coded numerically as 1,2 or 3 which is a bit clunky, so we set up a new factor called “status” which has them coded as “Professional”, “Semi-Professional” or “Non-professional”.</p>
+<p>Looking at our <code>status</code> factor a little more closely shows us a very important aspect of these data:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">summary</span>(football<span class="op">$</span>status)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">     Professional Semi<span class="op">-</span>professional  Non<span class="op">-</span>professional </a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">               <span class="dv">89</span>               <span class="dv">913</span>             <span class="dv">13176</span> </a></code></pre></div>
+<p>The dataset is imbalanced. Only 89 of those kids made it to the top three leagues of German football, 913 are playing semi-professionally and 13,176 have not made any sort of a career out of football and are hopefully living useful and constructive lives instead. This is something that we will have to bear in mind when doing our analysis: fortunately the number of professionals is not desperately small, which would really cause problems, but our analyses will still be less powerful than they would have been if the dataset were more balanced.</p>
+<p>We’re not going to reanalyse the whole dataset, instead we’ll just look at one of the measures of skill, dribbling speed, as an example of how to do single factor ANOVA. Why dribbling speed? Mainy because I’m just amused by the word “dribbling”. Let’s kick off (see what I did there?) by looking at a boxplot.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">boxplot</span>(dri <span class="op">~</span><span class="st"> </span>status, </a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">        <span class="dt">data =</span> football,</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">        <span class="dt">ylab =</span> <span class="st">&quot;Dribbling speed&quot;</span>,</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">        <span class="dt">xlab =</span> <span class="st">&quot;Adult status&quot;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-14"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-14-1.png" alt="Boxplot of dribbling speed measured for youth players who went on to become professional, sei-professional and non-professional football players" width="672" />
+<p class="caption">
+Figure 17.3: Boxplot of dribbling speed measured for youth players who went on to become professional, sei-professional and non-professional football players
+</p>
+</div>
+<p>There are three important things we can see from this boxplot. Furstly, there does seem to be some effect of status: players who went on to become professional are faster dribblers. Secondly, it looks like there might be some positive skew in these data since the extreme values we can see plotted are almost all above the main boxplots, rather than below. Thirdly, the variances of the three groups might be different. You can see that there’s a lot more spread in the data for the semi- and non-professional groups, but it’s not easy to interpret this because the sample sizes for these groups are also very different. Since we have more than 100 times as many non-professional players as professionals, we should expect to get more extreme values in our dataset just because we have a much bigger sample. So don’t be distracted by those extreme values: a better indicator of whether the variances might be different is given by the size of the boxes, which show us the interquartile range. Looking at them there might be something going on but the differences aren’t huge.</p>
+<p>Maybe we should ask what the actual variances are for each group.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">tapply</span>(football<span class="op">$</span>dri, football<span class="op">$</span>status, <span class="cf">function</span>(x) <span class="kw">var</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">     Professional Semi<span class="op">-</span>professional  Non<span class="op">-</span>professional </a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">          <span class="fl">0.69615</span>           <span class="fl">0.75798</span>           <span class="fl">1.07352</span> </a></code></pre></div>
+<p><code>tapply()</code> lets us apply a function to all the data corresponding to the different levels of a factor. We have to use the somewhat obscure <code>function(x) var(x, na.rm = TRUE)</code> rather than just <code>var</code> because there are missing values in our dataset and the default behaviour for <code>var</code> is just to return <code>NA</code> if there are any missing values in the dataset. More on this in the chapter on Vector and Matrix Operations.</p>
+<p>Back to the numbers, you can see that yes, the variance is higher for the non-professional players, but not drastically so. Do we need to do something about this? Maybe… let’s fit a model and look at the diagnostics. We’ve already seen that we can either use <code>lm()</code> or <code>aov()</code> for this, let’s start with <code>lm()</code>, but we’ll also fit a model using <code>aov()</code> just so that we can do a Tukey test and I can make a point about significance and multiple comparisons.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">lm1 &lt;-<span class="st"> </span><span class="kw">lm</span>(dri <span class="op">~</span><span class="st"> </span>status, <span class="dt">data =</span> football)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">aov1 &lt;-<span class="st"> </span><span class="kw">aov</span>(dri <span class="op">~</span><span class="st"> </span>status, <span class="dt">data =</span> football)</a></code></pre></div>
+<p>Let’s get an ANOVA table to assess the overall significance of any difference between means.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">anova</span>(lm1)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">Analysis of Variance Table</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">Response<span class="op">:</span><span class="st"> </span>dri</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5">             Df Sum Sq Mean Sq F value <span class="kw">Pr</span>(<span class="op">&gt;</span>F)    </a>
+<a class="sourceLine" id="cb18-6" data-line-number="6">status        <span class="dv">2</span>    <span class="dv">238</span>   <span class="fl">118.8</span>     <span class="dv">113</span> <span class="op">&lt;</span><span class="fl">2e-16</span> <span class="op">**</span><span class="er">*</span></a>
+<a class="sourceLine" id="cb18-7" data-line-number="7">Residuals <span class="dv">13616</span>  <span class="dv">14304</span>     <span class="fl">1.1</span>                   </a>
+<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="op">---</span></a>
+<a class="sourceLine" id="cb18-9" data-line-number="9">Signif. codes<span class="op">:</span><span class="st">  </span><span class="dv">0</span> <span class="st">&#39;***&#39;</span> <span class="fl">0.001</span> <span class="st">&#39;**&#39;</span> <span class="fl">0.01</span> <span class="st">&#39;*&#39;</span> <span class="fl">0.05</span> <span class="st">&#39;.&#39;</span> <span class="fl">0.1</span> <span class="st">&#39; &#39;</span> <span class="dv">1</span></a></code></pre></div>
+<p>This should now be approaching familiar, at least if you’ve read the first part of the chapter, but let’s just go through it again. First we have the degrees of freedom, which are <span class="math inline">\(k-1\)</span> for the treatment (indicated here by <code>status</code>, the name of the factor), and <span class="math inline">\(n-1 - (k-1)\)</span> for the error or residual df. <span class="math inline">\(n-1\)</span> is the overall df for the total variance, and we subtract the treatment df from this value to get the error df. If you’re sharp of wit you might have noticed that this value seems a little low since the total number of observations in the dataset is 14178 (<code>dim(football)[1]</code>), but there are quite a few missing values. If we count these using <code>sum(is.na(football$dri) == FALSE)</code> we get 13619 which makes more sense. The sum of squares column corresponds to the treatment and error sum of squares we’ve seen before, and the mean square values are calculated by dividing the sums of squares by their df. The F statistic is the mean square for treatment divided by the mean square error (118.8 / 1.1) and this test statistic gives us a very low probability indeed of observing it if the null hypothesis of there being no difference between the means were true.</p>
+<p>OK, that’s pretty conclusive, we have a very highly significant F test: F<sub>2,13616</sub> = 113, p&lt;0.0001. This tells us that at least one mean is different from at least one other, but we would like to know a bit more about where those differences lie. We’ve already seen the use of Tukey’s HSD test, and also discussed the problems with multiple comparisons tests a little, but let’s see what this gives us.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">TukeyHSD</span>(aov1)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">  Tukey multiple comparisons of means</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">    <span class="dv">95</span>% family<span class="op">-</span>wise confidence level</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">Fit<span class="op">:</span><span class="st"> </span><span class="kw">aov</span>(<span class="dt">formula =</span> dri <span class="op">~</span><span class="st"> </span>status, <span class="dt">data =</span> football)</a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="op">$</span>status</a>
+<a class="sourceLine" id="cb19-8" data-line-number="8">                                      diff      lwr     upr   p adj</a>
+<a class="sourceLine" id="cb19-9" data-line-number="9">Semi<span class="op">-</span>professional<span class="op">-</span>Professional     <span class="fl">0.25388</span> <span class="fl">-0.01325</span> <span class="fl">0.52101</span> <span class="fl">0.06663</span></a>
+<a class="sourceLine" id="cb19-10" data-line-number="10">Non<span class="op">-</span>professional<span class="op">-</span>Professional      <span class="fl">0.73713</span>  <span class="fl">0.48157</span> <span class="fl">0.99269</span> <span class="fl">0.00000</span></a>
+<a class="sourceLine" id="cb19-11" data-line-number="11">Non<span class="op">-</span>professional<span class="op">-</span>Semi<span class="op">-</span>professional <span class="fl">0.48325</span>  <span class="fl">0.39980</span> <span class="fl">0.56670</span> <span class="fl">0.00000</span></a></code></pre></div>
+<p>This is telling us that we have a non-significant difference (p&gt;0.05) between semi-professional and professionals, but that the other two differences, between non-professionals and either semi-professionals or professionals are both highly statistically significant. That’s one way to interpret these data, but the alternative, which I prefer, is to look at the table of effect sizes that you get if you ask R to summarise an <code>lm()</code> object for you.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">summary</span>(lm1)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">Call<span class="op">:</span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="kw">lm</span>(<span class="dt">formula =</span> dri <span class="op">~</span><span class="st"> </span>status, <span class="dt">data =</span> football)</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">Residuals<span class="op">:</span></a>
+<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="st">   </span>Min     1Q Median     3Q    Max </a>
+<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="fl">-2.978</span> <span class="fl">-0.708</span> <span class="fl">-0.158</span>  <span class="fl">0.522</span>  <span class="fl">5.612</span> </a>
+<a class="sourceLine" id="cb20-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb20-10" data-line-number="10">Coefficients<span class="op">:</span></a>
+<a class="sourceLine" id="cb20-11" data-line-number="11"><span class="st">                        </span>Estimate Std. Error t value <span class="kw">Pr</span>(<span class="op">&gt;</span><span class="er">|</span>t<span class="op">|</span>)    </a>
+<a class="sourceLine" id="cb20-12" data-line-number="12">(Intercept)               <span class="fl">11.151</span>      <span class="fl">0.109</span>  <span class="fl">102.64</span>  <span class="op">&lt;</span><span class="st"> </span><span class="fl">2e-16</span> <span class="op">**</span><span class="er">*</span></a>
+<a class="sourceLine" id="cb20-13" data-line-number="13">statusSemi<span class="op">-</span>professional    <span class="fl">0.254</span>      <span class="fl">0.114</span>    <span class="fl">2.23</span>    <span class="fl">0.026</span> <span class="op">*</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb20-14" data-line-number="14">statusNon<span class="op">-</span>professional     <span class="fl">0.737</span>      <span class="fl">0.109</span>    <span class="fl">6.76</span>  <span class="fl">1.4e-11</span> <span class="op">**</span><span class="er">*</span></a>
+<a class="sourceLine" id="cb20-15" data-line-number="15"><span class="op">---</span></a>
+<a class="sourceLine" id="cb20-16" data-line-number="16">Signif. codes<span class="op">:</span><span class="st">  </span><span class="dv">0</span> <span class="st">&#39;***&#39;</span> <span class="fl">0.001</span> <span class="st">&#39;**&#39;</span> <span class="fl">0.01</span> <span class="st">&#39;*&#39;</span> <span class="fl">0.05</span> <span class="st">&#39;.&#39;</span> <span class="fl">0.1</span> <span class="st">&#39; &#39;</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb20-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb20-18" data-line-number="18">Residual standard error<span class="op">:</span><span class="st"> </span><span class="fl">1.02</span> on <span class="dv">13616</span> degrees of freedom</a>
+<a class="sourceLine" id="cb20-19" data-line-number="19">  (<span class="dv">559</span> observations deleted due to missingness)</a>
+<a class="sourceLine" id="cb20-20" data-line-number="20">Multiple R<span class="op">-</span>squared<span class="op">:</span><span class="st">  </span><span class="fl">0.0163</span>,    Adjusted R<span class="op">-</span>squared<span class="op">:</span><span class="st">  </span><span class="fl">0.0162</span> </a>
+<a class="sourceLine" id="cb20-21" data-line-number="21">F<span class="op">-</span>statistic<span class="op">:</span><span class="st">  </span><span class="dv">113</span> on <span class="dv">2</span> and <span class="dv">13616</span> DF,  p<span class="op">-</span>value<span class="op">:</span><span class="st"> </span><span class="er">&lt;</span><span class="fl">2e-16</span></a></code></pre></div>
+<p>This brings up a bunch of stuff: a rminder of what the model you fitted was, some quick summary statistics about the residuals, a bunch of data on how good the fit is and other things at the bottom and then in the middle the table of coefficients. We’llbe meeting this again… and again… as we go deeper into linear modelling, and it is one of the most important, and obscure, pieces of output that you can get in this form of analysis. What have we got? There’s a set ow row names, namely <code>(Intercept)</code>, <code>statusSemi-professional</code> and <code>statusNon-professional</code>, and then there’s a series of columns of values, namely <code>Estimate</code>, <code>Std. Error</code>, <code>t value</code> and <code>Pr(&gt;|t|)</code>. None of this is intuitive or obvious: if we have Semi- and Non-professional appearing, where’s Professional? Why are the values under “estimate” so weird? Are those p-values in the last column (yes) and if so where have they come from?</p>
+<p>Before you panic, let’s start with the number in the top left under “Estimate”. The one in the row labelled “Intercept”. How can there be an intercept, you ask, since we’re not fitting a line? Well, recall that ANOVA and linear regression are two sides of the same coin and that we can actually put them together in the General Linear Model… so there is sort of an intercept for an ANOVA, but in this case it’s the first estimated mean. Normally R ordersfactor levels alphabetically, but when we set up the <code>status</code> factor we told R to order the levels with Professional first and then Semi- and finally Non-professional. So the “intercept” is in fact the mean for the Professional group. we can check this: <code>mean(football$dri[football$status == &quot;Professional&quot;])</code> gives us 11.15124. The “Std. Error” column has the standard error for the estimate, the “t value” column has a value for <em>t</em> calculated from the estimate divided by the standard error and the the “Pr(&gt;|t|)” column is indeed a p-value, and it’s telling us that the mean dribbling time for footballers who went on to become professionals is significantly greater than zero, which is not all that surprising. So the top line is of questionable value, at lesat for our purposes here.</p>
+<p>The second line, however, is where things start getting interesting. Remember all that talk about <em>effect sizes</em>? Well, the effect in this case is the <em>difference</em> between the means, and the “Estimate” given for the second column here is the difference between the means for those who went on to be professionals and those who ended up classes as semi-professionals. The table below has the means and the differences as calculated from the raw data and you can see that the two match up. So this row is all about the <em>contrasts</em> between the second factor level and the first. For Semi-professionals we then have the standard error, not of the mean but of the difference between means, and then a t-test which tells us that the <em>difference</em> between the two means is statistically signficant at p=0.026: in other words, the mean for semi-professionals is significantly different from the mean for professionals, although the p-value is not particularly small. It’s worth pausing here and comparing this result with the one from the Tukey test above — this is giving us a different answer to the question of “did kids who went on to become professionals complete the dribbling challenge significantly faster than those who went on to become semi-professionals?”. Back to that in a bit.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Status</th>
+<th align="left">mean</th>
+<th align="left">Difference from Professional</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Professional</td>
+<td align="left">11.15124</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">Semi-professional</td>
+<td align="left">11.40512</td>
+<td align="left">0.25388</td>
+</tr>
+<tr class="odd">
+<td align="left">Non-professional</td>
+<td align="left">11.88837</td>
+<td align="left">0.73713</td>
+</tr>
+</tbody>
+</table>
+<p>The final row gives us the <em>contrasts</em> between those who eventually became non-professionals and those who became professionals. The effect size here is larger than for the difference between semi-professionals and professionals, and because of the small standard error for this difference we have a high value of <em>t</em> and a very small p-value, so the difference between those who became non-professionals and those who became professional is highly significant.</p>
+<p>This table of coefficients therefore gives us a lot of information. What it doesn’t tell us is the one remaining contrast, that between semi- and non-professionals. The reason for this is that this table is actually derived from the matrix algegra that R is doing to fit a linear model, and the way it works means that not every contrast needs to be worked out. I won’t go into detail but despite what you might think there is method to the apparent madness. Is this contrast important? Not really in this case, since I think that the contrasts with the players who went on to be professionals are the really important ones, and that’s why I tampered with the order of the levels early on in the analysis: by making the <code>Professional</code> factor level the first one I ensured that I’d get the contrasts in the order I wanted them.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
+</div>
+<div id="anova-with-more-than-one-factor-and-interactions" class="section level2">
+<h2><span class="header-section-number">17.3</span> ANOVA with more than one factor and interactions</h2>
+<p>So far we’ve only thought about analysing data unsing ANOVA when there is only one <em>factor</em>. In the datasets we used up until now this factor was called F1 and had three <em>levels</em>, A, B and C. This kind of analysis is called a <em>single factor ANOVA</em> or a <em>one way ANOVA</em>. ANOVA is not restricted to analysing the effects of just one factor, however, and you can in fact use ANOVA on data sets with several factors. This allows you to analyse the results of each factor seperately, and very importantly it also allows you to test for <em>interactions</em> between your factors. An interaction is where the effect of one factor changes according to the level of another factor.</p>
+<p>As an example, if you were testing the effects of a particular dose of a drug on bacterial count in people with an infection you might test three different drug treatments: none (control), some (medium dose) and lots (high dose), and you might carry out your experiment on both male and female patients. This would give you a <em>two-factor ANOVA</em>, with one factor being “Treatment” with three levels and the second sex, with two levels. If you tested for an interaction term as well then you’d end up with an ANOVA table with three rows, one for the variance associated with each factor and one for variance associated with the interaction, as well as the row for the error variance.</p>
+<p>The kind of patterns you can see with an interaction term are illustrated below. What you can see is that in each case where there is an interaction the effect of the drug treatment varies between the sexes.</p>
+<div class="figure"><span id="fig:unnamed-chunk-21"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-21-1.png" alt="Bacterial count for males (filled symbols) and females (open symbols) for the experimental design outlined above. There are effects of sex (females have fewer bacteria) and treatment but no interaction." width="672" />
+<p class="caption">
+Figure 17.4: Bacterial count for males (filled symbols) and females (open symbols) for the experimental design outlined above. There are effects of sex (females have fewer bacteria) and treatment but no interaction.
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-22"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-22-1.png" alt="As for the previous figure but here there is also a signficant interaction term: the effects of drug treatment are much greater in females than in males." width="672" />
+<p class="caption">
+Figure 17.5: As for the previous figure but here there is also a signficant interaction term: the effects of drug treatment are much greater in females than in males.
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-23"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-23-1.png" alt="As for the previous figure but here there is also a signficant interaction term: in this case the drug only has an effect in females." width="672" />
+<p class="caption">
+Figure 17.6: As for the previous figure but here there is also a signficant interaction term: in this case the drug only has an effect in females.
+</p>
+</div>
+<p>These are only a small subset of the wide range of possible patterns that can arise from an interaction between two factors. In the case of our drug trial example the potential importancde of understanding the potential interactions is obvious: if a drug works much better in one sex than the other then this will be vital knowledge for doctors making clinical decisions.</p>
+</div>
+<div id="yeast-sexual-selection" class="section level2">
+<h2><span class="header-section-number">17.4</span> Yeast sexual selection</h2>
+<p>For the rest of this chapter we’re going to make a detailed look at how to carry out and interpret a 2-factor ANOVA in R. Firstly we need to run through some background. A fundamental component of the theories underlying our understanding of sexual selection is the assumption that sexual signalling is costly. If the expression of sexual signals like peacock’s tails, stag beetle mandibles or cricket song imposes a cost on the organism producing the signal then “honest signalling”, whereby the signaller does not attempt to pass himself (usually himself anyway) off as being of a higher quality than he actually is, can be maintained. The assumption that these signals are costly has rarely been tested, but in 2010 Carl Smith and Duncan Grieg<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> published a paper describing the effects of sexual signalling on fitness in yeast, <em>Saccharomyces cerevisiae</em>.</p>
+<p>Yeast usually reproduces asexually as a diploid organism but occasionally produces haploid offspring by meiosis, and these haploid yeast cells can then either carry on reproducing asexually or fuse with another haploid yeast cell (this is the equivalent of mating) to produce a diploid daughter cell. The haploid yeast cells come in two types, MATa and MATα, which can be thought of as analogous to sexes. Each is attracted towards cells from the other mating type by pheromones which differ between mating types, and each pheromone is encoded by two separate genes which are only expressed in one or the other mating type. The α pheromone, for example, is encoded by genes called MFα1 and MFα2, which are only expressed in MATα cells. Smith and Grieg measured the fitness effects of producing these pheromones by producing yeast strains of both mating types that had either one or both pheromone genes deleted and then allowing them to compete with similar yeast strains that were still expressing both genes. Their results are shown in the following table, which the authors were kind enough to upload to the Dryad Digital Repository (Smith C, Greig D (2010) [Data from: The cost of sexual signalling in yeast.]<a href="http://datadryad.org/resource/doi:10.5061/dryad.1647" class="uri">http://datadryad.org/resource/doi:10.5061/dryad.1647</a> Dryad Digital Repository. <a href="doi:10.5061/dryad.1647" class="uri">doi:10.5061/dryad.1647</a>). This dataframe can also be downloaded from <a href="http://www.introductoryr.co.uk" class="uri">http://www.introductoryr.co.uk</a>.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;Data/yeast.rda&quot;</span>)</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">yeast</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4">   fitness   mat knockouts</a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="dv">1</span>   <span class="fl">1.1628</span> alpha       one</a>
+<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="dv">2</span>   <span class="fl">1.1699</span> alpha       one</a>
+<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="dv">3</span>   <span class="fl">1.3862</span> alpha       one</a>
+<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="dv">4</span>   <span class="fl">1.3295</span> alpha       one</a>
+<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="dv">5</span>   <span class="fl">1.2899</span> alpha       one</a>
+<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="dv">6</span>   <span class="fl">1.4075</span> alpha       two</a>
+<a class="sourceLine" id="cb21-11" data-line-number="11"><span class="dv">7</span>   <span class="fl">1.3932</span> alpha       two</a>
+<a class="sourceLine" id="cb21-12" data-line-number="12"><span class="dv">8</span>   <span class="fl">1.6789</span> alpha       two</a>
+<a class="sourceLine" id="cb21-13" data-line-number="13"><span class="dv">9</span>   <span class="fl">1.3132</span> alpha       two</a>
+<a class="sourceLine" id="cb21-14" data-line-number="14"><span class="dv">10</span>  <span class="fl">1.5101</span> alpha       two</a>
+<a class="sourceLine" id="cb21-15" data-line-number="15"><span class="dv">11</span>  <span class="fl">1.1902</span>     a       one</a>
+<a class="sourceLine" id="cb21-16" data-line-number="16"><span class="dv">12</span>  <span class="fl">1.1322</span>     a       one</a>
+<a class="sourceLine" id="cb21-17" data-line-number="17"><span class="dv">13</span>  <span class="fl">1.0791</span>     a       one</a>
+<a class="sourceLine" id="cb21-18" data-line-number="18"><span class="dv">14</span>  <span class="fl">1.1440</span>     a       one</a>
+<a class="sourceLine" id="cb21-19" data-line-number="19"><span class="dv">15</span>  <span class="fl">1.1378</span>     a       one</a>
+<a class="sourceLine" id="cb21-20" data-line-number="20"><span class="dv">16</span>  <span class="fl">1.2385</span>     a       two</a>
+<a class="sourceLine" id="cb21-21" data-line-number="21"><span class="dv">17</span>  <span class="fl">1.2392</span>     a       two</a>
+<a class="sourceLine" id="cb21-22" data-line-number="22"><span class="dv">18</span>  <span class="fl">1.2257</span>     a       two</a>
+<a class="sourceLine" id="cb21-23" data-line-number="23"><span class="dv">19</span>  <span class="fl">1.3360</span>     a       two</a>
+<a class="sourceLine" id="cb21-24" data-line-number="24"><span class="dv">20</span>  <span class="fl">1.2149</span>     a       two</a></code></pre></div>
+<p>Table 1: Results of viability assays for strains of yeast with one or two pheromone genes knocked out in yeast from Smith and Greig (2010). “Fitness” is the growth rate of the knockout strain divided by the growth rate of a control strain with both pheromone genes expressed, “mat” is the mating type and “knockouts” is the number of pheromone genes knocked out.</p>
+<p>In order to understand the patterns in the yeast data we need to understand how mating type and the number of knockouts affects relative fitness, and we also need to know whether the effect of knocking out the pheromone genes depends on the mating type: in other words, we would like to know if there is an interaction between our two explanatory variables. Both explanatory variables are categorical rather than continuous, so the appropriate analysis here is a two-factor ANOVA. Before we leap straight into analysis, however, we should have a look at our data to give us an idea of what sort of patterns we’re looking at, and also so that we can pick up on any obvious problematic data points.</p>
+<p>When we have more than one factor we can draw a useful boxplot by specifying that we want to look at an interaction, like this.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw">boxplot</span>(yeast<span class="op">$</span>fitness <span class="op">~</span><span class="st"> </span><span class="kw">interaction</span>(yeast<span class="op">$</span>mat, yeast<span class="op">$</span>knockouts),</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3">        <span class="dt">xlab =</span> <span class="st">&quot;Strain&quot;</span>,</a>
+<a class="sourceLine" id="cb22-4" data-line-number="4">        <span class="dt">ylab =</span> <span class="st">&quot;Relative fitness&quot;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-26"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-26-1.png" alt="Boxplots of fitness for the two mating types with one or two pheromone genes knocked out." width="672" />
+<p class="caption">
+Figure 17.7: Boxplots of fitness for the two mating types with one or two pheromone genes knocked out.
+</p>
+</div>
+<p>This gives us boxplots for the two one-gene knockout treatments first, and then the two-gene knockouts. We can immediately see that both the number of knockouts and the mating type seem to have an effect on fitness: the two-gene knockout strains have higher relative fitness than one-gene knockout strains, and the MATα strains have a greater response to the knockouts than the MATa strains. There aren’t any obvious serious outlying data points that might cause problems, and given that we only have a sample size of five the shape of the frequency distribution of the data for each treatment combination is fine - the individual boxplots are roughly symmetrical, and that’s about as good as we’re likely to get given the sample size.</p>
+<p>One noticeable pattern that is a bit of a worry is that the variances seem to be different between the two mating types: the spread of the data is much greater for the two MATα treatments than for the two MATa ones. We can confirm this by calculating the variances.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">tapply</span>(yeast<span class="op">$</span>fitness, yeast<span class="op">$</span>mat, var)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">        a     alpha </a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="fl">0.0053685</span> <span class="fl">0.0234588</span> </a></code></pre></div>
+<p>As everyone learns in their undergraduate statistics course, one of the assumptions of ANOVA is that variances are equal between treatments, but here they’re not. Do we need to worry about this? Well, one thing we also know is that ANOVA is generally quite robust to violations of these assumptions, especially if the other assumptions of the analysis are met. Given that we have equal sample sizes for all treatments and that the error distribution looks OK my thinking here is that we should go ahead with the analysis anyway, and then decide whether we have a problem on the basis of how the diagnostic plots for the analysis look and also how marginal the results are.</p>
+<p>If we want to carry out an ANOVA in R then we have a couple of options. There is a dedicated function called <code>aov()</code>, which does ANOVA and nothing else, or we can use the <code>lm()</code> function which, as we’ve seen, fits a linear model. In fact, the <code>aov()</code> function carries out exactly the same calculations as the <code>lm()</code> function and the main difference between the two is the way the output is displayed. Let’s start with <code>aov()</code>.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">yeast.aov&lt;-<span class="kw">aov</span>(fitness <span class="op">~</span><span class="st"> </span>mat<span class="op">*</span>knockouts, <span class="dt">data =</span> yeast)</a></code></pre></div>
+<p>We’ve set up an object called yeast.aov which contains the output from the <code>aov()</code> function specified. To tell <code>aov()</code> exactly what we want it to analyse we’ve used a formula in the same way as we did for the t-test and linear regression examples earlier, with a response variable on the left, then a tilda (~) and then our predictor variables. Because we’re doing a two-factor ANOVA this time we’ve specified two predictor variables and we’ve used an asterisk to connect them. We could instead have written “fitness~mat+knockouts” but that would only have carried out an ANOVA with the main effects of mat and knockouts: the asterisk tells R to fit the main effects and all the interaction terms between the predictor variables specified.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">summary</span>(yeast.aov)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">              Df Sum Sq Mean Sq F value  <span class="kw">Pr</span>(<span class="op">&gt;</span>F)    </a>
+<a class="sourceLine" id="cb25-3" data-line-number="3">mat            <span class="dv">1</span> <span class="fl">0.1451</span>  <span class="fl">0.1451</span>   <span class="fl">17.34</span> <span class="fl">0.00073</span> <span class="op">**</span><span class="er">*</span></a>
+<a class="sourceLine" id="cb25-4" data-line-number="4">knockouts      <span class="dv">1</span> <span class="fl">0.1179</span>  <span class="fl">0.1179</span>   <span class="fl">14.09</span> <span class="fl">0.00173</span> <span class="op">**</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-5" data-line-number="5">mat<span class="op">:</span>knockouts  <span class="dv">1</span> <span class="fl">0.0077</span>  <span class="fl">0.0077</span>    <span class="fl">0.93</span> <span class="fl">0.35030</span>    </a>
+<a class="sourceLine" id="cb25-6" data-line-number="6">Residuals     <span class="dv">16</span> <span class="fl">0.1338</span>  <span class="fl">0.0084</span>                    </a>
+<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="op">---</span></a>
+<a class="sourceLine" id="cb25-8" data-line-number="8">Signif. codes<span class="op">:</span><span class="st">  </span><span class="dv">0</span> <span class="st">&#39;***&#39;</span> <span class="fl">0.001</span> <span class="st">&#39;**&#39;</span> <span class="fl">0.01</span> <span class="st">&#39;*&#39;</span> <span class="fl">0.05</span> <span class="st">&#39;.&#39;</span> <span class="fl">0.1</span> <span class="st">&#39; &#39;</span> <span class="dv">1</span></a></code></pre></div>
+<p>Using the <code>summary()</code> function then gives us a traditional ANOVA table, and we have significant effects of both mating type and the number of pheromone genes knocked out, but no significant interaction term: the effect of the number of knockouts doesn’t depend on the mating type.
+Let’s repeat the analysis but this time using <code>lm()</code>.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">yeast.lm&lt;-<span class="kw">lm</span>(fitness <span class="op">~</span><span class="st"> </span>mat<span class="op">*</span>knockouts, <span class="dt">data =</span> yeast)</a></code></pre></div>
+<p>This is exactly the same as for the <code>aov()</code> call, except the name of the function is different.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">summary</span>(yeast.lm)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">Call<span class="op">:</span></a>
+<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="kw">lm</span>(<span class="dt">formula =</span> fitness <span class="op">~</span><span class="st"> </span>mat <span class="op">*</span><span class="st"> </span>knockouts, <span class="dt">data =</span> yeast)</a>
+<a class="sourceLine" id="cb27-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb27-6" data-line-number="6">Residuals<span class="op">:</span></a>
+<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="st">     </span>Min       1Q   Median       3Q      Max </a>
+<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="fl">-0.14737</span> <span class="fl">-0.05416</span> <span class="fl">-0.00805</span>  <span class="fl">0.05052</span>  <span class="fl">0.21830</span> </a>
+<a class="sourceLine" id="cb27-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb27-10" data-line-number="10">Coefficients<span class="op">:</span></a>
+<a class="sourceLine" id="cb27-11" data-line-number="11"><span class="st">                      </span>Estimate Std. Error t value <span class="kw">Pr</span>(<span class="op">&gt;</span><span class="er">|</span>t<span class="op">|</span>)    </a>
+<a class="sourceLine" id="cb27-12" data-line-number="12">(Intercept)             <span class="fl">1.1367</span>     <span class="fl">0.0409</span>   <span class="fl">27.79</span>  <span class="fl">5.7e-15</span> <span class="op">**</span><span class="er">*</span></a>
+<a class="sourceLine" id="cb27-13" data-line-number="13">matalpha                <span class="fl">0.1310</span>     <span class="fl">0.0578</span>    <span class="fl">2.26</span>    <span class="fl">0.038</span> <span class="op">*</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb27-14" data-line-number="14">knockoutstwo            <span class="fl">0.1142</span>     <span class="fl">0.0578</span>    <span class="fl">1.97</span>    <span class="fl">0.066</span> .  </a>
+<a class="sourceLine" id="cb27-15" data-line-number="15">matalpha<span class="op">:</span>knockoutstwo   <span class="fl">0.0787</span>     <span class="fl">0.0818</span>    <span class="fl">0.96</span>    <span class="fl">0.350</span>    </a>
+<a class="sourceLine" id="cb27-16" data-line-number="16"><span class="op">---</span></a>
+<a class="sourceLine" id="cb27-17" data-line-number="17">Signif. codes<span class="op">:</span><span class="st">  </span><span class="dv">0</span> <span class="st">&#39;***&#39;</span> <span class="fl">0.001</span> <span class="st">&#39;**&#39;</span> <span class="fl">0.01</span> <span class="st">&#39;*&#39;</span> <span class="fl">0.05</span> <span class="st">&#39;.&#39;</span> <span class="fl">0.1</span> <span class="st">&#39; &#39;</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb27-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb27-19" data-line-number="19">Residual standard error<span class="op">:</span><span class="st"> </span><span class="fl">0.0915</span> on <span class="dv">16</span> degrees of freedom</a>
+<a class="sourceLine" id="cb27-20" data-line-number="20">Multiple R<span class="op">-</span>squared<span class="op">:</span><span class="st">  </span><span class="fl">0.669</span>, Adjusted R<span class="op">-</span>squared<span class="op">:</span><span class="st">  </span><span class="fl">0.607</span> </a>
+<a class="sourceLine" id="cb27-21" data-line-number="21">F<span class="op">-</span>statistic<span class="op">:</span><span class="st"> </span><span class="fl">10.8</span> on <span class="dv">3</span> and <span class="dv">16</span> DF,  p<span class="op">-</span>value<span class="op">:</span><span class="st"> </span><span class="fl">0.000402</span></a></code></pre></div>
+<p>The summary function gives us a lot more output with <code>lm()</code> than with <code>aov()</code>, and the output is rather different. We don’t get an ANOVA table: instead we get a table of estimated coefficients with a p-value calculated for each one. This table is quite complicated to interpret and the p-values are not the same as the p-values we get from <code>aov()</code>.</p>
+</div>
+<div id="understanding-the-coefficients-table" class="section level2">
+<h2><span class="header-section-number">17.5</span> Understanding the coefficients table</h2>
+<p>Looking back at the table we get from the <code>summary()</code> function, you might have noticed that there isn’t a traditional ANOVA table there, but there is a rather different and somewhat cryptic table labelled “coefficients”. This is one of the most important things to understand, but also not simple to master. I’ll try to explain how it works here.</p>
+<p>The names of the rows associated with each coefficient might look a bit strange to you. We have an intercept, which you will be familiar with from regression but you might not have encountered in the context of an ANOVA before. Then we have a row called “matalpha”, which is the name of one of our factors and the name of one of its levels stuck together, then “knockoutstwo”: again a factor name and the name of one of its levels. Finally we get “matalpha:knockoutstwo”, both of the previous row names separated by a colon. Understanding where these names come from and what they mean is crucial to understanding this table and it is important if you want to go on to fit other models using R. They represent something called “treatment contrasts”, which are a way of showing the how the fitted model describes the patterns in the data. If you have the estimates from the treatment contrasts it’s possible to work out the predicted value for any combination of factors, continuous predictors and interactions. This is how they work.</p>
+<p>Firstly, the intercept. In a simple linear regression this is exactly what it says on the tin. In the case of this ANOVA there’s not a y-intercept in the same sense as you get when there is a fitted line, and this intercept is in fact an estimated mean, or predicted value, for one of the combinations of factor levels in the analysis. More specifically, when you have a model that has one or more categorical factors but no continuous variable as predictors then the intercept is the estimated mean for the combination of factor levels that are assigned the lowest values by R. This is now getting even more confusing because these factor levels aren’t numbers, they’re “a” and “alpha” for factor “mat” and “one” and “two” for factor “knockouts”, so how can one have a lower value than the other, especially the first two?</p>
+<p>What you need to know to understand what’s going on here is that R does in fact assign numbers to each level of a factor, and it assigns them in alphabetical order within each factor, so the factor level that comes first in alphabetical order is assigned “1”, the second “2” and so on. You don’t see these answers unless you ask but they’re there all the same.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">as.numeric</span>(yeast<span class="op">$</span>mat)</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"> [<span class="dv">1</span>] <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="kw">as.numeric</span>(yeast<span class="op">$</span>knockouts)</a>
+<a class="sourceLine" id="cb28-4" data-line-number="4"> [<span class="dv">1</span>] <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">2</span></a></code></pre></div>
+<p>You can see that the first 10 data points for “mat” have been given the number 2. These are the ones that are in the data frame as “alpha”, which comes after “a” in the alphabet. The second 10 data points correspond to “a” and have been given number 1. In the case of “knockouts”, the factor level “one” has had the number 1 assigned and the factor level “two” has the value 2. This is purely because of where the words come in alphabetical order and the assignment of the correct number to each word is merely serendipity.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">temp1&lt;-<span class="kw">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>, <span class="st">&quot;three&quot;</span>)</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">temp1&lt;-<span class="kw">factor</span>(temp1)</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="kw">as.numeric</span>(temp1)</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4">[<span class="dv">1</span>] <span class="dv">1</span> <span class="dv">1</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">2</span></a></code></pre></div>
+<p>In this example the word “two” has been assigned the number 3 because it comes after the word “three” in alphabetical order. “Three” has been assigned the number “two”. It’s alphabetical order and nothing else. Hopefully that’s clarified everything.</p>
+<p>Back to the coefficients table. The intercept in this case is the estimated mean from the fitted anova for the combination of factor levels where both factors have the lowest assigned value. In this case that’s “a” (=1) for factor “mat” and “one” (=1) for factor “knockout”, so the row of the table called “intercept” gives us the estimated mean value for replicates with mating type a and one knockout. This is the “predicted value” for this combination of factor levels, in other words the value that we would predict from the model for a data point with these factor levels.</p>
+<p>Here’s the coefficients table again</p>
+<pre><code>                      Estimate Std. Error  t value   Pr(&gt;|t|)
+(Intercept)           1.136688   0.040900 27.79171 5.7034e-15
+matalpha              0.130987   0.057842  2.26458 3.7781e-02
+knockoutstwo          0.114191   0.057842  1.97420 6.5880e-02
+matalpha:knockoutstwo 0.078702   0.081801  0.96212 3.5030e-01</code></pre>
+<p>Because we’re fitting a full model including an interaction term the predicted value for the Intercept is the same as the mean value for that combination of factor levels (mat=a and knockout=one)if we calculate it directly.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">mean</span>(yeast<span class="op">$</span>fitness[yeast<span class="op">$</span>mat<span class="op">==</span><span class="st">&quot;a&quot;</span> <span class="op">&amp;</span><span class="st"> </span>yeast<span class="op">$</span>knockouts<span class="op">==</span><span class="st">&quot;one&quot;</span>])</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">[<span class="dv">1</span>] <span class="fl">1.1367</span></a></code></pre></div>
+<p>The t value calculated for this particular predicted value is simply calculated by dividing the estimate by the standard error, and the p-value associated with it gives us the helpful information that our mean fitness for this combination of factor levels is significantly different from zero.</p>
+<p>Now that we know what the “intercept” row means, what about the next row?</p>
+<p>The name of the row is “matalpha”, so it’s referring to the “alpha” level of the factor “mat”. No information about the level of “knockouts” it’s referring to though - it’s simply assumed that you know how these tables work. What this row tells us is the change in predicted value relative to the intercept that is a consequence of changing from the “a” factor level to the “alpha” factor level. In other words the value of the estimate here is a measure of the size of the main effect associated with the “mat” factor, so when we change from mating type a to mating type alpha the relative fitness increases, on average, by 0.13. We can work out the predicted value for the one knockout, mating type alpha combination of factors by adding this estimate to that of the intercept.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="fl">1.13669+0.13099</span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2">[<span class="dv">1</span>] <span class="fl">1.2677</span></a></code></pre></div>
+<p>We can check this by comparing it with the mean calculated just from these data for the measurements made on yeast with mating type alpha and one knockout:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">mean</span>(yeast<span class="op">$</span>fitness[yeast<span class="op">$</span>mat<span class="op">==</span><span class="st">&quot;alpha&quot;</span> <span class="op">&amp;</span><span class="st"> </span>yeast<span class="op">$</span>knockouts<span class="op">==</span><span class="st">&quot;one&quot;</span>])</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">[<span class="dv">1</span>] <span class="fl">1.2677</span></a></code></pre></div>
+<p>We saw earlier that the p-value for the intercept tells us if the predicted value for the specific combination of factor levels that is defined as the intercept is different from zero. Because what we’ve estimated here is the change in predicted value, rather than the absolute predicted value, the t-test that we get for this row tells us not if the predicted value for one knockout and mating type alpha is different from zero, but rather whether the change in predicted value associated with changing from mating type a to mating type alpha is significantly different from zero. Looking at it another way, <em>it tells us if the predicted mean value for this factor level combination is significantly different from the intercept</em>. This is a bit more useful than the p-value for the intercept because it gives us a rough test of whether the effect of the change in factor levels is significant, but I emphasise that it’s a rough test and you should only use it as a guide. There’s more to come on which statistical tests should actually be used after we’ve finished deciphering the coefficients table.</p>
+<p>Now let’s go on to the next row. This row is called “knockoutstwo”, and in the same way that the “matalpha” row gives us the estimate of the main effect of mating type, this gives us an estimate of the main effect of the number of knockouts - in other words, as we change from one knockout to two knockouts, we estimate that the relative fitness increases by 0.11. As before we can work out the predicted value, which is the mean for mating type a and two knockouts by adding this estimate to the intercept.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="fl">1.13669+0.11419</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">[<span class="dv">1</span>] <span class="fl">1.2509</span></a></code></pre></div>
+<p>This is once again the same as the estimate for the simple mean for this factor combination.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">mean</span>(yeast<span class="op">$</span>fitness[yeast<span class="op">$</span>mat<span class="op">==</span><span class="st">&quot;a&quot;</span> <span class="op">&amp;</span><span class="st"> </span>yeast<span class="op">$</span>knockouts<span class="op">==</span><span class="st">&quot;two&quot;</span>])</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">[<span class="dv">1</span>] <span class="fl">1.2509</span></a></code></pre></div>
+<p>We now know what the effects of both mating type and the number of knockouts is, so what’s the last row of the summary table there for? Here is the table again:</p>
+<pre><code>                      Estimate Std. Error  t value   Pr(&gt;|t|)
+(Intercept)           1.136688   0.040900 27.79171 5.7034e-15
+matalpha              0.130987   0.057842  2.26458 3.7781e-02
+knockoutstwo          0.114191   0.057842  1.97420 6.5880e-02
+matalpha:knockoutstwo 0.078702   0.081801  0.96212 3.5030e-01</code></pre>
+<p>The last row, which is called “matalpha:knockoutstwo” is the effect of the interaction between the two factors. If you recall, we specified a model with interaction terms, and this is the estimate of the extra change in relative fitness that arises when we have mating type alpha and two knockouts, over and above the change in relative fitness form the main effects of the two factors. To calculate the estimated mean (in other words, the predicted value from the model) for this last factor combination we need to add the intercept, the main effects of both factors and the extra from the interaction term together.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="fl">1.13669+0.13099+0.11419+0.07870</span></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">[<span class="dv">1</span>] <span class="fl">1.4606</span></a></code></pre></div>
+<p>Which is the same as the mean for that factor combination calculated separately.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">mean</span>(yeast<span class="op">$</span>fitness[yeast<span class="op">$</span>mat<span class="op">==</span><span class="st">&quot;alpha&quot;</span> <span class="op">&amp;</span><span class="st"> </span>yeast<span class="op">$</span>knockouts<span class="op">==</span><span class="st">&quot;two&quot;</span>])</a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">[<span class="dv">1</span>] <span class="fl">1.4606</span></a></code></pre></div>
+<p>Now you hopefully have an idea of how these tables of coefficients work. The intercept is the estimated value for the first factor level for each factor, then you get the main effects and then the interaction terms, and you can calculate a predicted value for each combination. One thing to note is that the predicted values will only tally with the directly calculated mean values if you have a fully factorial model - otherwise the estimates will differ somewhat. Here’s that summary table again with everything annotated.</p>
+<div class="figure">
+<img src="Images/Yeast.coefficients.png" alt="Annotated coefficients table" />
+<p class="caption">Annotated coefficients table</p>
+</div>
+<hr />
+</div>
+<div id="which-statistical-tests-to-use-with-lm" class="section level2">
+<h2><span class="header-section-number">17.6</span> Which statistical tests to use with <code>lm()</code>?</h2>
+<p>We’ve seen earlier in this chapter that when we use the <code>summary()</code> function on an object that was the results of an analysis carried out with the <code>aov()</code> function we get a traditional ANOVA table, but when we use <code>summary()</code> on an object that is the output from a fitted model made using <code>lm()</code> we get p-values that are calculated for the effects estimated in the coefficients table. As I suggested earlier, there are a variety of reasons why you shouldn’t use these as a guide to which explanatory variables are significant: they are a useful indication of where the important effects can be found in the model but they are not reliable indicators of whether a variable is significant. If nothing else, when you have a factor with more than two levels you’ll get more than one separate p-value, one for each of the factor levels that isn’t included in the intercept. If you want to know the statistical significance of an explanatory variable and you’ve done an analysis of variance using <code>lm()</code>, you can get a nice ANOVA table from the fitted <code>lm()</code> model by using the anova() function.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw">anova</span>(yeast.lm)</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">Analysis of Variance Table</a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4">Response<span class="op">:</span><span class="st"> </span>fitness</a>
+<a class="sourceLine" id="cb39-5" data-line-number="5">              Df Sum Sq Mean Sq F value  <span class="kw">Pr</span>(<span class="op">&gt;</span>F)    </a>
+<a class="sourceLine" id="cb39-6" data-line-number="6">mat            <span class="dv">1</span> <span class="fl">0.1451</span>  <span class="fl">0.1451</span>   <span class="fl">17.34</span> <span class="fl">0.00073</span> <span class="op">**</span><span class="er">*</span></a>
+<a class="sourceLine" id="cb39-7" data-line-number="7">knockouts      <span class="dv">1</span> <span class="fl">0.1179</span>  <span class="fl">0.1179</span>   <span class="fl">14.09</span> <span class="fl">0.00173</span> <span class="op">**</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb39-8" data-line-number="8">mat<span class="op">:</span>knockouts  <span class="dv">1</span> <span class="fl">0.0077</span>  <span class="fl">0.0077</span>    <span class="fl">0.93</span> <span class="fl">0.35030</span>    </a>
+<a class="sourceLine" id="cb39-9" data-line-number="9">Residuals     <span class="dv">16</span> <span class="fl">0.1338</span>  <span class="fl">0.0084</span>                    </a>
+<a class="sourceLine" id="cb39-10" data-line-number="10"><span class="op">---</span></a>
+<a class="sourceLine" id="cb39-11" data-line-number="11">Signif. codes<span class="op">:</span><span class="st">  </span><span class="dv">0</span> <span class="st">&#39;***&#39;</span> <span class="fl">0.001</span> <span class="st">&#39;**&#39;</span> <span class="fl">0.01</span> <span class="st">&#39;*&#39;</span> <span class="fl">0.05</span> <span class="st">&#39;.&#39;</span> <span class="fl">0.1</span> <span class="st">&#39; &#39;</span> <span class="dv">1</span></a></code></pre></div>
+<p>That is identical to the table we got from the <code>aov()</code> function except some of the numbers are reported to more decimal places. Which function, then, should you use to carry out a straightforward ANOVA? I would recommend using <code>lm()</code> for the simple reason that an ANOVA really is just a small subset of the general linear model, and thinking about it as a model fitting exercise is probably a better way to approach the analysis than thinking about ANOVA as a separate, special kind of statistical test. The only thing that I know of that you can do if you use <code>aov()</code> that you can’t do if you use <code>lm()</code> is post-hoc testing using something like a Tukey’s HSD test (use the <code>TukeyHSD()</code> function on your fitted <code>aov()</code> object). Post-hoc testing is a very blunt instrument, however, and I think that most people nowadays would recommend looking at effect sizes and estimates of coefficients to help you interpret your data in most cases, and this is easier to do with an <code>lm()</code> fit.</p>
+</div>
+<div id="diagnostics" class="section level2">
+<h2><span class="header-section-number">17.7</span> Diagnostics</h2>
+<p>We met the concept of diagnostic plots in chapter 11. The assumptions we make about our data are the same for ANOVA and as they are for regression (independence of data points, normal errors, homogeneous variances) with the exception of linearity which isn’t an issue here because we’re dealing with means rather than lines. We can bring up a set of diagnostic plots using the <code>plot()</code> function in the same way that we did for our regression models earlier: as we’ve seen earlier the output of <code>plot()</code> depends on what you put into it, and if we ask it to plot a model fitted with <code>aov()</code> or <code>lm()</code> it brings us a nice set of four diagnostic plots. Once again, the ones that we really need to look at here are the first two: a plot of fitted values vs residuals and a qq-plot.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="kw">plot</span>(yeast.lm, <span class="dt">which=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-44"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-44-1.png" alt="Diagnostic plots for our fitted ANOVA. Fitted values versus residuals on the left and a qq-plot on the right." width="768" />
+<p class="caption">
+Figure 17.8: Diagnostic plots for our fitted ANOVA. Fitted values versus residuals on the left and a qq-plot on the right.
+</p>
+</div>
+<p>On the right, our qq-plot which lets us assess whether our errors are normally distributed. The straightforward answer is “yes” - the points are almost all on the line. Point 8 is a little far from it but not a huge distance and it’s the only one, so I wouldn’t worry too much about that. On the left, however, our plot of residual values vs fitted values is a bit of a worry. It’s showing the classical fan shape that you get when your data are (that big word again) heteroscedastic: the variance is increasing with the fitted values, which in this case are the four estimated means. This is because of the differences in variance we noted earlier. Can we do anything about this? Well, the traditional thing to do when you have a pattern like this is to beat your data with a log-transformation in the hope of making things look nicer. What happens when we do that?</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">yeast.lm.log&lt;-<span class="kw">lm</span>(<span class="kw">log</span>(fitness) <span class="op">~</span><span class="st"> </span>mat<span class="op">*</span>knockouts, <span class="dt">data =</span> yeast)</a></code></pre></div>
+<p>Sets up a new object with the analysis carried out on log-transformed data.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">anova</span>(yeast.lm.log)</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2">Analysis of Variance Table</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4">Response<span class="op">:</span><span class="st"> </span><span class="kw">log</span>(fitness)</a>
+<a class="sourceLine" id="cb42-5" data-line-number="5">              Df Sum Sq Mean Sq F value  <span class="kw">Pr</span>(<span class="op">&gt;</span>F)    </a>
+<a class="sourceLine" id="cb42-6" data-line-number="6">mat            <span class="dv">1</span> <span class="fl">0.0839</span>  <span class="fl">0.0839</span>   <span class="fl">19.06</span> <span class="fl">0.00048</span> <span class="op">**</span><span class="er">*</span></a>
+<a class="sourceLine" id="cb42-7" data-line-number="7">knockouts      <span class="dv">1</span> <span class="fl">0.0697</span>  <span class="fl">0.0697</span>   <span class="fl">15.83</span> <span class="fl">0.00108</span> <span class="op">**</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb42-8" data-line-number="8">mat<span class="op">:</span>knockouts  <span class="dv">1</span> <span class="fl">0.0025</span>  <span class="fl">0.0025</span>    <span class="fl">0.57</span> <span class="fl">0.46076</span>    </a>
+<a class="sourceLine" id="cb42-9" data-line-number="9">Residuals     <span class="dv">16</span> <span class="fl">0.0705</span>  <span class="fl">0.0044</span>                    </a>
+<a class="sourceLine" id="cb42-10" data-line-number="10"><span class="op">---</span></a>
+<a class="sourceLine" id="cb42-11" data-line-number="11">Signif. codes<span class="op">:</span><span class="st">  </span><span class="dv">0</span> <span class="st">&#39;***&#39;</span> <span class="fl">0.001</span> <span class="st">&#39;**&#39;</span> <span class="fl">0.01</span> <span class="st">&#39;*&#39;</span> <span class="fl">0.05</span> <span class="st">&#39;.&#39;</span> <span class="fl">0.1</span> <span class="st">&#39; &#39;</span> <span class="dv">1</span></a></code></pre></div>
+<p>Looking at the ANOVA table there’s no real change when we use log-transformed data. The two main effects are still highly significant, and the interaction term is nowhere near significance. What about the diagnostic plots?</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw">plot</span>(yeast.lm.log, <span class="dt">which=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))</a></code></pre></div>
+<div class="figure"><span id="fig:anova9"></span>
+<img src="3rd_Edition_files/figure-html/anova9-1.png" alt="Diagnostic plots for the ANOVA performed on log-transformed data." width="768" />
+<p class="caption">
+Figure 17.9: Diagnostic plots for the ANOVA performed on log-transformed data.
+</p>
+</div>
+<p>The residuals vs fitted values plot is maybe a bit better but the problem’s still there. Since the log transformation hasn’t fixed the problem, what are our options? There are several things we can do here.</p>
+<ol style="list-style-type: decimal">
+<li>We could use a different transformation: perhaps we could try an inverse transformation, or a Box-Cox transformation, or something, until we found a way of bashing our data into conforming.</li>
+<li>We could use a non-parametric analysis that makes no assumptions about the distribution of the data - perhaps something like a Kruskal-Wallis test. Not ideal because the sample size is small and non-parametric tests aren’t as powerful as parametric ones.</li>
+<li>We could use a model that makes different assumptions about the error distribution and that works well with heteroscedastic data. Maybe a generalized linear model with something like gamma errors would be OK. This is arguably the best option but it could get quite complicated quite quickly.</li>
+<li>We can remember that, as we noted before, ANOVA is quite robust to violations of its assumptions, we can note that the results of the analysis are clear and neither complicated nor marginal, and we can stick with the original ANOVA.</li>
+</ol>
+<p>In this case, my vote would go for the fourth option. We always have to remember that the purpose of statistical analysis is to help us understand the patterns in the data: the analysis is a means to an end, and not an end in itself. We could spend a while fitting a generalized linear model with the right error distribution, but would it tell us anything different from the ANOVA? Almost certainly not, so let’s stick with the simpler option.</p>
+</div>
+<div id="visualising-the-data" class="section level2">
+<h2><span class="header-section-number">17.8</span> Visualising the data</h2>
+<p>What’s left? We could do with drawing a publication-standard graph illustrating the results, and summarising what we’ve found out. A bar plot with 95% confidence intervals is the sort of plot that you’d expect to see in a conference talk or a research paper describing these data. We need to start by setting up a matrix of means.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">yeast.mat&lt;-<span class="kw">tapply</span>(yeast<span class="op">$</span>fitness, <span class="kw">list</span>(yeast<span class="op">$</span>mat, yeast<span class="op">$</span>knockouts), mean)</a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">yeast.mat</a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">         one    two</a>
+<a class="sourceLine" id="cb44-4" data-line-number="4">a     <span class="fl">1.1367</span> <span class="fl">1.2509</span></a>
+<a class="sourceLine" id="cb44-5" data-line-number="5">alpha <span class="fl">1.2677</span> <span class="fl">1.4606</span></a></code></pre></div>
+<p>Now we need to know the 95% confidence intervals. These are calculated as:</p>
+<p><span class="math display">\[ \Large \bar{x} \pm \left( \frac{\sigma}{\sqrt{N}} \right) t \]</span></p>
+<p>Where <span class="math inline">\(\bar{x}\)</span> is the mean, <span class="math inline">\(\sigma\)</span> is the sample standard deviation, <span class="math inline">\(N\)</span> is the sample size and <span class="math inline">\(t\)</span> is the critical value of <span class="math inline">\(t\)</span> at <span class="math inline">\(n-1\)</span> degrees of freedom.</p>
+<p>We can start with a matrix of standard deviations.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">yeast.sd&lt;-<span class="kw">tapply</span>(yeast<span class="op">$</span>fitness, <span class="kw">list</span>(yeast<span class="op">$</span>mat, yeast<span class="op">$</span>knockouts), sd)</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">yeast.sd</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3">           one      two</a>
+<a class="sourceLine" id="cb45-4" data-line-number="4">a     <span class="fl">0.039542</span> <span class="fl">0.048639</span></a>
+<a class="sourceLine" id="cb45-5" data-line-number="5">alpha <span class="fl">0.098654</span> <span class="fl">0.140694</span></a></code></pre></div>
+<p>We can multiply the matrix by the square root of 5, which will give us the standard errors for each mean.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">yeast.se&lt;-yeast.sd<span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2">yeast.se</a>
+<a class="sourceLine" id="cb46-3" data-line-number="3">           one      two</a>
+<a class="sourceLine" id="cb46-4" data-line-number="4">a     <span class="fl">0.017684</span> <span class="fl">0.021752</span></a>
+<a class="sourceLine" id="cb46-5" data-line-number="5">alpha <span class="fl">0.044119</span> <span class="fl">0.062920</span></a></code></pre></div>
+<p>Now we need to know the critical value of t at 4df. R will tell us this if we ask it nicely.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">qt</span>(<span class="fl">0.025</span>,<span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2">[<span class="dv">1</span>] <span class="fl">-2.7764</span></a></code></pre></div>
+<p>To get the 95% confidence intervals now we just need to multiply the standard errors by 2.776.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">yeast<span class="fl">.95</span>s&lt;-yeast.se<span class="op">*</span><span class="fl">2.776</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">yeast<span class="fl">.95</span>s</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">          one      two</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">a     <span class="fl">0.04909</span> <span class="fl">0.060383</span></a>
+<a class="sourceLine" id="cb48-5" data-line-number="5">alpha <span class="fl">0.12248</span> <span class="fl">0.174666</span></a></code></pre></div>
+<p>Now we can draw our bar plot using the same approach that you saw in the graphs section. We’ll need to use arrows() to draw in the confidence intervals. Here’s the script I used:</p>
+<p>First of all, set up a matrix with the locations of the centres of the bars for use in drawing the error bars.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">locations&lt;-<span class="kw">barplot</span>(yeast.mat,<span class="dt">beside=</span>T)</a></code></pre></div>
+<p>Now draw the barplot. Note that I’ve specified the colours of the columns because the default options are a bit dark and make it hard to see the error bars. I’ve used <code>expression()</code> and <code>paste()</code> in the legend.text argument to put a greek letter in the mating type name, and I’ve used the args.legend= argument to put the legend in the top left corner without a box around it. I’ve cancelled the x-axis so that I can put in a new one with labels with capital letters, and I’ve made the axis labels and the text. on the axes bold (font=2)</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">barplot</span>(</a>
+<a class="sourceLine" id="cb50-2" data-line-number="2">  yeast.mat,</a>
+<a class="sourceLine" id="cb50-3" data-line-number="3">  <span class="dt">beside =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb50-4" data-line-number="4">  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;grey&quot;</span>, <span class="st">&quot;white&quot;</span>),</a>
+<a class="sourceLine" id="cb50-5" data-line-number="5">  <span class="dt">legend.text =</span> <span class="kw">c</span>(<span class="st">&quot;MATa&quot;</span>, <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;MAT&quot;</span>, alpha))),</a>
+<a class="sourceLine" id="cb50-6" data-line-number="6">  <span class="dt">args.legend =</span> <span class="kw">list</span>(<span class="dt">x =</span> <span class="st">&quot;topleft&quot;</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>),</a>
+<a class="sourceLine" id="cb50-7" data-line-number="7">  <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">1.8</span>),</a>
+<a class="sourceLine" id="cb50-8" data-line-number="8">  <span class="dt">ylab =</span> <span class="st">&quot;Relative fitness&quot;</span>,</a>
+<a class="sourceLine" id="cb50-9" data-line-number="9">  <span class="dt">xlab =</span> <span class="st">&quot;Number of pheromone gene knockouts&quot;</span>,</a>
+<a class="sourceLine" id="cb50-10" data-line-number="10">  <span class="dt">font.lab =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb50-11" data-line-number="11">  <span class="dt">font.axis =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb50-12" data-line-number="12">  <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span></a>
+<a class="sourceLine" id="cb50-13" data-line-number="13">)</a></code></pre></div>
+<p>Next draw the x-axis in with capitalised labels using the <code>axis()</code> function. How did I know where to put the labels (at=c(2,5))? I’m afraid I guessed on the basis of past experience…</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">axis</span>(</a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">  <span class="dt">side =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3">  <span class="dt">at =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb51-4" data-line-number="4">  <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;One&quot;</span>, <span class="st">&quot;Two&quot;</span>),</a>
+<a class="sourceLine" id="cb51-5" data-line-number="5">  <span class="dt">font =</span> <span class="dv">2</span></a>
+<a class="sourceLine" id="cb51-6" data-line-number="6">)</a></code></pre></div>
+<p>Finally use <code>arrows()</code> to draw the positive and negative error bars</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">arrows</span>(</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2">  <span class="dt">xo =</span> locations,</a>
+<a class="sourceLine" id="cb52-3" data-line-number="3">  <span class="dt">y0 =</span> yeast.mat,</a>
+<a class="sourceLine" id="cb52-4" data-line-number="4">  <span class="dt">x1 =</span> locations,</a>
+<a class="sourceLine" id="cb52-5" data-line-number="5">  <span class="dt">y1 =</span> yeast.mat <span class="op">+</span><span class="st"> </span>yeast<span class="fl">.95</span>s,</a>
+<a class="sourceLine" id="cb52-6" data-line-number="6">  <span class="dt">angle =</span> <span class="dv">90</span>,</a>
+<a class="sourceLine" id="cb52-7" data-line-number="7">  <span class="dt">length =</span> <span class="fl">0.1</span></a>
+<a class="sourceLine" id="cb52-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb52-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb52-10" data-line-number="10"><span class="kw">arrows</span>(</a>
+<a class="sourceLine" id="cb52-11" data-line-number="11">  <span class="dt">x0 =</span> locations,</a>
+<a class="sourceLine" id="cb52-12" data-line-number="12">  <span class="dt">y0 =</span> yeast.mat,</a>
+<a class="sourceLine" id="cb52-13" data-line-number="13">  <span class="dt">x1 =</span> locations,</a>
+<a class="sourceLine" id="cb52-14" data-line-number="14">  <span class="dt">y1 =</span> yeast.mat <span class="op">-</span><span class="st"> </span>yeast<span class="fl">.95</span>s,</a>
+<a class="sourceLine" id="cb52-15" data-line-number="15">  <span class="dt">angle =</span> <span class="dv">90</span>,</a>
+<a class="sourceLine" id="cb52-16" data-line-number="16">  <span class="dt">length =</span> <span class="fl">0.1</span></a>
+<a class="sourceLine" id="cb52-17" data-line-number="17">)</a></code></pre></div>
+<div class="figure"><span id="fig:anova10"></span>
+<img src="3rd_Edition_files/figure-html/anova10-1.png" alt="Barplot showing means and 95% confidence intervals of fitness for each of the four yeast strains." width="672" />
+<p class="caption">
+Figure 17.10: Barplot showing means and 95% confidence intervals of fitness for each of the four yeast strains.
+</p>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="2">
+<li id="fn2"><p>There are several ways to make an error with a statistical test but the two most obvious are a <em>false positive</em>, when you think you’ve found an effect but in reality there isn’t one, and a <em>false negative</em> when you fail to detect an existing effect. A different way to put this is that a false positive means you’ve rejected the null hypothesis incorrectly, and a false negative that you’ve accepted the null hypothesis incorrectly. Rather than describing these as false positive or negative results, however, statisticians call them <em>type 1</em> (false positive) and <em>type 2</em> errors. This is of course monstrously hard to remember and is opaque and confusing for anyone who isn’t themselves a statistician. It’s almost as though they don’t want people to understand…<a href="yeast-sex-football-and-anova.html#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>Höner, O., Leyhr, D. &amp; Kelava, A. (2017) The influence of speed abilities and technical skills in early adolescence on adult success in soccer: A long-term prospective analysis using ANOVA and SEM approaches. PloS one, 12, e0182211.<a href="yeast-sex-football-and-anova.html#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p>See also the <code>relevel()</code> function which will allow you to set the “reference level” for a factor, i.e. the one that will correspond with the intercept in a linear model.<a href="yeast-sex-football-and-anova.html#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>Smith, C. and Greig, D., (2010) The Cost of Sexual Signalling in Yeast, Evolution 64, 3114-3122<a href="yeast-sex-football-and-anova.html#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>As an aside, you’ll note that in R neither of the two functions that will actually fit an ANOVA, <code>aov()</code> and <code>lm()</code> are called “anova”, but there is a function called “anova()” which doesn’t fit an ANOVA. It does make sense if you’re a reasonably advanced statistician and you understand instinctively that an ANOVA is just one type of linear model, but if you’re a struggling undergraduate you’ll probably see this mostly as evidence of the perverseness of the software and possibly even as proof of a universal conspiracy to make your life miserable and confusing. Sorry.<a href="yeast-sex-football-and-anova.html#fnref6" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["3rd_Edition.pdf", "3rd_Edition.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

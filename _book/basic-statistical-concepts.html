@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 12 Basic Statistical Concepts | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</title>
+  <meta name="description" content="null" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 12 Basic Statistical Concepts | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="null" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 12 Basic Statistical Concepts | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  
+  <meta name="twitter:description" content="null" />
+  
+
+<meta name="author" content="Rob Knell" />
+
+
+<meta name="date" content="2020-07-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="graphics-with-ggplot2.html"/>
+<link rel="next" href="what-is-statistical-testing.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introductory R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-this-book"><i class="fa fa-check"></i><b>1.1</b> Why this book?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i><b>1.2</b> How to use this book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-first-r-session.html"><a href="a-first-r-session.html"><i class="fa fa-check"></i><b>2</b> A first R session</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-first-r-session.html"><a href="a-first-r-session.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="a-first-r-session.html"><a href="a-first-r-session.html#a-first-r-session-1"><i class="fa fa-check"></i><b>2.2</b> A first R session</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html"><i class="fa fa-check"></i><b>3</b> Basics: arithmetic, objects and functions</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#arithmetic"><i class="fa fa-check"></i><b>3.0.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.0.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#logical-operations"><i class="fa fa-check"></i><b>3.0.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.0.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects"><i class="fa fa-check"></i><b>3.0.3</b> Objects</a></li>
+<li class="chapter" data-level="3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#kinds-of-data"><i class="fa fa-check"></i><b>3.1</b> Kinds of data</a></li>
+<li class="chapter" data-level="3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#whats-in-my-workspace"><i class="fa fa-check"></i><b>3.2</b> What’s in my workspace?</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions"><i class="fa fa-check"></i><b>3.2.1</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#exercises"><i class="fa fa-check"></i><b>3.3</b> Exercises</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations"><i class="fa fa-check"></i><b>3.3.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-1"><i class="fa fa-check"></i><b>3.3.2</b> Objects</a></li>
+<li class="chapter" data-level="3.3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#answers-to-exercises"><i class="fa fa-check"></i><b>3.4</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations-1"><i class="fa fa-check"></i><b>3.4.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.4.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-2"><i class="fa fa-check"></i><b>3.4.2</b> Objects</a></li>
+<li class="chapter" data-level="3.4.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-2"><i class="fa fa-check"></i><b>3.4.3</b> Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html"><i class="fa fa-check"></i><b>4</b> Data: Vectors, Matrices and Data Frames</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors"><i class="fa fa-check"></i><b>4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices"><i class="fa fa-check"></i><b>4.2</b> Matrices</a></li>
+<li class="chapter" data-level="4.3" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#factors-and-data-frames"><i class="fa fa-check"></i><b>4.3</b> Factors and Data frames</a></li>
+<li class="chapter" data-level="4.4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#exercises-1"><i class="fa fa-check"></i><b>4.4</b> Exercises</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-1"><i class="fa fa-check"></i><b>4.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-1"><i class="fa fa-check"></i><b>4.4.2</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#answers-to-exercises-1"><i class="fa fa-check"></i><b>4.5</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-2"><i class="fa fa-check"></i><b>4.5.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.5.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-2"><i class="fa fa-check"></i><b>4.5.2</b> Matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html"><i class="fa fa-check"></i><b>5</b> Choosing data: subscripts and subsetting</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts"><i class="fa fa-check"></i><b>5.0.1</b> Subscripts</a></li>
+<li class="chapter" data-level="5.0.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#boolean-logic-and-more-complex-subscripting"><i class="fa fa-check"></i><b>5.0.2</b> Boolean logic and more complex subscripting</a></li>
+<li class="chapter" data-level="5.0.3" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-in-matrices-and-data-frames"><i class="fa fa-check"></i><b>5.0.3</b> Subscripts in matrices and data frames</a></li>
+<li class="chapter" data-level="5.0.4" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subset"><i class="fa fa-check"></i><b>5.0.4</b> Subset</a></li>
+<li class="chapter" data-level="5.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#exercises-2"><i class="fa fa-check"></i><b>5.1</b> Exercises</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors"><i class="fa fa-check"></i><b>5.1.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.1.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices"><i class="fa fa-check"></i><b>5.1.2</b> Subscripts and matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#answers-to-exercises-2"><i class="fa fa-check"></i><b>5.2</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors-1"><i class="fa fa-check"></i><b>5.2.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices-1"><i class="fa fa-check"></i><b>5.2.2</b> Subscripts and matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html"><i class="fa fa-check"></i><b>6</b> R scripts and your R workflow</a><ul>
+<li class="chapter" data-level="6.1" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#writing-and-using-r-scripts"><i class="fa fa-check"></i><b>6.1</b> Writing and using R scripts</a></li>
+<li class="chapter" data-level="6.2" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-an-r-script-window"><i class="fa fa-check"></i><b>6.2</b> Running code from an R script window</a></li>
+<li class="chapter" data-level="6.3" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-files-using-source"><i class="fa fa-check"></i><b>6.3</b> Running code from files using <code>source()</code></a></li>
+<li class="chapter" data-level="6.4" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#workflow-structure-or-what-should-i-put-in-my-script"><i class="fa fa-check"></i><b>6.4</b> Workflow structure, or what should I put in my script?</a></li>
+<li class="chapter" data-level="6.5" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#keep-it-neat-making-your-script-easy-to-read"><i class="fa fa-check"></i><b>6.5</b> Keep it neat — making your script easy to read</a></li>
+<li class="chapter" data-level="6.6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#i-wish-i-hadnt-commented-my-code-so-much-said-no-one-ever-4."><i class="fa fa-check"></i><b>6.6</b> “I wish I hadn’t commented my code so much”, said no-one, ever.</a></li>
+<li class="chapter" data-level="6.7" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#using-rstudio-to-write-scripts"><i class="fa fa-check"></i><b>6.7</b> Using RStudio to write scripts</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html"><i class="fa fa-check"></i><b>7</b> Help files and packages</a><ul>
+<li class="chapter" data-level="7.1" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#using-the-help-files"><i class="fa fa-check"></i><b>7.1</b> Using the help files</a></li>
+<li class="chapter" data-level="7.2" data-path="help-files-and-packages.html"><a href="help-files-and-packages.html#packages"><i class="fa fa-check"></i><b>7.2</b> Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>8</b> Importing Data</a><ul>
+<li class="chapter" data-level="8.1" data-path="importing-data.html"><a href="importing-data.html#the-rules"><i class="fa fa-check"></i><b>8.1</b> The Rules</a></li>
+<li class="chapter" data-level="8.2" data-path="importing-data.html"><a href="importing-data.html#importing-your-text-file"><i class="fa fa-check"></i><b>8.2</b> Importing your Text File</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="importing-data.html"><a href="importing-data.html#the-simple-way"><i class="fa fa-check"></i><b>8.2.1</b> The simple way</a></li>
+<li class="chapter" data-level="8.2.2" data-path="importing-data.html"><a href="importing-data.html#the-less-simple-way"><i class="fa fa-check"></i><b>8.2.2</b> The less simple way</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="importing-data.html"><a href="importing-data.html#importing-character-data"><i class="fa fa-check"></i><b>8.3</b> Importing character data</a></li>
+<li class="chapter" data-level="8.4" data-path="importing-data.html"><a href="importing-data.html#data-on-the-web"><i class="fa fa-check"></i><b>8.4</b> Data on the web</a></li>
+<li class="chapter" data-level="8.5" data-path="importing-data.html"><a href="importing-data.html#using-read.table"><i class="fa fa-check"></i><b>8.5</b> Using <code>read.table()</code></a></li>
+<li class="chapter" data-level="8.6" data-path="importing-data.html"><a href="importing-data.html#what-to-do-once-youve-managed-to-import-your-data."><i class="fa fa-check"></i><b>8.6</b> What to do once you’ve managed to import your data.</a></li>
+<li class="chapter" data-level="8.7" data-path="importing-data.html"><a href="importing-data.html#importing-data-directly-from-excel"><i class="fa fa-check"></i><b>8.7</b> Importing data directly from Excel</a></li>
+<li class="chapter" data-level="8.8" data-path="importing-data.html"><a href="importing-data.html#other-data-formats"><i class="fa fa-check"></i><b>8.8</b> Other data formats</a></li>
+<li class="chapter" data-level="8.9" data-path="importing-data.html"><a href="importing-data.html#importing-data-into-rstudio"><i class="fa fa-check"></i><b>8.9</b> Importing data into RStudio</a></li>
+<li class="chapter" data-level="8.10" data-path="importing-data.html"><a href="importing-data.html#to-attach-or-not-to-attach"><i class="fa fa-check"></i><b>8.10</b> To attach or not to attach?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><i class="fa fa-check"></i><b>9</b> R graphics I — drawing graphs and changing plot symbols and colours using the base graphics system</a><ul>
+<li class="chapter" data-level="9.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-versus-ggplot2-versus-lattice-versus-whaaat"><i class="fa fa-check"></i><b>9.1</b> Base graphics versus ggplot2 versus lattice versus whaaat???</a></li>
+<li class="chapter" data-level="9.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#base-graphics-example-ufo-reports-again"><i class="fa fa-check"></i><b>9.2</b> Base graphics example: UFO reports again</a></li>
+<li class="chapter" data-level="9.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#scatterplots"><i class="fa fa-check"></i><b>9.3</b> Scatterplots</a></li>
+<li class="chapter" data-level="9.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plot-symbols"><i class="fa fa-check"></i><b>9.4</b> Plot symbols</a></li>
+<li class="chapter" data-level="9.5" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colours"><i class="fa fa-check"></i><b>9.5</b> Colours</a></li>
+<li class="chapter" data-level="9.6" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#plotting-multiple-symbols-or-colours"><i class="fa fa-check"></i><b>9.6</b> Plotting multiple symbols or colours</a></li>
+<li class="chapter" data-level="9.7" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#colour-palettes-in-r"><i class="fa fa-check"></i><b>9.7</b> Colour palettes in R</a></li>
+<li class="chapter" data-level="9.8" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#using-transparency-in-your-graphs"><i class="fa fa-check"></i><b>9.8</b> Using transparency in your graphs</a></li>
+<li class="chapter" data-level="9.9" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histograms-and-multiple-plots-in-the-same-window"><i class="fa fa-check"></i><b>9.9</b> Histograms and multiple plots in the same window</a></li>
+<li class="chapter" data-level="9.10" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#boxplots"><i class="fa fa-check"></i><b>9.10</b> Boxplots</a></li>
+<li class="chapter" data-level="9.11" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#bar-charts"><i class="fa fa-check"></i><b>9.11</b> Bar charts</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#more-complex-barplots"><i class="fa fa-check"></i><b>9.11.1</b> More complex barplots</a></li>
+</ul></li>
+<li class="chapter" data-level="9.12" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#other-types-of-plot"><i class="fa fa-check"></i><b>9.12</b> Other types of plot</a><ul>
+<li class="chapter" data-level="9.12.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#histogram-with-overlaid-probability-density-estimate"><i class="fa fa-check"></i><b>9.12.1</b> Histogram with overlaid probability density estimate</a></li>
+<li class="chapter" data-level="9.12.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#pie-graph"><i class="fa fa-check"></i><b>9.12.2</b> Pie graph</a></li>
+<li class="chapter" data-level="9.12.3" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#d-scatterplot"><i class="fa fa-check"></i><b>9.12.3</b> 3D scatterplot</a></li>
+<li class="chapter" data-level="9.12.4" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#contour-plot"><i class="fa fa-check"></i><b>9.12.4</b> Contour plot</a></li>
+</ul></li>
+<li class="chapter" data-level="9.13" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#exporting-graphics"><i class="fa fa-check"></i><b>9.13</b> Exporting Graphics</a><ul>
+<li class="chapter" data-level="9.13.1" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-easy-way"><i class="fa fa-check"></i><b>9.13.1</b> The easy way</a></li>
+<li class="chapter" data-level="9.13.2" data-path="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html"><a href="r-graphics-i-drawing-graphs-and-changing-plot-symbols-and-colours-using-the-base-graphics-system.html#the-hard-way"><i class="fa fa-check"></i><b>9.13.2</b> The hard way</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html"><i class="fa fa-check"></i><b>10</b> R graphics II — Adding elements to an existing graph</a><ul>
+<li class="chapter" data-level="10.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#simple-regression-lines"><i class="fa fa-check"></i><b>10.1</b> Simple regression lines</a></li>
+<li class="chapter" data-level="10.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#multiple-regression-lines"><i class="fa fa-check"></i><b>10.2</b> Multiple regression lines</a></li>
+<li class="chapter" data-level="10.3" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#legends"><i class="fa fa-check"></i><b>10.3</b> Legends</a></li>
+<li class="chapter" data-level="10.4" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#curves"><i class="fa fa-check"></i><b>10.4</b> Curves</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-curve"><i class="fa fa-check"></i><b>10.4.1</b> Adding a curve using <code>curve()</code></a></li>
+<li class="chapter" data-level="10.4.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-a-curve-using-lines-or-points."><i class="fa fa-check"></i><b>10.4.2</b> Adding a curve using <code>lines()</code> or <code>points()</code>.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#text-and-arrows"><i class="fa fa-check"></i><b>10.5</b> Text and arrows</a></li>
+<li class="chapter" data-level="10.6" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#confidence-bands-for-fitted-lines"><i class="fa fa-check"></i><b>10.6</b> Confidence bands for fitted lines</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-bands-using-lines"><i class="fa fa-check"></i><b>10.6.1</b> Adding confidence bands using <code>lines()</code></a></li>
+<li class="chapter" data-level="10.6.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-confidence-intervals-to-fitted-lines-using-polygon"><i class="fa fa-check"></i><b>10.6.2</b> Adding confidence intervals to fitted lines using <code>polygon()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#error-bars"><i class="fa fa-check"></i><b>10.7</b> Error bars</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#adding-error-bars-using-arrows"><i class="fa fa-check"></i><b>10.7.1</b> Adding error bars using <code>arrows()</code></a></li>
+<li class="chapter" data-level="10.7.2" data-path="r-graphics-ii-adding-elements-to-an-existing-graph.html"><a href="r-graphics-ii-adding-elements-to-an-existing-graph.html#plotting-means-and-error-bars-using-plotmeans"><i class="fa fa-check"></i><b>10.7.2</b> Plotting means and error bars using <code>plotmeans()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html"><i class="fa fa-check"></i><b>11</b> Graphics with ggplot2</a><ul>
+<li class="chapter" data-level="11.1" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#ggplot2-introduced"><i class="fa fa-check"></i><b>11.1</b> ggplot2 introduced</a></li>
+<li class="chapter" data-level="11.2" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#scaling-axes-and-varying-colour-or-shapes-by-factor-levels"><i class="fa fa-check"></i><b>11.2</b> Scaling axes and varying colour or shapes by factor levels</a></li>
+<li class="chapter" data-level="11.3" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#facets"><i class="fa fa-check"></i><b>11.3</b> Facets</a></li>
+<li class="chapter" data-level="11.4" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#histograms"><i class="fa fa-check"></i><b>11.4</b> Histograms</a></li>
+<li class="chapter" data-level="11.5" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#boxplots-1"><i class="fa fa-check"></i><b>11.5</b> Boxplots</a></li>
+<li class="chapter" data-level="11.6" data-path="graphics-with-ggplot2.html"><a href="graphics-with-ggplot2.html#final-word"><i class="fa fa-check"></i><b>11.6</b> Final word</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html"><i class="fa fa-check"></i><b>12</b> Basic Statistical Concepts</a><ul>
+<li class="chapter" data-level="12.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#populations-and-samples"><i class="fa fa-check"></i><b>12.1</b> Populations and Samples</a></li>
+<li class="chapter" data-level="12.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#descriptive-and-exploratory-statistics"><i class="fa fa-check"></i><b>12.2</b> Descriptive and exploratory statistics</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#maximum-and-minimum"><i class="fa fa-check"></i><b>12.2.1</b> Maximum and minimum</a></li>
+<li class="chapter" data-level="12.2.2" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#frequency-distribution"><i class="fa fa-check"></i><b>12.2.2</b> Frequency distribution</a></li>
+<li class="chapter" data-level="12.2.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#kinds-of-frequency-distribution"><i class="fa fa-check"></i><b>12.2.3</b> Kinds of frequency distribution</a></li>
+<li class="chapter" data-level="12.2.4" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-central-tendency"><i class="fa fa-check"></i><b>12.2.4</b> Measures of central tendency</a></li>
+<li class="chapter" data-level="12.2.5" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#measures-of-dispersion"><i class="fa fa-check"></i><b>12.2.5</b> Measures of dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#standard-errors-and-confidence-intervals"><i class="fa fa-check"></i><b>12.3</b> Standard errors and confidence intervals</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="basic-statistical-concepts.html"><a href="basic-statistical-concepts.html#code-used-to-draw-figure-6"><i class="fa fa-check"></i><b>12.3.1</b> Code used to draw figure 6</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html"><i class="fa fa-check"></i><b>13</b> What is statistical testing?</a><ul>
+<li class="chapter" data-level="13.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#the-problem"><i class="fa fa-check"></i><b>13.1</b> The problem</a></li>
+<li class="chapter" data-level="13.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#statistical-testing-in-a-nutshell"><i class="fa fa-check"></i><b>13.2</b> Statistical testing in a nutshell</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#decide-on-the-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.2.1</b> Decide on the null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.2.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#calculate-the-size-of-the-effect."><i class="fa fa-check"></i><b>13.2.2</b> Calculate the size of the effect.</a></li>
+<li class="chapter" data-level="13.2.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#transform-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.2.3</b> Transform the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.2.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#ask-what-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true."><i class="fa fa-check"></i><b>13.2.4</b> Ask what the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true.</a></li>
+<li class="chapter" data-level="13.2.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#think-about-what-the-result-means."><i class="fa fa-check"></i><b>13.2.5</b> Think about what the result means.</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#how-a-statistical-test-works"><i class="fa fa-check"></i><b>13.3</b> How a statistical test works</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-1-generating-our-null-and-alternative-hypotheses."><i class="fa fa-check"></i><b>13.3.1</b> Step 1 generating our null and alternative hypotheses.</a></li>
+<li class="chapter" data-level="13.3.2" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-2-calculating-the-size-of-the-effect"><i class="fa fa-check"></i><b>13.3.2</b> Step 2 calculating the size of the effect</a></li>
+<li class="chapter" data-level="13.3.3" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-3-transforming-the-effect-size-so-that-we-can-compare-it-to-an-expected-distribution."><i class="fa fa-check"></i><b>13.3.3</b> Step 3 Transforming the effect size so that we can compare it to an expected distribution.</a></li>
+<li class="chapter" data-level="13.3.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#step-4-what-is-the-probability-is-of-observing-an-effect-as-big-or-bigger-than-the-one-we-have-seen-assuming-the-null-hypothesis-to-be-true"><i class="fa fa-check"></i><b>13.3.4</b> Step 4 What is the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true?</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#what-statistical-testing-does-and-doesnt-tell-us"><i class="fa fa-check"></i><b>13.4</b> What statistical testing does and doesn’t tell us</a></li>
+<li class="chapter" data-level="13.5" data-path="what-is-statistical-testing.html"><a href="what-is-statistical-testing.html#code-used-to-draw-figure-5"><i class="fa fa-check"></i><b>13.5</b> Code used to draw figure 5</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><i class="fa fa-check"></i><b>14</b> The Chi-squared Test and a Classic Dataset on Smoking and Cancer</a><ul>
+<li class="chapter" data-level="14.1" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-who-smoke-more-likely-to-be-heavy-smokers"><i class="fa fa-check"></i><b>14.1</b> Are lung cancer patients who smoke more likely to be heavy smokers?</a></li>
+<li class="chapter" data-level="14.2" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#the-chi-squared-test"><i class="fa fa-check"></i><b>14.2</b> The Chi-squared test</a></li>
+<li class="chapter" data-level="14.3" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#chi-squared-test-with-contingency-tables"><i class="fa fa-check"></i><b>14.3</b> Chi-squared test with contingency tables</a></li>
+<li class="chapter" data-level="14.4" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#assumptions-and-limitations-of-the-chi-squared-test"><i class="fa fa-check"></i><b>14.4</b> Assumptions and limitations of the chi-squared test</a></li>
+<li class="chapter" data-level="14.5" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#are-lung-cancer-patients-more-likely-to-be-smokers-than-controls"><i class="fa fa-check"></i><b>14.5</b> Are lung cancer patients more likely to be smokers than controls?</a></li>
+<li class="chapter" data-level="14.6" data-path="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html"><a href="the-chi-squared-test-and-a-classic-dataset-on-smoking-and-cancer.html#fishers-exact-test"><i class="fa fa-check"></i><b>14.6</b> Fisher’s exact test</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><i class="fa fa-check"></i><b>15</b> Comparing immune responses between two caterpillar species using a t-test</a><ul>
+<li class="chapter" data-level="15.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#assumptions-and-limitations-of-standard-parametric-statistics"><i class="fa fa-check"></i><b>15.1</b> Assumptions and limitations of standard parametric statistics</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#normal-errors."><i class="fa fa-check"></i><b>15.1.1</b> Normal errors.</a></li>
+<li class="chapter" data-level="15.1.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#independence-of-data-points."><i class="fa fa-check"></i><b>15.1.2</b> Independence of data points.</a></li>
+<li class="chapter" data-level="15.1.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#equal-variances."><i class="fa fa-check"></i><b>15.1.3</b> Equal variances.</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#importing-the-data"><i class="fa fa-check"></i><b>15.2</b> Importing the Data</a></li>
+<li class="chapter" data-level="15.3" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#descriptives-and-initial-exploration"><i class="fa fa-check"></i><b>15.3</b> Descriptives and Initial Exploration</a></li>
+<li class="chapter" data-level="15.4" data-path="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html"><a href="comparing-immune-responses-between-two-caterpillar-species-using-a-t-test.html#comparing-two-means-with-a-t-test"><i class="fa fa-check"></i><b>15.4</b> Comparing Two Means With a t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="correlation-analysis.html"><a href="correlation-analysis.html"><i class="fa fa-check"></i><b>16</b> Correlation analysis</a><ul>
+<li class="chapter" data-level="16.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#calculating-the-correlation-coefficient"><i class="fa fa-check"></i><b>16.1</b> Calculating the correlation coefficient</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#interpreting-our-correlation-coefficient."><i class="fa fa-check"></i><b>16.1.1</b> Interpreting our correlation coefficient.</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="correlation-analysis.html"><a href="correlation-analysis.html#statistical-significance-of-r"><i class="fa fa-check"></i><b>16.2</b> Statistical significance of <em>r</em></a></li>
+<li class="chapter" data-level="16.3" data-path="correlation-analysis.html"><a href="correlation-analysis.html#assumptions-of-correlation-analysis"><i class="fa fa-check"></i><b>16.3</b> Assumptions of correlation analysis</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="correlation-analysis.html"><a href="correlation-analysis.html#comparing-correlations-between-swim-run-and-bike-splits"><i class="fa fa-check"></i><b>16.3.1</b> Comparing correlations between swim, run and bike splits</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="correlation-analysis.html"><a href="correlation-analysis.html#correlation-causality-sample-size-and-significance."><i class="fa fa-check"></i><b>16.4</b> Correlation, causality, sample size and significance.</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><i class="fa fa-check"></i><b>17</b> Using Linear Regression to Analyse TB trends in the UK</a><ul>
+<li class="chapter" data-level="17.0.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#least-squares-line-fitting"><i class="fa fa-check"></i><b>17.0.1</b> Least squares line fitting</a></li>
+<li class="chapter" data-level="17.0.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#significance-tests-for-linear-regression"><i class="fa fa-check"></i><b>17.0.2</b> Significance tests for linear regression</a></li>
+<li class="chapter" data-level="17.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#bovine-tb"><i class="fa fa-check"></i><b>17.1</b> Bovine TB</a></li>
+<li class="chapter" data-level="17.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>17.2</b> Assumptions of linear regression</a><ul>
+<li class="chapter" data-level="17.2.1" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots"><i class="fa fa-check"></i><b>17.2.1</b> Diagnostic plots</a></li>
+<li class="chapter" data-level="17.2.2" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#diagnostic-plots-for-our-m.bovis-regression"><i class="fa fa-check"></i><b>17.2.2</b> Diagnostic plots for our <em>M.bovis</em> regression</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#interpreting-our-regression-and-predicting-future-cases"><i class="fa fa-check"></i><b>17.3</b> Interpreting our regression and predicting future cases</a></li>
+<li class="chapter" data-level="17.4" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#multi-drug-resistant-tb"><i class="fa fa-check"></i><b>17.4</b> Multi-drug resistant TB</a></li>
+<li class="chapter" data-level="17.5" data-path="using-linear-regression-to-analyse-tb-trends-in-the-uk.html"><a href="using-linear-regression-to-analyse-tb-trends-in-the-uk.html#fitting-a-quadratic-model"><i class="fa fa-check"></i><b>17.5</b> Fitting a quadratic model</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="anova-and-football.html"><a href="anova-and-football.html"><i class="fa fa-check"></i><b>18</b> ANOVA and Football</a><ul>
+<li class="chapter" data-level="18.1" data-path="anova-and-football.html"><a href="anova-and-football.html#analysis-of-variance"><i class="fa fa-check"></i><b>18.1</b> Analysis of Variance</a></li>
+<li class="chapter" data-level="18.2" data-path="anova-and-football.html"><a href="anova-and-football.html#interpreting-anova-results"><i class="fa fa-check"></i><b>18.2</b> Interpreting ANOVA results</a></li>
+<li class="chapter" data-level="18.3" data-path="anova-and-football.html"><a href="anova-and-football.html#what-makes-a-professional-footballer"><i class="fa fa-check"></i><b>18.3</b> What makes a professional footballer?</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html"><i class="fa fa-check"></i><b>19</b> Yeast sex and two factor ANOVA.</a><ul>
+<li class="chapter" data-level="19.1" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#yeast-sexual-selection"><i class="fa fa-check"></i><b>19.1</b> Yeast sexual selection</a></li>
+<li class="chapter" data-level="19.2" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#understanding-the-coefficients-table"><i class="fa fa-check"></i><b>19.2</b> Understanding the coefficients table</a></li>
+<li class="chapter" data-level="19.3" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#which-statistical-tests-to-use-with-lm"><i class="fa fa-check"></i><b>19.3</b> Which statistical tests to use with <code>lm()</code>?</a></li>
+<li class="chapter" data-level="19.4" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#diagnostics"><i class="fa fa-check"></i><b>19.4</b> Diagnostics</a></li>
+<li class="chapter" data-level="19.5" data-path="yeast-sex-and-two-factor-anova-.html"><a href="yeast-sex-and-two-factor-anova-.html#visualising-the-data"><i class="fa fa-check"></i><b>19.5</b> Visualising the data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="basic-statistical-concepts" class="section level1">
+<h1><span class="header-section-number">Chapter 12</span> Basic Statistical Concepts</h1>
+<p>For the next 8 chapters our focus will shift from manipulating and visualising sets of numbers to analysing them, and as a starter this chapter has brief notes on some of the important fundamental concepts used to summarise and understand sets of data. If you’re happy that you understand the difference between a population and a sample, and if (unlike at least 50% of academics in the biological sciences…) you know what a 95% confidence interval actually means then you might want just to skim through this chapter to pick up on the various R functions that are mentioned. If, on the other hand, your stats are a bit rusty or rudimentary this should act as a useful reminder, and the notes on how the various functions work in R should also be helpful. Please also have a look at the next chapter which is on statistical testing since this is a subject that lots of people are confused about even when they have had some stats training - to tell the truth, it’s a subject that a lot of people are confused about <em>because</em> they’ve had some stats training, which is why I’ve put something in to try to help with this rather confusing issue.</p>
+<p>This chapter and the next will show you the basics of data description and statistical testing but they aren’t a substitute for proper training in statistics. If you are really a statistical novice then you might feel the need to look further afield for more information. There are an awful lot of books on statistics out there, and they range from the easily read and digested to the completely incomprehensible: I recommend that you seek out the former and avoid the latter. The exact choice of where you get your information will depend on what your particular interests are: for biologists I recommend Experimental Design and Data Analysis for Biologists by Quinn and Keough (2002, Published by CUP, ISBN 978-0521009768) but if you’re in a different field then you’ll need to shop around.</p>
+<div id="populations-and-samples" class="section level2">
+<h2><span class="header-section-number">12.1</span> Populations and Samples</h2>
+<p>In statistics, the <em>population</em> consists of all of objects that you could potentially measure. This might be all of the lung cancer patients in the World, all of the malaria parasites infecting a particular species of lizard, all of the men in Europe between the ages of 15 and 25, all of the households in Texas with an income greater than $100000 per annum, or all of the cars of a particular model. Most of the time, you won’t be able to carry out whatever measurements you might wish to make on an entire population, which means that you have to <em>sample</em> from the population: you select a subset of the population, carry out your measurements on that subset and hopefully the values that you get will be a useful <em>estimate</em> of the true population values. Ideally this sampling will be done <em>randomly</em>, which means that every member of the population has an equal chance of being chosen and the probability of one member of the population being chosen is unaffected by whether another member has been chosen. It’s often not easy to do straightforward random sampling of an entire population, in which case other techniques such as clustered sampling or stratified sampling will need to be used. There is a lot of literature out there on sampling if you need to know more. It’s best to look for material that’s specific to your field because the techniques associated with sampling vary a lot: although the fundamental problem is the same for an ecologist sampling wasps from the canopy of a tropical forest and a psychologist sampling school-age children from households of a particular economic class the solutions to the problem are likely to be rather different. You can’t sample children with a suction trap, but you don’t need to get ethics clearance and parental permission to catch wasps.</p>
+<p>Population level <em>parameters</em> such as the mean and the variance are denoted by Greek letters: <span class="math inline">\(\mu\)</span> for the mean and <span class="math inline">\(\sigma^2\)</span> for the variance, whereas the <em>estimates</em> for these parameters that we calculate from our samples are denoted by Roman letters: <span class="math inline">\(\bar{X}\)</span> (x-bar) for the mean and <span class="math inline">\(s^2\)</span> for the variance.</p>
+</div>
+<div id="descriptive-and-exploratory-statistics" class="section level2">
+<h2><span class="header-section-number">12.2</span> Descriptive and exploratory statistics</h2>
+<div id="maximum-and-minimum" class="section level3">
+<h3><span class="header-section-number">12.2.1</span> Maximum and minimum</h3>
+<p>When you have done your experiment, carried out your survey or scraped your data off the website in question you need to be able to <em>describe</em> and <em>explore</em> your dataset to gain an understanding of what kind of numbers or other values you’ve aquired. Some of the most basic questions are what the largest and smallest numbers are: these can be found by using the <code>max()</code> and <code>min()</code> functions. The <code>range()</code> function will return both the minumum and the maximum of a vector.</p>
+</div>
+<div id="frequency-distribution" class="section level3">
+<h3><span class="header-section-number">12.2.2</span> Frequency distribution</h3>
+<p><img src="Images/Phantom_menace_Amazon.png" alt="Phantom Menace Amazon Ratings" />
+Most of you will be familiar with images like the one above: this is a graph of customer reviews for <em>Star Wars: The Phantom Menace</em>. The relative numbers (here given as percentages) of reviewers giving the various star ratings gives you information on what the reviewers thought of the movie overall, and you can also see that the distribution is <em>bimodal</em>: it has a big peak at 5*, but also a second, smaller peak at 1*. This tells you at least that there is controversy over the quality of the movie… if you’ve seen <em>The Phantom Menace</em> you will also be able to deduce from the big peak at 5* that there are a lot of brainless fanboys out there. I haven’t just put this here to rant about Star Wars, of course, and there is a more serious point: this graph is showing us the <em>frequency distribution</em> of the ratings for this movie.</p>
+<p>The frequency distribution is the count of how many times each value occurs in a data set, usually visualised using a <em>histogram</em>. This is one ofs the most fundamental ways of looking at a set of data because it lets you see how spread out the data are and where the measurements tend to cluster. The overall shape of the frequency distribution is also very important in helping you understand the nature of your data. Frequency distributions are easiest to work out with integer data since the frequency distribution is literally the count of each value in the data set. For continuous data we divide up the range of values over which the data are found into a series of ‘bins’ and count how many values are in each bin. As an example, let’s say we have the following values in our data set.</p>
+<p>Measure1 = 8.47, 6.08, 9.57, 12.18, 7.60, 9.67, 9.39, 10.83, 10.46, 10.55, 8.37, 10.58, 9.42, 7.95, 11.86</p>
+<p>We can put these into R:</p>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="basic-statistical-concepts.html#cb369-1"></a>M1&lt;-<span class="kw">c</span>(<span class="fl">8.47</span>, <span class="fl">6.08</span>, <span class="fl">9.57</span>, <span class="fl">12.18</span>, <span class="fl">7.60</span>, <span class="fl">9.67</span>, <span class="fl">9.39</span>, <span class="fl">10.83</span>, <span class="fl">10.46</span>, <span class="fl">10.55</span>, <span class="fl">8.37</span>, <span class="fl">10.58</span>, <span class="fl">9.42</span>, <span class="fl">7.95</span>, <span class="fl">11.86</span>)</span>
+<span id="cb369-2"><a href="basic-statistical-concepts.html#cb369-2"></a></span>
+<span id="cb369-3"><a href="basic-statistical-concepts.html#cb369-3"></a><span class="kw">min</span>(M1)</span>
+<span id="cb369-4"><a href="basic-statistical-concepts.html#cb369-4"></a>[<span class="dv">1</span>] <span class="fl">6.08</span></span>
+<span id="cb369-5"><a href="basic-statistical-concepts.html#cb369-5"></a></span>
+<span id="cb369-6"><a href="basic-statistical-concepts.html#cb369-6"></a><span class="kw">max</span>(M1)</span>
+<span id="cb369-7"><a href="basic-statistical-concepts.html#cb369-7"></a>[<span class="dv">1</span>] <span class="fl">12.18</span></span></code></pre></div>
+<p>Our minimum is just over 6 and our maximum just over 12, so we might as well use the ranges 6.01-7,7.01-8 and so on until 12.01-13 as our bins, and we can just count the number of values that go into each.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Bin</th>
+<th align="center">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">6.01-7</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">7.01-8</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">8.01-9</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">9.01-10</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">10.01-11</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">11.01-12</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">12.01-13</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+<p>Looking at this table of counts you can get an idea of where the <em>central tendency</em> is in the data and what the shape of the frequency distibution looks like, but it’s better to draw a histogram of the frequency distribution, which you do in R with the <code>hist()</code> function which we already met in section 9.9.</p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="basic-statistical-concepts.html#cb370-1"></a><span class="kw">hist</span>(M1, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-370"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-370-1.png" alt="Histogram of the frequency distribution of vector M1" width="672" />
+<p class="caption">
+Figure 12.1: Histogram of the frequency distribution of vector M1
+</p>
+</div>
+<p>A second option is to draw a <em>boxplot</em>, otherwise known as a <em>box and whisker plot</em>. Again, we met these before (section 9.10) but it’s worth quickly revisiting the way these work. The most common type of boxplot has a thick horizontal bar which indicates the <em>median</em> (see section on measures of central tendency), the top and bottom of the box indicating the <em>inter-quartile range</em> (see section on measures of dispersion) and the thin lines extending from the box (the <em>whiskers</em>) reach to the last data points within 1.5 times the interquartile range of the top or bottom of the box. If that last sounds a bit convulted just think of them as a representation of the spread of data outside the interquartile range. Data points outside the range of the whisker are indicated individually: these are often described as <em>outliers</em> but be careful with this word: it’s quite likely that they will actually be within the expected distribution of the data, and you certainly shouldn’t discount data points just because they pop up on a box plot. You can draw boxplots in R with the <code>boxplot()</code> function.</p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="basic-statistical-concepts.html#cb371-1"></a><span class="kw">boxplot</span>(M1,</span>
+<span id="cb371-2"><a href="basic-statistical-concepts.html#cb371-2"></a>        <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>,</span>
+<span id="cb371-3"><a href="basic-statistical-concepts.html#cb371-3"></a>        <span class="dt">xlab =</span> <span class="st">&quot;M1&quot;</span>,</span>
+<span id="cb371-4"><a href="basic-statistical-concepts.html#cb371-4"></a>        <span class="dt">ylab =</span> <span class="st">&quot;Value&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-371"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-371-1.png" alt="Boxplot of vector M1" width="672" />
+<p class="caption">
+Figure 12.2: Boxplot of vector M1
+</p>
+</div>
+<p>Let’s add another data point to M1 so see what a histogram and a boxplot look like when we have a data point that’s a bit different from the rest.</p>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="basic-statistical-concepts.html#cb372-1"></a>M2&lt;-<span class="kw">c</span>(M1, <span class="fl">17.3</span>)</span></code></pre></div>
+<p>We can use the <code>mfrow</code> graphical parameter to draw two plots side-by-side.</p>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="basic-statistical-concepts.html#cb373-1"></a><span class="co"># Set plot area to show two figures side by side</span></span>
+<span id="cb373-2"><a href="basic-statistical-concepts.html#cb373-2"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb373-3"><a href="basic-statistical-concepts.html#cb373-3"></a></span>
+<span id="cb373-4"><a href="basic-statistical-concepts.html#cb373-4"></a><span class="co"># Draw histogram</span></span>
+<span id="cb373-5"><a href="basic-statistical-concepts.html#cb373-5"></a><span class="kw">hist</span>(M2, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb373-6"><a href="basic-statistical-concepts.html#cb373-6"></a></span>
+<span id="cb373-7"><a href="basic-statistical-concepts.html#cb373-7"></a><span class="co"># Draw boxplot</span></span>
+<span id="cb373-8"><a href="basic-statistical-concepts.html#cb373-8"></a><span class="kw">boxplot</span>(M2,</span>
+<span id="cb373-9"><a href="basic-statistical-concepts.html#cb373-9"></a>        <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>,</span>
+<span id="cb373-10"><a href="basic-statistical-concepts.html#cb373-10"></a>        <span class="dt">xlab =</span> <span class="st">&quot;M1&quot;</span>,</span>
+<span id="cb373-11"><a href="basic-statistical-concepts.html#cb373-11"></a>        <span class="dt">ylab =</span> <span class="st">&quot;Value&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-373"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-373-1.png" alt="Comparison of histogram (left) and boxplot(right) for vector M2" width="768" />
+<p class="caption">
+Figure 12.3: Comparison of histogram (left) and boxplot(right) for vector M2
+</p>
+</div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="basic-statistical-concepts.html#cb374-1"></a></span>
+<span id="cb374-2"><a href="basic-statistical-concepts.html#cb374-2"></a><span class="co"># plot area back to normal</span></span>
+<span id="cb374-3"><a href="basic-statistical-concepts.html#cb374-3"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p>In general people tend to use a frequency histogram when they are looking at one or a few vectors of data, and boxplots when they’re looking at several different vectors, or one vector divided up by the levels of one or more factors: see the first plot in the chapter on sexual signalling in yeast for an example of the latter.</p>
+<p>Finally, another quick way to visualise a vector of data is to use a <em>stem and leaf diagram</em> which in its simplest form puts the values before the decimal point on the right hand side of a line and the values after the decimal point on the left, or the tens on the left and the units on the right, or something similar depending on the exact nature of the data. The R function <code>stem()</code> will draw you a stem and leaf diagram, but sometimes the default options aren’t quite what you want so in this case we’re going to use the <em>scale</em> argument to make the diagram exactly as we’d like it.</p>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="basic-statistical-concepts.html#cb375-1"></a><span class="kw">stem</span>(M1, <span class="dt">scale =</span> <span class="dv">2</span>)</span>
+<span id="cb375-2"><a href="basic-statistical-concepts.html#cb375-2"></a></span>
+<span id="cb375-3"><a href="basic-statistical-concepts.html#cb375-3"></a>  The decimal point is at the <span class="op">|</span></span>
+<span id="cb375-4"><a href="basic-statistical-concepts.html#cb375-4"></a></span>
+<span id="cb375-5"><a href="basic-statistical-concepts.html#cb375-5"></a><span class="st">   </span><span class="dv">6</span> <span class="op">|</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb375-6"><a href="basic-statistical-concepts.html#cb375-6"></a>   <span class="dv">7</span> <span class="op">|</span><span class="st"> </span><span class="dv">6</span></span>
+<span id="cb375-7"><a href="basic-statistical-concepts.html#cb375-7"></a>   <span class="dv">8</span> <span class="op">|</span><span class="st"> </span><span class="dv">045</span></span>
+<span id="cb375-8"><a href="basic-statistical-concepts.html#cb375-8"></a>   <span class="dv">9</span> <span class="op">|</span><span class="st"> </span><span class="dv">4467</span></span>
+<span id="cb375-9"><a href="basic-statistical-concepts.html#cb375-9"></a>  <span class="dv">10</span> <span class="op">|</span><span class="st"> </span><span class="dv">5668</span></span>
+<span id="cb375-10"><a href="basic-statistical-concepts.html#cb375-10"></a>  <span class="dv">11</span> <span class="op">|</span><span class="st"> </span><span class="dv">9</span></span>
+<span id="cb375-11"><a href="basic-statistical-concepts.html#cb375-11"></a>  <span class="dv">12</span> <span class="op">|</span><span class="st"> </span><span class="dv">2</span></span></code></pre></div>
+<p>Some of the values are in slightly different rows with this diagram than we might expect because the function is, for example, rounding 7.95 up to 8.0. Nonetheless, you can see the shape of the frequency distribution quite nicely, and you can see that the stem and leaf plot retains all of the information about your data set: you can see the value of each number in the vector M1 while also looking at the distribution. If there are any values that need further examination you’ll know exactly what they are.</p>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="basic-statistical-concepts.html#cb376-1"></a><span class="kw">stem</span>(M2, <span class="dt">scale =</span> <span class="dv">3</span>)</span>
+<span id="cb376-2"><a href="basic-statistical-concepts.html#cb376-2"></a></span>
+<span id="cb376-3"><a href="basic-statistical-concepts.html#cb376-3"></a>  The decimal point is at the <span class="op">|</span></span>
+<span id="cb376-4"><a href="basic-statistical-concepts.html#cb376-4"></a></span>
+<span id="cb376-5"><a href="basic-statistical-concepts.html#cb376-5"></a><span class="st">   </span><span class="dv">6</span> <span class="op">|</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb376-6"><a href="basic-statistical-concepts.html#cb376-6"></a>   <span class="dv">7</span> <span class="op">|</span><span class="st"> </span><span class="dv">6</span></span>
+<span id="cb376-7"><a href="basic-statistical-concepts.html#cb376-7"></a>   <span class="dv">8</span> <span class="op">|</span><span class="st"> </span><span class="dv">045</span></span>
+<span id="cb376-8"><a href="basic-statistical-concepts.html#cb376-8"></a>   <span class="dv">9</span> <span class="op">|</span><span class="st"> </span><span class="dv">4467</span></span>
+<span id="cb376-9"><a href="basic-statistical-concepts.html#cb376-9"></a>  <span class="dv">10</span> <span class="op">|</span><span class="st"> </span><span class="dv">5668</span></span>
+<span id="cb376-10"><a href="basic-statistical-concepts.html#cb376-10"></a>  <span class="dv">11</span> <span class="op">|</span><span class="st"> </span><span class="dv">9</span></span>
+<span id="cb376-11"><a href="basic-statistical-concepts.html#cb376-11"></a>  <span class="dv">12</span> <span class="op">|</span><span class="st"> </span><span class="dv">2</span></span>
+<span id="cb376-12"><a href="basic-statistical-concepts.html#cb376-12"></a>  <span class="dv">13</span> <span class="op">|</span><span class="st"> </span></span>
+<span id="cb376-13"><a href="basic-statistical-concepts.html#cb376-13"></a><span class="st">  </span><span class="dv">14</span> <span class="op">|</span><span class="st"> </span></span>
+<span id="cb376-14"><a href="basic-statistical-concepts.html#cb376-14"></a><span class="st">  </span><span class="dv">15</span> <span class="op">|</span><span class="st"> </span></span>
+<span id="cb376-15"><a href="basic-statistical-concepts.html#cb376-15"></a><span class="st">  </span><span class="dv">16</span> <span class="op">|</span><span class="st"> </span></span>
+<span id="cb376-16"><a href="basic-statistical-concepts.html#cb376-16"></a><span class="st">  </span><span class="dv">17</span> <span class="op">|</span><span class="st"> </span><span class="dv">3</span></span></code></pre></div>
+<p>When you look at the diagram you can see not only that there is one data point that’s a bit different from the others, but also what the value for that datapoint is. A caveat about using stem and leaf plots in R is that it’s sometimes hard to work out exactly what a number is because the R function will often use bins that spread over several values on the left side of the plot, and then doesn’t give any indication of which value the one on the right side should be associated with. This is why I’ve been using the <em>scale</em> argument to make these plots clear. If we don’t use it we get this.</p>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="basic-statistical-concepts.html#cb377-1"></a><span class="kw">stem</span>(M2)</span>
+<span id="cb377-2"><a href="basic-statistical-concepts.html#cb377-2"></a></span>
+<span id="cb377-3"><a href="basic-statistical-concepts.html#cb377-3"></a>  The decimal point is <span class="dv">1</span> <span class="kw">digit</span>(s) to the right of the <span class="op">|</span></span>
+<span id="cb377-4"><a href="basic-statistical-concepts.html#cb377-4"></a></span>
+<span id="cb377-5"><a href="basic-statistical-concepts.html#cb377-5"></a><span class="st">  </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span><span class="dv">6888899</span></span>
+<span id="cb377-6"><a href="basic-statistical-concepts.html#cb377-6"></a>  <span class="dv">1</span> <span class="op">|</span><span class="st"> </span><span class="dv">00011122</span></span>
+<span id="cb377-7"><a href="basic-statistical-concepts.html#cb377-7"></a>  <span class="dv">1</span> <span class="op">|</span><span class="st"> </span><span class="dv">7</span></span></code></pre></div>
+<p>Which isn’t so informative.</p>
+</div>
+<div id="kinds-of-frequency-distribution" class="section level3">
+<h3><span class="header-section-number">12.2.3</span> Kinds of frequency distribution</h3>
+<p>There are a great many possible shapes of frequency distribution. The most common is the famous <em>normal distribution</em>, the symmetrical bell-shaped distribution. Next most common, at least in biology, are various <em>skewed</em> distributions, with long tails extending either to the right of the main body of the distribution (<em>positive skew</em>) or to the left (<em>negative skew</em>). Skewed distributions can arise for a variety of reasons: <em>multiplicative</em> rather than <em>additive</em> processes (such as bacterial growth when there’s plenty of nutrients, where the number of bacteria in one generation is determined by multiplying the number in the previous generation rather than just by adding something to it) can create things like <em>lognormal</em> distributions, and count data often follow a <em>Poisson distribution</em> which will have positive skew unless the mean is large. Frequency distributions with two peaks instead of one are called <em>bimodal</em>. We can use some of R’s built in functions for drawing random numbers from different distributions to illustrate these.</p>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="basic-statistical-concepts.html#cb378-1"></a><span class="co"># Set plot area to show two rows each of two figures side by side</span></span>
+<span id="cb378-2"><a href="basic-statistical-concepts.html#cb378-2"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb378-3"><a href="basic-statistical-concepts.html#cb378-3"></a></span>
+<span id="cb378-4"><a href="basic-statistical-concepts.html#cb378-4"></a><span class="co"># Draw data from normal distribution and plot histogram</span></span>
+<span id="cb378-5"><a href="basic-statistical-concepts.html#cb378-5"></a><span class="kw">hist</span>(<span class="kw">rnorm</span>(<span class="dv">1000</span>, <span class="dv">5</span>, <span class="dv">2</span>),</span>
+<span id="cb378-6"><a href="basic-statistical-concepts.html#cb378-6"></a>     <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>,</span>
+<span id="cb378-7"><a href="basic-statistical-concepts.html#cb378-7"></a>     <span class="dt">main =</span> <span class="st">&quot;Normal&quot;</span>,</span>
+<span id="cb378-8"><a href="basic-statistical-concepts.html#cb378-8"></a>     <span class="dt">breaks =</span> <span class="dv">15</span>)</span>
+<span id="cb378-9"><a href="basic-statistical-concepts.html#cb378-9"></a></span>
+<span id="cb378-10"><a href="basic-statistical-concepts.html#cb378-10"></a><span class="co"># Lognormal</span></span>
+<span id="cb378-11"><a href="basic-statistical-concepts.html#cb378-11"></a><span class="kw">hist</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">1000</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)),</span>
+<span id="cb378-12"><a href="basic-statistical-concepts.html#cb378-12"></a>     <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>,</span>
+<span id="cb378-13"><a href="basic-statistical-concepts.html#cb378-13"></a>     <span class="dt">main =</span> <span class="st">&quot;Lognormal&quot;</span>,</span>
+<span id="cb378-14"><a href="basic-statistical-concepts.html#cb378-14"></a>     <span class="dt">breaks =</span> <span class="dv">15</span>)</span>
+<span id="cb378-15"><a href="basic-statistical-concepts.html#cb378-15"></a></span>
+<span id="cb378-16"><a href="basic-statistical-concepts.html#cb378-16"></a><span class="co"># Poisson</span></span>
+<span id="cb378-17"><a href="basic-statistical-concepts.html#cb378-17"></a><span class="kw">hist</span>(<span class="kw">rpois</span>(<span class="dv">1000</span>, <span class="dv">3</span>), </span>
+<span id="cb378-18"><a href="basic-statistical-concepts.html#cb378-18"></a>     <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, </span>
+<span id="cb378-19"><a href="basic-statistical-concepts.html#cb378-19"></a>     <span class="dt">main =</span> <span class="st">&quot;Poisson&quot;</span>)</span>
+<span id="cb378-20"><a href="basic-statistical-concepts.html#cb378-20"></a></span>
+<span id="cb378-21"><a href="basic-statistical-concepts.html#cb378-21"></a><span class="co"># Bimodal</span></span>
+<span id="cb378-22"><a href="basic-statistical-concepts.html#cb378-22"></a><span class="kw">hist</span>(<span class="kw">c</span>(<span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="dv">0</span>, <span class="dv">2</span>), <span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="dv">8</span>, <span class="dv">2</span>)),</span>
+<span id="cb378-23"><a href="basic-statistical-concepts.html#cb378-23"></a>     <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>,</span>
+<span id="cb378-24"><a href="basic-statistical-concepts.html#cb378-24"></a>     <span class="dt">main =</span> <span class="st">&quot;Bimodal&quot;</span>,</span>
+<span id="cb378-25"><a href="basic-statistical-concepts.html#cb378-25"></a>     <span class="dt">breaks =</span> <span class="dv">15</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-377"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-377-1.png" alt="Frequency histograms of 1000 numbers sampled at random from populations with four different distributions" width="768" />
+<p class="caption">
+Figure 12.4: Frequency histograms of 1000 numbers sampled at random from populations with four different distributions
+</p>
+</div>
+<div id="a-cautionary-word-about-frequency-distributions" class="section level4">
+<h4><span class="header-section-number">12.2.3.1</span> A cautionary word about frequency distributions</h4>
+<p>Knowing the shape of a frequency distribution is very important: it really tells you a lot about the data that you’re dealing with, and can guide you when you’re deciding which analysis to use. There is however, a certain amount of misinformation around on how to think about frequency distributions, — in particular, there are still people being taught that they should carry out statistical tests to see if a frequency distribution is different from a normal distribution, and that they should only use standard parametric statistical techniques if their data does not deviate from a normal distribution. If you’ve been taught this then sorry, this is wrong (IMO) and you shouldn’t do it. The assumption behind most standard parametric statistics is that the <em>errors</em> are normally distributed, not that the data themselves are, so you should be looking at diagnostic plots of residuals vs. predicted values, or qq-plots of residuals (see the chapter on linear regression for more on these) rather than worrying about the raw data.</p>
+</div>
+</div>
+<div id="measures-of-central-tendency" class="section level3">
+<h3><span class="header-section-number">12.2.4</span> Measures of central tendency</h3>
+<p>Looking at frequency histograms, boxplots or stem and leaf plots can tell us a lot about a set of data, but we also want to be able to summarise some of the important features of our data, in particular the <em>location</em>: where it is, the <em>spread</em> or dispersion and the <em>shape</em>. Let’s look at measures of <em>location</em> first, often called <em>measures of central tendency</em>. These tell us where the middle of the frequency distribution is. The ones that you’ll see most often are the <em>mean</em> and the <em>median</em>. You will also see the <em>mode</em> in many elementary statistics textbooks but in practice it’s rarely used.</p>
+<div id="mean" class="section level4">
+<h4><span class="header-section-number">12.2.4.1</span> Mean</h4>
+<p>The mean is the arithmetic mean of the data set, often called the “average”, calculated by dividing the sum of all the numbers by the number of values in the dataset.</p>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="basic-statistical-concepts.html#cb379-1"></a><span class="kw">mean</span>(M1)</span>
+<span id="cb379-2"><a href="basic-statistical-concepts.html#cb379-2"></a>[<span class="dv">1</span>] <span class="fl">9.532</span></span></code></pre></div>
+<p>Be careful with means. They are really only useful when describing data drawn from symmetrical frequency distributions (such as a normal distribution). If there is skew in the data they will be pulled away from the main bulk of the data and won’t really tell you much that’s useful.</p>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="basic-statistical-concepts.html#cb380-1"></a><span class="kw">mean</span>(M2)</span>
+<span id="cb380-2"><a href="basic-statistical-concepts.html#cb380-2"></a>[<span class="dv">1</span>] <span class="fl">10.018</span></span></code></pre></div>
+<p>You can see here how the mean value for our example set of data changes when we add a single data point that’s a bit outside the range of the rest: means are <em>sensitive to outliers</em>.</p>
+</div>
+<div id="median" class="section level4">
+<h4><span class="header-section-number">12.2.4.2</span> Median</h4>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="basic-statistical-concepts.html#cb381-1"></a><span class="kw">median</span>(M1)</span>
+<span id="cb381-2"><a href="basic-statistical-concepts.html#cb381-2"></a>[<span class="dv">1</span>] <span class="fl">9.57</span></span></code></pre></div>
+<p>The <em>median</em> is simply the number in the middle. If you <em>rank</em> your data — put them in order according to their value — and take the middle value, that’s the median. If you have an even number of data points then take the average of the two points in the middle. For non-symmetrical frequency distributions the median is a rather better measure of where the centre of the data set is than the mean, since it’s less influenced by outliers than the mean.</p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="basic-statistical-concepts.html#cb382-1"></a><span class="kw">median</span>(M2)</span>
+<span id="cb382-2"><a href="basic-statistical-concepts.html#cb382-2"></a>[<span class="dv">1</span>] <span class="fl">9.62</span></span></code></pre></div>
+<p>Compare this value with the mean value for <em>M2</em> calculated above. The median is less affected by an extreme value, so we would say that it’s <em>robust to outliers</em>.</p>
+</div>
+<div id="mode" class="section level4">
+<h4><span class="header-section-number">12.2.4.3</span> Mode</h4>
+<p>The <em>mode</em> of a dataset (or the <em>modal value</em>) is the most common value in the dataset. I’m only mentioning it because it appears in every elementary stats text so you might be expecting to see it. As mentioned above, it’s rare to see anyone using the mode in real life and if you think about it the mode is really only meaningful for discrete variables: for a continuous variable every data point is likely to be unique so every data point is a mode. There isn’t even a straightforward way of finding a mode for a discrete variable in R: the <code>mode()</code> function actually returns the <em>storage mode</em> of an object.</p>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="basic-statistical-concepts.html#cb383-1"></a><span class="kw">mode</span>(M1)</span>
+<span id="cb383-2"><a href="basic-statistical-concepts.html#cb383-2"></a>[<span class="dv">1</span>] <span class="st">&quot;numeric&quot;</span></span></code></pre></div>
+<p>Just use the median. If you have to find a mode, a quick and somewhat dirty way to calculate a mode for a continuous variable is to use the maximum value of a <em>kernel density estimate</em>, as follows. Alternatively, put “finding the mode” into RSeek.org and enjoy the read.</p>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="basic-statistical-concepts.html#cb384-1"></a><span class="co"># Calculate Kernel Density Estimate for M1</span></span>
+<span id="cb384-2"><a href="basic-statistical-concepts.html#cb384-2"></a>dens &lt;-<span class="st"> </span><span class="kw">density</span>(M1)</span>
+<span id="cb384-3"><a href="basic-statistical-concepts.html#cb384-3"></a></span>
+<span id="cb384-4"><a href="basic-statistical-concepts.html#cb384-4"></a><span class="co"># Which value corresonds to the maximum value of the KDE? </span></span>
+<span id="cb384-5"><a href="basic-statistical-concepts.html#cb384-5"></a>dens<span class="op">$</span>x[<span class="kw">which</span>(dens<span class="op">$</span>y <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(dens<span class="op">$</span>y))]</span>
+<span id="cb384-6"><a href="basic-statistical-concepts.html#cb384-6"></a>[<span class="dv">1</span>] <span class="fl">9.8814</span></span></code></pre></div>
+</div>
+</div>
+<div id="measures-of-dispersion" class="section level3">
+<h3><span class="header-section-number">12.2.5</span> Measures of dispersion</h3>
+<p>While measures of central tendency like the mean and the median tell you where the centre of a distribution is, measures of dispersion tell you how spread out the data tend to be around that centre. The most common ones you’ll see are the <em>variance</em> and the <em>standard deviation</em>, which are mathematically very closely related. Two others that are often used are the <em>inter-quartile range</em>, or <em>IQR</em>, and the <em>range</em>.</p>
+<div id="variance-and-standard-deviation" class="section level4">
+<h4><span class="header-section-number">12.2.5.1</span> Variance and standard deviation</h4>
+<p>These closely related statistics both measure the average difference between the mean of a set of numbers and the individual numbers in that set. For a given group of numbers, we can calculate a mean and then calculate the difference between each number in the data set and the mean. Let’s do that for our M1 numbers.</p>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="basic-statistical-concepts.html#cb385-1"></a>M1</span>
+<span id="cb385-2"><a href="basic-statistical-concepts.html#cb385-2"></a> [<span class="dv">1</span>]  <span class="fl">8.47</span>  <span class="fl">6.08</span>  <span class="fl">9.57</span> <span class="fl">12.18</span>  <span class="fl">7.60</span>  <span class="fl">9.67</span>  <span class="fl">9.39</span> <span class="fl">10.83</span> <span class="fl">10.46</span> <span class="fl">10.55</span>  <span class="fl">8.37</span> <span class="fl">10.58</span></span>
+<span id="cb385-3"><a href="basic-statistical-concepts.html#cb385-3"></a>[<span class="dv">13</span>]  <span class="fl">9.42</span>  <span class="fl">7.95</span> <span class="fl">11.86</span></span>
+<span id="cb385-4"><a href="basic-statistical-concepts.html#cb385-4"></a></span>
+<span id="cb385-5"><a href="basic-statistical-concepts.html#cb385-5"></a><span class="co"># Calculate the mean</span></span>
+<span id="cb385-6"><a href="basic-statistical-concepts.html#cb385-6"></a>meanM1 &lt;-<span class="st"> </span><span class="kw">mean</span>(M1)</span>
+<span id="cb385-7"><a href="basic-statistical-concepts.html#cb385-7"></a></span>
+<span id="cb385-8"><a href="basic-statistical-concepts.html#cb385-8"></a><span class="co"># Calculate the difference between each number and the mean</span></span>
+<span id="cb385-9"><a href="basic-statistical-concepts.html#cb385-9"></a>M1 <span class="op">-</span><span class="st"> </span>meanM1</span>
+<span id="cb385-10"><a href="basic-statistical-concepts.html#cb385-10"></a> [<span class="dv">1</span>] <span class="fl">-1.062</span> <span class="fl">-3.452</span>  <span class="fl">0.038</span>  <span class="fl">2.648</span> <span class="fl">-1.932</span>  <span class="fl">0.138</span> <span class="fl">-0.142</span>  <span class="fl">1.298</span>  <span class="fl">0.928</span>  <span class="fl">1.018</span></span>
+<span id="cb385-11"><a href="basic-statistical-concepts.html#cb385-11"></a>[<span class="dv">11</span>] <span class="fl">-1.162</span>  <span class="fl">1.048</span> <span class="fl">-0.112</span> <span class="fl">-1.582</span>  <span class="fl">2.328</span></span>
+<span id="cb385-12"><a href="basic-statistical-concepts.html#cb385-12"></a></span>
+<span id="cb385-13"><a href="basic-statistical-concepts.html#cb385-13"></a><span class="co"># Add the differences up</span></span>
+<span id="cb385-14"><a href="basic-statistical-concepts.html#cb385-14"></a><span class="kw">sum</span>(M1 <span class="op">-</span><span class="st"> </span>meanM1)</span>
+<span id="cb385-15"><a href="basic-statistical-concepts.html#cb385-15"></a>[<span class="dv">1</span>] <span class="fl">8.8818e-16</span></span></code></pre></div>
+<p>This adds up to something very very very close to zero<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a> , of course, because some of the numbers are below the mean and some are above the mean, so as it is this is not very informative. What we do is to take the <em>square</em> of the differences between the individual numbers and the mean. Squaring a negative number gives a positive answer so the negatives no longer cancel the positives. If we add all the squared differences (or to put it in statistical-ese the <em>squared deviations from the mean</em>) together we get the <em>sum of squares</em> for our set of numbers.</p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="basic-statistical-concepts.html#cb386-1"></a><span class="kw">sum</span>((M1<span class="op">-</span>meanM1)<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb386-2"><a href="basic-statistical-concepts.html#cb386-2"></a>[<span class="dv">1</span>] <span class="fl">37.795</span></span></code></pre></div>
+<p>The sum of squares is useful in the calculation of ANOVA and GLMS but not so useful as a simple measure of spread because it will increase as we increase the number of measurements, so we standardise the measure by dividing by the <em>degrees of freedom</em>, which in this case is <em>n-1</em>. We divide by the <em>df</em> and not just by <em>n</em> because we are estimating a mean from a sample, and if we just used <em>n</em> then if our sample size were 1 we would estimate the variance of the <em>population</em> that our sample came from as zero.</p>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="basic-statistical-concepts.html#cb387-1"></a><span class="kw">sum</span>((M1<span class="op">-</span>meanM1)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span>(<span class="kw">length</span>(M1)<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb387-2"><a href="basic-statistical-concepts.html#cb387-2"></a>[<span class="dv">1</span>] <span class="fl">2.6996</span></span></code></pre></div>
+<p>Alternatively, we can just use the <code>var()</code> function.</p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="basic-statistical-concepts.html#cb388-1"></a><span class="kw">var</span>(M1)</span>
+<span id="cb388-2"><a href="basic-statistical-concepts.html#cb388-2"></a>[<span class="dv">1</span>] <span class="fl">2.6996</span></span></code></pre></div>
+<p>Formally, we can write the variance down as</p>
+<p><span class="math display">\[\Large s^2 = \frac{\Sigma ( x - \bar{x} )^2}{n-1}\]</span></p>
+<p>where s^2 represents the variance and the <em>x</em> with a line over it (usually called “x-bar”) represents the mean. The higher the variance the more spread out the distribution of data, as can be seen in figure 5 below.</p>
+<div class="figure"><span id="fig:unnamed-chunk-388"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-388-1.png" alt="Probability densities for two normal distributions, both with means of zero but with differing variances." width="672" />
+<p class="caption">
+Figure 12.5: Probability densities for two normal distributions, both with means of zero but with differing variances.
+</p>
+</div>
+<p>Because the variance is calculated from the squared deviations from the mean, it’s sometimes hard to relate it back to the actual data you’re looking at. The square root of the variance, or the <em>standard deviation</em>, on the other hand, is easy to understand and, if your data are drawn from a normal distribution, tells you useful things to know about the data. If you draw the <em>probability density</em> of a normal distribution (the “bell curve”) then one standard deviation is the distance from the centre of the distribution (the mean and also, in this case, the median) to the point of <em>inflexion</em> in the curve: the place where the slope of the line starts to become less steep. As shown in figure 6, for a large set of data sampled from a randomly distributed population, 68% of the values will be within one standard deviation of the mean, 95% will be within 1.96 standard deviations of the mean (and 96% will be within 2) and 99% of the values will be within 2.58 standard deviations.</p>
+<div class="figure"><span id="fig:unnamed-chunk-389"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-389-1.png" alt="Probability density of a standard normal distribution with mean=0 and standard deviation=1 showing the areas defied by the mean plus or minus 1, 1.96 and 2.58 standard deviations. The code for this figure is given at the end of the chapter." width="672" />
+<p class="caption">
+Figure 12.6: Probability density of a standard normal distribution with mean=0 and standard deviation=1 showing the areas defied by the mean plus or minus 1, 1.96 and 2.58 standard deviations. The code for this figure is given at the end of the chapter.
+</p>
+</div>
+</div>
+<div id="range-and-interquartile-range" class="section level4">
+<h4><span class="header-section-number">12.2.5.2</span> Range and interquartile range</h4>
+<p>Although the variance and the standard deviation are useful for describing well behaved normal or approximately normal distributions of data, if your frequency distribution is strongly skewed or otherwise deviant it’s better to use other measures of dispersion that don’t assume that your data are symmetrically distributed around the mean. One option is just to use the <em>range</em>, defined by the minimum and maximum values, but this is obviously very sensitive to extreme values, so what people tend to use is the <em>interquartile range</em> or <em>IQR</em>. The <em>quartiles</em> of a distribution are calculated by ranking your data and then dividing it into four equal groups - the first quartile is the value that divides the first group from the second (in other words, the value halfway between the first value and the median), the second quartile is the median, the third quartile is the value halfway between the median and the maximum value and the fourth quartile is the maximum value. The IQR is the range of numbers defined by the first and third quartiles, and can be found using the <code>IQR()</code> function.</p>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="basic-statistical-concepts.html#cb389-1"></a><span class="kw">IQR</span>(M1)</span>
+<span id="cb389-2"><a href="basic-statistical-concepts.html#cb389-2"></a>[<span class="dv">1</span>] <span class="fl">2.145</span></span></code></pre></div>
+<p>Alternatively, if you use the <code>summary()</code> function on a vector of numbers it will give you the first and third quartiles as well as quite a lot of other useful statistics including the mean, the median and the maximum and minimum values.</p>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="basic-statistical-concepts.html#cb390-1"></a><span class="kw">summary</span>(M1)</span>
+<span id="cb390-2"><a href="basic-statistical-concepts.html#cb390-2"></a>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span id="cb390-3"><a href="basic-statistical-concepts.html#cb390-3"></a>   <span class="fl">6.08</span>    <span class="fl">8.42</span>    <span class="fl">9.57</span>    <span class="fl">9.53</span>   <span class="fl">10.56</span>   <span class="fl">12.18</span> </span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="standard-errors-and-confidence-intervals" class="section level2">
+<h2><span class="header-section-number">12.3</span> Standard errors and confidence intervals</h2>
+<p>When we estimate a parameter such as a mean it is useful to also have an indication of how accurate that estimate is likely to be. A mean estimated from a small sample drawn from a population with a high variance is more likely to be inaccurate than one estimated from a large sample, or one drawn from a population with a low variance. The <em>standard error</em> and the <em>confidence intervals</em> (or <em>confidence limits</em>) are two ways of quantifying how good our estimates are likely to be.</p>
+<p>The standard error (SE) of a mean is best understood by imagining a situation where you repeatedly sample at random from a population, with the same sample size each time, and calculate a mean for each sample. The standard error is the standard deviation of that set of means. We can use R to do exactly this to make the point. First let’s use the <code>replicate()</code> and <code>rnorm()</code> functions to generate 1000 samples, each of 25 numbers, drawn at random from a normal distribution with mean 25 and standard deviation 2.</p>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="basic-statistical-concepts.html#cb391-1"></a>X1&lt;-<span class="kw">replicate</span>(<span class="dv">1000</span>,<span class="kw">mean</span>(<span class="kw">rnorm</span>(<span class="dt">n=</span><span class="dv">25</span>,<span class="dt">mean=</span><span class="dv">5</span>,<span class="dt">sd=</span><span class="dv">2</span>)))</span></code></pre></div>
+<p>Let’s have a look at our distribution of means.</p>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="basic-statistical-concepts.html#cb392-1"></a><span class="kw">hist</span>(X1,<span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-394"></span>
+<img src="3rd_Edition_files/figure-html/unnamed-chunk-394-1.png" alt="Frequency histogram for the means of 1000 samples drawn from a normal distribution with mean 5 and standard deviation 2" width="672" />
+<p class="caption">
+Figure 12.7: Frequency histogram for the means of 1000 samples drawn from a normal distribution with mean 5 and standard deviation 2
+</p>
+</div>
+<p>You can see that when we sample repeatedly and calculate a mean for each sample, our sample means are themselves normally distributed. In fact, they would be normally distributed no matter what the underlying distribution that they were sampled from, as a consequence of something called the <em>central limit theorem</em>. Our estimated means are clustered around the true value of the mean, and most of them are reasonably close, but some are rather further from the mean and a few are quite a distance from the true value. The standard deviation of this distribution of means is the standard error.</p>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="basic-statistical-concepts.html#cb393-1"></a><span class="kw">sd</span>(X1)</span>
+<span id="cb393-2"><a href="basic-statistical-concepts.html#cb393-2"></a>[<span class="dv">1</span>] <span class="fl">0.3916</span></span></code></pre></div>
+<p>In practice, we can estimate the standard error from the standard standard deviation of a single sample by using this equation.</p>
+<p><span class="math display">\[\Large SE_{mean} = \frac{s}{\sqrt{n}}\]</span></p>
+<p>If you recall the section on standard deviations, you’ll remember that we know what proportion of values drawn from a normal distribution will lie within a given number of standard deviations of the mean, and in particular 95% of values will be within 1.96 standard deviations from the mean. Remember that the standard error is the standard deviation of the distribution of means that you would expect if you sampled repeatedly. This means that if you calculate a single mean and a standard error for that mean, then 95% of the time the true population value of the mean will lie in the range of the mean ± 1.96xSE. This range is the <em>95% confidence interval</em> for the mean.</p>
+<p>If you’re dealing with small samples (in practice, anything less than 100) this neat formula doesn’t quite work out because our estimates of the standard deviation get a bit biased when we have a small sample size, so to correct for this instead of just using 1.96 to calculate our confidence intervals we use a value of <em>t</em> (see the chapter on statistical testing for an explanation of <em>t</em> if you haven’t met it before) on <em>n-1</em> degrees of freedom, so our formula for the 95% confidence interval of a mean becomes</p>
+<p><span class="math display">\[\Large 95\% CI = \bar{x} \pm t_{n-1} \frac{s}{\sqrt{n}}\]</span></p>
+<p>where <em>t</em> is the value of <em>t</em> which would encompass 95% of the values in a t-distribution. See the examples given in the various chapters on programming for how to calculate this using R.</p>
+<div id="code-used-to-draw-figure-6" class="section level3">
+<h3><span class="header-section-number">12.3.1</span> Code used to draw figure 6</h3>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="basic-statistical-concepts.html#cb394-1"></a>X1 &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dt">length =</span> <span class="dv">300</span>)</span>
+<span id="cb394-2"><a href="basic-statistical-concepts.html#cb394-2"></a>Y1 &lt;-<span class="st"> </span><span class="kw">dnorm</span>(X1)</span>
+<span id="cb394-3"><a href="basic-statistical-concepts.html#cb394-3"></a><span class="kw">plot</span>(X1, Y1, <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;P(x)&quot;</span>)</span>
+<span id="cb394-4"><a href="basic-statistical-concepts.html#cb394-4"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">0</span>, <span class="dt">lwd=</span><span class="fl">0.5</span>,<span class="dt">lty=</span><span class="dv">2</span>)</span>
+<span id="cb394-5"><a href="basic-statistical-concepts.html#cb394-5"></a></span>
+<span id="cb394-6"><a href="basic-statistical-concepts.html#cb394-6"></a>x0 &lt;-<span class="st"> </span><span class="kw">min</span>(<span class="kw">which</span>(X1 <span class="op">&gt;=</span><span class="st"> </span><span class="fl">-2.58</span>))</span>
+<span id="cb394-7"><a href="basic-statistical-concepts.html#cb394-7"></a>x1 &lt;-<span class="st"> </span><span class="kw">min</span>(<span class="kw">which</span>(X1 <span class="op">&gt;=</span><span class="st"> </span><span class="fl">-1.96</span>))</span>
+<span id="cb394-8"><a href="basic-statistical-concepts.html#cb394-8"></a>x2 &lt;-<span class="st"> </span><span class="kw">min</span>(<span class="kw">which</span>(X1 <span class="op">&gt;=</span><span class="st"> </span><span class="dv">-1</span>))</span>
+<span id="cb394-9"><a href="basic-statistical-concepts.html#cb394-9"></a>x3 &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">which</span>(X1 <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1</span>))</span>
+<span id="cb394-10"><a href="basic-statistical-concepts.html#cb394-10"></a>x4 &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">which</span>(X1 <span class="op">&lt;=</span><span class="st"> </span><span class="fl">1.96</span>))</span>
+<span id="cb394-11"><a href="basic-statistical-concepts.html#cb394-11"></a>x5 &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">which</span>(X1 <span class="op">&lt;=</span><span class="st"> </span><span class="fl">2.58</span>))</span>
+<span id="cb394-12"><a href="basic-statistical-concepts.html#cb394-12"></a></span>
+<span id="cb394-13"><a href="basic-statistical-concepts.html#cb394-13"></a><span class="kw">polygon</span>(<span class="dt">x =</span> <span class="kw">c</span>(X1[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span><span class="op">:</span>x0, x0)]), <span class="dt">y =</span> <span class="kw">c</span>(<span class="dv">0</span>, Y1[<span class="dv">1</span><span class="op">:</span>x0], <span class="dv">0</span>), <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>)</span>
+<span id="cb394-14"><a href="basic-statistical-concepts.html#cb394-14"></a><span class="kw">polygon</span>(<span class="dt">x =</span> <span class="kw">c</span>(X1[<span class="kw">c</span>(x0, x0<span class="op">:</span>x1, x1)]), <span class="dt">y =</span> <span class="kw">c</span>(<span class="dv">0</span>, Y1[x0<span class="op">:</span>x1], <span class="dv">0</span>), <span class="dt">col =</span> <span class="st">&quot;#deebf7&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>)</span>
+<span id="cb394-15"><a href="basic-statistical-concepts.html#cb394-15"></a><span class="kw">polygon</span>(<span class="dt">x =</span> <span class="kw">c</span>(X1[<span class="kw">c</span>(x1, x1<span class="op">:</span>x2, x2)]), <span class="dt">y =</span> <span class="kw">c</span>(<span class="dv">0</span>, Y1[x1<span class="op">:</span>x2], <span class="dv">0</span>), <span class="dt">col =</span> <span class="st">&quot;#9ecae1&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>)</span>
+<span id="cb394-16"><a href="basic-statistical-concepts.html#cb394-16"></a><span class="kw">polygon</span>(<span class="dt">x =</span> <span class="kw">c</span>(X1[<span class="kw">c</span>(x2, x2<span class="op">:</span>x3, x3)]), <span class="dt">y =</span> <span class="kw">c</span>(<span class="dv">0</span>, Y1[x2<span class="op">:</span>x3], <span class="dv">0</span>), <span class="dt">col =</span> <span class="st">&quot;#3182bd&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>)</span>
+<span id="cb394-17"><a href="basic-statistical-concepts.html#cb394-17"></a><span class="kw">polygon</span>(<span class="dt">x =</span> <span class="kw">c</span>(X1[<span class="kw">c</span>(x3, x3<span class="op">:</span>x4, x4)]), <span class="dt">y =</span> <span class="kw">c</span>(<span class="dv">0</span>, Y1[x3<span class="op">:</span>x4], <span class="dv">0</span>), <span class="dt">col =</span> <span class="st">&quot;#9ecae1&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>)</span>
+<span id="cb394-18"><a href="basic-statistical-concepts.html#cb394-18"></a><span class="kw">polygon</span>(<span class="dt">x =</span> <span class="kw">c</span>(X1[<span class="kw">c</span>(x4, x4<span class="op">:</span>x5, x5)]), <span class="dt">y =</span> <span class="kw">c</span>(<span class="dv">0</span>, Y1[x4<span class="op">:</span>x5], <span class="dv">0</span>), <span class="dt">col =</span> <span class="st">&quot;#deebf7&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>)</span>
+<span id="cb394-19"><a href="basic-statistical-concepts.html#cb394-19"></a><span class="kw">polygon</span>(<span class="dt">x =</span> <span class="kw">c</span>(X1[<span class="kw">c</span>(x5, x5<span class="op">:</span><span class="dv">300</span>, <span class="dv">300</span>)]), <span class="dt">y =</span> <span class="kw">c</span>(<span class="dv">0</span>, Y1[x5<span class="op">:</span><span class="dv">300</span>], <span class="dv">0</span>), <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb394-20"><a href="basic-statistical-concepts.html#cb394-20"></a>    <span class="dt">border =</span> <span class="ot">NA</span>)</span>
+<span id="cb394-21"><a href="basic-statistical-concepts.html#cb394-21"></a></span>
+<span id="cb394-22"><a href="basic-statistical-concepts.html#cb394-22"></a></span>
+<span id="cb394-23"><a href="basic-statistical-concepts.html#cb394-23"></a><span class="kw">points</span>(X1, Y1, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</span>
+<span id="cb394-24"><a href="basic-statistical-concepts.html#cb394-24"></a></span>
+<span id="cb394-25"><a href="basic-statistical-concepts.html#cb394-25"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">0</span>, <span class="dt">lwd=</span><span class="fl">0.5</span>,<span class="dt">lty=</span><span class="dv">2</span>)</span>
+<span id="cb394-26"><a href="basic-statistical-concepts.html#cb394-26"></a></span>
+<span id="cb394-27"><a href="basic-statistical-concepts.html#cb394-27"></a><span class="kw">text</span>(<span class="dv">0</span>, <span class="fl">0.18</span>, <span class="st">&quot;68% of values </span><span class="ch">\n</span><span class="st"> within 1 sd </span><span class="ch">\n</span><span class="st"> of the mean&quot;</span>, <span class="dt">cex =</span> <span class="dv">1</span>,<span class="dt">col=</span><span class="st">&quot;white&quot;</span>)</span>
+<span id="cb394-28"><a href="basic-statistical-concepts.html#cb394-28"></a><span class="kw">arrows</span>(<span class="fl">0.6</span>,<span class="fl">0.18</span>,<span class="fl">0.99</span>,<span class="fl">0.18</span>,<span class="dt">length=</span><span class="fl">0.1</span>,<span class="dt">angle=</span><span class="dv">20</span>,<span class="dt">col=</span><span class="st">&quot;white&quot;</span>)</span>
+<span id="cb394-29"><a href="basic-statistical-concepts.html#cb394-29"></a><span class="kw">arrows</span>(<span class="op">-</span><span class="fl">0.6</span>,<span class="fl">0.18</span>,<span class="op">-</span><span class="fl">0.99</span>,<span class="fl">0.18</span>,<span class="dt">length=</span><span class="fl">0.1</span>,<span class="dt">angle=</span><span class="dv">20</span>,<span class="dt">col=</span><span class="st">&quot;white&quot;</span>)</span>
+<span id="cb394-30"><a href="basic-statistical-concepts.html#cb394-30"></a></span>
+<span id="cb394-31"><a href="basic-statistical-concepts.html#cb394-31"></a></span>
+<span id="cb394-32"><a href="basic-statistical-concepts.html#cb394-32"></a><span class="kw">text</span>(<span class="dv">0</span>, <span class="fl">0.035</span>, <span class="st">&quot;95% of values </span><span class="ch">\n</span><span class="st"> within 1.96 sd </span><span class="ch">\n</span><span class="st"> of the mean&quot;</span>, <span class="dt">cex =</span> <span class="dv">1</span>,<span class="dt">col=</span><span class="st">&quot;white&quot;</span>)</span>
+<span id="cb394-33"><a href="basic-statistical-concepts.html#cb394-33"></a><span class="kw">arrows</span>(<span class="fl">0.72</span>,<span class="fl">0.03</span>,<span class="fl">1.95</span>,<span class="fl">0.03</span>,<span class="dt">length=</span><span class="fl">0.1</span>,<span class="dt">angle=</span><span class="dv">20</span>,<span class="dt">col=</span><span class="st">&quot;white&quot;</span>)</span>
+<span id="cb394-34"><a href="basic-statistical-concepts.html#cb394-34"></a><span class="kw">arrows</span>(<span class="op">-</span><span class="fl">0.72</span>,<span class="fl">0.03</span>,<span class="op">-</span><span class="fl">1.95</span>,<span class="fl">0.03</span>,<span class="dt">length=</span><span class="fl">0.1</span>,<span class="dt">angle=</span><span class="dv">20</span>,<span class="dt">col=</span><span class="st">&quot;white&quot;</span>)</span>
+<span id="cb394-35"><a href="basic-statistical-concepts.html#cb394-35"></a></span>
+<span id="cb394-36"><a href="basic-statistical-concepts.html#cb394-36"></a><span class="kw">text</span>(<span class="fl">2.5</span>,<span class="fl">0.1</span>, <span class="st">&quot;99% of values </span><span class="ch">\n</span><span class="st"> within 2.58 sd </span><span class="ch">\n</span><span class="st"> of the mean&quot;</span>, <span class="dt">cex =</span> <span class="dv">1</span>)</span>
+<span id="cb394-37"><a href="basic-statistical-concepts.html#cb394-37"></a><span class="kw">arrows</span>(<span class="fl">2.58</span>,<span class="fl">0.06</span>,<span class="fl">2.58</span>,<span class="fl">0.015</span>,<span class="dt">length=</span><span class="fl">0.1</span>,<span class="dt">angle=</span><span class="dv">20</span>)</span></code></pre></div>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="14">
+<li id="fn14"><p>It’s not exactly zero because of a little bit of floating point error: see the First Circle of the R Inferno at <a href="http://www.burns-stat.com/pages/Tutor/R_inferno.pdf%20if%20you%20want%20to%20know%20more">http://www.burns-stat.com/pages/Tutor/R_inferno.pdf</a><a href="basic-statistical-concepts.html#fnref14" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="graphics-with-ggplot2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="what-is-statistical-testing.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["3rd_Edition.pdf", "3rd_Edition.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

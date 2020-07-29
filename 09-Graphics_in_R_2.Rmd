@@ -1,0 +1,1186 @@
+# R graphics II — Adding elements to an existing graph
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
+```
+
+```{r echo=FALSE, cache=FALSE}
+options(digits = 5)  ##Sets number of sig. figs to display output to
+```
+
+All the examples we've looked at in detail so far use arguments within the `plot()` function call to change the appearance of our graph, but we've also seen an example of using the `legend()` function to add something extra to an existing graph. R has quite a few functions which, like `legend()` can draw new elements onto existing graphs. These include:
+
+| Function    | Purpose                                       |
+|:------------|:----------------------------------------------|
+| `points()`  | Draws points onto a plot                      |
+| `lines()`   | Draws lines                                   |
+| `abline()`  | Draws a line specified by intercept and slope |
+| `polygon()` | Draws a shape                                 |
+| `arrows()`  | Draws arrows on a plot                        |
+| `text()`    | Adds text                                     |
+| `mtext()`   | Adds text in the plot margins                 |
+| `legend()`  | Adds a legend                                 |
+| `axis()`    | Adds an axis                                  |
+| `title()`   | Adds a title or subtitle                      |
+
+These functions will all add elements to the plot which is currently displayed in the graphics window, so you have to be a little careful about where you put the code. The best option is to use a script and have these functions directly after the `plot()` function call. Let's look at some examples.
+
+## Simple regression lines
+
+Let's go back to our data on pinnipeds. If we plot the log of male brain size against the log of male mass then we see a positive relationship (big animals have bigger brains) that could be described reasonably well by a straight line:
+
+```{r fig.cap="Log of brain size plotted against the log of body mass for male pinnipeds from 33 species"}
+
+pinniped <- read.csv("http://www.introductoryr.co.uk/Pinniped_brains.csv", 
+                     stringsAsFactors = FALSE)
+
+plot(log(pinniped$Male_brain) ~ log(pinniped$Male_mass),
+     xlab = "Log male mass (Kg)",
+     ylab = "Log male brain mass (g)")
+```
+
+We can generate the slope and intercept of a fitted linear regression line using the `lm()` function. If you don't know what this is don't worry, the analysis is explained in chapter XX: for the moment all you need to know is that it's a way of generating a best-fit line.
+
+```{r}
+lm(log(pinniped$Male_brain) ~ log(pinniped$Male_mass))
+```
+
+So our intercept is 3.672 and our slope is 0.435. If we want to add this line to our plot we can use the `abline()` function which takes an intercept ("a") and a slope ("b") and draws a line:
+
+```{r fig.cap="Log of brain size plotted against the log of body mass for male pinnipeds from 33 species. Line is a fitted linear regression."}
+
+plot(log(pinniped$Male_brain) ~ log(pinniped$Male_mass),
+     xlab = "Log male mass (Kg)",
+     ylab = "Log male brain mass (g)")
+
+abline(a = 3.672, b = 0.435,
+       lwd = 2,
+       col = "darkblue")
+
+```
+
+Looking at that `abline()` call in a bit more detail you can see firstly that I've specified the slope and intercept with the `a = ` and `b = ` arguments. I've then asked for the line width to be twice the default width (`lwd = 2`) and finally I've used the `col = "darkblue"` argument to set the colour of the line.
+
+`abline()` will actually take the coefficients directly from `lm()` if you are fitting a simple linear regression, either if you save the output from `lm()` and then give that to `abline()` as an argument or if you just put the whole `lm()` call within the `abline()` function call. So either of the following would have produced an identical line to the one we generated above:
+
+```{r eval = FALSE}
+# Save linear regression output as object "X1"
+X1 <- lm(log(pinniped$Male_brain) ~ log(pinniped$Male_mass))
+
+# Use object X1 in abline()
+abline(X1,
+      lwd = 2,
+      col = "darkblue")
+
+
+# Calculate linear regression directly within abline() function call
+abline(lm(log(pinniped$Male_brain) ~ log(pinniped$Male_mass)),
+      lwd = 2,
+      col = "darkblue")
+```
+
+`abline()` will also add vertical or horizontal lines to a plot: if you use the `h = ` argument then it will draw a horizontal line at the point on the y-axis specified, and `v = ` will draw a vertical line at the point specified on the x axis. You can also use a vector of numbers if you want multiple horizontal or vertical lines.
+
+The `lty = ` parameter specifies the type of line drawn. Here are the various options: 
+
+<details><summary>Click here to see the code</summary>
+```{r eval = FALSE}
+par(mar = c(1,4,1,1))
+plot(
+  1:8,
+  1:8,
+  type = "n",
+  bty = "n",
+  xaxt = "n",
+  yaxt = "n",
+  xlab = "",
+  ylab = ""
+)
+abline(h = 2:7, lty = 6:1)
+axis(
+  side = 2,
+  at = 7:2,
+  labels = c("lty = 1", 2, 3, 4, 5, "lty = 6"),
+  tick = FALSE,
+  lwd = 0,
+  las = 1
+)
+par(mar = c(5,4,4,2) + 0.1)
+```
+
+</details>
+
+```{r fig.cap = "The different line types available in base R graphics", fig.width = 4, echo = FALSE}
+par(mar = c(1,4,1,1))
+plot(
+  1:8,
+  1:8,
+  type = "n",
+  bty = "n",
+  xaxt = "n",
+  yaxt = "n",
+  xlab = "",
+  ylab = ""
+)
+abline(h = 2:7, lty = 6:1)
+axis(
+  side = 2,
+  at = 7:2,
+  labels = c("lty = 1", 2, 3, 4, 5, "lty = 6"),
+  tick = FALSE,
+  lwd = 0,
+  las = 1
+)
+par(mar = c(5,4,4,2) + 0.1)
+```
+
+## Multiple regression lines
+
+You might recall from the last chapter that we divided our pinniped species by mating system into harem breeders, where males defend groups of females in the mating season, and non-harem breeders, where males only associate with a single female. We plotted our data with colours defined by a new factor that we generated called `Mating_system` and it looked as though the relationship between log brain size and log body mass in males varied somewhat between the two groups. Let's look at that plot again.
+
+```{r fig.cap= "Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, orange symbols indicate non-harem breeders and green indicate harem breeders"}
+
+Mating_system <-
+  factor(ifelse(pinniped$Harem == 1, "Non harem", "Harem"))
+
+colours <- c("aquamarine4", "chocolate2")
+
+plot(
+  log(pinniped$Male_brain) ~ log(pinniped$Male_mass),
+  xlab = "Log body mass (Kg)",
+  ylab = "Log brain mass (g)",
+  pch = 16,
+  col = colours[Mating_system]
+)
+```
+
+Maybe it would be helpful to draw in separate fitted lines for both mating systems. First we need to calculate the slopes and intercepts of the two fitted lines. If we were doing this as part of a formal analysis we'd do it all in one go with a general linear model with the mating system as a factor in the model, but for the sake of simplicity here we'll just run two linear regressions and use the `subset = ` argument to specify which mating system we're using.
+
+```{r}
+#Linear regression for harem breeders
+harem_mod <-
+  lm(log(Male_brain) ~ log(Male_mass),
+     data = pinniped,
+     subset = Mating_system == "Harem")
+
+#Linear regression for non harem breeders
+non_harem_mod <-
+  lm(log(Male_brain) ~ log(Male_mass),
+     data = pinniped,
+     subset = Mating_system == "Non harem")
+
+#Slope and intercept for harem breeders
+coef(harem_mod)
+
+#Slope and intercept for non-harem breeders
+coef(non_harem_mod)
+```
+
+
+Now we can add these fitted lines to our plot. One option, and by far the easiest, is to use `abline()`.
+
+```{r fig.cap = "Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, orange symbols indicate non-harem breeders and green indicate harem breeders. Lines indicate fitted linear regressions."}
+
+plot(log(pinniped$Male_brain) ~ log(pinniped$Male_mass),
+     xlab = "Log body mass (Kg)",
+     ylab = "Log brain mass (g)", 
+     pch = 16,
+     col = colours[Mating_system])
+
+abline(harem_mod, col = colours[1], lwd = 2)
+abline(non_harem_mod, col = colours[2], lwd = 2)
+```
+
+That's OK... but not fantastic. The fitted lines go across the whole of the graph and in the case of the non-harem breeders especially end up a long way outside the limits of the data we've fitted them to. It would be much better to only draw the lines within the minima and maxima of the data we've used. There are a variety of ways to do this: we can use the `clip()` function to make sure that `abline()` draws within the area we want, or we can draw our fitted lines using the `lines()` function. The latter is probably the most common way to do this so we'll do it first but it's also a bit more complicated than using `clip()`. `lines()` draws lines between specified x and y coordinates on a plot, so we need to know the minimum and maximum x values for our two groups of data and then calculate the y values for the lines corresponding to those data points. We can extract these values using the `min()` and `max()` functions, or we can do it in one go with the `summary()` function.
+
+We need to remember to use `log()` to transform our data and also to use a subscript to specify that we only want the data points for which `Mating_system == "Harem"` is `TRUE`.Here's what we get from `summary()`:
+
+```{r}
+summary(log(pinniped$Male_mass[Mating_system == "Harem"]))
+```
+
+So we can generate a vector with the minimum and maximum values for x for harem breeders
+
+```{r}
+
+harem_x <- c(4.17, 8.16)
+```
+
+For non-harem breeders:
+
+```{r}
+summary(log(pinniped$Male_mass[Mating_system == "Non harem"]))
+
+non_harem_x <- c(4.26, 5.84)
+```
+
+Now we need to calculate the corresponding y values and we can draw our lines. We know that the equations for our two lines are 
+
+```{r}
+harem_y <- coef(harem_mod)[1] + coef(harem_mod)[2] * harem_x
+non_harem_y <- coef(non_harem_mod)[1] + coef(non_harem_mod)[2] * non_harem_x
+
+```
+
+
+Now we can use 'lines()' to draw the two regression lines onto our plot.
+
+
+```{r fig.cap = "Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, orange symbols indicate non-harem breeders and green indicate harem breeders. Lines indicate fitted linear regressions."}
+
+plot(log(pinniped$Male_brain) ~ log(pinniped$Male_mass),
+     xlab = "Log body mass (Kg)",
+     ylab = "Log brain mass (g)", 
+     pch = 16,
+     col = colours[Mating_system])
+
+lines(x = harem_x, y = harem_y, col = colours[1], lwd = 2)
+lines(x = non_harem_x, y = non_harem_y, col = colours[2], lwd = 2)
+```
+
+That's a much more acceptable plot than the previous version and we are not extrapolating our lines beyond the limits of the data that they are calculated from. How about using `clip()` and `abline()` to do the same thing? What you need to know here is that `clip()` sets the area of the graph on which it is possible to draw things like lines, points and text. This is normally simply defined by the limits of the x- and y-axes, but we can define our own area if necessary. `clip()` takes four arguments, x1, x2, y1 and y2 which are the lower and upper limits of the clip region in x- and y-coordinates respectively, and you need to supply all of them: there are no defaults. We already have the minimum and maximum x-values calculated for harem and non-harem breeders, and for the y-values we'll just use a small minimum and a big maximum since we're not concerned about those as limits for our line. We have to set a different clip area for each line, of course.
+
+
+```{r fig.cap = "Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, orange symbols indicate non-harem breeders and green indicate harem breeders. Lines indicate fitted linear regressions."}
+
+plot(log(pinniped$Male_brain) ~ log(pinniped$Male_mass),
+     xlab = "Log body mass (Kg)",
+     ylab = "Log brain mass (g)", 
+     pch = 16,
+     col = colours[Mating_system])
+
+clip(x1 = harem_x[1], x2 = harem_x[2], y1 = 4, y2 = 8)
+abline(harem_mod, col = colours[1], lwd = 2)
+
+clip(x1 = non_harem_x[1], x2 = non_harem_x[2], y1 = 4, y2 = 8)
+abline(non_harem_mod, col = colours[2], lwd = 2)
+
+```
+
+
+There we go, the exact same graph as before but generated in a rather different way. One thing that's really important to remember when using `clip()` is that the clipping region will stay as the area you've specified if you want to add anything else, say a legend, to your plot. If you want to return to the default clipping area you can use this code:
+
+```{r eval = FALSE}
+do.call("clip", as.list(par("usr")))
+```
+
+`par("usr")` gives the original clipping region of the graph as defined by the x- and y-axis minima and maxima. `do.call()` is a function which will execute a specified function from the name of the function and a list of the arguments to be passed to it, so we use `as.list()` to convert the output from `par("usr")` to a list and use the `do.call()` function with "clip" as the first argument. The alternative would be to do something like this:
+
+```{r eval = FALSE}
+x1 <- par("usr")
+clip(x1 = x1[1], x2 = x1[2], y1 = x1[3], y2 = x1[4])
+```
+
+which is maybe a bit clunkier but also simpler and will do exactly the same.
+
+
+## Legends
+
+Our plot needs a legend to let the reader know what the colour coding means. We've already seen one example of adding a legend in the previous chapter, but let's take another look. 
+
+```{r graph11a, fig.cap= "Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, colour coded for mating system with legend"}
+plot(log(pinniped$Male_brain) ~ log(pinniped$Male_mass),
+     xlab = "Log body mass (Kg)",
+     ylab = "Log brain mass (g)", 
+     pch = 16,
+     col = colours[Mating_system])
+
+clip(harem_x[1], harem_x[2], 4,8)
+abline(harem_mod, col = colours[1], lwd = 2)
+
+clip(non_harem_x[1], non_harem_x[2], 4,8)
+abline(non_harem_mod, col = colours[2], lwd = 2)
+
+do.call("clip", as.list(par("usr")))
+
+legend("topleft",
+  legend = c("Harem", "Non harem"),
+  col = colours,
+  pch  = 16,
+  lty = 1,
+  lwd = 2,
+  bty = "n",
+  title = expression(bold("Mating system")))
+```
+
+
+The first piece of code plots the data, then the second adds the legend. It's got quite a few arguments so let's run through them individually. `"topleft"` tells `legend()` where to put the legend. There are a number of options for this so `"bottomright"` would put it in the bottom right hand corner and `"top"` would place it in the middle of the top. You can find all the options if you look in the "Details" section of the `legend()` help file.
+
+If you want to be specific about where your legend goes you can use x and y coordinates instead of text descriptions --- you might remember that in the previous chapter we used this along with setting `par(xdp) = TRUE)` to add a legend to the right of the plot area. Lots of the R functions which add elements to graphs use coordinates, and it's straightforward to use them because they are on the same scale that the points are plotted on. `legend()` puts the top left corner of the legend at the specified point so if you replaced `legend("topright",...` with `legend(x = 4.01, y = 7.35,...` you'd get a very similar result.
+
+The confusingly-named argument `legend = ` gives the text that goes in the legend, in this case as a character vector with two elements. `legend()` will generate a legend with one entry for each element in the vector, so in this case we'll get two entries. `col = colours` tells it what colours to associate with each entry, and then we specify both a plot symbol (`pch = 16`) and a line type and width (`lty = 1, lwd = 2`). This gives us both a line and a plot symbol in the appropriate colour. If we'd only specified a plot symbol or a line type then we'd only have got one of the two.
+
+`bty = "n"` means that we have a legend without a box drawn around it. Finally we give a title for the legend: `title = expression(bold("Mating system"))`. If we just wanted this in standard text we would simply have input `title = "Mating system"` but it looks better to have this in bold. Consequently we're using the `expression()` function which gives us a lot of control over our text, and allows us to have the title in bold.
+
+As an aside, for "normal" text on a plot such as axis labels we can specify bold or italic using one of the `font...` parameters as an argument, so if you want the axis labels in bold then `..., font.lab = 2` will do the trick, or if you want the main title in italics then `...., font.main = 3`. This doesn't work for text in a legend, however, so we have to use more complex methods.
+
+
+
+
+
+## Curves
+
+### Adding a curve using `curve()`
+
+Very often, of course, relationships between two variables are best described by a curve rather than a straight line. We're going to abanodon the seals and sealions for a while because of a lack of suitable curves and go back to our World Bank data. Here's the relationship between a country's CO~2~ emissions in metric tonnes per capita and the GNP per capita. Both of these are plotted on a log~10~ scale.
+
+```{r echo = FALSE}
+WB <- read.csv("http://www.introductoryr.co.uk/World_bank_data_2014.csv")
+```
+
+```{r fig.cap = "CO2 emissions per capita versus GNP per capita by country"}
+logCO2 <- log10(WB$CO2)
+logGNP <- log10(WB$GNP)
+
+plot(logCO2 ~ logGNP,
+     col = "steelblue",
+     xlab = "Log GNP per capita",
+     ylab = "Log Carbon dioxide emissions per capita")
+```
+
+There's a clear decrease in the slope of the relationship as GNP per capita increases. There are a variety of possible ways to describe such a relationship but one of the simplest is to use a *second order polynomial* also known as a *quadratic* equation. These take the form
+
+$$ y = \beta _{1} + \beta_{2}x + \beta_{3}x^{2} $$
+and have the big advantage that since they are mathematically linear we can estimate them using a linear model rather than one of those tricksy non-linear ones.
+
+```{r}
+# Fit model
+poly1 <- lm(logCO2 ~ logGNP + I(logGNP^2))
+
+# Show coefficients
+coef(poly1)
+```
+
+We're not going to worry about the details of the model or whether it is statistically significant for the moment, we're just using it to produce estimates of our three coefficients. Now we know the formula for our curve, which is
+
+$$ log_{10} \mathrm{CO}_{2} = -7.98 + 3.53 \times log_{10} \mathrm{GNP} - 0.346 \times log_{10} \mathrm{GNP} ^{2} $$
+we can add it onto our graph. R being R of course there are many ways to do this: we can draw it in with `lines()`, we can draw it in with `points()` if we tell `points()` to draw a line [^10.1], and we can add it to the plot using `curve()`.
+
+
+
+Here's the last option, using `curve()`.
+
+```{r fig.cap = "CO2 emissions per capita versus GNP per capita by country. Line shows a fitted quadratic curve"}
+
+# Plot graph
+plot(logCO2 ~ logGNP,
+     col = "steelblue",
+     xlab = "Log GNP per capita",
+     ylab = "Log Carbon dioxide emissions per capita")
+
+# Add curve
+curve(-7.98 + 3.53 * x -0.346 * x^2,
+      lwd = 2,
+      col = "cadetblue4",
+      add = TRUE)
+```
+
+Quadratic curves are fairly simple beasts and in particular the rate at which the slope changes is constant across the whole thing, so the fit heere is really surprisingly good. Let's look at that `curve()` function call in a bit more detail.
+
+```{r eval = FALSE}
+curve(-7.98 + 3.53 * x -0.346 * x^2,
+      lwd = 2,
+      col = "cadetblue4",
+      add = TRUE)
+```
+
+The first argument is the actual formula of the curve we'd like to draw. This is only the right hand side of the equation: the *y = * bit is assumed to be there. It's written out using the normal R arithmetic operators and is hopefully self explanatory. We then specify the width of the line as twice the default option `lwd = 2` and set the colour. The last argument is an important one: `add = TRUE`. This is needed because `curve()` is not a function like `lines()` or `text()` that adds elements to existing graphs by default: rather it draws a new graph in the same way that `plot()` would unless we tell it to add what it's drawing to an existing graph.
+
+### Adding a curve using `lines()` or `points()`.
+
+Here's another data set. We're moving from the world of CO~2~ emissions measured on a national scale to thinking about the weapons used by male beetles when they fight over females.
+
+```{r}
+beetle<-read.table("http://www.introductoryr.co.uk/beetles.txt",header=T)
+```
+
+The beetle dataset has horn length and body size (as measured across the pronotum, the first segment of the thorax) measurements for two species of dung beetle, *Euoniticellus intermedius* and *Onthophagus taurus*. We'll look at the latter at the moment. *O. taurus* is an insect which has been heavily studied by behavioural ecologists because the males develop into two types: "minor" males with small or no horns, which acquire matings without aggression using what are called "sneaky" tactics, and "major" males which develop horns and who guard females and fight with other males in order to monopolise access to them. Whether a male develops into a minor or a major depends on its body size, and if we plot horn length against body size we get a sigmoid relationship.
+
+```{r fig.cap = "Horn length plotted against body size as indicated by pronotum width for male *Onthophagus taurus*"}
+
+plot(beetle$taurus_horn ~ beetle$taurus_pron,
+     col = "aquamarine4",
+     xlab = "Pronotum width (mm)",
+     ylab = "Horn length (mm)")
+```
+You can see that there is a "switchpoint" at a pronotum width of roughly 4.8mm, with beetles below this size having very reduced horns and beetles above this size having large horns. We'd like to draw a curve through these data to indicate the shape of the relationship. One option is to fit an equation of the form:
+
+$$ horn \: length  = y_{0} + \frac{a \times body \: size^{b}}{c^{b} + body \: size^{b}}. $$
+
+To do this we need to carry out a non-linear fit, which we don't need to go into the details of. Just trust me when I say that our fitted model gives a set of estimates for the coefficients of:
+
+
+*y~0~* = 0.41,  
+*a* = 3.99,  
+*b* = 45.76 &  
+*c* = 5.01,
+
+giving us an equation for our curve of:
+
+$$ horn \: length  = 0.41 + \frac{3.99 \times body \: size^{45.76}}{5.01^{45.76} + body \: size^{45.76}}. $$
+
+
+We could draw this in using `curve()` but instead we're going to use a different method. We'll start by setting up a dummy x-variable with a sequence of points running from the minimum and maximum points where you want the curve to run from and to, and then we'll calculate the corresponding y-variables and draw them in with `lines()`. Previously we've used `lines()` to draw straight lines, but if you give it more than two x- and y- coordinates it will connect them together. Because we're using 200 points what is drawn comes out looking like a smooth curve. Note that you can get the exact same result by using `points()`, with the `type` argument set to `type="l"`... which makes it draw lines.  
+
+Here is our dummy x-variable.
+
+```{r}
+X1 <-
+  seq(
+    from = min(beetle$taurus_pron, na.rm = TRUE),
+    to = max(beetle$taurus_pron, na.rm = TRUE),
+    length = 200
+  )
+```
+
+This will give us 200 evenly spaced numbers across the range of pronotum widths. Now we need to work out the corresponding y values.
+
+```{r}
+Y1 <- 0.41 + (3.99 * (X1 ^ 45.76)) / (5.01 ^ 45.76 + (X1 ^ 45.76))
+```
+
+Finally, we can re-plot our graph and draw in the curve using `lines()`.
+
+```{r fig.cap="Horn length versus pronotum width for O. taurus with fitted curve"}
+plot(beetle$taurus_horn ~ beetle$taurus_pron,
+     col = "aquamarine4",
+     xlab = "Pronotum width (mm)",
+     ylab = "Horn length (mm)")
+
+lines(X1,Y1)
+```
+
+The first method we've seen for adding curves to a plot, using `curve()`, is simplest when you have a straightforward equation to describe your curve. The second comes in handy in lots of other situations though, such as when you have a complex model and you want to draw a line showing the fitted model. In this case you can use the `predict()` function to calculate your y values without having to worry about copying out all of the fitted model coefficients. 
+
+## Text and arrows
+
+Sometimes we want to add text to a plot, for example to indicate the identity of specific data points, or to show a specific event on a time series. Let's take a break from our pinnipeds data and look at a different data set: this is the relative number of Google searches for the term "Springboks" carried out in South Africa during the period September 1st to December 1st during the year 2019. For those who don't know, the Springboks are the South African rugby team and the Rugby World Cup was held in September, October and December of 2019. The data include dates, and we're going to use the `ymd()` function from the *lubridate* package to convert the text which was downloaded from Google Trends into date formatted data for R. 
+
+```{r}
+# Load data
+rugby <- read.csv("Data/SA_Springboks_searches.csv", stringsAsFactors = FALSE)
+
+# Load lubridate package
+library(lubridate)
+
+# Convert Week data to Date format
+rugby$Date <- ymd(rugby$Date)
+
+str(rugby)
+```
+
+All looks good. Let's plot that out.
+
+```{r fig.cap = "Google searches for \"Springboks\" in South Africa from September to the beginning of December 2019"}
+# Plot graph
+plot(rugby$Searches ~ rugby$Date, 
+     type = "l", 
+     col = "steelblue", 
+     lwd = 2,
+     xlab = "Date",
+     ylab = "Search intensity on Google",
+     ylim = c(0, 120))
+
+```
+
+There are some obvious peaks in these data. Is it possible that these correspond to match days in the 2019 Rugby World Cup? The days that the Springboks played were:
+
+|Date         |Match           |
+|:------------|:---------------|
+|2019-09-06   |Japan (warm up) |
+|2019-09-21   |New Zealand     |
+|2019-09-28   |Namibia         |
+|2019-10-04   |Italy           |
+|2019-10-08   |Canada          |
+|2019-10-20   |Japan           |
+|2019-10-27   |Wales           |
+|2019-11-02   |England (Final) |
+
+In case anyone doesn't know, the final match against England was the World Cup final in which South Africa soundly beat England to become World Champions for the third time. Let's see how that first date corresponds with the peaks on our graph: we're going to use `text()` to add some text indicating that the match was against New Zealand, and we're going to use `arrows()` to indicate the exact point on our line.
+
+```{r  fig.cap = "Google searches for \"Springboks\" in South Africa from September to the beginning of December 2019. The match versus New Zealand is indicated."}
+# Plot graph
+plot(rugby$Searches ~ rugby$Date, 
+     type = "l", 
+     col = "steelblue", 
+     lwd = 2,
+     xlab = "Date",
+     ylab = "Search intensity on Google",
+     ylim = c(0, 120))
+
+# Add text
+text(x = ymd("2019-09-21"), 
+     y = 115,
+     labels = "South Africa\nvs.\nNew Zealand", 
+     cex = 0.6)
+
+# Add arrow
+arrows(x0 = ymd("2019-09-21"), 
+       y0 = 105, 
+       x1 = ymd("2019-09-21"), 
+       y1 = rugby$Searches[which(rugby$Date == "2019-09-21")] + 5,
+       length = 0.08,
+       lwd = 0.8)
+
+```
+
+That looks pretty conclusive, at least in that case. Let's look at the code we used to add the text and the arrow. Firstly, the text.
+
+```{r eval = FALSE}
+# Add text
+text(x = ymd("2019-09-21"), 
+     y = 115,
+     labels = "South Africa\nvs.\nNew Zealand", 
+     cex = 0.6)
+```
+
+This show us some important points about the `text()` function. Firstly, we have some coordinates: `x = ymd(2019-09-21)` and `y = 115`. These tells R where to put the text within the plot area. One useful thing to notice is that the coordinates are given in terms of the x- and y-axis scales. The y-axis goes from 0 to 120, and we want something close to the top, so I picked 115. For the x-axis we want the date of the match against New Zealand: I've given this in the same format that the dates in our original data file are in and then I've used the `ymd()` function again to convert this into date format. By default R will draw the text centred on the coordinates given, but you can change this if you wish by using the `pos = ` argument, whereby values of 1,2,3 or 4 indicate that text should go below, to the left, above or to the right of the coordinates given. You can also use the `adj = ` argument to change the way the text is aligned with the coordinates: `adj = 0` will give text which is centred on the y-coordinate but which is left-justified to the x-coordinate, for example.
+
+Following the coordinates we have the `labels = ` argument which gives the text to be used. In this case I've made things more complicated than necessary again by including the `\n` character in the text. This indicates a new line within the text and is not read as straightforward text by R because of the use of the so-called "escape character", `\` which indicates the use of something that should not just be preocessed as a set of characters. If we didn't have these two new lines indicated by `\n`, and replaced them with spaces, our text would be displayed as a single line. Finally I've used `cex = 0.6` to make the text smaller than the default size.
+
+How about those arrows then? Here's the code.
+
+```{r eval = FALSE}
+# Add arrow
+arrows(x0 = ymd("2019-09-21"), 
+       y0 = 105, 
+       x1 = ymd("2019-09-21"), 
+       y1 = rugby$Searches[which(rugby$Date == "2019-09-21")] + 5,
+       length = 0.08,
+       lwd = 0.8)
+```
+
+Whereas `text()` takes a single set of coordinates, `arrows()` takes two: the x- and y-coordinates to draw the arrow *from*, `x0 =` and `y0 =` and then the coordinates to draw it *to*, `x1 =` and `y1 =`. These are all reasonably straightforward if you recall that we need to use `ymd()` to convert text into date format, with the exception of the final one. What we're doing with that bit of subscripting is extracting the value for the search intensity for that date, and then we're adding 5 to it. This is because we want our arrow to extend down the plot and finish a little bit above the actual data point that we wish to indicate.
+
+There are then two further arguments, `length = 0.08`, which does not have any effect on the length of the line --- rather, it alters the length of the shorter lines that make up the arrowhead. The default value is 0.25 which gives a rather big arrowhead. We want a smaller one so we'll use a smaller value. Finally we want the line to be drawn rather thin so that it's not as intrusive, and we use the `lwd = 0.8` argument to do this.
+
+So far so good, but what if we want to indicate the other match dates on our graph as well? Do we need separate lines of code with `text()` and `arrows()` for each date? Fortunately not: both of these functions will draw multiple instances of text or arrows if we ask nicely. For `text()` we replace the single x- and y-coordinates with two vectors of coordinates, and the character data given for the text with a vector of character data. Similarly, for `arrows()` we use a vector of coordinates for each of `x0`, `y0`, `x1` and `y1`. Let's have a go.
+
+
+```{r}
+# Vector of x-coordinates
+match_dates <- ymd(c("2019-09-06", "2019-09-21", 
+                     "2019-09-28", "2019-10-04", 
+                     "2019-10-08", "2019-10-20", 
+                     "2019-10-27", "2019-11-02"))
+
+# Vector of y-coordinates for text
+text_y <- rep(115, times = 8)
+
+# Vector of matches
+matches <- c("Japan\nWarm up", "New\nZealand", 
+             "Namibia", "Italy",
+             "Canada", "Japan",
+             "Wales", "England\nFinal")
+             
+# Vector of upper x-coordinates for arrows
+arrows_y0 <- rep(108, times = 8)
+
+# Vector of lower x-coordindates for arrows
+arrows_y1 <- rugby$Searches[which(rugby$Date %in% match_dates == TRUE)] +3
+```
+
+This has set up all of the data vectors we need to add our text and arrows. Some things are fairly obvious, so we're using `ymd()` from the lubridate package to convert character data into dates again, we're using the `rep()` function when we just need a vector with multiple elements which are the same and inn the `matches` vector we're using the `\n` character when we want a new line for a particular piece of text. The code for the subscripts for the vector of lower x-coordinates for arrows is not, however, immediately clear. We're using an operator which you might not have seen before, `%in%`. This matches one object against another, so here it will return `TRUE` if an element of the `rugby$Date` vector is also present in the `match_dates` vector, and `FALSE` otherwise. Feeding that into the `which()` function and asking which values are `TRUE` gives me the indices for the values in `rugby$Searches` which correspond to the match days, and then I can extract those values using a subscript and add 5 to each of them.
+
+Just to show how that works let's run through it in pieces.
+
+```{r}
+# Just using the match operator returns a vector of TRUE and FALSE depending on whether the corresponding value of rugby$Date is also presnet in match_dates or not
+rugby$Date %in% match_dates
+```
+
+```{r}
+# Which of these elements are TRUE?
+which(rugby$Date %in% match_dates == TRUE)
+```
+
+```{r}
+# Use these as a vector of subscripts to extract the desired data from rugby$Searches and add 5 to each value
+rugby$Searches[which(rugby$Date %in% match_dates == TRUE)] +5
+```
+
+Now let's draw our final plot.
+
+```{r fig.cap = "Google searches for \"Springboks\" in South Africa from September to the beginning of December 2019. Match dates and opponents for the South African rugby team are indicated"}
+# Plot graph
+plot(rugby$Searches ~ rugby$Date, 
+     type = "l", 
+     col = "steelblue", 
+     lwd = 2,
+     xlab = "Date",
+     ylab = "Search intensity on Google",
+     ylim = c(0, 120))
+
+# Add text
+text(x = match_dates, 
+     y = text_y,
+     labels = matches, 
+     cex = 0.6)
+
+# Add arrow
+arrows(x0 = match_dates, 
+       y0 = arrows_y0, 
+       x1 = match_dates, 
+       y1 = arrows_y1,
+       length = 0.05,
+       lwd = 0.8)
+```
+
+
+## Confidence bands for fitted lines
+
+### Adding confidence bands using `lines()`
+
+**Warning** This bit gets a bit advanced in places and is maybe not for the faint of heart. If you aren't familiar with concepts like confidence intervals you might want to skip this, and the next, section. Alternatively, maybe read through it but don't worry if some of it's tending towards the incomprehensible.
+
+When we fit a line to a set of data we're generating an estimate of where the most likely values for our y-variable are given any value of the x-variable. In a world where sample sizes are often much smaller than we'd wish, we often have limited confidence in how accurate our estimation is. For this reason we often display fitted lines with an indication of how confident we are in their location, usually by showing the *95% confidence intervals*. How can we add these to our plot of pinniped brain sizes (yes, after that excursion into Google searches for Southern Hemisphere rugby teams we're back on the seals I'm afraid)? The first thing to do is to work out what these confidence intervals are. To do this we need to use the `predict()` function, which generates predicted values from a statistical model. `predict()` has an argument `se.fit = ` and if we set this to TRUE it will calculate a *standard error* for each predicted point, and we can then use this to generate our 95% confidence intervals.
+
+Let's go back to our pinniped data. We have already fitted two statistical models, each giving us a fitted straight line relating log brain size to log body mass for males, one for harem and one for non-harem breeders. To generate our predicted values and standard errors we'll need to produce some dummy data for our prediction and the use `predict()` on that.
+
+```{r}
+# Generate dummy variable for harem breeders
+harem_x_seq <-
+  seq(
+    from = min(pinniped$Male_mass[Mating_system == "Harem"]),
+    to = max(pinniped$Male_mass[Mating_system == "Harem"]),
+    length = 100
+  )
+
+#Generate dummy variable for non-harem breeders
+non_harem_x_seq <-
+  seq(
+    from = min(pinniped$Male_mass[Mating_system == "Non harem"]),
+    to = max(pinniped$Male_mass[Mating_system == "Non harem"]),
+    length = 100
+  )
+
+#Generate predicted values and SEs for harem breeders
+pred_harem <-
+  predict(harem_mod,
+          newdata = data.frame(Male_mass = harem_x_seq),
+          se.fit = TRUE)
+pred_harem <-
+  predict(harem_mod,
+          newdata = data.frame(Male_mass = harem_x_seq),
+          se.fit = TRUE)
+
+#Generate predicted values and SEs for non-harem breeders
+pred_non_harem <-
+  predict(non_harem_mod,
+          newdata = data.frame(Male_mass = non_harem_x_seq),
+          se.fit = TRUE)
+
+#Structure of pred_harem
+str(pred_harem)
+```
+
+Here, what I've done is to use the `seq()` function to generate two sequences of data each with 100 evenly spaced values, using the minimum and maximum body mass values for harem breeding and non-harem breeding males. I've used the untransformed data rather than the log-transformed minima and maxima that we used in the previous section here because that's what we used in the original linear model: we did the log transformation *within* the model formula so we need to give `predict()` the untransformed data. I've then fed these sequences into the `predict()` function, with the appropriate fitted model specified for each. The data that we want to predict from are specified by the `newdata = ` argument in `predict()`, but it will only work if we use a variable with the same name (or names for a more complex model) as the name of the explanatory variable in the original model. I don't want to start generating variables in the workspace with the name `Male_mass` because it's the same as the name in my data frame, and I would also need to generate one, use it for the prediction, delete it or change its name and then generate the next. Hence I've used the `data.frame()` function inside the `predict()` function call to generate a temporary data frame with one variable named `Male_mass`.
+
+As we can see from the `str(pred_harem)` output, the object we've generated using `predict()` is a list with four components. Of these three are important to us: `$fit` which is the predicted fitted values --- these will correspond to the values of the lines we've already plotted; `$se.fit` which are the standard errors for these fitted values, and `$df` which is the number of degrees of freedom. These are important because we need all three of them to calculate the 95% confidence intervals.
+
+For any estimate we need an upper and a lower confidence interval. The upper and lower confidence intervals are calculated as:
+
+$$ \mathrm{Upper \: CI} = \mathrm{Fitted \: value} + SE \times t_{df} $$
+$$ \mathrm{Lower \: CI} = \mathrm{Fitted \: value} - SE \times t_{df} $$
+where $t_{df}$ is the critical value of the *t-distribution* at the appropriate number of degrees of freedom. If all of this sounds like total gibberish to you, don't worry: it's just some arithmetic we need to do to generate our confidence intervals.
+
+How do we generate the critical values of *t*? There's a function called `qt()` which will give us the *quantiles* of the t-distributoin and we can feed this the appropriate probability and degrees of freedom. For our harem breeders, therefore, we can calculate our upper and lower confidence values as:
+
+```{r}
+
+#Upper CI
+harem_upper_CI <- pred_harem$fit + pred_harem$se.fit * qt(p = 0.975, df = pred_harem$df)
+
+#Lower CI
+harem_lower_CI <- pred_harem$fit - pred_harem$se.fit * qt(p = 0.975, df = pred_harem$df)
+
+```
+
+This is all relatively straightforward aside from the `qt(0.975, df = pred_harem$df)` bit which is a little obscure. The `df = pred_harem$df` argument is giving it the degrees of freedom from the output of `predict()`, but what about `p = 0.975`? This is telling it the probability that we're thinking about for our confidence intervals, but instead of `p = 0.95` we have to use `p = 0.975` because the t-distribution is a *two-tailed* distribution so we need to think about the upper tail as well as the lower tail. If you're not very clear on your statistical theory yet this will, I realise, make no sense whatsoever... just take it at face value and if you want go and look up the difference between one-tailed and two-tailed tests.
+
+Let's generate our confidence intervals for the non-harem breeders as well.
+
+```{r}
+
+#Upper CI
+non_harem_upper_CI <-
+  pred_non_harem$fit + pred_non_harem$se.fit * qt(p = 0.975, 
+  df = pred_harem$df)
+
+#Lower CI
+non_harem_lower_CI <-
+  pred_non_harem$fit - pred_non_harem$se.fit * qt(p = 0.975, 
+  df = pred_harem$df)
+
+```
+
+OK. We now have, for each group of male pinnipeds:
+
+* A sequence of dummy x-values, 100 numbers long, running from the lowest to the highest value for each group
+* A set of fitted values, one for each of our dummy x-values, corresponding to where our fitted line would be
+* A set of values, one for each of our 100 dummy x-values, with the calculated upper 95% confidence limit for the fitted value
+* A set of values as above, but with the calculated lower 95% confidence limits.
+
+Let's use these to indicate the confidence intervals on our graph. We can do this using `lines()` if we just want a line to show our confidence intervals, or if you wish to be **fashionable** we can indicate them with a shaded area using `polygon()`. It's easiest with `lines()` so let's do that: we're doing exactly what we did in the last section by giving the `lines()` function a series of points to link together, and because we're using lots of them what gets drawn will look like a curve.
+
+
+```{r  fig.cap= "Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, colour coded for mating system"}
+
+
+# Plot the data
+plot(
+  log(pinniped$Male_brain) ~ log(pinniped$Male_mass),
+  xlab = "Log body mass (Kg)",
+  ylab = "Log brain mass (g)",
+  pch = 16,
+  col = colours[Mating_system]
+)
+
+# Add regression line for harem breeders
+lines(
+  x = log(harem_x_seq),
+  y = pred_harem$fit,
+  lwd = 2,
+  col = colours[1]
+)
+
+# Add upper 95% CI line
+lines(
+  x = log(harem_x_seq),
+  y = harem_upper_CI,
+  lwd = 0.8,
+  col = colours[1]
+)
+
+# Add lower 95% CI line
+lines(
+  x = log(harem_x_seq),
+  y = harem_lower_CI,
+  lwd = 0.8,
+  col = colours[1]
+)
+
+
+# Add regression line for non-harem breeders
+lines(
+  x = log(non_harem_x_seq),
+  y = pred_non_harem$fit,
+  lwd = 2,
+  col = colours[2]
+)
+
+# Add upper 95% CI line
+lines(
+  x = log(non_harem_x_seq),
+  y = non_harem_upper_CI,
+  lwd = 0.8,
+  col = colours[2]
+)
+
+# Add lower 95% CI line
+lines(
+  x = log(non_harem_x_seq),
+  y = non_harem_lower_CI,
+  lwd = 0.8,
+  col = colours[2]
+)
+
+
+```
+
+There we have it. A few things to point out are firstly that I've drawn the 95% confidence intervals in using much thinner lines than the fitted straight lines to make it clear which is which. You could equally well use dashed or dotted lines to achieve the same effect. Secondly, I had to log transform the dummy x-values for the plot because, as you might remember, we needed the untransformed data to feed into `predict()` because the log transformation was done within the `lm()` function call. This whole business of what to log and when has made this all rather complicated, but this is the sort of issue that you have to cope with when you're dealing with real data [^10.2].
+
+
+### Adding confidence intervals to fitted lines using `polygon()`
+
+`polygon()` is, as you might expect, a function that will draw a shape onto a plot. It takes a vector of x-coordinates and a vector of y-coordinates, and draws the shape defined by the series of xy values defined by those two vectors. Here's a simple example: we'll plot a graph with no data and then draw in a square using `polygon()`. To make a specific point I'll add the coordinates of each of the corners ("vertices") using `text()`: more on this in the next section.
+
+```{r fig.cap = "Example of drawing a simple polygon"}
+
+# Plot empty graph
+plot(1:4, 1:4, 
+     type = "n", 
+     xlab = "", 
+     ylab = "")
+
+# Add polygon
+polygon(x = c(2,3,3,2), 
+        y = c(2,2,3,3),
+        col = "aquamarine4")
+
+# Add coordinates to the bottom of the square
+text(x = c(1.9,3.1), 
+        y = c(1.9,1.9), 
+        labels = c("2,2", "3,2"))
+
+# Add coordinates to the top of the square
+text(x = c(3.1,1.9), 
+        y = c(3.1,3.1), 
+        labels = c("3,3", "2,3"))
+
+```
+
+This is likely to look more lke a rectangle, but in terms of the scales on the x-and y-axes this is a square. We've filled it with the `aquamarine4` colour using the `col = ` argument just to stop it being so dreary.
+
+The important thing to notice here is that we need to think about the order in which our x- and y- coordinates are given to `polygon()` because it joins them together in order. Here I've started with the bottom left vertex and then gone bottom right, top right and then back to the top left: if you take the first, second, third and fourth x-values and y-values form the function call and put them together you get 2,2 3,2 3,3 and 3,2. You don't need to go all the way back to the starting point because `polygon()` will just link up the first vertex with the last. What happens if we put the x- and y-values in a different order?
+
+```{r fig.cap = "Example of drawing a simple polygon"}
+
+# Plot empty graph
+plot(1:4, 1:4, 
+     type = "n", 
+     xlab = "", 
+     ylab = "")
+
+# Add polygon
+polygon(x = c(2,3,3,2), 
+        y = c(2,3,2,3),
+        col = "aquamarine4")
+
+# Add coordinates to the bottom of the square
+text(x = c(1.9,3.1), 
+        y = c(1.9,1.9), 
+        labels = c("2,2", "3,2"))
+
+# Add coordinates to the top of the square
+text(x = c(3.1,1.9), 
+        y = c(3.1,3.1), 
+        labels = c("3,3", "2,3"))
+
+```
+
+In this case we can put our `x = c(2,3,3,2)` and `y = c(2,3,2,3)` arguments together and we get 2,2 --- bottom left, 3,3 --- top right, 3,2 --- bottom right and 2,3 --- top left, so `polygon()` joins the vertices in that order and we get a different shape. This is important if you want to use `polygon()` to draw more complicated shapes because you need to think about the order of x- and y-values. When you try to draw something wth `polygon()` and it comes out messed up, chances are you've not got this bit right.
+
+Back to our confidence intervals for the relationship between log brain mass and log body mass in various species of harem- and non-harem breeding pinnipeds, in the last section we calculated a series of x-values and then generated three sets of y-values for each: lower and upper 95% confidence intervals and the fitted values. The latter we can ignore for the present, but we want to use the former two to draw the confidence intervals in as a polygon which we can shade. For this we'll need x- and y- values for the vertices of the curve that makes up the lower 95% CIs, and then the same for the upper CIs, but *in reverse order* because we're going to start in the bottom left hand corner, join up all the vertices for the lower 95% CIs going from left to right, then jump to the furthest right vertex for the upper CIs, and join together all those vertices coming back right-to-left.
+
+Here's an attempt to illustrate this in a simple way using the 95% CIs for harem breeders only. The arrows indicate the direction in which `polygon()` "joins the dots", and I've indicated the start point.
+
+<detais><summary>Click here to see the code</summary
+```{r eval = FALSE}
+
+# Plot empty graph
+plot(log(pinniped$Male_brain) ~ log(pinniped$Male_mass),
+     xlab = "Log body mass (Kg)",
+     ylab = "Log brain mass (g)", 
+     type = "n")
+
+# Add polygon for 95% CIs for harem breeders
+polygon(x = c(log(harem_x_seq), rev(log(harem_x_seq))), 
+        y = c(harem_lower_CI, rev(harem_upper_CI)))
+
+#Add arrow left to right
+arrows(x0 =5, y0 = 5.5,
+       x1 = 7.2, y1 = 6.3,
+       angle = 20,
+       length = 0.2)
+
+# Add arrow right to left
+arrows(x0 = 7.2, y0 = 7.1,
+       x1 =5, y1 = 6.3,
+       angle = 20,
+       length = 0.2)
+
+#Add text
+text(x = 4.3, y = 5.3, "Start here")
+
+#Add start point
+points(x = min(log(harem_x_seq)), 
+       y = min(harem_lower_CI), 
+       pch = 16)
+```
+
+</details>
+```{r fig.cap = "Drawing a complex polygon illustrated", echo = FALSE}
+
+# Plot empty graph
+plot(log(pinniped$Male_brain) ~ log(pinniped$Male_mass),
+     xlab = "Log body mass (Kg)",
+     ylab = "Log brain mass (g)", 
+     type = "n")
+
+# Add polygon for 95% CIs for harem breeders
+polygon(x = c(log(harem_x_seq), rev(log(harem_x_seq))), 
+        y = c(harem_lower_CI, rev(harem_upper_CI)))
+
+#Add arrow left to right
+arrows(x0 =5, y0 = 5.5,
+       x1 = 7.2, y1 = 6.3,
+       angle = 20,
+       length = 0.2)
+
+# Add arrow right to left
+arrows(x0 = 7.2, y0 = 7.1,
+       x1 =5, y1 = 6.3,
+       angle = 20,
+       length = 0.2)
+
+#Add text
+text(x = 4.3, y = 5.3, "Start here")
+
+#Add start point
+points(x = min(log(harem_x_seq)), 
+       y = min(harem_lower_CI), 
+       pch = 16)
+```
+
+Here's that `polygon()` function call again:
+
+```{r eval = FALSE}
+polygon(x = c(log(harem_x_seq), rev(log(harem_x_seq))), 
+        y = c(harem_lower_CI, rev(harem_upper_CI)))
+```
+
+We start with `x = c(log(harem_x_seq), rev(log(harem_x_seq))),`. This constructs the x-values for the whole polygon into a single vector using the `c()` function. We start with the (log transformed) sequence from the minimum to the maximum values for this set of data: this gives the x-values for all of the vertices on the lower 95% CI. Once we get to the maximum x-value we want `polygon()` to go up to the highest value of the upper 95% CI, in the top right hand corner, and come all the way back to the lowest value for the upper 95% CI. These have the same x-coordinates as the lower 95% CIs, but we want to put them in in *reverse order* because we're coming back across the graph. Hence, we use the `rev()` function, which reverses things, to add the same values but in reverse order for the second half of our vector of x-values.
+
+Once we get this, the expression for the y-values becomes easier to understand. We want to start with the y-values for the lower 95% CIs in increasing order, then we want the values for the upper 95% CI in reverse order, so we put them together using `c(harem_lower_CI, rev(harem_upper_CI))`.
+
+Let's plot our graph properly now.
+
+```{r  fig.cap= "Brain mass versus body mass for 33 species of male pinniped plotted on log scaled axes, colour coded for mating system"}
+
+# Plot the data
+plot(log(pinniped$Male_brain) ~ log(pinniped$Male_mass),
+     xlab = "Log body mass (Kg)",
+     ylab = "Log brain mass (g)", 
+     pch = 16,
+     col = colours[Mating_system])
+
+# Add regression line for harem breeders
+lines(x = log(harem_x_seq), y = pred_harem$fit, lwd = 2, col = colours[1])
+
+# Add polygon for harem breeders confidence intervals
+polygon(x = c(log(harem_x_seq), rev(log(harem_x_seq))), 
+        y = c(harem_lower_CI, rev(harem_upper_CI)),
+        border  = NA,
+        col = adjustcolor(colours[1], alpha = 0.5))
+
+
+# Add regression line for non-harem breeders
+lines(x = log(non_harem_x_seq), y = pred_non_harem$fit, lwd = 2, col = colours[2])
+
+# Add polygon for non-harem breeders confidence intervals
+polygon(x = c(log(non_harem_x_seq), rev(log(non_harem_x_seq))), 
+        y = c(non_harem_lower_CI, rev(non_harem_upper_CI)),
+        border  = NA,
+        col = adjustcolor(colours[2], alpha = 0.5))
+```
+
+I've added a few arguments to the `polygon()` function calls to pretty things up. `border = NA` means that the polygon is drawn without a border. `col = adjustcolor(colours[1], alpha = 0.5)` sets the colour for the fill of our polygon to be the same as the colour that we're using for everything else associated with harem breeders. The `adjustcolor()` function is a function that lets you tweak colours, and in this case I'm using it to make the fill translucent by setting `alpha = 0.5`. More on this in the section on using transparency.
+
+I mentioned at the start of the previous chapter that there are some things that ggplot2 does rather easier than base graphics... adding shaded polygons as confidence intervals is one of them. In the chapter on ggplot2 we'll redraw this graph using rather less code than was needed here.
+
+## Error bars
+
+### Adding error bars using `arrows()`
+
+Error bars are a simple way of showing how much uncertainty there is in your estimates when when you are dealing with *point estimates* (means, medians etc.), and you've most probably seen many graphs with them in your reading. Error bars are not, however, completely straightforward in R. If you wish to add, say, 95% confidence intervals to a plot of means, you need to calculate what these intervals are and then draw them onto your plot, usually using `arrows()`. Yes, you read that right, `arrows()`, the function we met in section 10.5 that draws arrows onto an existing plot. Let's go back to the World Bank data which we were using to generate boxplots and barplots in the previous chapter.
+
+```{r}
+
+WB <- read.csv("http://www.introductoryr.co.uk/World_bank_data_2014.csv")
+WB$Region <- as.factor(WB$Region)
+WB$Income_group <- as.factor(WB$Income_group)
+
+str(WB)
+```
+
+Let's say that we're interested in how PM25 pollution varies between income groups. We can calculate the mean PM25 pollution and also the 95% Confidence intervals of the means using `tapply()`:
+
+```{r}
+
+# Put levels of income group in order
+WB$Income_group <- factor(
+  WB$Income_group,
+  levels = c(
+    "Low income",
+    "Lower middle income",
+    "Upper middle income",
+    "High income"
+  )
+)
+
+#means
+meanPM25 <- tapply(WB$PM25, WB$Income_group, mean)
+
+names(meanPM25) <- c("Low", "Lower middle", "Upper middle", "High")
+
+#function to calculate 95% CIs
+meanci <- function(X1) {
+    lenX1 <- length(X1)
+    X195 <- qt(0.975, df = lenX1 - 1) * sqrt(var(X1))/sqrt(lenX1)
+    output <- c(Lower.CI = mean(X1) - X195, Upper.CI = mean(X1) + X195)
+    return(output)
+}
+
+
+
+#95% CIs
+PM25CIs <- tapply(WB$PM25, WB$Income_group, meanci)
+
+
+#Generate matrix from list
+PM25CIs2 <- matrix(unlist(PM25CIs), nrow = 2)
+rownames(PM25CIs2) <- c("Lower", "Upper")
+colnames(PM25CIs2) <- names(meanPM25)
+
+#Check data
+meanPM25
+PM25CIs2
+
+```
+
+R doesn't have a built in function to calculate confidence intervals so I've put in a bit of code to do this. Don't worry about this too much: the whole thing is explained in the chapter on programming in R. For the moment you just need to know that it's calculating the 95% confidence intervals. There's some other code there as well: firstly, at the start, the bit where we specify the levels of `WB$Income_group` in order from poorer to richer. YOu saw this in the last chapter and it just makes the final graph make more sense. Secondly there is some code towards the end to convert the output of the second `tapply()` to a matrix from the list which `tapply()` generates. What we end up with is a vector of our mean values (`meanPM25`) and a matrix of our upper and lower confidence intervals (`PM25CIs2`). We can use the first of these to draw our barplot and the second to add error bars. Let's do that. 
+
+
+```{r fig.cap = "Barplot of mean PM25 data with 95% confidence interval error bars drawn using arrows()"}
+
+#Generate locations of the centres of the bars
+ticks <- barplot(meanPM25, plot = FALSE)
+
+#Plot the graph
+barplot(meanPM25,
+        col = "cadetblue4",
+        ylim = c(0, 45),
+        xlab = "Income group",
+        ylab = "Mean PM25 pollution",
+        font.lab = 2,
+        xaxt = "n")
+
+#Add error bars
+arrows(x0 = ticks, 
+       y0 = PM25CIs2[1,], 
+       x1 = ticks, 
+       y1 = PM25CIs2[2,],
+       length = 0.05,
+       angle = 90,
+       code = 3)
+
+#Add x axis
+axis(side = 1, 
+     at = ticks, 
+     labels = c("Low\n", "Lower\nmiddle","Upper\nmiddle","High\n"),
+     padj = 0.3)
+```
+
+There's a goodly amount of code going into generating this graph, so let's go through it and see what it all does.
+
+```{r eval = FALSE}
+#Generate locations of the centres of the bars
+ticks <- barplot(meanPM25, plot = FALSE)
+```
+
+You might remember that when we're plotting a bar graph the locations of the centres of the bars are not usually obvious. We need to know these locations for when we tell R to draw our error bars, and we also need to know them because we're going to make something nicer and neater than the default x axis. This line saves these locations in an object called `ticks`.
+
+
+```{r eval = FALSE}
+#Plot the graph
+barplot(meanPM25,
+        col = "cadetblue4",
+        ylim = c(0, 45),
+        xlab = "Income group",
+        ylab = "Mean PM25 pollution",
+        font.lab = 2,
+        xaxt = "n")
+```
+
+This draws the bar graph itself using the `barplot()` function. Most of this should be familiar but there are a few important points to look at.Firstly `ylim = c(0,45)`: if we didn't specify the y-axis limits then the graph swould be plotted so that the bars fitted nicely, meaning that the tops of our error bars would go outside the plot area and be lost. Secondly `font.lab = 2` means that the axis labels will be in a bold font. Finally, `xaxt = "n"` means that the graph will be plotted without anything for the x-axis --- we'll add all of that later.
+
+
+```{r eval = FALSE}
+#Add error bars
+arrows(x0 = ticks, 
+       y0 = PM25CIs2[1,], 
+       x1 = ticks, 
+       y1 = PM25CIs2[2,],
+       length = 0.05,
+       angle = 90,
+       code = 3)
+```
+
+This is where the magic happens... or at least where we add the error bars. The trick here is to take advantage of the flexibility of `arrows()`, which lets us draw arrows with heads at each end of the line and to specify the angle of the lines making the arrowhead as well. If we draw a vertical line with an arrowhead at each end, and we make the angle between the lines making the arrow and the main line 90^o, that will look like a traditional error bar with a straight "cap" at each end. Let's go through this in more detail.
+
+```{r eval = FALSE}
+arrows(x0 = ticks, 
+       y0 = PM25CIs2[1,], 
+       x1 = ticks, 
+       y1 = PM25CIs2[2,],
+```
+
+This is telling `arrows()` where to draw the arrows from and to. As we saw in section 10.6, `arrows()` takes four arguments which give it the x- and y- coordinates in the plot area where the arrows being drawn should start and finish. These are `x0`, `y0`, `x1` and `y1`. For our purposes here we want the arrows to be vertical so the `x0` and `x1` values are the same: the midpoints of the bars which we extracted earlier and saved as the object `ticks`. The y-coordinates of the bottom of the error bars are the values for the lower 95% confidence intervals and we have these as the top row of the matrix `PM25CIs2` which we extract using a subscript. The y-coordinates for the tops of the error bars are the second row of that matrix and we get those values using a subscript as well.
+
+```{r eval = FALSE}
+       length = 0.05,
+       angle = 90,
+       code = 3)
+```
+
+These three arguments finish off our `arrows()` function call and make sure that we have nice looking error bars. `length = 0.05` specifies the length of the lines making up the arrowhead (not the length of the arrow overall) and here we're making them rather short to give small 'caps' on the ends of the error bars. `angle = 90` sets the angle between the lines making up the arrowheads and the main line. By sepcifying 90^o^ we're making sure that the "cap" on the error bar is a straight line perpendicular to the main error bar line. Finally `code = 3` tells `arrows()` to draw an arrowhead (or in this case a "cap") at each end of the line.
+
+
+```{r eval = FALSE}
+#Add x axis
+axis(side = 1, 
+     at = ticks, 
+     labels = c("Low\n", "Lower\nmiddle","Upper\nmiddle","High\n"), 
+     padj = 0.3)
+```
+
+Here, we draw in the x-axis which we asked to be left out in the `barplot()` call. `side = 1` tells `axis()` to draw it on the bottom side of the plot, and `at = ticks` tells it where to put things: in this case both the tickmarks and the axis text. `labels = ` gives it a vector of character data to be written in at the tickpoints. The actual character vector needs a little explanation. Rathed than turn the text on its side to fit it in, like we did in section 9.8, here I'm splitting the text over multiple lines. That's what the `\n` text in the vector does: `\` is an *escape character* meaing that it isn't processed as normal text in a character vector but does something else, and `\n` means "put a new line in here". This is what gives us the nicely formatted text on the x-axis of our plot. You might wonder why we need these `\n` characters in the elements that only need a single line such as `"Low\n"`: the answer is that without them these words get written on the bottom of the two lines we're using and it doesn't look so nice. Try it. `padj = 0.3` (**p**erpendicular **adj**ustment) moves the text down a little because otherwise it gets mixed up with the tick marks.
+
+### Plotting means and error bars using `plotmeans()`
+
+A second option to plot means and confidence intervals is to is to install the package called `gplots` (see the chapter on R packages for more on this), which has a handy function called `plotmeans()`. This makes things a fair 
+
+```{r eval=FALSE}
+install.packages("gplots")
+library(gplots)
+```
+
+```{r include=FALSE}
+library(gplots)
+```
+
+This is what the default output looks like: plotmeans will calculate means and confidence intervals for you so you just need to feed it the raw data.
+
+```{r fig.cap="Default output from `plotmeans()`."}
+plotmeans(WB$PM25~WB$Income_group)
+```
+
+
+OK, it’s plotted the means and the 95% confidence limits, and this is a useful plot to just have a look at our data with. Nevertheless, we could improve quite a few things before we start thinking about adding this particular graphic to our latest submission to Nature. The helpful indicators of sample size and the line connecting the means could do with being lost. The points for the means might be better if they were bigger, and the error bars could go in black instead of blue. To find out how to sort all of these issues out, take a look at the help file.
+
+```{r fig.cap="Nicer looking graph with 95% CIs"}
+plotmeans(WB$PM25 ~ WB$Income_group, 
+          connect=FALSE, 
+          barcol='black', 
+          pch=16, 
+          cex=1.5, 
+          n.label=FALSE, 
+          ylab="Mean PM25 pollution",
+          xlab = "Income group")
+```
+Still needs a bit of a tweak: the x-axis labels are not working so let's fix that using `axis()` as we did previously, and we can make the axis titles bold as well.
+
+```{r fig.cap="Nicer looking graph with 95% CIs"}
+plotmeans(WB$PM25 ~ WB$Income_group, 
+          connect=FALSE, 
+          barcol='black', 
+          pch=16, 
+          cex=1.5, 
+          n.label=FALSE, 
+          ylab="Mean PM25 pollution",
+          xlab = "Income group",
+          xaxt = "n",
+          font.lab = 2)
+
+axis(side = 1, 
+     at = 1:4, 
+     labels = c("Low\n", "Lower\nmiddle","Upper\nmiddle","High\n"), 
+     padj = 0.3)
+```
+
+What I've done here is add `xaxt = "n"` and `font.lab = 2` to the `plotmeans()` function call, suppressing the x-axis and making the axis titles bold. I've then used the same `axis()` code as before except because the `at = ` argument which tells it where the ticks go now just needs `1:4` because things in that respect at least are a bit more sensible with this plot.
+
+[^10.1]: Yes, we can do this, and we can also tell `lines()` to draw points --- both of them take the `type = ` argument and can produce the full range of options: you can read about these in the help file for `plot.default`.
+
+[^10.2]: This is me trying to make the fact that I've used an unnecessarily complicated example seem a virtue.

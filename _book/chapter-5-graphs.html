@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 8 Chapter 5: Graphs | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 8 Chapter 5: Graphs | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Chapter 5: Graphs | Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Rob Knell">
+
+
+<meta name="date" content="2019-07-05">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="plotting-graphs-in-r.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-this-book"><i class="fa fa-check"></i><b>1.1</b> Why this book?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i><b>1.2</b> How to use this book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-first-r-session.html"><a href="a-first-r-session.html"><i class="fa fa-check"></i><b>2</b> A first R session</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-first-r-session.html"><a href="a-first-r-session.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="a-first-r-session.html"><a href="a-first-r-session.html#a-first-r-session-1"><i class="fa fa-check"></i><b>2.2</b> A first R session</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html"><i class="fa fa-check"></i><b>3</b> Basics: arithmetic, objects and functions</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#arithmetic"><i class="fa fa-check"></i><b>3.0.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.0.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#logical-operations"><i class="fa fa-check"></i><b>3.0.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.0.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects"><i class="fa fa-check"></i><b>3.0.3</b> Objects</a></li>
+<li class="chapter" data-level="3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#kinds-of-data"><i class="fa fa-check"></i><b>3.1</b> Kinds of data</a></li>
+<li class="chapter" data-level="3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#whats-in-my-workspace"><i class="fa fa-check"></i><b>3.2</b> What’s in my workspace?</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions"><i class="fa fa-check"></i><b>3.2.1</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#exercises"><i class="fa fa-check"></i><b>3.3</b> Exercises</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations"><i class="fa fa-check"></i><b>3.3.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.3.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-1"><i class="fa fa-check"></i><b>3.3.2</b> Objects</a></li>
+<li class="chapter" data-level="3.3.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#answers-to-exercises"><i class="fa fa-check"></i><b>3.4</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#calculations-1"><i class="fa fa-check"></i><b>3.4.1</b> Calculations</a></li>
+<li class="chapter" data-level="3.4.2" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#objects-2"><i class="fa fa-check"></i><b>3.4.2</b> Objects</a></li>
+<li class="chapter" data-level="3.4.3" data-path="basics-arithmetic-objects-and-functions.html"><a href="basics-arithmetic-objects-and-functions.html#functions-2"><i class="fa fa-check"></i><b>3.4.3</b> Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html"><i class="fa fa-check"></i><b>4</b> Data: Vectors, Matrices and Data Frames</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors"><i class="fa fa-check"></i><b>4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices"><i class="fa fa-check"></i><b>4.2</b> Matrices</a></li>
+<li class="chapter" data-level="4.3" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#factors-and-data-frames"><i class="fa fa-check"></i><b>4.3</b> Factors and Data frames</a></li>
+<li class="chapter" data-level="4.4" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#exercises-1"><i class="fa fa-check"></i><b>4.4</b> Exercises</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-1"><i class="fa fa-check"></i><b>4.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-1"><i class="fa fa-check"></i><b>4.4.2</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#answers-to-exercises-1"><i class="fa fa-check"></i><b>4.5</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#vectors-2"><i class="fa fa-check"></i><b>4.5.1</b> Vectors</a></li>
+<li class="chapter" data-level="4.5.2" data-path="data-vectors-matrices-and-data-frames.html"><a href="data-vectors-matrices-and-data-frames.html#matrices-2"><i class="fa fa-check"></i><b>4.5.2</b> Matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html"><i class="fa fa-check"></i><b>5</b> Choosing data: subscripts and subsetting</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts"><i class="fa fa-check"></i><b>5.0.1</b> Subscripts</a></li>
+<li class="chapter" data-level="5.0.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-in-matrices-and-data-frames"><i class="fa fa-check"></i><b>5.0.2</b> Subscripts in matrices and data frames</a></li>
+<li class="chapter" data-level="5.0.3" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subset"><i class="fa fa-check"></i><b>5.0.3</b> Subset</a></li>
+<li class="chapter" data-level="5.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#exercises-2"><i class="fa fa-check"></i><b>5.1</b> Exercises</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors"><i class="fa fa-check"></i><b>5.1.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.1.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices"><i class="fa fa-check"></i><b>5.1.2</b> Subscripts and matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#answers-to-exercises-2"><i class="fa fa-check"></i><b>5.2</b> Answers to exercises</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-vectors-1"><i class="fa fa-check"></i><b>5.2.1</b> Subscripts and vectors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="choosing-data-subscripts-and-subsetting.html"><a href="choosing-data-subscripts-and-subsetting.html#subscripts-and-matrices-1"><i class="fa fa-check"></i><b>5.2.2</b> Subscripts and matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html"><i class="fa fa-check"></i><b>6</b> R scripts and your R workflow</a><ul>
+<li class="chapter" data-level="6.1" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#writing-and-using-r-scripts"><i class="fa fa-check"></i><b>6.1</b> Writing and using R scripts</a></li>
+<li class="chapter" data-level="6.2" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-an-r-script-window"><i class="fa fa-check"></i><b>6.2</b> Running code from an R script window</a></li>
+<li class="chapter" data-level="6.3" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#running-code-from-files-using-source"><i class="fa fa-check"></i><b>6.3</b> Running code from files using <code>source()</code></a></li>
+<li class="chapter" data-level="6.4" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#workflow-structure-or-what-should-i-put-in-my-script"><i class="fa fa-check"></i><b>6.4</b> Workflow structure, or what should I put in my script?</a></li>
+<li class="chapter" data-level="6.5" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#keep-it-neat-making-your-script-easy-to-read"><i class="fa fa-check"></i><b>6.5</b> Keep it neat — making your script easy to read</a></li>
+<li class="chapter" data-level="6.6" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#i-wish-i-hadnt-commented-my-code-so-much-said-no-one-ever-4."><i class="fa fa-check"></i><b>6.6</b> “I wish I hadn’t commented my code so much”, said no-one, ever [^4].</a></li>
+<li class="chapter" data-level="6.7" data-path="r-scripts-and-your-r-workflow.html"><a href="r-scripts-and-your-r-workflow.html#using-rstudio-to-write-scripts"><i class="fa fa-check"></i><b>6.7</b> Using RStudio to write scripts</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="plotting-graphs-in-r.html"><a href="plotting-graphs-in-r.html"><i class="fa fa-check"></i><b>7</b> Plotting graphs in R</a></li>
+<li class="chapter" data-level="8" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html"><i class="fa fa-check"></i><b>8</b> Chapter 5: Graphs</a><ul>
+<li class="chapter" data-level="8.1" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#scatterplots"><i class="fa fa-check"></i><b>8.1</b> Scatterplots</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#plot-symbols"><i class="fa fa-check"></i><b>8.1.1</b> Plot symbols</a></li>
+<li class="chapter" data-level="8.1.2" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#colours"><i class="fa fa-check"></i><b>8.1.2</b> Colours</a></li>
+<li class="chapter" data-level="8.1.3" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#drawing-graphs-piece-by-piece"><i class="fa fa-check"></i><b>8.1.3</b> Drawing graphs piece-by-piece</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#drawing-curves"><i class="fa fa-check"></i><b>8.2</b> Drawing curves</a></li>
+<li class="chapter" data-level="8.3" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#plots-of-variables-by-factors"><i class="fa fa-check"></i><b>8.3</b> Plots of Variables by Factors</a></li>
+<li class="chapter" data-level="8.4" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#using-transparency-in-your-graphs"><i class="fa fa-check"></i><b>8.4</b> Using transparency in your graphs</a></li>
+<li class="chapter" data-level="8.5" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#more-graphics-functions"><i class="fa fa-check"></i><b>8.5</b> More Graphics Functions</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#histogram-with-overlaid-probability-density-estimate"><i class="fa fa-check"></i><b>8.5.1</b> Histogram with overlaid probability density estimate</a></li>
+<li class="chapter" data-level="8.5.2" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#pie-graph"><i class="fa fa-check"></i><b>8.5.2</b> Pie graph</a></li>
+<li class="chapter" data-level="8.5.3" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#d-scatterplot"><i class="fa fa-check"></i><b>8.5.3</b> 3D scatterplot</a></li>
+<li class="chapter" data-level="8.5.4" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#contour-plot"><i class="fa fa-check"></i><b>8.5.4</b> Contour plot</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#exporting-graphics"><i class="fa fa-check"></i><b>8.6</b> Exporting Graphics</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#the-easy-way"><i class="fa fa-check"></i><b>8.6.1</b> The easy way</a></li>
+<li class="chapter" data-level="8.6.2" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#the-hard-way"><i class="fa fa-check"></i><b>8.6.2</b> The hard way</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#going-further-with-your-graphs"><i class="fa fa-check"></i><b>8.7</b> Going Further with your Graphs</a><ul>
+<li class="chapter" data-level="8.7.1" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#ggplot2"><i class="fa fa-check"></i><b>8.7.1</b> ggplot2</a></li>
+<li class="chapter" data-level="8.7.2" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#lattice"><i class="fa fa-check"></i><b>8.7.2</b> lattice</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#exercises-3"><i class="fa fa-check"></i><b>8.8</b> Exercises</a></li>
+<li class="chapter" data-level="8.9" data-path="chapter-5-graphs.html"><a href="chapter-5-graphs.html#footnotes"><i class="fa fa-check"></i><b>8.9</b> Footnotes</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introductory R: A beginner’s guide to programming, data visualisation and statistical analysis in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-5-graphs" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Chapter 5: Graphs</h1>
+<p>When it comes to drawing graphs, using R gives you the same benefits and costs that you get when analysing data. The benefits are that R is almost infinitely flexible and can draw an extraordinary range of graphs, but this flexibility comes at a cost, namely that everything is done through a command-line interface that can be difficult to use and sometimes counterintuitive. Whereas with other software you get a nice GUI and can just point and click until you achieve what it is you’re after, if you’re drawing graphs in R you might have to do some research first to find out how to draw the graph you’re after. Then again, when you do get R to draw your graph you’ll find that the default options are often very good starting points; unlike those in a certain popular spreadsheet application, for example, they have been designed by people possessed of both brains and colour vision. For some examples of R graphics just type</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">demo</span>(graphics)</code></pre>
+<p>and enjoy the show.
+***</p>
+<div id="scatterplots" class="section level2">
+<h2><span class="header-section-number">8.1</span> Scatterplots</h2>
+<p>Let’s start with plotting some data on haemocyte counts from two species of caterpillar, <em>Pieris brassicae</em> and <em>Pieris napi</em>. Haemocytes are the cells found in what passes for blood in insects and they are important in determining the immune response of the animal. These data are analysed in detail in chapter 9, but for the moment we are just going to look at the relationship between weight and haemocyte count. Let’s plot out the data and take a look at it.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Plot the graph</span>
+<span class="kw">plot</span>(Haemocyte<span class="op">$</span>Weight, <span class="kw">log</span>(Haemocyte<span class="op">$</span>Count))</code></pre>
+<p>This gives us the default graph that R draws when you tell it to plot two variables against each other. The first variable gives the X-axis, the second the Y-axis. Axis labels are taken from the function call, and the default plotting character is the open circle.</p>
+<div class="figure"><span id="fig:graph2"></span>
+<img src="3rd_Edition_files/figure-html/graph2-1.png" alt="Log haemocyte count plotted against weight" width="672" />
+<p class="caption">
+Figure 8.1: Log haemocyte count plotted against weight
+</p>
+</div>
+<p>This shows that perhaps there is some relationship between weight and haemocyte count, but ideally we’d like to see the two different species’ counts differentiated in some way: by colour or by using different plotting symbols. We might also want to change the axis labels if we’re preparing a graph for publication. We can define how things look in a graph by changing the “graphical parameters” - a list of all of the things about the graph that determine things like colour, plot symbol, axis titles and so on. We can change most of these parameters by putting new values for them into our function call, separated by commas in just the same way that other arguments work in non-graphical functions. Two of the ones that you’ll use all of the time are <em>pch</em>, which determines the plot symbol used and <em>col</em>, used to designate the colour or colours.</p>
+<div id="plot-symbols" class="section level3">
+<h3><span class="header-section-number">8.1.1</span> Plot symbols</h3>
+<p>We can get R to draw different plot symbols by using the <em>pch=</em> graphical parameter. R has a set of built in symbols that are represented by the numbers 1 to 25. Here’s some code that will draw them for you.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set up variables</span>
+X1 &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">5</span>)
+Y1 &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">5</span><span class="op">:</span><span class="dv">1</span>, <span class="dt">each =</span> <span class="dv">5</span>)
+sym &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">25</span>
+
+<span class="co"># Plot the graph</span>
+<span class="kw">plot</span>(
+  X1,
+  Y1,
+  <span class="dt">pch =</span> sym,
+  <span class="dt">cex =</span> <span class="fl">1.2</span>,
+  <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>,
+  <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>,
+  <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>,
+  <span class="dt">yaxt =</span> <span class="st">&quot;n&quot;</span>,
+  <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">5.7</span>),
+  <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">5.7</span>)
+)
+
+<span class="co"># Add text</span>
+<span class="kw">text</span>(<span class="dt">x =</span> X1 <span class="op">-</span><span class="st"> </span><span class="fl">0.3</span>, <span class="dt">y =</span> Y1, <span class="dt">labels =</span> sym)</code></pre>
+<div class="figure"><span id="fig:graph3"></span>
+<img src="3rd_Edition_files/figure-html/graph3-1.png" alt="Plot symbols used in R" width="672" />
+<p class="caption">
+Figure 8.2: Plot symbols used in R
+</p>
+</div>
+<p>This snippet of code is worth taking a look at because it illustrates some important points (geddit?) about drawing graphs in R.</p>
+<pre class="sourceCode r"><code class="sourceCode r">X1&lt;-<span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">5</span>)
+Y1&lt;-<span class="kw">rep</span>(<span class="dv">5</span><span class="op">:</span><span class="dv">1</span>, <span class="dt">each=</span><span class="dv">5</span>)
+sym&lt;-<span class="dv">1</span><span class="op">:</span><span class="dv">25</span></code></pre>
+<p>This sets up two vectors, one for the x-coordinates and one for the y-coordinates which will specify the location of 25 points in a grid, and then a third vector, <em>sym</em>, which is the numbers 1 to 25. We’ll use this both to specify the points to be drawn at each location and for the text labels for the points.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(
+  X1,
+  Y1,
+  <span class="dt">pch =</span> sym,
+  <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>,
+  <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>,
+  <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>,
+  <span class="dt">yaxt =</span> <span class="st">&quot;n&quot;</span>,
+  <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">6</span>),
+  <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">6</span>)
+)</code></pre>
+<p>This draws the graph. The <em>xlab</em>, <em>xaxt</em> and the corresponding <em>y</em> graphical parameters turn off the axis labels and the ticks and axis numbering. The really important point here is that we can specify a vector of numbers (<em>sym</em>) for the <em>pch</em> graphical parameter and R will read these in order and draw the corresponding plot symbol. In this case our vector is length 25 and we’re drawing 25 points, so there’s a 1:1 correspondence. If the vector were shorter R would recycle it as many times as necessary to give a plot symbol for each point on the graph, and if it were longer R would draw the first 25 symbols and then go back and overplot until it ran out of numbers in the <em>sym</em> vector. Try using this code to draw your own graph but set <em>sym</em> as 1:5, 1:10 and 1:30 to see how the plot changes. Finally, the <em>cex</em> parameter makes R draw the symbols 1.2 times the default size, just to make it a little clearer.</p>
+<p>R can also plot any text symbol you might want to use, you just have to give it the symbol in quote marks, so <em>pch=“A”</em> will plot your data points as capital “A” and <em>pch=“€”</em> will plot them as Euro symbols.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">text</span>(<span class="dt">x=</span>X1<span class="fl">-0.2</span>,<span class="dt">y=</span>Y1,<span class="dt">labels=</span>sym)</code></pre>
+<p>The last thing we want to do is to write in the numbers corresponding to our plot symbols, and we do that with the <code>text()</code> function. This takes as arguments the x-coordinate or coordinate either as a as a single number or a vector, the y-coordinate or coordinates and then argument called <em>labels</em> which tells it what text to write. Once again we can just feed it a vector of numbers as the <em>labels</em> argument and it cycles through them. One thing to remember about <code>text()</code> is that the default option is to write the text centred around the coordinates given in the first two arguments, but you can change this with the <em>pos=</em> argument, which takes a value of 1,2,3 or 4 which will cause the text to be written below, to the left of, above or to the right of the coordinates given respectively.</p>
+</div>
+<div id="colours" class="section level3">
+<h3><span class="header-section-number">8.1.2</span> Colours</h3>
+<p>The colour or colours that your plot symbols are drawn with (or the colours of the boxes in a boxplot, or the bars in a histogram or bar plot) can be set in R by using the <em>col</em> parameter, and other parameters such as <em>bg</em>, <em>col.axis</em>, <em>col.lab</em> set the colours for other parts of the plot: these examples will allow you to change the background colour and the colours of the axes and the axis labels respectively. For a full list of these take a look at <code>?par</code> which will bring up a description of all of the graphical parameters. The actual colours to be used can be named in a confusing variety of different ways, but for the beginner the easiest thing to do is simply to use the name: “red”, “blue”, “green” or “lightblue” or “darkgreen”. In fact, R has a rather surprising number of named colours that you can use, and an even more surprising range of names, from “aliceblue” through “darkgoldenrod2”, “hotpink1”, “lemonchiffon3” to “tomato4”. The function <code>colours()</code>, or <code>colors()</code> if you prefer the American spelling will produce a list of all 657 named colours in R. Appendix 1 has a series of charts showing each colour with its name.</p>
+<p>If you’re familiar with how colours are described in computers then you can use the RGB hexadecimal code for the colour: this begins with a hash symbol and then has two numbers for the red channel (computers think in hexadecimal to each one is 0-9 and the A-F), two for the green and two for the blue, so #0000FF is blue, #FF0000 is red, #000000 is black and #FFFFFF is white. We’ll talk about using these hex codes a little later when we discuss using <em>alpha channels</em> to make elements of your graph semi-transparent.</p>
+</div>
+<div id="drawing-graphs-piece-by-piece" class="section level3">
+<h3><span class="header-section-number">8.1.3</span> Drawing graphs piece-by-piece</h3>
+<p>One of the nice things about graphs in R is that we can build complicated ones up by adding elements one after another. Here’s how we can draw our scatterplot with the species distinguished by plotting symbol and colour.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(
+  Haemocyte<span class="op">$</span>Weight,
+  <span class="kw">log</span>(Haemocyte<span class="op">$</span>Count),
+  <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>,
+  <span class="dt">xlab =</span> <span class="st">&quot;Weight (g)&quot;</span>,
+  <span class="dt">ylab =</span> <span class="st">&quot;Log Haemocyte count&quot;</span>
+)</code></pre>
+<p>We have now defined a series of parameters in our <code>plot()</code> call. I have now told R what I want the axis labels to be using the <em>xlab</em> and <em>ylab</em> parameters. The other thing I have added is that the parameter <em>type</em> is now set to <em>type=”n”</em>. This tells R to plot the axes and the labels, but not to draw in any data points. What we get is this.</p>
+<div class="figure"><span id="fig:graph4"></span>
+<img src="3rd_Edition_files/figure-html/graph4-1.png" alt="Log haemocyte count plotted against weight with no data points." width="672" />
+<p class="caption">
+Figure 8.3: Log haemocyte count plotted against weight with no data points.
+</p>
+</div>
+<p>An empty box, with axes scaled properly for our dataset and the correct labels for the axes. Note the lack of all those great “features” you get if you try drawing a scatterplot in a certain popular spreadsheet: gridlines, an ugly grey background, stupid axis scaling, revolting colours and a pointless legend. Of course, our beautiful empty white box is also unsullied by any data points, but we can easily fix that. There are a number of functions that will draw things onto graphs that R has already plotted: <code>points()</code>, <code>lines()</code>, <code>abline()</code>, <code>text()</code> and <code>legend()</code> are some of the most common, and we will use these to build our graph.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">points</span>(Haemocyte<span class="op">$</span>Weight[Haemocyte<span class="op">$</span>Species <span class="op">==</span><span class="st"> &quot;P.napi&quot;</span>],
+       <span class="kw">log</span>(Haemocyte<span class="op">$</span>Count [Haemocyte<span class="op">$</span>Species <span class="op">==</span><span class="st"> &quot;P.napi&quot;</span>]),
+       <span class="dt">pch =</span> <span class="dv">16</span>,
+       <span class="dt">col =</span> <span class="st">&quot;darkred&quot;</span>)</code></pre>
+<p>The <code>points()</code> function draws points onto an existing graph. I’ve told it to draw the points corresponding to <em>P. napi</em>, coloured dark red (<em>col=”darkred”</em>) and using plot character 16, a filled circle (<em>pch=16</em>). Our graph now looks like this.</p>
+<div class="figure"><span id="fig:graph5"></span>
+<img src="3rd_Edition_files/figure-html/graph5-1.png" alt="Log haemocyte count plotted against weight with the P. napi data plotted as red circles." width="672" />
+<p class="caption">
+Figure 8.4: Log haemocyte count plotted against weight with the P. napi data plotted as red circles.
+</p>
+</div>
+<p>Now we can add in the points for <em>P. brassicae</em>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">points</span>(Haemocyte<span class="op">$</span>Weight[Haemocyte<span class="op">$</span>Species <span class="op">==</span><span class="st"> &quot;P.brassicae&quot;</span>],
+       <span class="kw">log</span>(Haemocyte<span class="op">$</span>Count[Haemocyte<span class="op">$</span>Species <span class="op">==</span><span class="st"> &quot;P.brassicae&quot;</span>]),
+       <span class="dt">pch =</span> <span class="dv">17</span>,
+       <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>)</code></pre>
+<div class="figure"><span id="fig:graph6"></span>
+<img src="3rd_Edition_files/figure-html/graph6-1.png" alt="Log haemocyte count plotted against weight with the P. brassicae data added as blue triangles." width="672" />
+<p class="caption">
+Figure 8.5: Log haemocyte count plotted against weight with the P. brassicae data added as blue triangles.
+</p>
+</div>
+<p>Last of all, let’s put in a legend.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">legend</span>(
+  <span class="fl">0.38</span>,
+  <span class="fl">5.7</span>,
+  <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&#39;P. napi&#39;</span>, <span class="st">&#39;P. brassicae&#39;</span>),
+  <span class="dt">pch =</span> <span class="dv">16</span><span class="op">:</span><span class="dv">17</span>,
+  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;darkred&quot;</span>, <span class="st">&quot;steelblue&quot;</span>),
+  <span class="dt">cex =</span> <span class="fl">0.7</span>,
+  <span class="dt">text.font =</span> <span class="dv">3</span>,
+  <span class="dt">bty =</span> <span class="st">&#39;n&#39;</span>
+)</code></pre>
+<p>The first two parameters give the location of the legend in the coordinates specified by the axes, then we define the text and the symbols and their colours. The <em>cex=</em> parameter sets the size of the text and symbols and we have set it to be 0.7 times the default value. <em>text.font=3</em> sets the legend font to italic because these are species names. Last of all <em>bty=“n”</em> stops a box being drawn around it.
+At the end of this process we get a graph that looks like this.</p>
+<div class="figure"><span id="fig:graph7"></span>
+<img src="3rd_Edition_files/figure-html/graph7-1.png" alt="Final plot for log haemocyte count data versus weight." width="672" />
+<p class="caption">
+Figure 8.6: Final plot for log haemocyte count data versus weight.
+</p>
+</div>
+<p>This is a nice looking graph. If you’ve written the code to produce it in the script editor (see the “Record Keeping” chapter for more details), or in a different text editor of your choice, you can save the script and then if you want to reproduce the graph later on with any changes it’s easy to do by just running the script again. Let’s say you are submitting your work for publication and need a graph without any use of colour, and you want the axis labels in bold: you can just load your script again. To remove the colours just delete <code>col=“darkred”</code> and <code>col=“steelblue”</code> from the two <code>points()</code> functions and the <code>col=</code> parameter from the <code>legend()</code> function. To make the axis labels bold add <code>font.lab=2</code> to the <code>plot()</code> function, and you can redraw the graph.</p>
+<p>Going back to the graph, we can immediately see that the species differ considerably in their weights. It’s not quite so clear what the relationships between weight and haemocyte count are for both species. It would perhaps be more informative to plot two graphs side by side, one for each species, and it would be nice to put a fitted line in as well. This requires an intimidating amount of code, but again we build the figure up step-by-step, and each individual step is simple.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</code></pre>
+<p>Not immediately obvious what’s going on here. This function is setting a “low-level plotting parameter”, a graphical parameter that affects the whole of the plot window, to tell R to draw two graphs next to each other. This is fine if you want, say, two plots next to each other, four in a regular grid (‘par(mfrow=c(2,2))’ or two plots, one above the other (<code>par(mafrow=c(2,1))</code>. More complex designs can be produced using <code>layout()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(
+  Haemocyte<span class="op">$</span>Weight[Haemocyte<span class="op">$</span>Species <span class="op">==</span><span class="st"> &#39;P.brassicae&#39;</span>],
+  <span class="kw">log</span>(Haemocyte<span class="op">$</span>Count[Haemocyte<span class="op">$</span>Species <span class="op">==</span><span class="st"> &#39;P.brassicae&#39;</span>]),
+  <span class="dt">pch =</span> <span class="dv">16</span>,
+  <span class="dt">xlab =</span> <span class="st">&#39;Weight (g)&#39;</span>,
+  <span class="dt">ylab =</span> <span class="st">&#39;Log Haemocyte count&#39;</span>,
+  <span class="dt">main =</span> <span class="st">&#39;P.brassicae&#39;</span>,
+  <span class="dt">font.main =</span> <span class="dv">3</span>
+)</code></pre>
+<p>This sets up the first plot, for <code>P. brassicae</code>. The parameter “main” specifies the graph title, the <code>font.main</code> italicises it. We’ve also asked for the plotting symbol to be number 16, filled circles. Now for a line fitted to the <em>P. brassicae</em> data.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count[Haemocyte<span class="op">$</span>Species <span class="op">==</span><span class="st"> &quot;P.brassicae&quot;</span>]) <span class="op">~</span>
+<span class="st">     </span>Haemocyte<span class="op">$</span>Weight[Haemocyte<span class="op">$</span>Species <span class="op">==</span><span class="st">&quot;P.brassicae&quot;</span>])</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = log(Haemocyte$Count[Haemocyte$Species == &quot;P.brassicae&quot;]) ~ 
+##     Haemocyte$Weight[Haemocyte$Species == &quot;P.brassicae&quot;])
+## 
+## Coefficients:
+##                                          (Intercept)  
+##                                                4.575  
+## Haemocyte$Weight[Haemocyte$Species == &quot;P.brassicae&quot;]  
+##                                               -0.765</code></pre>
+<p>￼
+This calculates a linear regression (see chapter 11) of log haemocyte count on weight for P. brassicae only. We haven’t set up an object with the results in: just told R to calculate it, which gives us the the slope and the intercept.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">abline</span>(<span class="fl">4.575</span>, <span class="fl">-0.765</span>)</code></pre>
+<p>This uses the function <code>abline()</code> which draws a straight line on an existing plot. <em>a</em> is the intercept, <em>b</em> is the slope, and these come from the <code>lm()</code> call we used above.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(
+  Haemocyte<span class="op">$</span>Weight[Haemocyte<span class="op">$</span>Species <span class="op">==</span><span class="st"> &quot;P.napi&quot;</span>],
+  <span class="kw">log</span>(Haemocyte<span class="op">$</span>Count[Haemocyte<span class="op">$</span>Species <span class="op">==</span><span class="st"> &quot;P.napi&quot;</span>]),
+  <span class="dt">pch =</span> <span class="dv">16</span>,
+  <span class="dt">xlab =</span> <span class="st">&quot;Weight (g)&quot;</span>,
+  <span class="dt">ylab =</span> <span class="st">&quot;Log Haemocyte count&quot;</span>,
+  <span class="dt">main =</span> <span class="st">&quot;P. Napi&quot;</span>,
+  <span class="dt">font.main =</span> <span class="dv">3</span>
+)</code></pre>
+<p>This plots the graph for P. napi.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">abline</span>(<span class="kw">lm</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count[Haemocyte<span class="op">$</span>Species<span class="op">==</span><span class="st">&quot;P.napi&quot;</span>]) <span class="op">~</span><span class="st"> </span>Haemocyte<span class="op">$</span>Weight[Haemocyte<span class="op">$</span>Species<span class="op">==</span><span class="st">&quot;P.napi&quot;</span>]))</code></pre>
+<p>This is another use of <code>abline</code>: it is happy if you specify the intercept and slope directly, but it’s also happy to take the output of an <code>lm()</code> function call directly. Put them all together and you get this pair of graphs.</p>
+<div class="figure"><span id="fig:graph8"></span>
+<img src="3rd_Edition_files/figure-html/graph8-1.png" alt="Log haemocyte count plotted against weight for the two butterfly species on separate plots with fitted lines." width="768" />
+<p class="caption">
+Figure 8.7: Log haemocyte count plotted against weight for the two butterfly species on separate plots with fitted lines.
+</p>
+</div>
+<p>Looks like the relationship between weight and log haemocyte count is dependent on species. Getting ahead of ourselves in the stats a bit, to analyse this you’d want to fit a model with both species and weight and look for an interaction between the two.</p>
+</div>
+</div>
+<div id="drawing-curves" class="section level2">
+<h2><span class="header-section-number">8.2</span> Drawing curves</h2>
+<p>There are lots of ways to add a curve to a plot in R; we’ll look at two of them. The first is to use the <code>curve()</code> function, which does what it says on the tin. As an example, here is a plot of log horn size versus log body size (the latter estimated by measuring the width of the pronotum, the front part of the thorax) for males of a species of beetle called <em>Euoniticellus intermedius</em>^1. You can see that the slope of the relationship decreases as the beetles get larger, and we might want to describe this relationship with a quadratic model (see the chapter on linear regression for a worked example of how to fit one of these).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(
+  <span class="kw">log</span>(beetle<span class="op">$</span>int_pron),
+  <span class="kw">log</span>(beetle<span class="op">$</span>int_horn),
+  <span class="dt">pch =</span> <span class="dv">16</span>,
+  <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>,
+  <span class="dt">xlab =</span> <span class="st">&quot;Log pronotum width (mm)&quot;</span>,
+  <span class="dt">ylab =</span> <span class="st">&quot;Log horn length (mm)&quot;</span>
+)</code></pre>
+<div class="figure"><span id="fig:graph9"></span>
+<img src="3rd_Edition_files/figure-html/graph9-1.png" alt="Horn length versus pronotum width for E. intermedius." width="672" />
+<p class="caption">
+Figure 8.8: Horn length versus pronotum width for E. intermedius.
+</p>
+</div>
+<p>We know that the equation of the curve we want to fit is <em>y=-8.054 + 3.718x -0.396x^2</em>, so we can put this into <code>curve()</code> as its first argument. We then have to tell it the x-values to draw the curve from and to, and we’ll use the minumum and maximum values for the <em>E. intermedius</em> pronotum width for this. Finally we need the argument <em>add=TRUE</em> to make it add it to the plot we’ve already drawn, otherwise it will draw the curve on a new plot.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(
+  <span class="kw">log</span>(beetle<span class="op">$</span>int_pron),
+  <span class="kw">log</span>(beetle<span class="op">$</span>int_horn),
+  <span class="dt">pch =</span> <span class="dv">16</span>,
+  <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>,
+  <span class="dt">xlab =</span> <span class="st">&quot;Log pronotum width (mm)&quot;</span>,
+  <span class="dt">ylab =</span> <span class="st">&quot;log horn length (mm)&quot;</span>
+)
+
+<span class="kw">curve</span>(
+  <span class="fl">-26.66</span> <span class="op">+</span><span class="st"> </span><span class="fl">34.46</span> <span class="op">*</span><span class="st"> </span>x <span class="op">-</span><span class="st"> </span><span class="fl">11.04</span> <span class="op">*</span><span class="st"> </span>(x <span class="op">^</span><span class="st"> </span><span class="dv">2</span>),
+  <span class="dt">from =</span> <span class="kw">min</span>(<span class="kw">log</span>(beetle<span class="op">$</span>int_pron), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
+  <span class="dt">to =</span> <span class="kw">max</span>(<span class="kw">log</span>(beetle<span class="op">$</span>int_pron), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
+  <span class="dt">add =</span> <span class="ot">TRUE</span>
+)</code></pre>
+<div class="figure"><span id="fig:graph10"></span>
+<img src="3rd_Edition_files/figure-html/graph10-1.png" alt="Previous plot with line showing fitted quadratic model." width="672" />
+<p class="caption">
+Figure 8.9: Previous plot with line showing fitted quadratic model.
+</p>
+</div>
+<p>The second option is to set up a dummy x-variable with a sequence of points running from the minimum and maximum points where you want the curve to run from and to, and then to calculate the corresponding y-variables and draw them in with <code>points()</code>, with the <em>type</em> argument set to <em>type=“l”</em>. Here’s another beetle example - this one is the plot of log horn length versus log pronotum width for male beetles from a species called <em>Onthophagus taurus</em>. You can see that the shape of the relationship is quite complex: these beetles have males which follow one of two strategies to get mates, the big ones fight other beetles for access to females whereas the small ones don’t fight but try to acquire ‘sneaky’ matings when the big beetles are distracted or elsewhere, so the small beetles don’t bother growing horns^2.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(
+  beetle<span class="op">$</span>taurus_pron,
+  beetle<span class="op">$</span>taurus_horn,
+  <span class="dt">pch =</span> <span class="dv">16</span>,
+  <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>,
+  <span class="dt">xlab =</span> <span class="st">&quot;Pronotum width (mm)&quot;</span>,
+  <span class="dt">ylab =</span> <span class="st">&quot;Horn length (mm)&quot;</span>
+)</code></pre>
+<div class="figure"><span id="fig:graph11"></span>
+<img src="3rd_Edition_files/figure-html/graph11-1.png" alt="Horn length versus pronotum width for O. taurus." width="672" />
+<p class="caption">
+Figure 8.10: Horn length versus pronotum width for O. taurus.
+</p>
+</div>
+<p>There are lots of possible ways to describe patterns like this in these data, and one option is to use an equation of the form^3</p>
+<p><img src="Ch5eqn1.png" width="33%" height="33%"/></p>
+<p>This has to be fitted to the data using a <em>non-linear</em> model fitting process, and assuming we’ve done that we know that our estimates for the coefficients are:</p>
+<p><em>y<sub>0</sub></em> = 0.41
+<em>a</em> = 3.99
+<em>b</em> = 45.76
+<em>c</em> = 5.01</p>
+<p>Here is our dummy x-variable.</p>
+<pre class="sourceCode r"><code class="sourceCode r">X1 &lt;-
+<span class="st">  </span><span class="kw">seq</span>(
+    <span class="dt">from =</span> <span class="kw">min</span>(beetle<span class="op">$</span>taurus_pron, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
+    <span class="dt">to =</span> <span class="kw">max</span>(beetle<span class="op">$</span>taurus_pron, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
+    <span class="dt">length =</span> <span class="dv">200</span>
+  )</code></pre>
+<p>This will give us 200 evenly spaced numbers across the range of pronotum widths. Now we need to work out the corresponding y values.</p>
+<pre class="sourceCode r"><code class="sourceCode r">Y1 &lt;-<span class="st"> </span><span class="fl">0.41</span> <span class="op">+</span><span class="st"> </span>(<span class="fl">3.99</span> <span class="op">*</span><span class="st"> </span>(X1 <span class="op">^</span><span class="st"> </span><span class="fl">45.76</span>)) <span class="op">/</span><span class="st"> </span>(<span class="fl">5.01</span> <span class="op">^</span><span class="st"> </span><span class="fl">45.76</span> <span class="op">+</span><span class="st"> </span>(X1 <span class="op">^</span><span class="st"> </span><span class="fl">45.76</span>))</code></pre>
+<p>Now we can replot our graph and draw in the curve using <code>points()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(
+  beetle<span class="op">$</span>taurus_pron,
+  beetle<span class="op">$</span>taurus_horn,
+  <span class="dt">pch =</span> <span class="dv">16</span>,
+  <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>,
+  <span class="dt">xlab =</span> <span class="st">&quot;Pronotum width (mm)&quot;</span>,
+  <span class="dt">ylab =</span> <span class="st">&quot;Horn length (mm)&quot;</span>
+)
+
+<span class="kw">points</span>(X1, Y1, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</code></pre>
+<div class="figure"><span id="fig:graph12"></span>
+<img src="3rd_Edition_files/figure-html/graph12-1.png" alt="Horn length versus pronotum width for O. taurus with fitted curve" width="672" />
+<p class="caption">
+Figure 8.11: Horn length versus pronotum width for O. taurus with fitted curve
+</p>
+</div>
+<p>The first method, using <code>curve()</code> is simplest when you have a straightforward equation to descibe your curve. The second comes in handy in lots of other sutuations though, such as when you have a complex model and you want to draw a line showing the fitted model. In this case you can use the <code>predict()</code> function to calculate your y values without having to worry about copying out all of the fitted model coefficients. You’ll see examples of this being done in the chapter on linear regression and TB.</p>
+</div>
+<div id="plots-of-variables-by-factors" class="section level2">
+<h2><span class="header-section-number">8.3</span> Plots of Variables by Factors</h2>
+<p>As we have seen, scatterplots are easy and well implemented in R. Probably the next most frequent sort of data that most biologists want to graph is a continuous variable categorised by a factor. R has a variety of ways of doing this, which again use <code>plot()</code>. As we’ve seen several times the style of graph that <code>plot()</code> draws depends on the arguments it’s given, and if it gets asked to plot a factor against a continuous variable the graph produced varies depending on the order the arguments are in and whether they’re presented as a formula or not.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</code></pre>
+<p>Please plot two rows and two columns of graphs.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count), Haemocyte<span class="op">$</span>Species, <span class="dt">xlab=</span><span class="st">&quot;Log haemocyte count&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Plot 1: Continuous,Factor&quot;</span>)
+<span class="kw">plot</span>(Haemocyte<span class="op">$</span>Species, <span class="kw">log</span>(Haemocyte<span class="op">$</span>Count), <span class="dt">ylab=</span><span class="st">&#39;Log haemocyte count&#39;</span>, <span class="dt">main=</span><span class="st">&quot;Plot 2: Factor,Continuous&quot;</span>)
+<span class="kw">plot</span>(Haemocyte<span class="op">$</span>Species<span class="op">~</span><span class="kw">log</span>(Haemocyte<span class="op">$</span>Count), <span class="dt">xlab=</span><span class="st">&#39;Log haemocyte count&#39;</span>, <span class="dt">main=</span><span class="st">&quot;Plot 3: Factor~Continuous&quot;</span>)
+<span class="kw">plot</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count)<span class="op">~</span>Haemocyte<span class="op">$</span>Species, <span class="dt">ylab=</span><span class="st">&quot;Log haemocyte count&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Plot 4: Continuous~Factor&quot;</span>)</code></pre>
+<div class="figure"><span id="fig:graph13"></span>
+<img src="3rd_Edition_files/figure-html/graph13-1.png" alt="What happens when you use the `plot()` function on the same data but with the variables presented in different orders and as separate arguments or formulae." width="768" />
+<p class="caption">
+Figure 8.12: What happens when you use the <code>plot()</code> function on the same data but with the variables presented in different orders and as separate arguments or formulae.
+</p>
+</div>
+<p>Here we see the way that <code>plot()</code> does different things depending on what it’s told to act on. We’ve asked it to plot the same two variables each time, with the only difference between each function call being the order that the two objects are in and whether they’re included as two arguments separated by a comma or as a formula with a tilde. Plot 1, with our continuous variable specified as the one to be plotted on the x-axis, is a strip chart. These can be useful for visualising data, especially when sample sizes aren’t big. R has a function that specifically draws strip charts as well, <code>stripchart()</code>, which produces somewhat better results.</p>
+<p>Plot 2 is the output when the <code>plot()</code> function is given a factor as the x-axis variable and a continuous variable as the y-axis: a boxplot showing the continuous variable categorised by the factor. You can also draw boxplots using the <code>boxplot()</code> function, which gives you lots of options for things like the width of the boxes, the length of the whiskers and what to do about outliers.</p>
+<p>Plot 3 shows us what happens when we give the <code>plot()</code> function a formula of the form factor~continuous variable. This rather odd-looking graph is a spine plot, which is something that sits between a stacked bar plot and a histogram. It’s not much help for visualising these data but similar plots can be useful if in circumstances where you have several categories and then subcategories within them and want to visualise both the numbers in the categories and, within those categories, the proportions in each subcategory. As with our other plots there is a more flexible function that will draw spine plots only, <code>spineplot()</code>.</p>
+<p>Finally, plot 4 shows us what R produces when we give it a formula that is of the form continuous variable~factor: a boxplot identical to plot 2, so there are two ways to produce this graph using <code>plot()</code>. One potential source of confusion here is the order that the variables go in a formula rather than if we just put them in as separate arguments with a comma between them. If we use separate arguments then the first argument is plotted on the x-axis and the second on the y-axis, so to produce our boxplot we use <code>plot(Haemocyte$Species, log(Haemocyte$Count))</code>. If we’re using a formula, however, it’s the other way around, and the y-axis variable goes first: <code>plot(log(Haemocyte$Count)~Haemocyte$Species)</code>.</p>
+<p>This is great for producing nice boxplots, but what if, say, you want to plot means and confidence limits instead? I think a lot of statisticians would argue that boxplots are the best way to visualise data like this, but in biology a lot of people expect graphs of means and confidence intervals even when these are arguably inferior to boxplots. I’ve personally been made by referees to replace boxplots in publications with plots of means and confidence intervals, and mine is not an isolated experience. Unfortunately there isn’t a straightforward method for producing such plots implemented in the core R release, but that doesn’t mean you can’t draw them: one option is to install the package called <code>gplots</code> (see the chapter on R packages for more on this), which has a handy function called <code>plotmeans()</code>: an alternative is to write your own function, which we do as an exercise in the chapters on programming.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;gplots&quot;</span>)
+<span class="kw">library</span>(gplots)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotmeans</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count)<span class="op">~</span>Haemocyte<span class="op">$</span>Species)</code></pre>
+<div class="figure"><span id="fig:graph14"></span>
+<img src="3rd_Edition_files/figure-html/graph14-1.png" alt="Default output from `plotmeans()`." width="672" />
+<p class="caption">
+Figure 8.13: Default output from <code>plotmeans()</code>.
+</p>
+</div>
+<p>OK, it’s plotted the two means and the 95% confidence limits, and this is a useful plot to just have a look at our data with. Nevertheless, we could improve quite a few things before we start thinking about adding this particular graphic to our latest submission to Nature. The helpful indicators of sample size and the line connecting the two means could do with being lost. The points for the means might be better if they were bigger, and the error bars could go in black instead of blue. To find out how to sort all of these issues out, take a look at the help file.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotmeans</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count)<span class="op">~</span>Haemocyte<span class="op">$</span>Species, <span class="dt">connect=</span>F, <span class="dt">barcol=</span><span class="st">&#39;black&#39;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="dv">2</span>, <span class="dt">n.label=</span>F, <span class="dt">ylab=</span><span class="st">&quot;Log Haemocyte Count&quot;</span>)</code></pre>
+<div class="figure"><span id="fig:graph15"></span>
+<img src="3rd_Edition_files/figure-html/graph15-1.png" alt="Nicer looking graph with 95% CIs" width="672" />
+<p class="caption">
+Figure 8.14: Nicer looking graph with 95% CIs
+</p>
+</div>
+<p>Nicer looking graph with 95% CIs from <code>plotmeans()</code></p>
+<p>Nice. Still can’t submit it for publication, though, because those species names aren’t in italics. There is a parameter called “<code>font.axis</code>” which ought to set the axis text to italic if set to 3…</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotmeans</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count)<span class="op">~</span>Haemocyte<span class="op">$</span>Species, <span class="dt">connect=</span>F, <span class="dt">barcol=</span><span class="st">&#39;black&#39;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="dv">2</span>, <span class="dt">n.label=</span>F, <span class="dt">ylab=</span><span class="st">&quot;Log Haemocyte Count&quot;</span>, <span class="dt">font.axis=</span><span class="dv">3</span>)</code></pre>
+<div class="figure"><span id="fig:graph16"></span>
+<img src="3rd_Edition_files/figure-html/graph16-1.png" alt="Disappointingly similar to the last." width="672" />
+<p class="caption">
+Figure 8.15: Disappointingly similar to the last.
+</p>
+</div>
+<p>￼
+Not exactly the outcome we were hoping for: the y-axis labels are italic, but the x-axis labels are not. I’m sure there’s a good reason why this has happened, but I have no clue what that reason might be. Welcome to the wonderful world of R. Fortunately there is an alternative: we can draw the graph without an x-axis (set the parameter <em>xaxt</em> to <em>“n”</em>), and then use the <code>axis()</code> function to put in a new axis with italicised species names.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotmeans</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count)<span class="op">~</span>Haemocyte<span class="op">$</span>Species, <span class="dt">connect=</span>F, <span class="dt">barcol=</span><span class="st">&#39;black&#39;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="dv">2</span>, <span class="dt">n.label=</span>F, <span class="dt">xaxt=</span><span class="st">&#39;n&#39;</span>, <span class="dt">ylab=</span><span class="st">&quot;Log haemocyte count&quot;</span>)
+<span class="kw">axis</span>(<span class="dv">1</span>,<span class="dt">at=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),<span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;P. brassicae&quot;</span>,<span class="st">&quot;P. napi&quot;</span>),<span class="dt">font=</span><span class="dv">3</span>)</code></pre>
+<div class="figure"><span id="fig:graph17"></span>
+<img src="3rd_Edition_files/figure-html/graph17-1.png" alt="Sweet graph o’mine" width="672" />
+<p class="caption">
+Figure 8.16: Sweet graph o’mine
+</p>
+</div>
+<p>The other way to draw error bars onto a graph is to use the <code>arrows()</code> function, which draws arrows. Because it allows you to specify the angle between the lines of the arrowhead, you can use it to draw error bars. It’s easier to do it with plotmeans, but if you want to produce (say) a bar graph with error bars, or a plot with non-standard error bars, you’ll need to use <code>arrows()</code>.</p>
+<p>Here’s a script that will draw a bar graph of mean log haemocyte count versus species with error bars representing one standard error.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">###Draw barplot of mean log haemocyte counts with standard error bars</span>
+
+means&lt;-<span class="kw">tapply</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count),Haemocyte<span class="op">$</span>Species,mean)  <span class="co">#Set up matrix of means</span>
+
+log.haem.sd&lt;-<span class="kw">tapply</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count),Haemocyte<span class="op">$</span>Species,sd)    <span class="co">#Matrix of standard deviations</span>
+
+log.haem.se&lt;-<span class="kw">c</span>(log.haem.sd[<span class="dv">1</span>]<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">length</span>(Haemocyte<span class="op">$</span>Count[Haemocyte<span class="op">$</span>Species<span class="op">==</span><span class="st">&quot;P.brassicae&quot;</span>])<span class="op">-</span><span class="dv">1</span>), log.haem.sd[<span class="dv">2</span>]<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">length</span>(Haemocyte<span class="op">$</span>Count[Haemocyte<span class="op">$</span>Species<span class="op">==</span><span class="st">&quot;P.napi&quot;</span>])<span class="op">-</span><span class="dv">1</span>))  
+<span class="co">#matrix of standard errors calculated by dividing standard deviations by square root of n-1.</span>
+
+plot.loc&lt;-<span class="kw">barplot</span>(means,<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>),<span class="dt">xaxt=</span><span class="st">&quot;n&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Log haemocyte count&quot;</span>) 
+<span class="co">#draw barplot and set up an object containing the locations of the centre points of the bars on the x axis.</span>
+
+<span class="kw">arrows</span>(plot.loc,means,plot.loc,means<span class="op">+</span>log.haem.se,<span class="dt">angle=</span><span class="dv">90</span>) <span class="co">#add upper error bars</span>
+
+<span class="kw">arrows</span>(plot.loc,means,plot.loc,means<span class="op">-</span>log.haem.se,<span class="dt">angle=</span><span class="dv">90</span>) <span class="co">#add lower error bars</span>
+
+<span class="kw">axis</span>(<span class="dv">1</span>,<span class="dt">at=</span>plot.loc,<span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;P.brassicae&quot;</span>,<span class="st">&quot;P.napi&quot;</span>),<span class="dt">font=</span><span class="dv">3</span>, <span class="dt">lty=</span><span class="dv">0</span>) <span class="co">#add axis labels for the species names</span></code></pre>
+<p>This gives us the graph shown below.</p>
+<div class="figure"><span id="fig:graph18"></span>
+<img src="3rd_Edition_files/figure-html/graph18-1.png" alt="Bar graph of log haemocyte count by species with 95% CI error bars" width="672" />
+<p class="caption">
+Figure 8.17: Bar graph of log haemocyte count by species with 95% CI error bars
+</p>
+</div>
+<p>This is an unusual plot. Often when people use bar graphs like this they will truncate the y-axis without making it clear that they’ve done so. When the y-axis does not go all the way to the origin, however, the default option in R is to draw the bars so that it’s clear that there is more bar below. This makes it less likely that a casual look will give the impression that the effect size is larger than it really is, surely a good thing.</p>
+<hr />
+</div>
+<div id="using-transparency-in-your-graphs" class="section level2">
+<h2><span class="header-section-number">8.4</span> Using transparency in your graphs</h2>
+<p>Something that you can do if you wish to dip your toe into the waters of hexadecimal colour coding is use colours which are transparent, so parts of the graph that are plotted underneath them can show through. This can be useful if, for example, you wish to produce a figure with two histograms plotted on top of each other so that the shapes of two frequency distributions can be compared. We can illustrate this with some results data from the 2012 Ironman Triathlon World Championship in Hawaii. This is a race in which the participants swim for 3.8km, cycle for 180km and then run a marathon. We’ll look at these data again in the chapter on correlation, but for the moment we’ll look at the distributions of bike times for male competitors in two age classes: 25-29 years old and 50-54 years old.</p>
+<p>First we need to find out the hexadecimal values for the colours we’d like to use. For the first histogram we will use the colour <em>skyblue1</em>. The hexadecimal value for this can be generated using a function called <code>col2rgb()</code>, which gives the RGB values for a named colour. We have to tell R that we want the values given as hexadecimal rather than base 10, which we do with the <code>as.hexmode()</code> function.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.hexmode</span>(<span class="kw">col2rgb</span>(<span class="st">&quot;skyblue1&quot;</span>))</code></pre>
+<pre><code>##       [,1]
+## red   &quot;87&quot;
+## green &quot;ce&quot;
+## blue  &quot;ff&quot;</code></pre>
+<p>Our hexadecimal value for <em>skyblue1</em> is “#87CEFF”. For the colour of the histogram plotted over the top we can use plain red, which we know is #FF0000. To make this transparent we add an extra two digits to the right hand side of this number, which determine how see-through it will be. Low values mean that most of what is drawn below will show through, so if we gave this “alpha channel” number as 32 then 32/255 or 12.5% of the top value will be seen. Alternatively, if we gave it as CC (the alpha channel is also specified in hexadecimal) then 204/255 or 80% of the colour drawn on the top will be seen. We’ll use AA which means that 66% of the top colour will be used.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(IMH<span class="op">$</span>Bike[IMH<span class="op">$</span>Gender<span class="op">==</span><span class="st">&quot;M&quot;</span><span class="op">&amp;</span>IMH<span class="op">$</span>Category<span class="op">==</span><span class="st">&quot;25-29&quot;</span>],<span class="dt">col=</span><span class="st">&quot;#87CEFF&quot;</span>,<span class="dt">xlim=</span><span class="kw">c</span>(<span class="fl">4.6</span>,<span class="dv">8</span>),<span class="dt">main=</span><span class="st">&quot;&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;Bike split (hours)&quot;</span>)
+<span class="kw">hist</span>(IMH<span class="op">$</span>Bike[IMH<span class="op">$</span>Gender<span class="op">==</span><span class="st">&quot;M&quot;</span><span class="op">&amp;</span>IMH<span class="op">$</span>Category<span class="op">==</span><span class="st">&quot;50-54&quot;</span>],<span class="dt">col=</span><span class="st">&quot;#FF0000AA&quot;</span>,<span class="dt">add=</span><span class="ot">TRUE</span>,<span class="dt">breaks=</span><span class="dv">18</span>,<span class="dt">main=</span><span class="st">&quot;&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;&quot;</span>)</code></pre>
+<div class="figure"><span id="fig:graph19"></span>
+<img src="3rd_Edition_files/figure-html/graph19-1.png" alt="Histograms showing the frequency distribution of bike splits for males aged 25-29 (pale blue) and aged 55-59 (red) at the Hawaii Ironman Triathlon 2012" width="672" />
+<p class="caption">
+Figure 8.18: Histograms showing the frequency distribution of bike splits for males aged 25-29 (pale blue) and aged 55-59 (red) at the Hawaii Ironman Triathlon 2012
+</p>
+</div>
+<p>A second use for transparency is when you are plotting lots of overlapping data points. If you use a semi-transparent plot symbol in these cases then the amount of overplotting becomes clear and a scatterplot or similar can give more information than it would otherwise. Here are the bike times at the Hawaii Ironman Triathlon plotted against the run times for each competitor, using two different degrees of transparency. You can see that as we increase the amount of transparency the focus of the graph chamges from the overall shape of the spread of data to the region of the graph where the heaviest concentration of data points is found.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">plot</span>(IMH<span class="op">$</span>Bike,IMH<span class="op">$</span>Run,<span class="dt">pch=</span><span class="dv">16</span>,<span class="dt">col=</span><span class="st">&quot;#1010CC66&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;Bike split (hours)&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Run split (hours)&quot;</span>)
+<span class="kw">plot</span>(IMH<span class="op">$</span>Bike,IMH<span class="op">$</span>Run,<span class="dt">pch=</span><span class="dv">16</span>,<span class="dt">col=</span><span class="st">&quot;#1010CC33&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;Bike split (hours)&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Run split (hours)&quot;</span>)</code></pre>
+<div class="figure"><span id="fig:graph20"></span>
+<img src="3rd_Edition_files/figure-html/graph20-1.png" alt="Run split plotted against bike split for each individual competitor at the Hawaii Ironman Triathlon. The datapoints in the left hand graph are less transparent than those in the right hand graph." width="768" />
+<p class="caption">
+Figure 8.19: Run split plotted against bike split for each individual competitor at the Hawaii Ironman Triathlon. The datapoints in the left hand graph are less transparent than those in the right hand graph.
+</p>
+</div>
+</div>
+<div id="more-graphics-functions" class="section level2">
+<h2><span class="header-section-number">8.5</span> More Graphics Functions</h2>
+<p>In addition to <code>plot()</code>, there are lots of other functions for drawing graphs, and you can produce just about any sort of plot you can imagine using R. We’ve already seen <code>barplot()</code> in action, here are some further examples.</p>
+<div id="histogram-with-overlaid-probability-density-estimate" class="section level3">
+<h3><span class="header-section-number">8.5.1</span> Histogram with overlaid probability density estimate</h3>
+<p>There is an argument for the <code>hist()</code> function called “<code>freq</code>” which is normally set to <code>NULL</code>, but if you set it to <code>F</code> will draw a frequency histogram with the y axis scaled not to count but to the relative frequency density, such that the total area under the graph=1. A probability density estimate can then be obtained using <code>density()</code>, which computes a kernel density estimate for the variable in question.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(Haemocyte<span class="op">$</span>Weight,<span class="dt">breaks=</span><span class="dv">15</span>, <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Relative frequency&quot;</span>,  <span class="dt">freq=</span>F)
+<span class="kw">lines</span>(<span class="kw">density</span>(Haemocyte<span class="op">$</span>Weight))</code></pre>
+<div class="figure"><span id="fig:graph21"></span>
+<img src="3rd_Edition_files/figure-html/graph21-1.png" alt="Frequency histogram of weight with probability density estimate drawn as a line." width="672" />
+<p class="caption">
+Figure 8.20: Frequency histogram of weight with probability density estimate drawn as a line.
+</p>
+</div>
+<p>We can increase or decrease the amount of smoothing in the density estimate by using the “adjust” argument.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(Haemocyte<span class="op">$</span>Weight,<span class="dt">breaks=</span><span class="dv">15</span>,<span class="dt">col=</span><span class="st">&quot;grey&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Relative frequency&quot;</span>, <span class="dt">freq=</span>F)
+<span class="kw">lines</span>(<span class="kw">density</span>(Haemocyte<span class="op">$</span>Weight,<span class="dt">adjust=</span><span class="fl">0.5</span>), <span class="dt">lty=</span><span class="dv">3</span>)
+<span class="kw">lines</span>(<span class="kw">density</span>(Haemocyte<span class="op">$</span>Weight,<span class="dt">adjust=</span><span class="dv">2</span>), <span class="dt">lty=</span><span class="dv">2</span>)</code></pre>
+<div class="figure"><span id="fig:graph22"></span>
+<img src="3rd_Edition_files/figure-html/graph22-1.png" alt="As the previous figure but with two probability density estimates showing different amounts of smoothing" width="672" />
+<p class="caption">
+Figure 8.21: As the previous figure but with two probability density estimates showing different amounts of smoothing
+</p>
+</div>
+<p>Here I’ve plotted two kernel density estimates. The first one has the amount of smoothing reduced from the default by half (<code>adjust=0.5</code>), giving a line that closely follows the distribution of the data, and the second has the amount of smoothing set to twice the default (<code>adjust=2</code>), giving a much smoother line. Two further points to note are firstly that I set the type of line using the <code>lty=</code> parameter, and secondly the location of the various arguments. Because the <code>adjust=</code> argument is used in the <code>density()</code> function it’s kept within the brackets associated with the function, whereas the <code>lty=</code> argument goes with the <code>lines()</code> function so it’s inside the outer set of brackets. Easy to get confused if you don’t think about which arguments are associated with which functions.</p>
+</div>
+<div id="pie-graph" class="section level3">
+<h3><span class="header-section-number">8.5.2</span> Pie graph</h3>
+<p>Before you draw a pie graph, please read the help file for the <code>pie()</code> function, in particular the part beginning “Pie charts are a very bad way of displaying information…”. If you still want to draw a pie graph, please go directly to your nearest decent library and read the whole of Edward Tufte’s brilliant and beautiful book, The Visual Display of Quantitative Information (published by Graphics Press USA, 2nd edition 2001, ISBN 978-0961392147). That should teach you the error of your ways. If, however, you still want to draw a pie graph for some reason (perhaps you’re a journalist or a politician and want to disguise the patterns in some data) the you can use the <code>pie()</code> function. Here’s an example with made up data:</p>
+<pre class="sourceCode r"><code class="sourceCode r">chart.numbers&lt;-<span class="kw">c</span>(<span class="dv">15</span>,<span class="dv">108</span>,<span class="dv">220</span>,<span class="dv">22</span>,<span class="dv">170</span>)
+<span class="kw">names</span>(chart.numbers)&lt;-<span class="kw">c</span>(<span class="st">&quot;Bar&quot;</span>, <span class="st">&quot;2D Pie&quot;</span>, <span class="st">&quot;3D Pie&quot;</span>, <span class="st">&quot;Scatter&quot;</span>, <span class="st">&quot;Doughnut&quot;</span>)
+chart.numbers2&lt;-<span class="kw">c</span>(<span class="dv">119</span>,<span class="dv">12</span>,<span class="dv">280</span>,<span class="dv">5</span>)
+<span class="kw">names</span>(chart.numbers2)&lt;-<span class="kw">c</span>(<span class="st">&quot;Bar&quot;</span>, <span class="st">&quot;2D Pie&quot;</span>, <span class="st">&quot;Scatter&quot;</span>, <span class="st">&quot;Doughnut&quot;</span>)
+<span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">pie</span>(chart.numbers)
+<span class="kw">text</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="st">&quot;Frequencies of graphs in marketing material&quot;</span>, <span class="dt">cex=</span><span class="fl">0.6</span>, <span class="dt">font=</span><span class="dv">2</span>)
+<span class="kw">pie</span>(chart.numbers2)
+<span class="kw">text</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="st">&quot;Frequencies of graphs in research papers&quot;</span>, <span class="dt">cex=</span><span class="fl">0.6</span>, <span class="dt">font=</span><span class="dv">2</span>)</code></pre>
+<div class="figure"><span id="fig:graph23"></span>
+<img src="3rd_Edition_files/figure-html/graph23-1.png" alt="Pie graphs. Nothing more to say." width="960" />
+<p class="caption">
+Figure 8.22: Pie graphs. Nothing more to say.
+</p>
+</div>
+<p>There you are. The default colours are a bit meh but I can’t be bothered to fix them.</p>
+</div>
+<div id="d-scatterplot" class="section level3">
+<h3><span class="header-section-number">8.5.3</span> 3D scatterplot</h3>
+<p>In general it’s best to try to avoid presenting your data in “3D” graphs if at all possible because there are inevitable distortions that appear when you try to show a 3D cloud of points or surface in 2D, and the patterns in the data can appear very different depending on the angle of view. Nonetheless, there are times when it’s hard to find an alternative, and if you can’t avoid it there are a number of functions in R to draw 3D graphs. Here we’ll use the <code>scatterplot3d()</code> function from the <code>scatterplot3d</code> package. Some other useful 3D plotting functions are in the lattice package, including <code>cloud()</code> which also plots 3D scatterplots and <code>wireframe()</code> which draws a surface.</p>
+<p>Some simulated data:</p>
+<p>X variable is random and uniformly distributed between 0 and 12</p>
+<pre class="sourceCode r"><code class="sourceCode r">x1&lt;-<span class="kw">runif</span>(<span class="dv">25</span>, <span class="dt">min=</span><span class="dv">0</span>, <span class="dt">max=</span><span class="dv">12</span>)        </code></pre>
+<p>y variable is random and normally distributed with a mean of 15 and a standard deviation of 3</p>
+<pre class="sourceCode r"><code class="sourceCode r">y1&lt;-<span class="kw">rnorm</span>(<span class="dv">25</span>, <span class="dt">mean=</span><span class="dv">15</span>, <span class="dt">sd=</span><span class="dv">3</span>)    </code></pre>
+<p>Some randomly distributed error for our z variable</p>
+<pre class="sourceCode r"><code class="sourceCode r">err1&lt;-<span class="kw">rnorm</span>(<span class="dv">25</span>,<span class="dv">0</span>,<span class="dv">2</span>)         </code></pre>
+<p>Calculate the z variable</p>
+<pre class="sourceCode r"><code class="sourceCode r">z1&lt;-<span class="fl">0.8</span><span class="op">*</span>x1<span class="fl">+1.5</span><span class="op">*</span>y1<span class="op">+</span>err1      </code></pre>
+<p>Plot the graph. Setting type to “h” gives us drop lines from each data point.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">scatterplot3d</span>(x1, y1, z1, <span class="dt">type=</span><span class="st">&quot;h&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>) </code></pre>
+<div class="figure"><span id="fig:graph24"></span>
+<img src="3rd_Edition_files/figure-html/graph24-1.png" alt="3D scatterplot example" width="672" />
+<p class="caption">
+Figure 8.23: 3D scatterplot example
+</p>
+</div>
+</div>
+<div id="contour-plot" class="section level3">
+<h3><span class="header-section-number">8.5.4</span> Contour plot</h3>
+<p>The earwig <em>Forficula auricularia</em> is known to occur in two male morphs, a “brachylabic” morph with small forceps and a “macrolabic” morph with large forceps which is thought to pursue a more aggressive strategy for competing with rival males and acquiring mates (see Tomkins and Brown 2004, Nature 431 1099-1103 for more details). The graph below is a scatterplot of forceps length (on the y-axis) against pronotum width (a measure of overall body size) on the x-axis for an earwig population on Brownsman Island in the Farne Islands archipelago, the data being kindly supplied to me by Joe Tomkins. We can see some form of structure in this scatterplot, but it might help our visualisation of what’s going on if we drew a contour plot showing where the densest groups of points are.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(earwig<span class="op">$</span>pron, earwig<span class="op">$</span>fcp)</code></pre>
+<div class="figure"><span id="fig:graph25"></span>
+<img src="3rd_Edition_files/figure-html/graph25-1.png" alt="Scatterplot of forceps length versus pronotum width for the earwig Forficula airicularia" width="672" />
+<p class="caption">
+Figure 8.24: Scatterplot of forceps length versus pronotum width for the earwig Forficula airicularia
+</p>
+</div>
+<p>To estimate the density of this 2D dataset we can use the <code>kde2d()</code> function from the MASS package, which fits a 2D kernel density estimator to the data.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MASS)
+earwig.density&lt;-<span class="kw">kde2d</span>(earwig<span class="op">$</span>pron, earwig<span class="op">$</span>fcp, <span class="dt">n=</span><span class="dv">200</span>)</code></pre>
+<p>Note that I haven’t attached the “earwig” data frame in this case, so I have to indicate the variables for analysis using <code>dataframe$variable</code>. Having calculated the density estimator we can then draw a contour plot using the <code>contour()</code> function.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contour</span>(earwig.density, <span class="dt">xlab=</span><span class="st">&quot;Pronotum width (mm)&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Forceps length (mm)&quot;</span>)</code></pre>
+<div class="figure"><span id="fig:graph26"></span>
+<img src="3rd_Edition_files/figure-html/graph26-1.png" alt="Contour plot of earwig forceps length versus pronotum width" width="672" />
+<p class="caption">
+Figure 8.25: Contour plot of earwig forceps length versus pronotum width
+</p>
+</div>
+<p>We can overlay the data points onto the plot using <code>points()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">points</span>(earwig<span class="op">$</span>pron, earwig<span class="op">$</span>fcp, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.6</span>)</code></pre>
+<div class="figure">
+<img src="3rd_Edition_files/figure-html/graph%2027-1.png" alt="Contour plot of earwig forceps length versus pronotum width with individual data points added." width="672" />
+<p class="caption">
+(#fig:graph 27)Contour plot of earwig forceps length versus pronotum width with individual data points added.
+</p>
+</div>
+<p>I’m not sure if this graph really helps us understand the allometry of forceps length in male earwigs on Brownsman Island, but at least it looks nice.</p>
+<hr />
+</div>
+</div>
+<div id="exporting-graphics" class="section level2">
+<h2><span class="header-section-number">8.6</span> Exporting Graphics</h2>
+<p>There are lots of different image formats, and R runs on a number of different platforms that use different graphics formats in different ways. It shouldn’t surprise you then to find out that there are lots of different options for exporting your graphics from R. If you’re using Windows or a Mac then there is an easy way that doesn’t give you much control, or there is a hard way that gives you more control. In Linux there’s only the hard way.</p>
+<div id="the-easy-way" class="section level3">
+<h3><span class="header-section-number">8.6.1</span> The easy way</h3>
+<p>If you’re using either Windows or a Mac, then draw your graph and select the window that it’s drawn in. You can then use the “Save as” option from the “File” pull-down menu to save your graph. If you’re exporting a graph in Windows, you get a variety of choices of format, the best one of which may be a .wmf (Windows meta-file). This is a vector graphics format so you can import it to another package and do things like resizing it without any trouble. On a Mac running OS X, R automatically exports graphs as pdfs. This is what it should do: pdf is the default graphics filetype in OS X, and gives nice crisp vector graphics again. The only problem is that if you’re using MS Word it may well not import your pdfs nicely - the results vary by version but in general it makes them into pixellated bitmaps. If you’re using a Mac and want to import your graphs to Word, you might have to do something like open them in Photoshop and save them as a high-res GIF or similar. Recent releases of Word are better at coping with pdfs but still not perfect.</p>
+</div>
+<div id="the-hard-way" class="section level3">
+<h3><span class="header-section-number">8.6.2</span> The hard way</h3>
+<p>Using the pull-down menus as described above is easy but you don’t have much control over things like the size of the saved image. The other option for saving graphs, using the command line (surprise!) gives you a lot more control over these details. If you want to export to one of the common graphic formats you can use one of these functions:
+-<code>png()</code>
+-<code>jpeg()</code>
+-<code>tiff()</code>
+-<code>bmp()</code>
+-<code>pdf()</code></p>
+<p>The first four of these all work in very similar ways. <code>pdf()</code> is a bit more complex but works in basically the same way. To save a graphic with all of these functions it’s a good idea to start by having your graph drawn nicely to your satisfaction and the code saved and accessible: either in the script editor or in a text editor somewhere. What you do might seem a bit strange if you’re not used to it but there is some internal logic to the process, somewhere.</p>
+<p>First, you use the command you’ve chosen to specify the filename to save the graph to. If you’ve decided to save to a .png, for example, you might type</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">png</span>(<span class="dt">filename=</span>“Figure1.png”)</code></pre>
+<p>If you’ve got it right then all you’ll get when you hit return is the command prompt again. What you do now is paste in your code for drawing your figure. You can use as many lines of code as you need. Press enter again. If all is still well, you’ll just get a command prompt again.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(xvariable, yvariable, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">xlab=</span>“X axis”, <span class="dt">ylab=</span>“Y axis”)
+<span class="kw">abline</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">3</span>,<span class="dt">lty=</span><span class="dv">2</span>)</code></pre>
+<p>Now you type the function <code>dev.off()</code>, which might cause some cryptic messages to appear</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dev.off</span>()
+quartz 
+    <span class="dv">2</span></code></pre>
+<p>That’s it. If all is well you can now look in your working directory (or another directory if you specified a file path rather than just a name) and you should find your graphics file there. What’s going on? Why don’t you see your graph, and what do these strange functions do? To understand this process you need to know that R draws graphs in things it calls “devices”. There is an active, current device and any graphics functions called will draw what they’re told to draw in that device. Normally this will be a window, and the graphics code you use will draw things in the window where you can see it, but when you use a function like <code>png()</code> you tell R to open a new device, which is effectively the graphics file that you’re writing to. When you put in your graphics code after opening a new device that isn’t a graph window, you don’t see the new graph because it’s not being written to the window. Then, when you type <code>dev.off()</code> that closes whichever device is the active device and in the case of your graphics file write the file to the appropriate directory. See? I said there was some logic. If that doesn’t make any sense to you then don’t worry.
+Why should you go through the trouble and confusion of saving your graphics in this apparently baroque and perverse fashion? Because it gives you a huge amount of control over the final graphics file. You can add arguments to functions like <code>png()</code> that will determine precisely the size of the image, the size of the text, the colour of the background and even whether there’s a background at all. Let’s say that you want a graph with dimensions 560 by 340 pixels with 24 point text as the default (which can be altered by the <code>cex…</code> arguments in <code>plot()</code> etc). Let’s also go for a transparent background so that you can use your graph in your latest powerpoint presentation with some bad-taste background image showing through in the hope of distracting your audience from noticing how dodgy your correlation is.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">png</span>(<span class="dt">filename=</span>“Figure1.png”, <span class="dt">width=</span><span class="dv">560</span>, <span class="dt">height=</span><span class="dv">340</span>, <span class="dt">bg=</span><span class="st">&quot;transparent&quot;</span>, <span class="dt">pointsize=</span><span class="dv">24</span>)</code></pre>
+<p>Will ensure that figure 1 comes out exactly how you want it.</p>
+<hr />
+</div>
+</div>
+<div id="going-further-with-your-graphs" class="section level2">
+<h2><span class="header-section-number">8.7</span> Going Further with your Graphs</h2>
+<p>So far all of the graphs we’ve drawn have used the base graphics system, or a package that just tweaks the base graphics a little bit. This is only a smidgen of the available graphics functionality in R - in addition to packages that add functions to the base graphics system there are several that offer complete alternative graphics systems which make it easy to produce different kinds of graphs or graphs with very different aesthetic qualities. Two of these that are worth mentioning here are the ggplot2 package and the lattice package.</p>
+<div id="ggplot2" class="section level3">
+<h3><span class="header-section-number">8.7.1</span> ggplot2</h3>
+<p><code>ggplot2</code> is authored by Hadley Wickham and is based on the philosophy and scheme for visualising data explained by Leland Wilkinson in the book The Grammar of Graphics^4. It allows some very attractive graphs to be drawn easily, with much less code than for the base R graphics installation in some cases, and it allows some very complex multi-layer and multi-panel graphs to be drawn with relative ease. Here are a couple of examples of graphs drawn with ggplot2.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)
+<span class="kw">library</span>(ggplot2)</code></pre>
+<p>Installs and loads ggplot2 into the R workspace.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(Year, MDR, <span class="dt">geom=</span><span class="kw">c</span>(<span class="st">&quot;smooth&quot;</span>, <span class="st">&quot;point&quot;</span>), <span class="dt">na.rm=</span>T)<span class="op">+</span><span class="kw">theme_bw</span>()</code></pre>
+<div class="figure"><span id="fig:graph28"></span>
+<img src="3rd_Edition_files/figure-html/graph28-1.png" alt="Scatterplot of percentage TB cases in the UK reported to be multi-drug resistant with loess smoother and confidence intervals." width="672" />
+<p class="caption">
+Figure 8.26: Scatterplot of percentage TB cases in the UK reported to be multi-drug resistant with loess smoother and confidence intervals.
+</p>
+</div>
+<p>Here we’ve used the <code>qplot()</code>, which stands for “quick plot” function to produce a scatter plot of some data on multi-drug resistant TB in the UK by year: we’ll use these data later on in the chapter on linear regression and TB trends. I’ve asked <code>qplot()</code> to draw the graph with the “<code>bw</code>” theme (black and white) which I think looks a lot nicer than the default ggplot2 grey theme which you can see in the next plot, and I’ve also asked it to draw the graph with a non-parametric smoother added. For those who haven’t met these, non-parametric smoothers use a statistical technique whereby a smooth line is drawn through local regions where the density of points is greatest - in other words they are a method of putting a smoothed line through the data which shows you what the form of the relationship between Y and X is without making any assumptions about it. ggplot2 automatically selected a technique for calculating our smoothed line (in this case the method called “loess”) and also drew in the 95% confidence intervals for the smoothed line. You can also see that there are several default aspects of the graph that differ from one produced using <code>plot()</code>: there is a background with faint gridlines and there are fewer tick-marks and numbers along the axis than we’d expect with <code>plot()</code>. All in all this is a nice looking graph and you’d probably be happy to include it in a presentation without making any changes.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(Body, Brain, <span class="dt">log=</span><span class="st">&quot;xy&quot;</span>, <span class="dt">size=</span><span class="fl">1.5</span>, <span class="dt">pch=</span>Family, <span class="dt">col=</span>Family)</code></pre>
+<div class="figure"><span id="fig:graph29"></span>
+<img src="3rd_Edition_files/figure-html/graph29-1.png" alt="Scatterplot of brain weight versus body weight for 22 species of whales from 6 families plotted on a log-log scale." width="768" />
+<p class="caption">
+Figure 8.27: Scatterplot of brain weight versus body weight for 22 species of whales from 6 families plotted on a log-log scale.
+</p>
+</div>
+<p>This graph shows some of the data that are analysed in the “Whale brains and dive duration” example in the chapter on model fitting. I haven’t specified the theme this time so we’ve got the default grey background - this looks nice when there’s a lot of colour elsewhere on the graph but can be a bit miserable when all the plotting is in black and white, as is the case here. I’ve managed to produce a scatterplot with both axes log-transformed and with different plot symbols for each family using only one line (and a short line at that) of code. ggplot2 has even put in a rather elegant legend without being asked which is pretty nice. One thing to notice is that ggplot2 has used a log10 scale rather than a loge scale, and one consequence of that is that there is something of a lack of tick-marks and numbers on the y-axis, so you might want to try to fix that before using the graph in public, and you might want to add some units to the axis labels, but those things aside this is once again a nice-looking and informative graph.</p>
+<p>As a final example, here’s a plot of a fitted density estimate for each of three random normally distributed datasets. I’ve included this because it shows off ggplot2’s rather nice colour schemes and capability for transparent overlays. The function used here to plot the graph is <code>ggplot()</code> rather than <code>qplot()</code> which is a bit harder to use but which gives full control over all aspects of your graph.</p>
+<pre class="sourceCode r"><code class="sourceCode r">Z1&lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">length =</span> <span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="dv">7</span>, <span class="fl">2.5</span>))    <span class="co">##Generate 3 random variables with normal distributions as data frames</span>
+Z2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">length =</span> <span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="dv">8</span>, <span class="fl">2.5</span>))
+Z3&lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">length =</span> <span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="fl">8.5</span>, <span class="fl">2.5</span>))
+
+Z1<span class="op">$</span>Fact&lt;-<span class="st">&quot;A&quot;</span>        <span class="co">##Add a second factor name to each data frame</span>
+Z2<span class="op">$</span>Fact&lt;-<span class="st">&quot;B&quot;</span>
+Z3<span class="op">$</span>Fact&lt;-<span class="st">&quot;C&quot;</span>
+ 
+Trans.example&lt;-<span class="kw">rbind</span>(Z1,Z2,Z3)      <span class="co">###Stack the data frames into 1</span>
+ 
+<span class="kw">ggplot</span>(Trans.example, <span class="kw">aes</span>(length, <span class="dt">fill =</span> Fact)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.3</span>)<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;Density&quot;</span>)<span class="op">+</span><span class="kw">xlab</span>(<span class="st">&quot;Measure&quot;</span>)<span class="op">+</span><span class="kw">theme_bw</span>()          <span class="co">##Draw plot of density for each variable</span></code></pre>
+<div class="figure"><span id="fig:graph30"></span>
+<img src="3rd_Edition_files/figure-html/graph30-1.png" alt="ggplot2 example showing off the pretty colours and easy transparency settings" width="672" />
+<p class="caption">
+Figure 8.28: ggplot2 example showing off the pretty colours and easy transparency settings
+</p>
+</div>
+<p>￼
+That’s all I’m going to say about <code>ggplot2</code>, but if you want to know more then <a href="http://ggplot2.org" class="uri">http://ggplot2.org</a> has links to useful documentation, and there are two books available that deal with the package in detail. These are firstly Hadley Wickham’s own book^5, and secondly Winston Chang’s R Graphics Cookbook^6.</p>
+</div>
+<div id="lattice" class="section level3">
+<h3><span class="header-section-number">8.7.2</span> lattice</h3>
+<p>The <code>lattice</code> package is based on a system of visualising data called ‘Trellis graphics” that was developed by Becker and Cleveland in the 1990s. You can find out more about Trellis graphics at <a href="http://cm.bell-labs.com/cm/ms/departments/sia/project/trellis/" class="uri">http://cm.bell-labs.com/cm/ms/departments/sia/project/trellis/</a>, or from Bill Cleveland’s book Visualizing Data (1993, Hobart Press, ISBN 978-0963488404). The R package itself was written by Deepayan Sarkar (<a href="http://dsarkar.fhcrc.org" class="uri">http://dsarkar.fhcrc.org</a>), and is especially useful for visualising large and complex sets of data. You can use lattice to draw scatterplots and histograms in a similar way to the base graphics installation, but it comes into its own for dealing with variables that are themselves dependent on levels of other variables - what are known as conditioning variables in this context. To give a simple example let’s go back to the example from the haemocyte dataset that we looked at earlier in the chapter. To show the relationship between weight and haemocyte count for the two species we had to draw the data for the different species separately onto a plot using the <code>points()</code> function. In lattice we can draw two separate plots with a very simple command:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count)<span class="op">~</span>Weight<span class="op">|</span>Haemocyte<span class="op">$</span>Species)</code></pre>
+<div class="figure"><span id="fig:graph31"></span>
+<img src="3rd_Edition_files/figure-html/graph31-1.png" alt="Haemocyte count versus body weight for two species of Lepidoptera." width="672" />
+<p class="caption">
+Figure 8.29: Haemocyte count versus body weight for two species of Lepidoptera.
+</p>
+</div>
+<p>Notice the use of the “pipe” symbol (the vertical line) in the formula. This is used to indicate the conditioning variable, which is “Species” in this case. We can also plot these data easily in a single set of axes by using the <code>groups=</code> argument.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(<span class="kw">log</span>(Haemocyte<span class="op">$</span>Count)<span class="op">~</span>Weight, <span class="dt">group=</span>Haemocyte<span class="op">$</span>Species, <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;steelblue&quot;</span>, <span class="st">&quot;darkred&quot;</span>), <span class="dt">pch=</span><span class="kw">c</span>(<span class="dv">17</span>,<span class="dv">16</span>), <span class="dt">xlab=</span><span class="st">&quot;Weight (g)&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Log Haemocyte count&quot;</span>)</code></pre>
+<div class="figure"><span id="fig:graph32"></span>
+<img src="3rd_Edition_files/figure-html/graph32-1.png" alt="Haemocyte count versus body weight for two species of Lepidoptera. Red filled circles are Pieris napi, blue filled triangles are P. brassicae." width="672" />
+<p class="caption">
+Figure 8.30: Haemocyte count versus body weight for two species of Lepidoptera. Red filled circles are Pieris napi, blue filled triangles are P. brassicae.
+</p>
+</div>
+<p>￼</p>
+<p>Thus with a single line of code we’ve produced a graph that is essentially identical to the one we drew in the “Scatterplots” section earlier in the chapter by using rather more instructions. I’ve specified the plot colours and symbols to make the figure as similar as possible, but even if we left these out <code>xyplot()</code> would have plotted the two species using different colours for us.</p>
+</div>
+</div>
+<div id="exercises-3" class="section level2">
+<h2><span class="header-section-number">8.8</span> Exercises</h2>
+<p>Using the dataset for the Hawaii Ironman triathlon results (IMH2012.txt):</p>
+<ul>
+<li><p>Load the dataset into R</p></li>
+<li><p>Draw a scatterplot showing overall time on the y-axis and bike split on the x-axis</p></li>
+<li><p>Draw the same scatterplot as before but make the plot symbols half the default size</p></li>
+<li><p>Draw the same scatterplot as before but put in proper x- and y- axis labels and a nice graph title.</p></li>
+<li><p>Draw the same scatterplot as before but choose a different plot symbol and a nice colour. Try several out and see what works and what doesn’t: you can see the plot symbols in figure 2 above and the full range of available colours is given in Appendix 1.</p></li>
+<li><p>Draw the same scatterplot but only with the data for the 25-29 and the 55-59 age categories. Plot the two categories with different plot symbols and different colours.</p></li>
+<li><p>Draw the same scatterplot as above but put in a legend to tell the viewer what the symbols mean. NB I always have to read the help file for legend(), don’t worry if this takes you a few goes to get right.</p></li>
+<li><p>Draw the same scatterplot but only with the data for the 30-34 age category. This time show male and female competitors using different colours and plot symbols.</p></li>
+<li><p>On the last scatterplot, use abline() to plot fitted lines showing the relationship between the X and Y variables for the two genders. Use different line styles and plot the lines in the same colour as the plot symbols for each gender. Since we haven’t got onto line fitting yet (Chapter 11) you need to know the intercepts and slopes for both lines. They are female: intercept -0.587 slope 2.000 and male: intercept -0.902 and slope 2.077.</p></li>
+<li><p>Draw a boxplot showing overall times for male competitors divided by age category</p></li>
+<li><p>Use par(mfrow=…) to draw two boxplots of overall time divided by age category next to each other with females on the left and males on the right.</p></li>
+<li><p>Draw two boxplots as above but use two different colours to fill the boxes on the boxplots. Give them proper axis labels and titles. Use ?par to look up the help page for graphical parameters and use the parameter las to rotate the text on the x-axis to vertical. Use cex.axis to shrink the text on the axes a little so that it doesn’t interfere with the axis label on the x-axis.</p></li>
+</ul>
+</div>
+<div id="footnotes" class="section level2">
+<h2><span class="header-section-number">8.9</span> Footnotes</h2>
+<ol style="list-style-type: decimal">
+<li><p>Pomfret JC, Knell RJ. 2006. Sexual selection and horn allometry in the dung beetle <em>Euoniticellus intermedius</em>. Animal Behaviour 71:567–576.</p></li>
+<li><p>Moczek A, Emlen DJ. 2000. Male horn dimorphism in the scarab beetle, Onthophagus taurus: do alternative reproductive tactics favour alternative phenotypes? (vol 59, pg 459, 2000). Animal Behaviour 59:459–466.</p></li>
+<li><p>Moczek A, Nijhout H. 2004. Trade-offs during the development of primary and secondary sexual traits in a horned beetle. The American Naturalist 163:184–191.</p></li>
+<li><p>Wilkinson, W. (2005) The Grammar of Graphics, 2nd ed., Springer. ISBN 978-0387245447</p></li>
+<li><p>Wickham, H. (2009) ggplot2: Elegant Graphics for Data Analysis, Springer, ISBN 978-0387981406</p></li>
+<li><p>Chang, W. (2013) R Graphics Cookbook, O’Reilly, ISBN 978-1449316952</p></li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="plotting-graphs-in-r.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["3rd_Edition.pdf", "3rd_Edition.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

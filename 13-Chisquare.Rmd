@@ -1,0 +1,268 @@
+
+
+# The Chi-squared Test and a Classic Dataset on Smoking and Cancer
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
+```
+
+```{r echo=FALSE, cache=FALSE}
+options(digits = 5)  ##Sets number of sig. figs to display output to
+```
+
+
+When it comes to crucial studies in public health, it’s hard to find one more important than a paper that was published in the British Medical Journal in 1950 by Richard Doll and A. Bradford Hill, entitled “Smoking and Carcinoma of the Lung: a Preliminary Report”. Doctors had been noticing a huge rise in the incidence of an unpleasant and lethal disease, lung cancer, for a number of years: the figures quoted in the Doll and Hill paper are that in 1922 there were 612 deaths from the disease in the UK, but in 1947 there were 9,287, a roughly 15 times increase in a 25 year period. The two possible explanations that most people considered likely were firstly that a general increase in atmospheric pollution was the cause, and secondly that smoking, and especially cigarette smoking, was causing the increase in lung cancer. Doll and Hill carried out a survey of people diagnosed with lung cancer in hospitals in London. Each time a patient in a hospital in London was diagnosed with lung cancer the investigators were notified, and the patient was interviewed and asked a series of questions, including details of his or her smoking history. The interviewer then found a second patient in the same hospital who didn’t have lung cancer but who matched the original patient in terms of sex and age, and asked them the same questions. Each lung cancer patient was therefore matched with a second patient who didn’t have lung cancer but who was hopefully similar to the first patient in most important aspects - what we would nowadays call a case-control study.
+Using these data we can look at two of the questions that Doll and Hill addressed in their publication. Firstly, if we just consider the smokers in the sample, are cancer patients more likely to be heavy smokers than controls? Secondly, are patients with lung cancer more likely to be smokers than patients without?
+
+## Are lung cancer patients who smoke more likely to be heavy smokers?
+
+Here is part of one of the tables of data from the Doll and Hill paper.
+
+
+<img src="Images/Doll and Hill Table 1.png" width="75%" height="75%"/>
+
+
+This table reports the amount of tobacco consumed daily before the onset of the current disease in male smokers both with and without lung cancer. Tobacco smoked in ways other than cigarettes has been converted to cigarette equivalents. One thing to notice is that the total number of patients is not the same in each group - there are more cancer patients than controls, a consequence of there being more controls who were classified as non-smokers and not included in this particular analysis.
+Looking at these data as a table we can see some differences between groups, but it will be easier to visualise it if we draw a graph. To do this we need to enter these data into R, and the best way to input the data is as a matrix.
+
+```{r}
+cancer <-
+  matrix(
+    data = c(33, 250, 196, 136, 32, 55, 293, 190, 71, 13),
+    nrow = 2,
+    ncol = 5,
+    byrow = T
+  )
+```
+
+Let’s break that instruction down so that we know what’s going on.
+
+```{r eval=FALSE}
+cancer<-
+```
+Make a new object called “cancer”. It should be whatever is on the other side of the allocation symbol.
+```{r eval=FALSE}
+matrix(
+  data=c(33,250,196,136,32,55,293,190,71,13)…
+```
+What goes into the object “cancer” is a matrix, containing ten data points which I have just read off the table in the Doll and Hill paper.
+
+```{r eval=FALSE}
+  …,nrow=2, 
+    ncol=5, 
+    byrow=TRUE)
+```
+After the “data” argument for the matrix function we have three more. nrow= tells R how many rows the matrix should have and ncol= gives the number of columns. byrow=TRUE tells R to read the data into the matrix by filling up the first row with numbers and then the second row. If byrow was set to FALSE it would fill it up starting with the first column.
+
+The whole instruction therefore tells R the following:
+Set up a new object called “cancer”. It should be a matrix with two rows and five columns, filled with the following data. Read the data in by row, rather than by column, please.
+We can check whether it’s worked by just typing the name of the object and pressing enter.
+
+```{r eval=FALSE}
+cancer
+```
+```{r echo=FALSE,comment=NA, results='asis'}
+library(xtable)
+print(xtable(cancer),type="html")       
+```       
+
+There’s our data. It would be nice to have proper names for our rows and columns, and we can do this with the dimnames() (think “dimension names”) function.
+
+```{r}
+dimnames(cancer) <-
+  list(c("Lung cancer", "Control"),
+       c("1 to 4", "5 to 14", "15 to 24", "25 to 49", "50+"))
+```
+The reason we’re using a list here is that we are giving the function two vectors of character information. Lists are a way of putting together sets of any sort of object in R: in this case one vector of row names (“Lung cancer” and “Control”) and one vector of column names. Let’s check that worked properly.
+
+```{r}
+cancer
+```
+
+Let’s draw ourselves a graph so that we can see any patterns in the data. A bar graph is the best way to represent frequencies like these, and we can use the barplot() function.
+
+```{r fig.cap="Barplot showing the tobacco consumption in cigarette equivalents per day for lung cancer patients and controls"}
+barplot(cancer, beside=T)
+```
+
+The barplot() function is happy to take our matrix and if we tell it to plot the two rows beside each other (beside=T) it will draw us a nice graph.
+
+It would be nice to have a legend and some axis labels just to make everything really clear. The barplot() function will automatically add a legend if you ask it to (legend.text=TRUE) and the xlab= and ylab= arguments let us specify the labels for the x- and y-axes.
+
+```{r fig.cap="Barplot showing the tobacco consumption in cigarette equivalents per day for lung cancer patients and controls, now with axis labels and a legend"}
+barplot(cancer, beside=T, legend.text=T, xlab="Number of cigarettes smoked", ylab="Number of cases")
+```
+Looking at the graph we can see some differences between the frequencies of cancer patients and controls in the different groups: more controls reported smoking fewer than 15 cigarettes per day, whereas more lung cancer patients reported smoking more than 25 - in other words, lung cancer patients were more likely to be heavy smokers. The question we need to answer now is whether that apparent difference is likely simply to be the result of random error during sampling, or whether it’s likely to reflect a genuine difference between the lung cancer patients and the controls. In other words, we want to know the probability of seeing a pattern like this if we were to sample at random from two populations where the distribution of smoking was actually the same. We can answer this question by carrying out a chi-square test on our data using the chisq.test() function. 
+
+## The Chi-squared test
+
+The Chi-squared distribution is a statistical probability distribution which is widely used in a large number of statistical tests, all of which are technically chi-squared tests. The most common of these is the _Pearson's Chi-Squared test_, and when people refer to a chi-squared test they are usually talking about the Pearson's version.
+
+One of the main uses of Pearson's chi-squared test (hereafter just the chi-squared test) is to compare observed frequencies with the frequencies expected under some null hypothesis, and since this is the simplest way to use it we'll look at this first. As an example, consider an experiment on the genetics of flower colour in snapdragons. You know that the flowers can be red, pink or white and you suspect that flower colour is controlled by a single locus (a single gene for non-biologists) with two varieties, or alleles, which code for red and white respectively. You also think that the pink flowers are heterozygotes, with one copy of each allele, and the red and white flowers are homozygotes, with two copies of the same allele. You have a supply of pink flowering plants and you cross them and grow 500 of the seeds into flowering plants and score them for flower colour. If the colour of the flowers is controlled in the way you suspect then you'd expect 25% of the offspring to have white flowers, 50% to have pink, and 25% to have red, so your _expected frequencies_ are 125 white, 250 pink and 125 white. In fact, what you get when you do your experiment - your _observed frequencies_ - are 106 white, 252 pink and 142 white. That's different from what was expected in that there are rather fewer white flowers and rather more red flowers than we expected to see. Could this just be a consequence of random chance? This is where the chi-squared test can be used.
+
+The test statistic for a chi-square test is calculated as:
+
+$$\Large \chi^{2} = \sum{ \frac{(O - E)^2}{E}}$$
+
+where O is the frequency that is observed and E is the expected frequency under the null hypothesis. This is calculated for each set of values and then they're all added together (which is what the capital sigma means).
+
+In the case of our snapdragons, here is our calculation of the test statistic.
+
+| Flower colour | Expected | Observed | (E - O)^2 |  (E - O)^2 /E |
+|:-------------:|:--------:|:--------:|:---------:|:-------------:|
+| **White**     | 125      | 106      | 361       | 2.888         |
+| **Pink**      | 250      | 252      | 4         | 0.016         |
+| **Red**       | 125      | 142      | 289       | 2.312         |
+| Sum           |          |          |           | **5.216**     |
+
+
+
+
+This gives us a test statistic of 5.216, and we can now ask the question of how likely we are to see this value or greater given the null hypothesis. We can do this by using the `pchisq()` function in R. Since this returns the probability of a value less than or equal to the number give we have to subtract it from one. The _degrees of freedom_ we need to use is the number of categories that we have counts for minus 1: in this case 3-1=2.
+
+```{r}
+1-pchisq(5.216,2)
+```
+This gives us a p-value which is slightly greater than the p=0.05 cutoff for statistical significance. This is therefore a non-significant result, and we do not have grounds to reject the null hypothesis. The p-value is close to significance, however, so all we can really say is that there is a lot of uncertainty about the genetics of flower colour in snapdragons. If we want to get a more definitive answer we should probably repeat the experiment with more snapdragons[^13.1]. Back to the greenhouse.
+
+To do the same test in R without having to do the calculations yourself use the `chisq.test()` function. For a chisquared test for _goodness of fit_, which is what this example is, you need to give the function a vector of observed counts and a vector of the probabilities for each count.
+
+```{r}
+observed<-c(106,252,142)
+expected<-c(0.25,0.5,0.25)
+chisq.test(observed, p=expected)
+```
+
+## Chi-squared test with contingency tables
+
+The other main way that Pearson's chi-squared test is used is as a test of _independence_ when you have counts related to two or more variables. The basics of how this works are exactly the same way as the previous version, but the details are slightly more complicated. The first analysis we carried out above, where we compared the numbers of patients smoking different numbers of cigarettes a day between lung cancer sufferers and controls, is an exmaple of this type of analysis. When we have counts related to more than one variable the data are traditionally presented in a _contingency table_, with the counts related to each variable presented as a separate row or column - in the example above the variables were whether or not the patient had lung cancer (presented as a row) and the number of cigarettes smoked per day (presented as a column). Once we have our contingency table then we can calculate the expected values for each _cell_ in the table as the row total (the sum of all the values in the row that the cell is in) times the column total divided by the overall total: the sum of all the cells in the table, and the test statistic is then calculated as before.
+
+Here's the table for the Doll and Hill data, with the row and column totals.
+
+| Number of cigs   | 1-4 | 5-14 | 15-24 | 25-49 | 50+  | Row total |
+|:----------------:|:---:|:----:|:-----:|:-----:|:----:|:---------:|
+| **Lung cancer**  | 33  | 250  | 196   | 136   | 32   | 647       |
+| **Control**      | 55  | 293  | 190   | 71    | 13   | 622       |
+| **Column totals**| 88  | 543  | 386   | 207   | 45   | 1269      |
+  
+So the expected value for the top left cell is (647 x 88) / 1269 = 44.87
+
+The (O - E)^2 /E for this cell is therefore (33-44.87)^2 /44.87 = 3.14
+
+If we repeat this for each cell in the table  and sum them we get we get 36.95 as our test statistic. The degrees of freedom for a chi-squared test for independence is (R-1) x (C-1) where R and C are the number of rows and columns in the table respectively (excluding the row and column for the totals if you've included them, so we have (5-1) x (2-1)  or 4 df.
+
+```{r}
+1-pchisq(36.95,4)
+``` 
+The number that R returns for our p-value is given in the notation that R uses for very big or very small numbers: this is the equivalent of writing 1.842x10^-7, so our p-value is 0.0000001845. This is a very small number, indicating that we would be very unlikely to see a test statistic with a value as great, or greater than this if the patterns in our data had arisen by random chance. On this basis we would reject the null hypothesis, that the distribution of counts of people smoking different numbers of cigarettes is independent of whether they are a lung cancer patient or a control, and cautiously accept the alternative, that the distribution of counts of numbers of cigarettes smoked is different between lung cancer patients and controls.
+
+Of course, the whole point of using R is so that you don't have to do your chisquared tests from first principles every time so it's quicker to use the  `chisq.test()` function. If you feed this a matrix as its first argument it will assume that you want to carry out a chisquared test for independence on the values in the matrix.
+
+
+```{r}
+chisq.test(cancer)
+```
+
+This gives us our calculated test statistic, the degrees of freedom for the test and the p-value. The latter is very similar to the one we calculated before, with a slight difference in th last significant figure only which arises from R doing its calculations to rather more significant figures than we have done.
+
+If we want to look at the output of the analysis in a bit more detail then we can save an object containing the results of the chi-squared test.
+
+```{r}
+cancer.chisq<-chisq.test(cancer)
+```
+
+If we do this then when we press enter we don’t get any output, but if we type the name of the object we get the same output that we had before:
+
+```{r}
+cancer.chisq
+```
+
+That doesn’t give us any new information, but there is quite a bit of information summarised in the cancer.chisq object that we can ask to see. Our object (cancer.chisq) is in fact stored as a list of several different pieces of information with different names:
+
+```{r}
+names(cancer.chisq)
+```
+
+
+If we just type the name of the object it tells us the method (“method”), the dataset used (“data.name”), the calculated test statistic (“statistic”), the df (“parameter”) and the p-value (“p-value”). These have been selected as the pieces of information that someone doing a test like this is likely to want to see, and if you have a stored object with the results of a different sort of analysis you might be given a different set of information by default. The bits of information that we don’t automatically get for a chi-squared test are “observed” - the observed data, “expected” - the expected values if there’s no difference between groups, “residuals” - the Pearson’s residuals for each value in our matrix, calculated as (observed-expected)/√(expected) and “stdres” - the standardised residuals. The residuals will tell us how far each cell in the matrix was from the expected value if the null hypothesis were true.
+
+```{r}
+cancer.chisq$residuals
+```
+
+These correspond to what we’ve already seen from the barplot. When we look at the light smokers (fewer than 15 cigarettes per day) the lung cancer patients have negative residual values and the controls have positive ones - in other words, there are fewer lung cancer patients and more controls reporting relatively light smoking habits. For the 15-24 cigarettes per day group the residuals are close to zero for both groups, but then for the heavy smokers we have positive residuals for the lung cancer patients and negative residuals for the controls, telling us that there are more lung cancer patients reporting heavy smoking habits than expected.
+
+## Assumptions and limitations of the chi-squared test
+
+Like most statistical tests, the chi-squared test assumes that each data point is _independent_, meaning that the probability of getting a particular value for one data point is not affected by the values of any other data points. An example of non-independence would be when there are multiple counts from the same individual: if we reared 100 snapdragon plants in the first example, and scored five flowers on each for colour, then the colour of one flower on a plant would be correlated with the colour of the other flowers, meaning that the assumption of independence would be violated and the "real" sample size would be 100, not 500. 
+
+A limitation of the chi-squared test is that when the counts in some of the cells of a contongency table start getting small it becomes less reliable. A rule of thumb is that if any of the cells have counts less than 5 you shouldn't really rely on a chi-squared test and it's advisable to use a _Fisher's exact test_ instead. 
+
+## Are lung cancer patients more likely to be smokers than controls?
+
+
+At first glance this seems to be the more obvious analysis of the two, and so looking at these data second might be thought of as a little strange, but in fact these data are rather less straightforwards to analyse. This is because, to our 21st Century eyes, there is an astonishingly low number of patients classified as non-smokers in this study. Doll and Hill defined a smoker as being someone who at some point in their life had smoked at least one cigarette a day for a period of at least a year, and of the 1298 male patients included in this study only 29, or 2.2%, were classed as non-smokers. The smokers and non-smokers were not evenly spread between lung cancer patients and controls: as can be seen from this data table from the paper, only two of the lung cancer patients were non-smokers, whereas 27 of the controls were identified as being in this group.
+
+
+<img src="Images/Doll and Hill Table 2.png" width="75%" height="75%"/>
+
+
+We can, therefore, see a possible pattern in these data, with lung cancer patients being less likely than controls to be non-smokers. What we don’t know is how likely this pattern is to have arisen by chance. The counts of non-smokers are only a small fraction of the overall counts, and it’s difficult to know whether we might be likely to get such a pattern just by drawing at random from two similar populations with similar, low percentages of smokers.
+
+We could analyse these data using another chi-squared test, but the chi-squared test is not really suitable when we have a contingency table with low values in one or more cell, as is the case here. Fortunately we have the option of using a test that takes this into account, namely Fisher’s exact test.
+
+## Fisher's exact test
+
+Fisher's exact test is an alternative to the chi-squared test which can be used for contingency tables when there are counts below 5 or even of zero in some of the cells in the table. It relies on some fairly complex calculations which we won't go into detail about, and with large counts the test becomes difficult to calculate and may be unreliable, so when the frequencies you're dealing with are fairly large use a chi-squared test and when they're small use a Fisher's exact test. The R function you want is `fisher.test()` which takes a matrix as an argument in just the same way that `chisq.test()` does. 
+
+First we need to set up a matrix of our data:
+
+```{r}
+smokers <- matrix(
+  data = c(2, 647, 27, 622),
+  byrow = T,
+  nrow = 2,
+  ncol = 2
+)
+dimnames(smokers) <-
+  list(c("Lung Cancer", "Control"), c("Non smoker", "Smoker"))
+```
+
+```{r}
+smokers
+```
+
+Now we can test whether smoking is distributed homogeneously across lung cancer patients and controls.
+
+```{r}
+fisher.test(smokers)
+```
+
+We get a little more in the output for the Fisher’s exact test than for the chi-square test. Most of our extra information centres around the “odds ratio” - this is ratio of the odds of a patient being a non-smoker in the lung cancer group to the odds of a patient being a non-smoker in the control group. The estimated value from the Fisher’s exact test (0.07128) is very close to what we get if we just calculate an odds ratio ourselves.
+
+```{r}
+(2/647)/(27/622)
+```
+
+The question that Fisher’s exact test is asking is whether the odds ratio is significantly different from one, and you can see that the p-value of 1.281e-06, or 0.000001281 indicates that we should discard our null hypothesis and accept the alternative. In other words, we can be confident that the differences in the frequencies of smokers and non-smokers in the two groups are unlikely to have arisen by random sampling error.
+
+If we look at the analysis in the original Doll and Hill paper, they seem to have arrived at a slightly different answer. Here is the table we saw earlier with the analysis result as well.
+
+<img src="Images/Doll and Hill Table 3.png" width="75%" height="75%"/>
+
+You can see that their p-value is different from ours. Why is this? One thing you can immediately notice when you compare their p-value with ours is that theirs is exactly half of ours. To the experienced statistical detective this is a complete give-away and tells us that while we have used a two-tailed test (alternative hypothesis is that the odds-ratio is not equal to 1), Doll and Hill used a one-tailed test (alternative hypothesis that the odds-ratio is less than one). Nowadays we would regard this as being a bit naughty without good justification, and something that should certainly be explained properly in the paper, but given how long ago it was, and that history has proven Doll and Hill to have been spectacularly right, I think we can let them off the hook and not get the knighthoods posthumously withdrawn. Rest easy guys.
+
+We can do a one-tailed test just to check using the "alternative=" argument in fisher.test().
+
+```{r}
+fisher.test(smokers,alternative="less")
+```
+
+Giving us a p-value of 6.403e-07, or 0.00000064, the same as the original paper.
+
+[^13.1]: When you get a p-value near 0.05, this is really just about all you can do. It sucks. Please note that just adding more data until you get a significant result is a Really Bad Idea and likely to cause trouble. Rather, you need to do the whole thing again with a bigger sample size.
+
+
+
+
+

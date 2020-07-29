@@ -1,0 +1,57 @@
+--- 
+title: 'Introductory R: A beginner’s guide to programming, data visualisation and
+  statistical analysis in R'
+author: "Rob Knell"
+date: "`r Sys.Date()`"
+bibliography: book.bib
+description: null
+documentclass: book
+link-citations: yes
+site: bookdown::bookdown_site
+biblio-style: apalike
+---
+
+# Preface
+
+Rob Knell
+School of Biological and Chemical Sciences
+Queen Mary University of London
+
+Published by Robert Knell, 
+Hersham,
+Walton on Thames
+United Kingdom KT12 5RH
+
+Copyright © Robert Knell 2020
+
+All rights reserved. No part of this book may be reproduced, stored in a retrieval system or transmitted at any time or by any means mechanical, electronic, photocopying, recording or otherwise without the prior written agreement of the publisher.
+
+The right of Robert Knell to be identified as the author of this work has been asserted by him in accordance with the copyright, designs and patents act 1988
+
+First printed March 2013
+
+ISBN 978-0-9575971-1-2
+
+This edition edited and rendered with the **bookdown** package [@xie2016], using R Markdown and **knitr** [@xie2015]
+
+## Why this book?
+
+I’ve been using R to analyse my data for about twelve years now, and about eight years ago I started running an informal course for postgraduates, postdocs and on occasions academics at Queen Mary, University of London to teach them how to use it. More recently we have started trying to teach R to our undergraduates, with more success than I think we’d originally expected. This book has slowly arisen from a set of course notes that I originally wrote for the postgraduate course, and has since been field-tested on the undergraduates. I’ve decided to self-publish it as an e-book for several reasons. Firstly, it’s an interesting experiment. Secondly, it keeps the price down to roughly 20% of the cost of a book published in the traditional sense. Thirdly, it leaves me with complete control over the content of the book, where it’s available and what’s included in it.
+
+This book is written from the perspective of a biologist, and the examples given are either biological or medical ones. The basic principles of the analyses presented are universal, however, and I’ve made an effort to explain the examples in such a way that I hope most people will understand them. Nonetheless, if you’re more used to data from other fields then you might have some difficulty following some of the examples, in which case I’m sorry. Please drop me a line (r.knell@qmul.ac.uk) and let me know if you think one or more of the examples used are particularly opaque and I’ll try to take your feedback into account.
+
+## How to use this book
+
+Since I’m publishing this as an e-book only I retain full ownership of the text and I can control the price and keep it way below the price of books produced by traditional publishers. You can read it on anything you can read an ebook on, depending on the exact format of the copy you have bought. Because there’s a lot of colour and figures you might find some parts of it don't display particularly well on a small ebook reader, so the best thing to read this on is probably a tablet - an iPad or a reasonably sized Android tablet. These have decent sized high-res screens and the code and figures should all come out properly. If you try to read it on a smaller ebook reader you won't be able to see the colours and some of the figures won't look too great, but the rest should be OK.
+
+The structure of the book is, I hope, fairly self-evident. The first five chapters introduce and explain some of the fundamental concepts of R (e.g. basic use of the console, importing data, record Keeping, graphics). Some of these have sets of exercises associated with them (e.g. the "Basics" chapter, some don't when there are lots of examples throughout the book (e.g. the "Graphics" chapter). Chapters 6-13 are about statistics and how to analyse data in R. We start with basic concepts and go through a series of analyses from chi-squared tests to general linear model fitting. All of these are illustrated with examples using real data sets and the way to carry out these analyses in R is explained in detail, as is how to interpret the output - the latter is often more complicated than the former. Finally, chapters 14 to 19 are about programming in R. Once again some of these have exercises associated with them which you might want to work through.
+
+Some of the statistics chapters use reasonably big data sets and these can be downloaded from the book’s homepage (URL). The data used for the examples is a mix of data from classic studies, data from recent surveys acquired from the government, data from my own research and data that’s been extracted from publications or made available publicly by the authors of recent publications. I’d just like to take this opportunity to point out the fabulous resource that is the Dryad digital repository (http://datadryad.org) and encourage anyone who reads this to upload data from their publications to it. I’ve made an effort to use real data as much as possible for the examples in this book. This means that you should see analyses worked out on warts-and-all data, with the kinds of problems and uncertainties that arise when we’re dealing with data from real research. Some books will show you examples based on the analysis of made-up data which behaves perfectly. I do this to some extent but I try to avoid the danger of giving a false impression of the realities of data analysis: I think it's important to understand that it’s rare to end up with a set of results that behaves nicely and plays properly with your analysis in every way.
+
+If you are reading this on a tablet then remember that you can double-tap on a figure (or one of the output tables imported as a figure) to get a bigger version displayed.
+
+There is a website for the book at http://www.introductoryr.co.uk where you can download datasets and scripts associated with the analyses presented here.
+
+## Acknowledgements
+
+I’d just like to thank all the staff and students at QMUL who gave feedback on the various drafts of the manuscript, especially Mark Stevenson who took a lot of time to check through the code for a previous version, Robin Wyatt who helped with the conversion of the previous version to the new format and Richard Nichols for ruthlessly weeding out any wording that might possibly be interpreted as implying that rejecting a null hypothesis might mean that the alternative hypothesis is true.

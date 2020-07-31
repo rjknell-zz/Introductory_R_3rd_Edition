@@ -6,7 +6,8 @@ knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment
 ```
 
 ```{r echo=FALSE, cache=FALSE}
-options(digits = 5)  ##Sets number of sig. figs to display output to
+# Sets number of sig. figs to display output to
+options(digits = 5)   
 ```
 
 
@@ -19,8 +20,11 @@ The fundamental problem that statistical testing is designed to address is that 
 Let's take a look at an example. Assume we've measured the diameter of a patch of red colouration of the dewlaps of ten male lizards, then treated each one with an implant which will give them a raised level of testosterone, and then measured the diameter of the red patch on their dewlaps again after a week. We know that the red patches are used in sexual signalling, so we are trying to test the hypothesis that patch size is influenced by testosterone. Here are our data, with patch sizes in mm:
 
 ```{r}
-patch.before <- c(12.3, 9.0, 11.5, 11.9, 14.2, 8.7, 10.5, 9.2, 12.9, 10.1)
-patch.after <- c(12.3, 10.0, 10.8, 13.8, 14.1, 10.5, 9.1, 12.2, 13.7, 10.3)
+patch.before <- c(12.3, 9.0, 11.5, 11.9, 14.2,
+                  8.7, 10.5, 9.2, 12.9, 10.1)
+
+patch.after <- c(12.3, 10.0, 10.8, 13.8, 14.1, 
+                 10.5, 9.1, 12.2, 13.7, 10.3)
 ```
 
 This experiment is a *paired design*, meaning that we have pairs of measurements taken on the same individual. Because of this we are not so interested in the absolute size of each patch as we are in the differences in size for each lizard before and after treatment. If testosterone is controlling patch size then we might predict that patch size after treatment should be greater than patch size before treatment. Each lizard is recorded at the same place in each vector so we can calculate the differences by just subtracting one from the other.
@@ -39,11 +43,19 @@ The average difference in patch size is 0.65mm. Not huge, but certainly positive
 
 ```{r eval=FALSE}
 
-# Generate two matrices of data, each with 1000 rows and 10 columns, with the data being drawn at random from a normal distribution with mean and sd = the mean and sd of our lizard's patches before treatment
+# Generate two matrices of data, each with 1000 
+# rows and 10 columns, with the data being drawn 
+# at random from a normal distribution with mean 
+# and sd = the mean and sd of our lizard's patches 
+# before treatment
+
 data1 <- replicate(1000, rnorm(10, mean(patch.before), sd(patch.before)))
 data2 <- replicate(1000, rnorm(10, mean(patch.before), sd(patch.before)))
 
-# Calculate the mean for each row and subtract the means for the second matrix from those of the first
+# Calculate the mean for each row and subtract 
+# the means for the second matrix from those of 
+# the first
+
 mean.differences10 <- apply(data1, 2, mean) - apply(data2, 2, mean)
 
 # Plot a histogram of the differences
@@ -67,15 +79,31 @@ The "breaks" in the `hist()` function argument makes R draw our histogram with t
 
 
 
-set.seed=1004
-data1<-replicate(1000,rnorm(10,mean(patch.before),sd(patch.before)))
-data2<-replicate(1000,rnorm(10,mean(patch.before),sd(patch.before)))
+
+set.seed = 1004
+data1 <- replicate(1000, 
+                   rnorm(10, 
+                   mean(patch.before), 
+                   sd(patch.before)))
+data2 <- replicate(1000, 
+                   rnorm(10, 
+                   mean(patch.before), 
+                   sd(patch.before)))
 
 
-mean.differences10<-apply(data1,2,mean)-apply(data2,2,mean)
+mean.differences10 <- apply(data1, 2, mean) - 
+                   apply(data2, 2, mean)
 
-hist(mean.differences10,breaks=20,col="grey",xlab="Mean", main="",font.lab=2)
-abline(v=0.65,lty=2)
+hist(
+  mean.differences10,
+  breaks = 20,
+  col = "grey",
+  xlab = "Mean",
+  main = "",
+  font.lab = 2
+)
+
+abline(v = 0.65, lty = 2)
 ```
 
 Just by looking at the histogram you can see that although the most common value for the differences between our samples is zero or close to it there are a substantial number of means that are rather different from zero. We can ask R to count the number of differences that are greater than 0.65 for us:

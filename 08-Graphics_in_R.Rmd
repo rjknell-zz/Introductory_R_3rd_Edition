@@ -1,4 +1,4 @@
-# R graphics I — drawing graphs and changing plot symbols and colours using the base graphics system
+# R graphics I — basic graphcs, colours and plot symbols
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
@@ -11,18 +11,15 @@ options(digits = 5)  ##Sets number of sig. figs to display output to
 ## Load data for this chapter
 
 Haemocyte <-
-  read.table("http://www.introductoryR.co.uk/Haemocyte.txt", header = TRUE)
+  read.table("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/Haemocyte.txt", header = TRUE)
 
 tbdata <-
-  read.table("http://www.introductoryR.co.uk/TB_HPA.txt", header = TRUE)
+  read.table("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/TB_HPA.txt", header = TRUE)
 
-whale2 <-
-  read.table("http://www.introductoryr.co.uk/Whale%20brain%20dive%20data.txt",
-             header = TRUE)
 earwig <-
   read.table("http://www.introductoryR.co.uk/earwig.txt", header = TRUE)
 
-IMH<-read.table("http://www.introductoryr.co.uk/IMH2012.txt", header = TRUE)
+IMH<-read.table("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/IMH2012.txt", header = TRUE)
 ```
 
 
@@ -43,7 +40,7 @@ We'll start off with looking at an example of how to produce a graph in R. In th
 # Audrey Bloggs 25th December 2022
 
 # Load data from website
-UFO <- read.csv("http://www.introductoryr.co.uk/UFO_data.csv",
+UFO <- read.csv("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/UFO_data.csv",
      stringsAsFactors = FALSE)
 
 # Convert 'Reports' variable to date

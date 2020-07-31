@@ -1,3 +1,145 @@
+--- 
+title: 'Introductory R: A beginner’s guide to programming, data visualisation and
+  statistical analysis in R'
+author: "Rob Knell"
+date: "`r Sys.Date()`"
+bibliography: book.bib
+description: null
+documentclass: book
+link-citations: yes
+site: bookdown::bookdown_site
+biblio-style: apalike
+---
+
+# Preface
+
+Placeholder
+
+
+## Why this book?
+## How to use this book
+## Acknowledgements
+
+<!--chapter:end:index.Rmd-->
+
+
+# A first R session
+
+Placeholder
+
+
+## What is R?
+## A first R session
+
+<!--chapter:end:01_First_R_Session.Rmd-->
+
+
+# Basics: arithmetic, objects and functions
+
+Placeholder
+
+
+### Arithmetic
+### Logical operations
+### Objects
+## Kinds of data
+## What's in my workspace?
+### Functions
+## Exercises 
+### Calculations
+### Objects
+### Functions
+## Answers to exercises
+### Calculations
+### Objects
+### Functions
+
+<!--chapter:end:02-Basics.Rmd-->
+
+
+# Data: Vectors, Matrices and Data Frames
+
+Placeholder
+
+
+## Vectors
+## Matrices
+## Factors and Data frames
+## Exercises
+### Vectors
+### Matrices
+## Answers to exercises
+### Vectors
+### Matrices
+
+<!--chapter:end:03-Data_types.Rmd-->
+
+
+# Choosing data: subscripts and subsetting
+
+Placeholder
+
+
+### Subscripts
+### Boolean logic and more complex subscripting
+### Subscripts in matrices and data frames
+### Subset
+## Exercises
+### Subscripts and vectors
+### Subscripts and matrices
+## Answers to exercises
+### Subscripts and vectors
+### Subscripts and matrices
+
+<!--chapter:end:04-Subscripts_and_subsetting.Rmd-->
+
+
+# R scripts and your R workflow
+
+Placeholder
+
+
+## Writing and using R scripts
+## Running code from an R script window
+## Running code from files using `source()`
+## Workflow structure, or what should I put in my script? 
+## Keep it neat --- making your script easy to read
+## "I wish I hadn't commented my code so much", said no-one, ever [^4].
+## Using RStudio to write scripts
+
+<!--chapter:end:05-Writing_and_using_R_scripts.Rmd-->
+
+
+# Help files and packages
+
+Placeholder
+
+
+## Using the help files
+
+<!--chapter:end:06-R_packages.rmd-->
+
+
+# Importing Data
+
+Placeholder
+
+
+## The Rules
+## Importing your Text File
+### The simple way
+### The less simple way
+## Importing character data
+## Data on the web
+## Using `read.table()`
+## What to do once you’ve managed to import your data.
+## Importing data directly from Excel
+## Other data formats
+## Importing data into RStudio
+## To attach or not to attach?
+
+<!--chapter:end:07-Importing_data.Rmd-->
+
 # R graphics I — basic graphcs, colours and plot symbols
 
 ```{r echo = FALSE}
@@ -1031,3 +1173,180 @@ Will ensure that figure 1 comes out exactly how you want it.
 
 
 [^9.1]: Fitzpatrick, J.L., Almbro, M., Gonzalez-Voyer, A., Hamada, S., Pennington, C., Scanlan, J. & Kolm, N. (2012) Sexual selection uncouples the evolution of brain and body size in pinnipeds. Journal of evolutionary biology, 25, 1321–1330.
+
+<!--chapter:end:08-Graphics_in_R.Rmd-->
+
+
+# R graphics II — Adding elements to an existing graph
+
+Placeholder
+
+
+## Simple regression lines
+## Multiple regression lines
+## Legends
+## Curves
+### Adding a curve using `curve()`
+### Adding a curve using `lines()` or `points()`.
+## Text and arrows
+## Confidence bands for fitted lines
+### Adding confidence bands using `lines()`
+### Adding confidence intervals to fitted lines using `polygon()`
+## Error bars
+### Adding error bars using `arrows()`
+### Plotting means and error bars using `plotmeans()`
+
+<!--chapter:end:09-Graphics_in_R_2.Rmd-->
+
+
+# Graphics with ggplot2
+
+Placeholder
+
+
+## ggplot2 introduced
+## Scaling axes and varying colour or shapes by factor levels
+## Facets
+## Histograms
+## Boxplots
+## Final word
+
+<!--chapter:end:10-GGplot2.Rmd-->
+
+
+# Basic Statistical Concepts
+
+Placeholder
+
+
+## Populations and Samples
+## Descriptive and exploratory statistics
+### Maximum and minimum
+### Frequency distribution
+### Kinds of frequency distribution
+#### A cautionary word about frequency distributions
+### Measures of central tendency
+#### Mean
+#### Median
+#### Mode
+### Measures of dispersion
+#### Variance and standard deviation
+#### Range and interquartile range
+### Code used to draw figure 6
+
+<!--chapter:end:11-Basic_stats.Rmd-->
+
+
+# What is statistical testing?
+
+Placeholder
+
+
+## The problem
+## Statistical testing in a nutshell
+### Decide on the null and alternative hypotheses.
+### Calculate the size of the effect.
+### Transform the effect size so that we can compare it to an expected distribution.
+### Ask what the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true.
+### Think about what the result means.
+## How a statistical test works
+### Step 1 generating our null and alternative hypotheses.
+### Step 2 calculating the size of the effect
+### Step 3 Transforming the effect size so that we can compare it to an expected distribution.
+### Step 4 What is the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true?
+#### Doing the same test the easy way
+## What statistical testing does and doesn't tell us
+## Code used to draw figure 5
+
+<!--chapter:end:12-Statistical_testing.Rmd-->
+
+
+# The Chi-squared Test and a Classic Dataset on Smoking and Cancer
+
+Placeholder
+
+
+## Are lung cancer patients who smoke more likely to be heavy smokers?
+## The Chi-squared test
+## Chi-squared test with contingency tables
+## Assumptions and limitations of the chi-squared test
+## Are lung cancer patients more likely to be smokers than controls?
+## Fisher's exact test
+
+<!--chapter:end:13-Chisquare.Rmd-->
+
+
+# Comparing immune responses between two caterpillar species using a t-test
+
+Placeholder
+
+
+## Assumptions and limitations of standard parametric statistics
+### Normal errors. 
+### Independence of data points. 
+### Equal variances. 
+## Importing the Data
+## Descriptives and Initial Exploration
+## Comparing Two Means With a t-test
+
+<!--chapter:end:14-t_tests.Rmd-->
+
+
+# Correlation analysis
+
+Placeholder
+
+
+## Calculating the correlation coefficient
+### Interpreting our correlation coefficient.
+## Statistical significance of _r_
+## Assumptions of correlation analysis
+### Comparing correlations between swim, run and bike splits
+## Correlation, causality, sample size and significance.
+
+<!--chapter:end:15-Correlation.Rmd-->
+
+
+# Using Linear Regression to Analyse TB trends in the UK
+
+Placeholder
+
+
+### Least squares line fitting
+### Significance tests for linear regression
+## Bovine TB
+## Assumptions of linear regression
+### Diagnostic plots
+### Diagnostic plots for our _M.bovis_ regression
+## Interpreting our regression and predicting future cases
+## Multi-drug resistant TB
+## Fitting a quadratic model
+
+<!--chapter:end:16-TB_Regression.Rmd-->
+
+
+# ANOVA and Football
+
+Placeholder
+
+
+## Analysis of Variance
+## Interpreting ANOVA results
+## What makes a professional footballer?
+
+<!--chapter:end:17-ANOVA.Rmd-->
+
+
+# Yeast sex and two factor ANOVA.
+
+Placeholder
+
+
+## Yeast sexual selection
+## Understanding the coefficients table
+## Which statistical tests to use with `lm()`?
+## Diagnostics
+## Visualising the data
+
+<!--chapter:end:18-Two_factor_ANOVA.Rmd-->
+

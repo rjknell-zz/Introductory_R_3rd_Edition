@@ -1,0 +1,614 @@
+--- 
+title: 'Introductory R: A beginner’s guide to programming, data visualisation and
+  statistical analysis in R'
+author: "Rob Knell"
+date: "`r Sys.Date()`"
+bibliography: book.bib
+description: null
+documentclass: book
+link-citations: yes
+site: bookdown::bookdown_site
+biblio-style: apalike
+---
+
+# Preface
+
+Placeholder
+
+
+## 3rd Edition draft
+## Why this book?
+## Acknowledgements
+## How to use this book
+
+<!--chapter:end:index.Rmd-->
+
+# (PART) Part I R Basics {-}
+
+<!--chapter:end:1_00.Rmd-->
+
+
+# A first R session
+
+Placeholder
+
+
+## What is R?
+## A first R session
+
+<!--chapter:end:1_01_First_R_Session.Rmd-->
+
+
+# Basics: arithmetic, objects and functions
+
+Placeholder
+
+
+## Arithmetic
+## Logical operations
+## Objects
+## Kinds of data
+## What's in my workspace?
+## Functions
+## Exercises 
+### Calculations
+### Objects
+### Functions
+## Answers to exercises
+### Calculations
+### Objects
+### Functions
+
+<!--chapter:end:1_02-Basics.Rmd-->
+
+
+# Data: Vectors, Matrices and Data Frames
+
+Placeholder
+
+
+## Vectors
+## Matrices
+## Factors and Data frames
+## Exercises
+### Vectors
+### Matrices
+## Answers to exercises
+### Vectors
+### Matrices
+
+<!--chapter:end:1_03-Data_types.Rmd-->
+
+
+# Choosing data: subscripts and subsetting
+
+Placeholder
+
+
+## Subscripts
+## Boolean logic and more complex subscripting
+## Subscripts in matrices and data frames
+## Subset
+## Exercises
+### Subscripts and vectors
+### Subscripts and matrices
+## Answers to exercises
+### Subscripts and vectors
+### Subscripts and matrices
+
+<!--chapter:end:1_04-Subscripts_and_subsetting.Rmd-->
+
+
+# R scripts and your R workflow
+
+Placeholder
+
+
+## Writing and using R scripts
+## Running code from an R script window
+## Running code from files using `source()`
+## Workflow structure, or what should I put in my script? 
+## Keep it neat --- making your script easy to read
+## "I wish I hadn't commented my code so much", said no-one, ever [^4].
+## Using RStudio to write scripts
+
+<!--chapter:end:1_05-Writing_and_using_R_scripts.Rmd-->
+
+
+# Help files and packages
+
+Placeholder
+
+
+## Using the help files
+
+<!--chapter:end:1_06-R_packages.rmd-->
+
+
+# Importing Data
+
+Placeholder
+
+
+## The Rules
+## Importing your Text File
+### The simple way
+### The less simple way
+## Importing character data
+## Data on the web
+## Using `read.table()`
+## What to do once you’ve managed to import your data.
+## Importing data directly from Excel
+## Other data formats
+## Importing data into RStudio
+## To attach or not to attach?
+
+<!--chapter:end:1_07-Importing_data.Rmd-->
+
+# (PART) Part II Graphics in R {-}
+
+<!--chapter:end:2_00.Rmd-->
+
+
+# R graphics I — basic graphics
+
+Placeholder
+
+
+## Base graphics versus ggplot2 versus lattice versus whaaat???
+## Base graphics example: UFO reports again
+## Plot symbols
+## Colours
+## Plotting multiple symbols or colours
+## Colour palettes in R
+## Using transparency in your graphs
+## Histograms and multiple plots in the same window
+## Boxplots
+## Bar charts 
+### More complex barplots
+## Other types of plot
+### Histogram with overlaid probability density estimate
+### Pie graph
+### 3D scatterplot
+### Contour plot
+### The easy way
+### The hard way
+
+<!--chapter:end:2_01-Graphics_in_R.Rmd-->
+
+
+# R graphics II — Adding elements to an existing graph
+
+Placeholder
+
+
+## Simple regression lines
+## Multiple regression lines
+## Legends
+## Curves
+### Adding a curve using `curve()`
+### Adding a curve using `lines()` or `points()`.
+## Text and arrows
+## Confidence bands for fitted lines
+### Adding confidence bands using `lines()`
+### Adding confidence intervals to fitted lines using `polygon()`
+## Error bars
+### Adding error bars using `arrows()`
+### Plotting means and error bars using `plotmeans()`
+
+<!--chapter:end:2_02-Graphics_in_R_2.Rmd-->
+
+
+# Graphics with ggplot2
+
+Placeholder
+
+
+## ggplot2 introduced
+## Scaling axes and varying colour or shapes by factor levels
+## Facets
+## Histograms
+## Boxplots
+## Final word
+
+<!--chapter:end:2_03-GGplot2.Rmd-->
+
+# (PART) Part III Statistics {-}
+
+<!--chapter:end:3_00.Rmd-->
+
+
+# Basic Statistical Concepts
+
+Placeholder
+
+
+## Populations and Samples
+## Descriptive and exploratory statistics
+### Maximum and minimum
+### Frequency distribution
+### Kinds of frequency distribution
+#### A cautionary word about frequency distributions
+### Measures of central tendency
+#### Mean
+#### Median
+#### Mode
+### Measures of dispersion
+#### Variance and standard deviation
+#### Range and interquartile range
+### Code used to draw figure 6
+
+<!--chapter:end:3_01-Basic_stats.Rmd-->
+
+
+# What is statistical testing?
+
+Placeholder
+
+
+## The problem
+## Statistical testing in a nutshell
+### Decide on the null and alternative hypotheses.
+### Calculate the size of the effect.
+### Transform the effect size so that we can compare it to an expected distribution.
+### Ask what the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true.
+### Think about what the result means.
+## How a statistical test works
+### Step 1 generating our null and alternative hypotheses.
+### Step 2 calculating the size of the effect
+### Step 3 Transforming the effect size so that we can compare it to an expected distribution.
+### Step 4 What is the probability is of observing an effect as big, or bigger than the one we have seen, assuming the null hypothesis to be true?
+#### Doing the same test the easy way
+## What statistical testing does and doesn't tell us
+## Code used to draw figure 5
+
+<!--chapter:end:3_02-Statistical_testing.Rmd-->
+
+
+# The Chi-squared Test and a Classic Dataset on Smoking and Cancer
+
+Placeholder
+
+
+## Are lung cancer patients who smoke more likely to be heavy smokers?
+## The Chi-squared test
+## Chi-squared test with contingency tables
+## Assumptions and limitations of the chi-squared test
+## Are lung cancer patients more likely to be smokers than controls?
+## Fisher's exact test
+
+<!--chapter:end:3_03-Chisquare.Rmd-->
+
+
+# Comparing immune responses between two caterpillar species using a t-test
+
+Placeholder
+
+
+## Assumptions and limitations of standard parametric statistics
+### Normal errors. 
+### Independence of data points. 
+### Equal variances. 
+## Importing the Data
+## Descriptives and Initial Exploration
+## Comparing Two Means With a t-test
+
+<!--chapter:end:3_04-t_tests.Rmd-->
+
+
+# Correlation analysis
+
+Placeholder
+
+
+## Calculating the correlation coefficient
+### Interpreting our correlation coefficient.
+## Statistical significance of _r_
+## Assumptions of correlation analysis
+### Comparing correlations between swim, run and bike splits
+## Correlation, causality, sample size and significance.
+
+<!--chapter:end:3_05-Correlation.Rmd-->
+
+
+# Using Linear Regression to Analyse TB trends in the UK
+
+Placeholder
+
+
+## Least squares line fitting
+## Significance tests for linear regression
+## Bovine TB
+## Assumptions of linear regression
+## Diagnostic plots
+### Diagnostic plots for our _M.bovis_ regression
+## Interpreting our regression and predicting future cases
+## Multi-drug resistant TB
+## Fitting a quadratic model
+
+<!--chapter:end:3_06-TB_Regression.Rmd-->
+
+
+# ANOVA and Football
+
+Placeholder
+
+
+## Analysis of Variance
+## Interpreting ANOVA results
+## What makes a professional footballer?
+
+<!--chapter:end:3_07-ANOVA.Rmd-->
+
+
+# Yeast sex and two factor ANOVA.
+
+Placeholder
+
+
+## Yeast sexual selection
+## Understanding the coefficients table
+## Which statistical tests to use with `lm()`?
+## Diagnostics
+## Visualising the data
+
+<!--chapter:end:3_08-Two_factor_ANOVA.Rmd-->
+
+# Linear models
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
+```
+
+```{r echo=FALSE, cache=FALSE}
+options(digits = 5)  ##Sets number of sig. figs to display output to
+```
+
+If you've read through the chapters on ANOVA and regression you will probably have noticed that there are a lot of similarities between these analyses: they both make the same assumptions about the data and they both involve partitioning the variance in the data into that which can be explained by the explanatory variables (the treatment or factor variance) and that which can't (the error variance). These similarities reflect the fact that these two analyses are, fundamentally, the same, the only difference being that one uses continuous explanatory variables and one uses factors with small numbers of levels to explain the data. In both the TB and the yeast sexual selection examples we also saw that it's possible to add extra terms to both regressions and ANOVAs. What about adding a continuous predictor to an ANOVA, or a factor to a regression? This is entirely possible: in fact, we can use any combination of factors and explanatory variables. This is called a _general linear model_ and it's what the `lm()` function is really all about. 
+
+R comes into its own when you start using it to fit statistical models to your data. The model-fitting features of R give you a powerful set of tools for doing this, enabling you to fit an almost limitless variety of models; not only 'ordinary' general linear models, but also more advanced options such as generalised linear models - statistical models which don't require normal errors, but which are designed to work with with a range of error distributions including Poisson, gamma, binomial and negative binomial errors; mixed effects models which take non-independence of data into account, generalised linear mixed effects models and even such esoterica as generalised additive models.
+
+I’m not going to go into the details of how these models work - if you’d like to read about it then Hails and Grafen (2002), Modern Statistics for the Life  Sciences, OUP is a good introduction to the general linear model, and if you’d like to know about generalised linear models then Crawley (2012) The R Book, 2nd Edition (Wiley) gives an accessible account. For information on mixed effects models and generalised additive models then I recommend Zuur et al. (2009) Mixed Effects Models and Extensions in Ecology (Springer), which has a nice picture of penguins on the front that you can look at when it all gets to be too much.
+
+There are a variety of functions that can be used in R to fit models to data. These include:
+
+- `lm()`:  	general linear models
+- `glm()`:		generalised linear models
+- `lmer()`:		linear mixed-effects models (needs the `lme4` package to be installed)
+- `nlme()`:	linear and non-linear mixed effects models (needs the `nlme` package to be installed)
+- `nls()`:		non-linear models by least squares
+- `gam()`:		generalised additive models.
+
+Some more basic functions also fit models - these are essentially carrying out specific analyses that are also part of more general functions. T-tests, for example, are fundamentally an ANOVA carried out using a single factor with two treatment levels, and, as we’ve discussed earlier, ANOVA is itself but one aspect of the general linear model. Thus the functions `t.test()` and `aov()` can both be regarded as limited components of `lm()`.
+
+All of these functions fit a model that is specified by writing a formula  within the brackets. Sometimes you will need to put further arguments there as well, to specify (for example) particular error distributions or link functions. We’ve encountered these formulae before but we haven’t looked at them in detail until now. 
+
+The general structure of a formula is:
+
+`RESPONSE~PREDICTORS`
+
+where the response is the variable that you’re interested in explaining and the predictors, or explanatory variables, specify the model that you would like to fit. The symbol between them, the tilde `~`  is the symbol used in R to separate these two components of a formula. 
+
+For example, for a simple linear regression of a plant’s photosynthesis rate vs light intensity, you would write:
+
+```{r eval=FALSE}
+lm(photosynthesis ~ light)
+```
+This model is about as simple as you can get. `lm()` can of course take a great many more complicated formulas, as can the other functions above. To add another main effect, just use the “`+`” symbol.
+
+```{r eval=FALSE}
+photosynthesis ~ light + soil.moisture
+```
+You can just keep on adding more explanatory variables.
+
+```{r eval=FALSE}
+photosynthesis ~ light + soil.moisture + temperature + carbon.dioxide
+```
+This fits a model with four main effects to the photosynthesis data. What it doesn’t do is look for any interactions. We can specify interactions by giving the names of the variables separated by a colon.
+
+```{r eval=FALSE}
+photosynthesis ~ light + soil.moisture + temperature + light:temperature
+```
+This fits the three main effects of light, soil moisture and temperature plus a single interaction term. We might want to use this if, for example, we have a reason to think that the effect of light could depend on the temperature.
+
+In addition to specifying particular effects we can fit a complete factorial model - a model with all of the possible interaction terms between all of the explanatory variables -  using the “`*`” symbol.
+
+```{r eval=FALSE}
+photosynthesis ~ light * soil.moisture * temperature
+```
+This fits all the main effects and all the interaction terms: the three two-way interaction terms and the single three-way interaction term. Alternatively, we can fit only the two-way interaction terms.
+
+```{r eval=FALSE}
+photosynthesis ~ (light + soil.moisture + temperature)^2
+```
+This fits the main effect of `light` plus `soil.moisture` nested in `temperature`.
+
+To force a regression through the origin, in other words to fit a model without estimating an intercept, simply add “`-1`” to the formula.
+
+```{r eval=FALSE}
+photosynthesis ~ light + soil.moisture -1
+```
+
+This fits the two main effects of `light` and `soil.moisture` but there is no intercept estimated.
+
+One important point to note here is that we are using notation that is normally used in R for arithmetic operators: “`+`”, “`*`”, “`-`”, “`/`” and “`^2`”. There are often situations in which we would like to specify arithmetic operations within our model formula, however, and we can do this by using the function `I()` (capital I). This inhibits the interpretation of these operators as formula operators, so that R will treat them as arithmetic instructions. The most common situation when you may wish to do this is when you suspect that a polynomial may give a better fit than a simple straight line.
+
+```{r eval=FALSE}
+photosynthesis ~ light + I(light^2)
+```
+This fits a second order polynomial, as we saw in the chapter on TB.
+
+Now that we know the functions we need to fit a model, and how to specify our models as formulae, we can look at some examples. The first example is a fairly straightforward one using data on whale brain size and body size to try to explain the variability in dive duration in cetaceans. The second example is a more complex one where we try to explain how male size, male horn length and female size determine reproductive output in a species of dung beetle.
+
+***
+
+Whale brains and dive duration
+------------------------------
+
+Brains are expensive. They use large amounts of oxygen and glucose, and a large brain therefore imposes a substantial metabolic cost on its owner. The high cost of a brain has led to the suggestion that dive duration in whales could be limited by brain size - animals with big brains might not be able to dive for as long as animals with small brains because of the increased requirement for oxygen imposed by the bigger brain. If this is the case then we might expect to see a negative relationship between brain size and dive duration if we make a comparison between whale species.
+
+This simple prediction is not quite as straightforward to test as we might expect, however, for two reasons. Firstly, brain size covaries strongly with body size, so any analysis would have to take the effect of body size on brain size into account as well. In fact, the prediction we need to test is that there should be a negative relationship between relative brain size and dive duration. Secondly, there is likely to be an effect of phylogeny on both brain size and dive duration because closely related animals are likely to have similar brain sizes and dive durations simply because of their more recent common ancestors. To put this second point in a different way, one of the fundamental assumptions of most statistical analyses, that data points are independent, is violated when we’re making comparisons between species. Any test of the hypothesis that brain size in cetaceans limits dive duration, therefore, needs to take both body size and phylogeny into account.
+In 2006 Marino et al. published the results of a test of this hypothesis using data from 23 cetacean species for which they were able to obtain data on average body size, brain size and maximum dive duration (Marino, L., Sol, D., Toren, K. and Lefebvre, L. (2006), Does diving limit brain size in cetaceans? Marine Mammal Science 22, 413-425). The following table summarises their data, which is also available from http://www.introductoryr.co.uk .
+
+<img src="Whale data table.png" width="66%" height="66%"/>
+￼
+
+Data on cetacean body weight, brain weight and maximum dive duration from Marino et al. (2006)
+
+To import these data into R we obviously have to obey The Rules as set out in the section on importing data: in particular we need to eradicate the spaces from the variable names and also from the data. To make things simpler we can delete the columns with the genus, species and common names since we won’t be using those, which gives us a rather smaller data frame. I’m also going to remove the line of data corresponding to Cuvier’s beaked whale (Ziphius cavirostris) because this is the only species in the data set from the family  Ziphiidae (the beaked whales), and having only one species from the family present makes it difficult to do some of the analysis we want to do.
+
+### Exploratory analysis
+
+Just looking at the data for brain size, body size and dive duration we can see straight away that these data are not going to play particularly nicely. All of our variables differ by several orders of magnitude. Body size, for example, varies from 40-50 Kg for some of the dolphins all the way to 50 tonnes for the blue whale, and brain size varies from 295 g for the Ganges river dolphin to 8 Kg for the Sperm whale. We’ll be needing to work in log space to make everything comparable. Let’s have a look at the data: here’s some code that will draw some scatterplots for us.
+
+```{r eval=FALSE}
+par(mfrow=c(1,2))
+```
+Draw two graphs side-by-side
+
+```{r eval=FALSE}
+plot(log(Brain), log(Dive), pch=as.numeric(Family), xlab="Log Brain Weight (g)", ylab="Log Maximum Dive (min)")
+```
+Plot dive duration against brain size, use the numeric factor coding for family as the plot symbols
+
+```{r eval=FALSE}
+legend("bottomright", pch=1:6, c("Balaenopteridae", "Delphinidae", "Monodontidae", "Phocoenidae", "Physeteridae", "Platanistidae"), cex=0.7, pt.cex=0.7)
+```
+Add a legend. Since we know that the factor coding will be done according to alphabetical order we just need to put the family names in alphabetical order to get it right.
+
+```{r eval=FALSE}
+plot(log(Body),log(Brain),pch=as.numeric(Family),xlab="Log Body Weight (Kg)",ylab="Log Brain Weight (g)")
+```
+Plot brain weight against body weight.
+```{r eval=FALSE}
+legend("bottomright", pch=1:6, c("Balaenopteridae", "Delphinidae", "Monodontidae", "Phocoenidae", "Physeteridae", "Platanistidae"), cex=0.7, pt.cex=0.7)
+```
+Add a legend as we did for the first plot. Here are the graphs.
+
+```{r whale1, echo=FALSE, fig.width=10, fig.cap="Log dive duration against log brain weight (left) and log brain weight against log body weight (right) for 22 cetacean species."}
+par(mfrow=c(1,2))
+plot(log(Brain), log(Dive), pch=as.numeric(Family), xlab="Log Brain Weight (g)", ylab="Log Maximum Dive (min)")
+legend("bottomright", pch=1:6, c("Balaenopteridae", "Delphinidae", "Monodontidae", "Phocoenidae", "Physeteridae", "Platanistidae"), cex=0.7, pt.cex=0.7)
+plot(log(Body),log(Brain),pch=as.numeric(Family),xlab="Log Body Weight (Kg)",ylab="Log Brain Weight (g)")
+legend("bottomright", pch=1:6, c("Balaenopteridae", "Delphinidae", "Monodontidae", "Phocoenidae", "Physeteridae", "Platanistidae"), cex=0.7, pt.cex=0.7)
+```
+
+
+Looking at the first graph you can see that there’s a clear positive relationship between brain size and maximum dive duration. It’s highly statistically significant as well.
+
+```{r}
+cor.test(log(Dive), log(Brain))
+```
+
+That’s a surprise, since the prediction from the hypothesis we’re testing is that there should be a negative relationship between brain size and maximum dive duration. We could just stop the analysis here and rack our brains to come up with a new theory that explains why cetaceans with big brains dive for longer, or we could look at the data in more detail. The right-hand graph shows us that brain size is also closely associated with body size across the cetaceans, and as we discussed earlier what we really need to compare is relative brain size when we control for body size. We can do this by fitting a model with body size as a predictor variable as well as brain size, but before we do this we also need to think about the phylogenetic signal in these data.
+
+Looking at both plots we can see that there seem to be differences between families. In the plot relating dive duration to brain size the three sperm whale species (Physeteridae) all have long dive durations for their brain weight, for example, and in the plot relating brain weight to body weight the dolphins (Delphinidae) mostly have slightly larger brains for their body size than other cetaceans. How can we account for the phylogenetic signal in our analysis? If we were doing this for a publication we’d want to use something like an analysis by independent contrasts, which is what Marino et al. did in their paper. That’s a little beyond the scope of this example so what we’ll do is include Family as a factor in our model. This allows the intercept of the relationship between body size, brain size and maximum dive duration to vary between families, which is perhaps not as satisfactory as a full phylogenetic analysis but at least takes some of the non-independence between data points into account.
+
+### Fitting the model
+
+Our initial model for dive duration is specified like this.
+```{r}
+whalemod1<-lm(log(Dive) ~ Family + log(Body) + log(Brain))
+```
+
+Our response variable is the log of maximum dive duration and we have three predictor variables: `Family`, which is a factor and two continuous variables, the log of body weight and the log of brain weight. Let’s have a look at our fitted model.
+
+```{r}
+summary(whalemod1)
+```
+￼
+The function `summary()` brings up this set of output, with a coefficients table a bit like the one that we spent a lot of time looking at in the chapter where we analysed the data on sexual signalling in yeast. That coefficients table was for an ANOVA, however, with only factors included as explanatory variables. Here we have both continuous explanatory variables (log brain weight and log body weight) and a factor (family), so the coefficients table is not especially simple. We have an estimate of the intercept, which is the one for the factor level that comes first alphabetically, in this case the Balaenopteridae. Then, for all the other factor levels (i.e. all the other families), we have an estimated coefficient - as in the yeast example this is the estimated difference between the intercept for that factor level and the one that’s designated as the overall intercept. We then have our two continuous explanatory variables, and for these the estimate is the slope for that variable. There is also a quick summary of what's going on in the residuals which gives us at least some idea of whether they seem well-behaved, and some information about the fit of the overall model. Confused? I’ll explain it again in some more detail once we’ve finalised our model.
+
+Even if we are a bit confused by exactly what everything means, we see that none of the fitted coefficients seem to be significant on the basis of the t-tests that R is giving us, but we know that these are not a good guide to significance when we’re looking at our explanatory variables. What do we get if we ask for a traditional ANOVA table for our fitted model?
+
+```{r}
+anova(whalemod1)
+```
+￼
+Family and body weight are statistically significant, and brain weight is not. Can we rely on this as an assessment of the significance of our variables? Unfortunately not, because the significance of these variables depends on the order that they’re included in the model. Here’s what happens if we include body weight after brain weight in the model.
+
+```{r}
+whalemod2 <- lm(log(Dive) ~ Family + log(Brain) + log(Body))
+anova(whalemod2)
+```
+￼
+Now brain size is statistically significant and body size is not. What’s going on? The answer is that, as we briefly noted in the chapter where we analysed the TB data, the terms in the model are fitted to the data in the order in which they are specified in the formula. Think of it this way. The first term in the model formula is fitted to the data. The next term is fitted to the remaining data after the effect of the first variable has been statistically removed, and if there's a third term it's fitted to the data with the effects of both the first and second terms removed, and so on until the last term is effectively fitted to the data with all of the effects from the previous variables statistically removed. This means that the statistical significance of each explanatory variable will depend on it’s order in the model formula, expect in certain rare situations when the variables are “orthogonal”, which means completely uncorrelated with each other. In practice you’re only likely to have orthogonal variables if you have no continuous predictors (e.g. all the continuous predictors are factors) and equal sample sizes for each treatment combination (i.e. a balanced design).
+
+This was the situation for the two-factor ANOVA that we looked at with the yeast data earlier, which is why we didn’t worry about this then.
+Some statistical packages (Minitab, for example) get around the problem of changing p-values with changing places by calculating two separate sums of squares: the “sequential” sums of squares, which are the same as the ones produced by R, and the “adjusted” sums of squares, which are calculated for each explanatory variable when it’s added to the model last. Minitab then calculates the F-tests for each variable on the basis of the adjusted sums of squares. R doesn’t do anything like this by default, but we can ask it to do something equivalent by using the `drop1()` function, which will give us the results of a partial F-test comparing the goodness of fit of models with and without each explanatory variable (I should mention that it won’t do this if the variable is also present in the model in a higher-order interaction term. This isn’t important in this case since we have no interaction terms but it might get confusing in other analyses). In other words, for each explanatory variable R will fit a model with all the variables specified and then a second model with all the variables retained except for the variable in question, and carry out a partial F-test to see if the goodness of fit of the model with the variable is significantly better than the goodness of fit of the model without.
+
+```{r}
+drop1(whalemod1, test="F")
+```
+
+Contrary to the strong positive relationship between brain weight and maximum dive duration that was apparent when we looked at the relationship in isolation, when we take body size into account and include a factor that reflects phylogeny to some degree, there is no relationship between maximum dive duration and brain weight. Put another way, although absolute brain weight correlates positively with maximum dive duration, relative brain weight does not.
+
+This isn’t the end of our analysis. We’ve already reached our main conclusion, but we want to finish with a model that does a good job of describing the variance in dive duration, but that doesn’t have any unnecessary predictor variables - a minimum adequate model (see Crawley 2012 for a more detailed explanation of this concept). To do this we can drop the brain weight predictor variable from our model using the `update()` function.
+
+```{r}
+whalemod2<-update(whalemod1,~.-log(Brain))
+```
+
+Sets up a new object called `whalemod2` which is the same as `whalemod1` except the `log(Brain)` predictor variable has been removed. It’s worth reading the help file for `update()`, by the way - it’s a pretty nifty little function. The apparent craziness of the mess of punctuation in the middle does all make sense but it might take a while to work it out - in the meantime just copy what's written here.
+
+```{r}
+drop1(whalemod2, test="F")
+```
+
+Now that we’ve removed `log(Brain)` from our model both `Family` and `log(Body)` remain as statistically significant predictor variables. In other words, the ability of the model to explain the variance in the response variable is significantly reduced when we remove either of these predictors. One thing you might be wondering is why `log(Body)` is now statistically significant when it wasn’t in the previous model. The answer is that because both body weight and brain weight are closely correlated, neither was significant in the full model, because both are predicting similar changes in the response variable, meaning that the amount of variance that each can predict is reduced by the presence of the other. When we remove one of the two correlated variables then all of the variance that’s associated with increasing body size and brain size is available for the remaining variable to predict.
+
+### Model checking and diagnostics
+
+Before we decide that we’ve reached a final, finished model we need to look at the diagnostic plots for our model and see if they are satisfactory. As we did with our ANOVA example earlier we can use the `plot()` function for this, and once again I’m only going to look at the first two plots this produces.
+
+```{r whale2, fig.width=10, fig.cap="Two diagnostic plots for our fitted model. On the left residuals against fitted values, on the right a qq-plot."}
+par(mfrow=c(1,2))
+plot(whalemod2, which = c(1,2))
+```
+
+The plot of residuals versus fitted values is not really wonderful (in this case wonderful means a completely random scatter centred on y=0) but it’s not really a big worry either. There are a few data points with rather large residuals, meaning that the model doesn’t do a good job of explaining the dive duration in that species, but there aren’t any patterns in the data that might indicate systematic problems with the fit or heterosecdasticity. Looking at the qq plot most of the residuals plot out on the line but there are some towards the end of the distribution that are either more negative (data point 10) or more positive (16 and 3) than they should be if the residuals were normally distributed.
+
+Should we worry about this? Probably not, but let’s check a histogram of the residuals to see what that looks like.
+
+```{r whale3, fig.cap="Frequency distribution of residuals from our fitted model."}
+hist(whalemod2$residuals, breaks=10)
+```
+
+Our sample size for this analysis is on the small side, with only 22 whale species, and the histogram of residuals tells us that the distribution is at least roughly symmetrical and approximately bell-shaped, albeit with a few gaps. The biggest and smallest residuals might be a bit too far to the right or left but there’s no serious skew or other indication of systematic deviation from normality. With a larger sample size we might reach a different conclusion but with these data I wouldn’t worry about this distribution. Remember that these statistical techniques are reasonably robust to small or medium violations of their assumptions.
+
+Instead of looking at these data points with large or small residuals and wringing our hands, we can perhaps use them as indicators of interesting species that might be worth another look. Data points 3 and 16 correspond to Risso’s Dolphin, *Grampus griseus*, and the Pygmy Sperm Whale, *Kogia breviceps*, respectively. We know now that these species have longer maximum dive durations than we’d predict on the basis of their family and body size, and perhaps we could use that information to guide future research into marine mammal diving.
+
+
+### Understanding the table of coefficients
+
+Now that we’re reasonably happy that the fit of our model is acceptable, the last thing to do is to have a look at the table of coefficients and try to understand how the model describes the data.
+
+```{r}
+summary(whalemod2)
+```
+
+In this model we have one continuous explanatory variable (log of body weight) and one factor (Family) with six levels. The easiest way to understand this is to think of the model as fitting six separate straight lines to the data, one for each family. Because we don’t have a term in the model for the interaction between family and log body weight all of the lines will have the same slope, but they will have different intercepts.
+The slope for all of the lines is given by the estimated coefficient for `log(Body)` - it’s 0.313, with a standard error of 0.11, and the t-test gives us a guide as to whether the slope is different from zero (it is, and we already knew this from our deletion test earlier which told us that removing `log(Body)` from the model led to a significant decrease in explanatory power). So for an increase of 1 in log body weight (Kg) we have an increase in log dive duration (minutes) of 0.312, no matter what the family is.
+
+What about the intercepts for our six parallel lines? When we looked at the coefficients table in chapter 12 the "Intercept" wasn't really an intercept, it was just the mean of one combination of factor levels. Because this time we have a continuous predictor the "Intercept" is actually a proper intercept. Remember that we have a separate straight line fitted for each factor. We've already seen that they all have the same slope, but they have different intercepts and in our coefficients table the "Intercept" is the intercept for the line fitted to the data which are associated with the factor level that comes first alphabetically: if you aren’t familiar with how this works then you need to read the section in the chapter 12 entitled “Understanding the coefficients table”. In this case the first family when they’re ordered alphabetically is the Balaenopteridae, the giant baleen whales otherwise known as Rorquals. Their intercept is −2.582, so the fitted line relating log dive duration to log body weight in the Balaenopteridae is, according to this model, 
+
+Log (dive duration in minutes) = 0.312 x log (body weight in Kg) - 2.582. 
+
+Next in our coefficients table we have the Delphinidae, the oceanic dolphins. As with the coefficients for factor level combinations when we analysed our yeast data, the estimate given here is not the absolute value of the intercept for this family, but the difference between the intercept for this family and the first intercept calculated, so the actual value of the intercept for the Delphinidae is −2.582 + 0.818 = -1.764 and so the equation for the fitted line for this family is
+
+Log (dive duration in minutes) = 0.312 x log (body weight in Kg) -1.764. 
+
+For the Monodontidae (narwhals and belugas), the intercept is −2.582 + 1.353, for the Phocoenidae, (porpoises) it’s −2.582 + 0.813 and so on as we go down the list.
+
+Looking back to our statistical tests, both here and in chapter 12, you’ll remember that I said that the t-tests given in the coefficients table aren’t much use for testing hypotheses about whether a particular explanatory variable has a statistically significant effect or not. That’s true, but that doesn't mean they're no use at all and one place where they are useful is pointing out patterns in the fitted models. In this case, for example, you can get an indication of where the important differences between intercepts lie by looking at the t-values and p-values given in the table. A quick look will tell you straight away that on the basis of these tests the only whale family which has a significantly different intercept to the Balaenopteridae (the family used for the intercept) is the Physeteridae, the sperm whales. The intercept for this family is substantially higher than the intercept for the Balaenopteridae, indicating that no matter what the body weight, whales from this family have substantially longer dive durations for their body weight than do other whales. Also notable in this context are the Monodontidae, which might not have dive durations that are as impressive as the sperm whales but which are still spending quite a lot longer underwater than would be expected given their body sizes.
+
+What have we found from this modelling exercise? Firstly, we have uncovered no evidence to support the hypothesis that brain size is related to dive duration in cetaceans. When we include body size in our model brain size does not appear to predict dive duration in any meaningful sense. Body size does predict dive duration, however, and there seems to be something of a phylogenetic signal, with family also being a significant predictor of dive duration. As I commented at the start of the chapter there are more sophisticated analyses we could carry out to take account of phylogeny and when these data were published (Marino et al. 2006) the authors used one of these techniques rather than the arguably somewhat simplistic approach taken here. Our analysis has also shown us some interesting things to look at for further study of dive duration: Risso’s dolphin and the pygmy sperm whale both show up as having large positive residuals, meaning that they have longer dive durations than we’d predict given the performance of their relatives and their size. Further to this, the Physeteridae and to a lesser extent the Monodontidae generally seem to have longer dives than other families. 
+
+One final point is that one of the species we’ve been analysing data from, the Chinese river dolphin, *Lipotes vexillifer*, also known as the Yangtze river dolphin or Baiji, is almost certainly now extinct as a consequence of habitat loss, hunting and especially by-catch by local fisheries[1]. Let’s hope the other species on the list don’t meet similarly sad and avoidable fates. 
+
+
+￼
+[1] Turvey, S.T. et al, 2007, First human-caused extinction of a cetacean species? Biol. Lett. 3, 537-540  doi: 10.1098/rsbl.2007.0292
+
+<!--chapter:end:3_09-Linear_models.Rmd-->
+

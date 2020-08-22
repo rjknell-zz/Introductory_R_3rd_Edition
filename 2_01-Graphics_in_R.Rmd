@@ -1,4 +1,4 @@
-# R graphics I — basic graphcs, colours and plot symbols
+# R graphics I — basic graphics
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
@@ -11,15 +11,15 @@ options(digits = 5)  ##Sets number of sig. figs to display output to
 ## Load data for this chapter
 
 Haemocyte <-
-  read.table("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/Haemocyte.txt", header = TRUE)
+  read.table("Data/Haemocyte.txt", header = TRUE)
 
 tbdata <-
-  read.table("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/TB_HPA.txt", header = TRUE)
+  read.table("Data/TB_HPA.txt", header = TRUE)
 
 earwig <-
-  read.table("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/earwig.txt", header = TRUE)
+  read.table("Data/earwig.txt", header = TRUE)
 
-IMH<-read.table("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/IMH2012.txt", header = TRUE)
+IMH<-read.table("Data/IMH2012.txt", header = TRUE)
 ```
 
 
@@ -40,7 +40,7 @@ We'll start off with looking at an example of how to produce a graph in R. In th
 # Audrey Bloggs 25th December 2022
 
 # Load data from website
-UFO <- read.csv("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/UFO_data.csv",
+UFO <- read.csv("Data/UFO_data.csv",
      stringsAsFactors = FALSE)
 
 # Convert 'Reports' variable to date
@@ -81,7 +81,7 @@ If we just use the first argument, `UFO$Count ~ UFO$Reports` and none of the res
 # Audrey Bloggs 25th December 2022
 
 # Load data from website
-UFO <- read.csv("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/UFO_data.csv")
+UFO <- read.csv("Data/UFO_data.csv")
 
 # Convert 'Reports' variable to date
 UFO$Reports <- as.Date(UFO$Reports, format = "%d/%m/%Y")
@@ -128,7 +128,7 @@ Let's look at scatterplots in rather more detail. We'll draw a scatterplot and t
 The dataset is online and you can load it straight into R from the web by running this line of code.
 
 ```{r}
-pinniped <- read.csv("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/Pinniped_brains.csv")
+pinniped <- read.csv("Data/Pinniped_brains.csv")
 ```
 
 As always, we want to know whether our dataset has imported properly so we check using the `str()` function.
@@ -400,7 +400,7 @@ First of all we need to load the data. I'm running R4.0 so I'll need to specify 
 
 ```{r}
 
-WB <- read.csv("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/World_bank_data_2014.csv")
+WB <- read.csv("Data/World_bank_data_2014.csv")
 WB$Region <- as.factor(WB$Region)
 WB$Income_group <- as.factor(WB$Income_group)
 
@@ -495,7 +495,7 @@ This is an interesting graph. You can see that there is a strong but messy relat
 Something that you can do if you wish to dip your toe into the waters of hexadecimal colour coding is use colours which are transparent, so parts of the graph that are plotted underneath them can show through. This can be useful if, for example, you wish to produce a figure with two histograms plotted on top of each other so that the shapes of two frequency distributions can be compared. We can illustrate this with some results data from the 2012 Ironman Triathlon World Championship in Hawaii. This is a race in which the participants swim for 3.8km, cycle for 180km and then run a marathon. We'll look at these data again in the chapter on correlation, but for the moment we'll look at the relationship between swim times and bike times for all competitors.
 
 ```{r}
-IMH<-read.table("https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/IMH2012.txt")
+IMH<-read.table("Data/IMH2012.txt")
 str(IMH)
 ```
 

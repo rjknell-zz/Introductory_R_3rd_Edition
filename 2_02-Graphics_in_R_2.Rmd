@@ -31,7 +31,7 @@ Let's go back to our data on pinnipeds. If we plot the log of male brain size ag
 
 ```{r fig.cap="Log of brain size plotted against the log of body mass for male pinnipeds from 33 species"}
 
-pinniped <- read.csv("http://www.introductoryr.co.uk/Pinniped_brains.csv", 
+pinniped <- read.csv("Data/Pinniped_brains.csv", 
                      stringsAsFactors = FALSE)
 
 plot(log(pinniped$Male_brain) ~ log(pinniped$Male_mass),
@@ -325,7 +325,7 @@ As an aside, for "normal" text on a plot such as axis labels we can specify bold
 Very often, of course, relationships between two variables are best described by a curve rather than a straight line. We're going to abanodon the seals and sealions for a while because of a lack of suitable curves and go back to our World Bank data. Here's the relationship between a country's CO~2~ emissions in metric tonnes per capita and the GNP per capita. Both of these are plotted on a log~10~ scale.
 
 ```{r echo = FALSE}
-WB <- read.csv("http://www.introductoryr.co.uk/World_bank_data_2014.csv")
+WB <- read.csv("Data/World_bank_data_2014.csv")
 ```
 
 ```{r fig.cap = "CO2 emissions per capita versus GNP per capita by country"}
@@ -391,7 +391,7 @@ The first argument is the actual formula of the curve we'd like to draw. This is
 Here's another data set. We're moving from the world of CO~2~ emissions measured on a national scale to thinking about the weapons used by male beetles when they fight over females.
 
 ```{r}
-beetle<-read.table("http://www.introductoryr.co.uk/beetles.txt",header=T)
+beetle<-read.table("Data/beetles.txt",header=T)
 ```
 
 The beetle dataset has horn length and body size (as measured across the pronotum, the first segment of the thorax) measurements for two species of dung beetle, *Euoniticellus intermedius* and *Onthophagus taurus*. We'll look at the latter at the moment. *O. taurus* is an insect which has been heavily studied by behavioural ecologists because the males develop into two types: "minor" males with small or no horns, which acquire matings without aggression using what are called "sneaky" tactics, and "major" males which develop horns and who guard females and fight with other males in order to monopolise access to them. Whether a male develops into a minor or a major depends on its body size, and if we plot horn length against body size we get a sigmoid relationship.
@@ -977,7 +977,7 @@ Error bars are a simple way of showing how much uncertainty there is in your est
 
 ```{r}
 
-WB <- read.csv("http://www.introductoryr.co.uk/World_bank_data_2014.csv")
+WB <- read.csv("Data/World_bank_data_2014.csv")
 WB$Region <- as.factor(WB$Region)
 WB$Income_group <- as.factor(WB$Income_group)
 

@@ -338,7 +338,12 @@ This study used data from 14,178 under 12 football players who were screened by 
 
 ```{r}
 # Load data
-football <- read.table("Data/football.txt", sep = " ", header = TRUE)
+football <-
+  read.table(
+    "https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/football.txt",
+    sep = " ",
+    header = TRUE
+  )
 
 # Recode missing values
 football[football == 999] <- NA

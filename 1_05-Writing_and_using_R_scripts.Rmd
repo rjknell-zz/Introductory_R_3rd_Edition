@@ -13,15 +13,16 @@ Up until now we've been thinking about using R simply by typing commands directl
  - You can save your script, and then you can come back later and easily replicate your analysis or redraw your graphs. This is hugely important. Really really important. I can't begin to say how important it is. If you don't understand why this is important now, you will.
  - You can add *annotations* to your script. These are notes written into the script with a special character which tells R not to pay any attention to them (`#`). These are also really really important because when you come to re-run your code sometime after you wrote it it is the annotation which will tell you how it works. 
  
-Here'as an example of an R script which will download a dataset of monthly counts of UFO reports, originally from the [National UFO Reporting Center](http://www.nuforc.org/) in Eastern Washington State and plot the numbers reported each month since 1900. Don't worry if you don't understand the code, that's not important. The things to notice are that there is syntax highlighting, with different components of the code in different colours and there are comments in the code to explain what it is all doing.
+Here'as an example of an R script which will download a dataset of monthly counts of UFO reports, originally from the [National UFO Reporting Center](http://www.nuforc.org/) in Eastern Washington State and now stored on GitHub, and plot the numbers reported each month since 1900. Don't worry if you don't understand the code, that's not important. The things to notice are that there is syntax highlighting, with different components of the code in different colours and there are comments in the code to explain what it is all doing.
  
 ```{r eval = FALSE}
 # Script to read data on UFO reports and plot the data since 1900
 # Audrey Bloggs 25th December 2022
 
 # Load data from website
-UFO <- read.csv("http://www.introductoryr.co.uk/UFO_data.csv",
-                stringsAsFactors = FALSE)
+UFO <- 
+  read.csv(
+    "https://github.com/rjknell/Introductory_R_3rd_Edition/raw/master/Data/UFO_data.csv")
 
 # Convert 'Reports' variable to date
 UFO$Reports <- as.Date(UFO$Reports, format = "%d/%m/%Y")
@@ -48,7 +49,7 @@ You can run this script yourself. At this point, try just copy-and-pasting the w
 # Audrey Bloggs 25th December 2022
 
 # Load data from website
-UFO <- read.csv("http://www.introductoryr.co.uk/UFO_data.csv",
+UFO <- read.csv("Data/UFO_data.csv",
                 stringsAsFactors = FALSE)
 
 # Convert 'Reports' variable to date
@@ -73,7 +74,7 @@ plot(UFO$Count ~ UFO$Reports,
 
 ## Running code from an R script window
 
-If you want to edit text for an R script you can do a perfectly good job with the built in script editors that ship with the Mac and Windows versions of R. The Mac script editor is good and although it's not a full-featured coding text editor it's very useable. The script editor that comes with the Windows version is a bit basic by comparison with the Mac version but is still perfectly usable. If you don't want to use the built in editors, or if you're using the R on Linux which doesn't have a built-in editor, you can use a basic text editor like Microsoft Notepad, TextEdit which comes with MacOs or Gedit, Nano or any of the other basic editors that come with assorted Linux distros. Hell, you can even use MS Word to edit your R scripts if you must. If you're just starting out and you're not going to be writing long or complex scripts you don't need an all-singing all-dancing professional coding text editor, and for the moment I would recommend the built in script editors because these have the advantage that you can pass code over to the console with a keystroke.
+If you want to edit text for an R script you can do a perfectly good job with the built in script editors that ship with the Mac and Windows versions of R. The Mac script editor is good and although it's not a full-featured coding text editor it's very useable. The script editor that comes with the Windows version is a bit basic by comparison with the Mac version but is still perfectly usable. If you don't want to use the built in editors, or if you're using R on Linux which doesn't have a built-in editor, you can use a basic text editor like Microsoft Notepad, TextEdit which comes with MacOs or Gedit, Nano or any of the other basic editors that come with assorted Linux distros. Hell, you can even use MS Word to edit your R scripts if you must. If you're just starting out and you're not going to be writing long or complex scripts you don't need an all-singing all-dancing professional coding text editor, and for the moment I would recommend the built in script editors because these have the advantage that you can pass code over to the console with a keystroke.
 
 Let's see how to do this using the script for UFO data we saw above. Assuming you're using Windows or a Mac, open a new script window. To open a script editor window on a Mac just select “New document” under the “File” pull-down menu, or press `⌘ N`simultaneously. On a windows machine click “New script” under the “File” pull down menu. If you've jumped the gun a little and you're using RStudio, pull down the File menu, click on New File and then on R Script. Copy and paste in the code from the example script, or type it in yourself if you prefer. Save it straight away. Put it in a suitable directory (folder) and call it UFOscript. It will be saved with the extension .R indicating that it's an R script, so it will be called UFOscript.R
 
@@ -130,7 +131,7 @@ and leave everything else as it was. We've wrapped the `str(UFO)`, which shows u
 
 ## Workflow structure, or what should I put in my script? 
 
-Let's think a little about *reproducibility*. If you just stick with the popular image of science you might think that it's normal to get some data, run an analysis, quickly bang off a report (or, more likely, use your new analysis to invent a new vaccine overnight) and never look at any of it again. Ask anyone who works in research how often they do this and you're likely to be met with either laughter or incomprehension, and this holds for people working with data in any area, not just science. In my field at least it is normal to find yourself revisiting data and analyses that you haven't looked at for many months or years, and  when you do go back to those data you want to be able to reproduce the analysis you did before exactly, and you want to understand what you did and why you did it. It's important, therefore, to be able to reproduce your entire analysis from your script. Ideally, you also want someone else  to be able to reproduce your analysis and to understand it --- this might be because you are collaborating with other people, or because you are publishing your research and you want others to be able to reproduce it. This latter is becoming an important concept: what's called [reproducible research](https://en.wikipedia.org/wiki/Reproducibility#Reproducible_research) is something that originated in computer science but is now establishing itself elsewhere, forexample in ecology as demonstrated by the [British Ecological Society](https://www.britishecologicalsociety.org/)'s [guide to reproducible code](https://www.britishecologicalsociety.org/wp-content/uploads/2017/12/guide-to-reproducible-code.pdf). You might read this and think that it doesn't apply to you because you're a student who isn't planning to work in research and will never be in the be in the business of inventing new vaccines overnight, or someone who just needs to plot some graphs, but you should still aim for good, reproducible R scripts. If you don't believe me then the first time someone asks you to redraw a graph and make 'just a couple of minor changes' more than a weekend after you made the original then you'll understand.
+Let's think a little about *reproducibility*. If you just stick with the popular image of science you might think that it's normal to get some data, run an analysis, quickly bang off a report (or, more likely, use your new analysis to invent a new vaccine overnight) and never look at any of it again. Ask anyone who works in research how often they do this and you're likely to be met with either laughter or incomprehension, and this holds for people working with data in any area, not just science. In my field at least it is normal to find yourself revisiting data and analyses that you haven't looked at for many months or years, and  when you do go back to those data you want to be able to reproduce the analysis you did before exactly, and you want to understand what you did and why you did it. It's important, therefore, to be able to reproduce your entire analysis from your script. Ideally, you also want someone else  to be able to reproduce your analysis and to understand it --- this might be because you are collaborating with other people, or because you are publishing your research and you want others to be able to reproduce it. This latter is becoming an important concept: what's called [reproducible research](https://en.wikipedia.org/wiki/Reproducibility#Reproducible_research) is something that originated in computer science but is now establishing itself elsewhere, for example in ecology as demonstrated by the [British Ecological Society](https://www.britishecologicalsociety.org/)'s [guide to reproducible code](https://www.britishecologicalsociety.org/wp-content/uploads/2017/12/guide-to-reproducible-code.pdf). You might read this and think that it doesn't apply to you because you're a student who isn't planning to work in research and will never be in the be in the business of inventing new vaccines overnight, or someone who just needs to plot some graphs, but you should still aim for good, reproducible R scripts. If you don't believe me then the first time someone asks you to redraw a graph and make 'just a couple of minor changes' more than a weekend after you made the original then you'll understand.
 
 Assuming that you are analysing data, this would include: 
 
@@ -146,7 +147,7 @@ This way you can reproduce everything just by running your script. Believe me, t
 
 ## Keep it neat --- making your script easy to read
 
-Go online and do a search for "code writing tips" or "best practice for writing code" and you'll find rather more advice than you might want, and much of it will be written for experienced, hardcore coders. Some of this will have more focus on questions like "should you put an opening curly bracket on the same line as a fnction definition, or on the next line?" [^2], and if you are just starting out this might be a little too much. So, here are some basic top tips for writing scripts that aren't horror shows.
+Go online and do a search for "code writing tips" or "best practice for writing code" and you'll find rather more advice than you might want, and much of it will be written for experienced, hardcore coders. Some of this will have more focus on questions like "should you put an opening curly bracket on the same line as a function definition, or on the next line?" [^2], and if you are just starting out this might be a little too much. So, here are some basic top tips for writing scripts that aren't horror shows.
 
 [^2]: In case you're wondering, put it on the same line, at least in R.
 
@@ -155,7 +156,7 @@ Go online and do a search for "code writing tips" or "best practice for writing 
 * Be consistent in how you name objects. Remember that R is *case sensitive*, so `Variable1` is different from `variable1`. I'd say it's probably best to just stick to lower case all the time to avoid confusion. If you have multiple words in an object name you can separate them using underscores `my_variable` or dots `my.variable`, or camelCase `myVariable`. If you look on the internet you'll find conflicting views as to which is best: the [Google style guide for R](https://google.github.io/styleguide/Rguide.xml) says not to use underscores and that using dots is preferable, whereas Hadley Wickham's guide in [Advanced R](http://adv-r.had.co.nz/Style.html) recommends using underscores. I'd say that it doesn't really matter which one you use but it's best to pick one and stick with it. 
 
 ```{r eval = FALSE}
-UFO <- read.csv("http://www.introductoryr.co.uk/UFO_data.csv",
+UFO <- read.csv("Data/UFO_data.csv",
                 stringsAsFactors = FALSE)
 
 log_ufo_count <- log(UFO$Count)
@@ -163,16 +164,18 @@ log_ufo_count <- log(UFO$Count)
  is much better than 
 
 ```{r eval = FALSE}
-data <- read.csv("http://www.introductoryr.co.uk/UFO_data.csv",
+data <- read.csv("Data/UFO_data.csv",
                 stringsAsFactors = FALSE)
 
 v1 <- log(UFO$Count)
 ```
 .
 
-* Use plenty of whitespace to make things more readable. 
+* Use plenty of whitespace between lines to make things more readable. 
 
-* Write short lines and when your lines are long, spread them over multiple lines and indent them. When you pass R a line of code, it looks to see whether the line it has is cmplete --- whetehr it makes sense in itself as an R instruction. If it is not complete, it will look on the next line and read that, until it either ends up with an instruction that makes sense, or it runs out of lines. If the latter it will prompt you to finish off the code by replacing the `>` symbol in the console with a `+`, indicating that it needs some more. I usually see this when I've missed out a closing bracket. Because R has this ability to look for stuff that completes an instruction, you can split function calls over multiple lines. This really makes function calls with lots of arguments much easier to read: I recommend going to a new line every time you have more than two or three arguments to one function call. Here's an example. This will draw the UFO data from before but with a non-parametric smooth line drawn in red.You can see that for the `plot()` and the `lines()` functions I've spread the code out over multiple lines, with one argument on each line, and after the first line the remaining lines for each argument are indented, making everything very clear. There is space between each line, making things even clearer. 
+* Use spaces in your code. This makes a big difference. Before and after things like `=` signs, after commas but not before (just like in normal writing), you get the picture I'm sure.
+
+* Write short lines and when your lines are long, spread them over multiple lines and indent them. When you pass R a line of code, it looks to see whether the line it has is complete --- whether it makes sense in itself as an R instruction. If it is not complete, it will look on the next line and read that, until it either ends up with an instruction that makes sense, or it runs out of lines. If the latter it will prompt you to finish off the code by replacing the `>` symbol in the console with a `+`, indicating that it needs some more. I usually see this when I've missed out a closing bracket. Because R has this ability to look for stuff that completes an instruction, you can split function calls over multiple lines. This really makes function calls with lots of arguments much easier to read: I recommend going to a new line every time you have more than two or three arguments to one function call. Here's an example. This will draw the UFO data from before but with a non-parametric smooth line drawn in red.You can see that for the `plot()` and the `lines()` functions I've spread the code out over multiple lines, with one argument on each line, and after the first line the remaining lines for each argument are indented, making everything very clear. There is space between each line, making things even clearer. 
 
 ```{r eval = FALSE}
 loess_fit <- loess(UFO$Count ~ as.numeric(UFO$Reports), span = 0.2)
@@ -201,7 +204,7 @@ title(main = "UFO reports by month since 1900")
 
 How you do your indenting depends on the particular editor you're using. If you're using the Mac R script editor then you can indent your text using the space bar or the tab key[^3], and then whenever you press enter the text will stay indented until you reach a line where you want to go back to the margin, at which point you can use the delete key to do so. Many coding-oriented text editors, including the RStudio script editor, will automatically indent text for you if you press enter while you're inputting code so long as the code you're putting in isn't a complete instruction. Once it detects that it is it will go back to the margin for you. If you're using some other editors you might have to do your indenting by hand.
 
-* Use spaces. This makes a big difference. Before and after things like `=` signs, after commas but not before (just like in normal writing), you get the picture I'm sure.
+
 
 
 
@@ -249,7 +252,13 @@ boxplot(response ~ factor_x,
 
 You can see that Audrey has started with a block of commented lines giving some information about the purpose, maker and date of the script, and then we have a comment for each piece of code saying what it does. There is also a line of code which is *commented out*, meaning that it has a # symbol in front of it and will not run. Finally, if you look at the last piece of code beginning `boxplot(Y1~X1)` you can see that there are some in-line comments to remind the reader what specific arguments to the `boxplot()` function are doing.
 
-You've probably noticed that Audrey has only added comments to some of the arguments to `boxplot()`, and has left some others without comments. This is because she doesn't need reminding what `xlab = "Factor X"` or `col = "goldenrod3"` mean, and she's confident that anyone reading her script will know this as well. This leads us on to the question of how detailed you should be in your commenting. If you ask the internet about this you'll get a lot of answers, and you'll come across the idea that 'good code is self documenting' --- in other words you should be able to read a script and work out what it's doing without needing much in the way of comments. This is fine for professional coders, and if you are one then that's nice, but if you are only just starting out and still very much on the steep bit of the learning curve then you might need a little more. My philosophy is that you should think about the reader: how much information do you need so that *you* and *anyone else who is likely to read your script* can easily understand it and work out what it does? Intimately familiar with the language and writing code that's only going to be written by other people who know it to a similar degree? Keep your comments to a minimum and let your clean, self-documenting code speak for itself. Just starting out and still having trouble remembering the difference between a vector and a matrix? By all means add as much explanation to your script as *you* need. Equally, if you are a true coding ninja and speak R better than you speak your native language but you are writing a script that will be used by first year students who are new to the language [^5], then you should probably put in a lot more comments than you would normally do so that the people reading and using your script can understand it.
+You've probably noticed that Audrey has only added comments to some of the arguments to `boxplot()`, and has left some others without comments. This is because she doesn't need reminding what `xlab = "Factor X"` or `col = "goldenrod3"` mean, and she's confident that anyone reading her script will know this as well. This leads us on to the question of how detailed you should be in your commenting. If you ask the internet about this you'll get a lot of answers, and you'll come across the idea that 'good code is self documenting' --- in other words you should be able to read a script and work out what it's doing without needing much in the way of comments. This is fine for professional coders, and if you are one then that's nice, but if you are only just starting out and still very much on the steep bit of the learning curve then you might need a little more. My philosophy is that you should think about the reader: how much information do you need so that *you* and *anyone else who is likely to read your script* can easily understand it and work out what it does? 
+
+Intimately familiar with the language and writing code that's only going to be written by other people who know it to a similar degree? Keep your comments to a minimum and let your clean, self-documenting code speak for itself. 
+
+Just starting out and still having trouble remembering the difference between a vector and a matrix? By all means add as much explanation to your script as *you* need. 
+
+Equally, if you are a true coding ninja and speak R better than you speak your native language but you are writing a script that will be used by first year students who are new to the language [^5], then you should probably put in a lot more comments than you would normally do so that the people reading and using your script can understand it.
 
 [^5]: Or for that matter by a senior professor of biochemistry...
 

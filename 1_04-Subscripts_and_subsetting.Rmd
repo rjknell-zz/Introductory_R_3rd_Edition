@@ -8,13 +8,17 @@ knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment
 
 As we saw in the last section, R is set up to deal with data in groups (vectors, matrices and dataframes), and most of the time that you’re analysing real data you’ll be dealing with data in one of these forms. For some simpler analyses you might be happy just looking at all the data in a particular set of results, but a lot of the time you’ll end up thinking “but what if we exclude males from the analysis?”, or “does the result hold if we leave out that animal that might have been sick?” or “do we still see the trade-off of we only include the plants that flowered?”. All of these can be done quite easily in R, and your chief weapons for such purposes are subscripts, which we’ll deal with now,  and the `subset()` command, which we’ll talk about once we’ve dealt with subscripts.
 
-### Subscripts
+## Subscripts
 Every number in a vector can be identified by its place in the sequence, and every number in a matrix can be identified by its row and column numbers. You can use subscripts to find individual numbers or groups within data structures. They’re remarkably flexible and extremely useful.
+
+```{r echo = FALSE}
+set.seed(2112)
+```
 
 ```{r}
 Z  <-  rnorm(10, mean = 2, sd = 0.1)
 ```
-This creates a vector called X made up of 10 random numbers drawn from a normal distribution with mean 2 and standard deviation 0.1. NB: if you try to do this your numbers won’t be the same as mine, because they’re drawn randomly each time.
+This creates a vector called Z made up of 10 random numbers drawn from a normal distribution with mean 2 and standard deviation 0.1. NB: if you try to do this your numbers won’t be the same as mine, because they’re drawn randomly each time.
 
 ```{r}
 Z
@@ -105,11 +109,22 @@ Z[less.than.2]
 
 The circle is complete. There is actually a serious point to this last part. There are often several different ways of doing the same thing in R. It is often the case that there’s an obvious “best way”, but that isn’t always the case: sometimes one way of doing something isn’t noticeably easier or better than another, or sometimes doing something one way is better in one situation and doing it another way is better in a different situation. If someone else is doing something differently to you it doesn’t necessarily mean that you are wrong: just check what they’re doing and have a quick think about which method is better for what you’re trying to do. If the answer is “my method”, or if it’s “I can’t see any benefit to using the other method” then stick with what you’re doing.  
 
-### Boolean logic and more complex subscripting
+## Boolean logic and more complex subscripting
 
-R 
+We've already seen that we can use logical operators such as > or <= in subscripts. We can also combine these to be selective in multiple ways by using operators like `&` (and) and `|` (or). If, for example, we wanted to extract the values in Z which are >1.95 but > 2.1 we could do it like this:
 
-### Subscripts in matrices and data frames
+```{r}
+Z[Z > 1.95 & Z < 2.1]
+```
+
+Notice that you have to give the name of the variable each time you put in a logical operator. If you just try this:
+
+```{r}
+Z[Z > 1.95 & < 2.1]
+```
+it doesn't work.
+
+## Subscripts in matrices and data frames
 
 Subscripts can also be used to get individual numbers, rows or columns from matrices and data frames in the same way as for vectors, except two numbers are needed to identify an individual cell in these two dimensional data structures. The first number is the row number and the second is the column number. Here’s another matrix.
 
@@ -146,38 +161,38 @@ mat4[, 1]+mat4[, 3]
 ```
 This adds the first column of the matrix to the third column.
 
-### Subset
+## Subset
 The `subset()` function is useful when you want to extract part of a matrix or dataframe. It takes three main arguments, the first being the name of whatever you want to make a subset of, the second is a logical expression and the third tells R which columns you want to choose. It’s best to show this with an example. Here’s some data that were collected as part of an experiment looking at the effect of environmental temperature on leucocyte count in fish fry. 
 
 ```{r}
-Counts <- read.csv("Data/Counts.csv", header=T)
+fish <- read.csv("Data/Counts.csv", header=T)
 ```
 Let's look at the whole dataset to start with.
 
 ```{r}
-Counts
+fish
 ```
 
 If we wanted to set up a second data frame containing only data from those fish that weighed 70mg or more, we can just specify the first two arguments.
 
 ```{r}
-Counts2 <- subset(Counts, Weight>=70)
+fish2 <- subset(fish, Weight>=70)
 
-Counts2
+fish
 ```
 
 What if we wanted to extract only the data on weights and leucocyte counts for male fish? For this we use the third argument as well, “select”.
 
 ```{r}
-Counts3 <- subset(Counts, Sex=="M", select=c(Weight, Count))
+fish3 <- subset(fish, Sex=="M", select=c(Weight, Count))
 
-Counts3
+fish3
 ```
 
 One thing to notice here is that when we are specifying male fish only in the second argument we use the double equals sign (==). This is what’s used in R when we’re using logical expressions. The “M” is in inverted commas because it’s character data. It’s easy to forget and use a single equals sign, or miss out the inverted commas. If you do the latter you’ll get an error message.
 
 ```{r, eval = FALSE}
-Counts4 <- subset(Counts, Sex==M, select=c(Weight, Count))
+fish4 <- subset(fish, Sex==M, select=c(Weight, Count))
 ```       
 
 <span style="color:red">`Error in eval(e, x, parent.frame()) : object 'M' not found`<span>
@@ -186,12 +201,12 @@ Counts4 <- subset(Counts, Sex==M, select=c(Weight, Count))
 If you only put a single equals sign in, however, you won’t get an error message. R will ignore the logical expression but it will select the columns specified and your new object will have data from both male and female fish. This could lead to serious errors in your analysis, so always check.
 
 ```{r}
-Counts4 <- subset(Counts, Sex="M", select=c(Weight, Count))
+fish4 <- subset(fish, Sex="M", select=c(Weight, Count))
 ```
 See? No error message, but when you look at the output from this command you find that it hasn't been executed in the way you might wish.
 
 ```{r}
-Counts4
+fish4
 ```
 `subset()` can also be used within other functions: if, for example, you only want to analyse part of a dataset but you don’t want to set up a whole new object. We’ll see some examples of this when we look at statistical model fitting in more detail. 
 

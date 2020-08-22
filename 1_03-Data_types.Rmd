@@ -255,6 +255,8 @@ Table 3.1 Example cricket data
 We could input these data as a series of individual vectors, some numerical and some character, but that would lead to a lot of opportunity for confusion. It’s better to keep the whole data table as a single object in R, and there is a special type of object which we can do exactly this with. It’s called a **Data frame**, which is easiest to think of as being like a matrix but with different sorts of data in different columns. Most of the time when you’re using real scientific data in R you’ll be using a data frame. If you import a data table with multiple data types present then R will automatically classify your data as a data frame. Alternatively, if you want to input your data directly into R you can set up a data frame using the data.frame() function. Here's an example using the cricket data from above. 
 
 ```{r}
+
+# Generate vectors of data
 Number <- c(1, 2, 3, 4)
 Diet <- c("Poor", "Poor", "Good", "Good")
 Sex <- c("M", "F", "M", "F") 
@@ -263,6 +265,7 @@ Fat.content <- c(34, 43, 40, 43)
 Morph <- c("Winged", "Winged", "Wingless", "Intermediate")
 Experimenter <- c("Jennifer", "Steve", "Ahmed", "Anna")
        
+# Assemble data frame from vectors
 crickets <- data.frame(Number, 
                        Diet, 
                        Sex, 
@@ -271,6 +274,7 @@ crickets <- data.frame(Number,
                        Morph, 
                        Experimenter)
 
+# Delete vectors which are no longer needed
 rm(Number, Diet, Sex, Weight, Fat.content, Morph, Experimenter)
 crickets
 ```
@@ -281,13 +285,33 @@ What is happening here is that I set up individual vectors for each column of da
 crickets$Morph
 ```
 
-Note that R assumes that the character vectors that are going into the new data frame are factors and makes them so. 
+If you're using an old version of R (before v4.0) it will assume that the character vectors that are going into the new data frame are factors and makes them so. In the most recent versions, however, this no longer applies:
 
 ```{r}
 is.factor(crickets$Diet)
 ```
 
-This isn't necessarily a good thing: for example, we might not want the `Experimenter` column to be classed as a factor. We can change it back to character data using `as.character()`, like this:
+This is a good change because it forces us to think more about our data and specifically about which variables should be factors. In this case we would probably want `Diet` and `Sex` to be factors, and probably `Morph`, but not `Experimenter`--- the latter not having meaningful levels, at least in this case. We can make our chosen variables into factors by using the `as.factor()` function:
+
+```{r}
+crickets$Diet <- as.factor(crickets$Diet)
+crickets$Sex <- as.factor(crickets$Sex)
+crickets$Morph <- as.factor(crickets$Morph)
+```
+
+Let's check for `Diet`.
+
+```{r}
+is.factor(crickets$Diet)
+```
+
+We can also convert factors to character or numeric data. If we accidentally made `Experimenter` into a factor, we can change it back to character data using `as.character()`, like this:
+
+```{r}
+crickets$Experimenter <- as.factor(crickets$Experimenter)
+
+is.factor(crickets$Experimenter)
+```
 
 ```{r}
 crickets$Experimenter <- as.character(crickets$Experimenter)

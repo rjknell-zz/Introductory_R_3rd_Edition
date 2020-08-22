@@ -19,7 +19,7 @@ ggplot2 is a package for R which allows you to produce graphics in a completely 
 library(ggplot2)
 
 # Load data from website
-UFO <- read.csv("http://www.introductoryr.co.uk/UFO_data.csv",
+UFO <- read.csv("Data/UFO_data.csv",
      stringsAsFactors = FALSE)
 
 # Convert 'Reports' variable to date
@@ -79,7 +79,8 @@ p1 <- ggplot(data = UFO, aes(x = Reports,
                geom_line(colour = "steelblue")
 p1
 ```
-The graph is plotted on a grey background with major and minor grid lines and without lines for the axes or a box around the plot. This is the default *theme* for ggplot2 where the *theme* defines those things that affect the overall appearance of the plot: background, grid lines, font for the text and so on. Some people like this theme (`theme-gray()`, but I do not and my personal preference is to use another theme called `theme_bw()` which gives a less intrusive background. There are a number of other themes included in ggplot2 including `theme_dark()` with a much darker background, `theme_classic()` with a set of xy axes and no gridlines and `theme_minimal()` with some faint gridlines but not much else.
+
+The graph is plotted on a grey background with major and minor grid lines and without lines for the axes or a box around the plot. This is the default *theme* for ggplot2 where the *theme* defines those things that affect the overall appearance of the plot: background, grid lines, font for the text and so on. Some people like this theme (`theme_gray()`), but I do not and my personal preference is to use another theme called `theme_bw()` which gives a less intrusive background. There are a number of other themes included in ggplot2 including `theme_dark()` with a much darker background, `theme_classic()` with a set of xy axes and no gridlines and `theme_minimal()` with some faint gridlines but not much else.
 
 ```{r}
 p1 <- ggplot(data = UFO, aes(x = Reports, 
@@ -89,6 +90,7 @@ p1 <- ggplot(data = UFO, aes(x = Reports,
 
 p1
 ```
+
 Finally, we add the axis labels and the title using `labs()`. You can also add individual labels separately, so `xlab()`, `ylab()` and `ggtitle()` will add axis labels and a title for you if you'd prefer that. Putting these together gives our finished plot:
 
 ```{r}
@@ -103,7 +105,8 @@ p1 <- ggplot(data = UFO, aes(x = Reports,
 p1
 ```
 
-That's a goog looking graph, and hopefully you've seen the logical process by which a ggplot2 graph is built up. What we've seen so far is:
+
+That's a good looking graph, and hopefully you've got an idea of the logical process by which a ggplot2 graph is built up. What we've seen so far is:
 
 * Specify the *data* which the graph is to be drawn from
 * The *aesthetic* maps the data to the geometric objects which the graph is drawn with --- in our case via telling ggplot2 which variables are plotted on which axes and what colour we want
@@ -163,7 +166,7 @@ p1
 
 There is now a wiggly line drawn over the top of our points showing where the main trend is. You can think of this as an extra *layer* on the graph with the data mapped to a new geom, giving a second visualisation of the data on top of the first one.
 
-To draw our line we used `geom_smooth()`. This is one of the most important options in ggplot2 because it is a massively flexible way of adding lines to a plot. The default option is to add a *non-parametric smoother*, a statistical method of summarising the trend in a dataset which is highly flexible and can include peaks, troughs and changes in slope. Non-parametric smoothers are great for exploratory data analysis, and also for summarising complex patterns in bivariate datasets as we have done here. The specific kind of smoother that ggplot2 is using in this case is something called a *loess smooether* (loess standing for *l*ocally *e*stimated *s*catterplot *s*moothing) and you can think of it as a bunch of short regressions covering part of the dataset stitched together. Loess smoothers can be more or less smoothed depending on how much of the dataset is used for each piece, and since we have quite a complex pattern in these data I've gone for a less smoothed setting which means the line will follow the data quite closely: this is done by setting `span = 0.1` as an argument. Other arguments specify the colour (`colour = "darkblue"`)and ask for a fairly thin line (`size = 0.5`). Finally `se = FALSE` asks for the loess fit to be plotted without confidence intervals. `geom_smooth()` will plot in 95% confidence intervals for a line by default and this is often very useful and important but in this case they don't really add a lot to the outcome.
+To draw our line we used `geom_smooth()`. This is one of the most important options in ggplot2 because it is a massively flexible way of adding lines to a plot. The default option is to add a *non-parametric smoother*, a statistical method of summarising the trend in a dataset which is highly flexible and can include peaks, troughs and changes in slope. Non-parametric smoothers are great for exploratory data analysis, and also for summarising complex patterns in bivariate datasets as we have done here. The specific kind of smoother that ggplot2 is using in this case is something called a *loess smoother* (loess standing for *l*ocally *e*stimated *s*catterplot *s*moothing) and you can think of it as a bunch of short regressions covering part of the dataset stitched together. Loess smoothers can be more or less smoothed depending on how much of the dataset is used for each piece, and since we have quite a complex pattern in these data I've gone for a less smoothed setting which means the line will follow the data quite closely: this is done by setting `span = 0.1` as an argument. Other arguments specify the colour (`colour = "darkblue"`)and ask for a fairly thin line (`size = 0.5`). Finally `se = FALSE` asks for the loess fit to be plotted without confidence intervals. `geom_smooth()` will plot in 95% confidence intervals for a line by default and this is often very useful and important but in this case they don't really add a lot to the outcome.
 
 ## Scaling axes and varying colour or shapes by factor levels
 
@@ -171,7 +174,7 @@ To illustrate this we'll use the data on pinniped mating systems and brain sizes
 
 ```{r}
 # Import data
-pinniped <- read.csv("http://www.introductoryr.co.uk/Pinniped_brains.csv")
+pinniped <- read.csv("Data/Pinniped_brains.csv")
 
 # Set up factor describing the mating system
 Mating_system <- factor(ifelse(pinniped$Harem == 1, "Non harem", "Harem"))
@@ -283,7 +286,7 @@ Let's look at another example. This time we're going to use the World_bank_data_
 
 ```{r}
 
-WB <- read.csv("http://www.introductoryr.co.uk/World_bank_data_2014.csv")
+WB <- read.csv("Data/World_bank_data_2014.csv")
 WB$Region <- as.factor(WB$Region)
 WB$Income_group <- as.factor(WB$Income_group)
 

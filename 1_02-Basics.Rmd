@@ -4,7 +4,7 @@
 knitr::opts_chunk$set(collapse = TRUE, warning = FALSE, message = FALSE, comment = NA)
 ```
 
-### Arithmetic
+## Arithmetic
 
 The simplest way to interact with R is by typing something into the console at the command prompt and pressing enter. If what you’ve typed makes sense to R it’ll do what it’s told, if not then you’ll get an error message. The simplest things you can get R to do are straightforward sums. Just type in a calculation and press enter.
 
@@ -55,7 +55,7 @@ You can use multiple brackets, and you can nest your brackets essentially _ad in
 ```
 
 
-### Logical operations
+## Logical operations
 
 R doesn't just deal with straightforward arithmetic. You can carry out logical operations as well:
 
@@ -98,7 +98,7 @@ Returns `TRUE` because although 5 is not greater than 25 it is greater than 3, w
 
 Returns `FALSE` because now we are asking whether 5 is greater than 25 **and** 3.
 
-### Objects
+## Objects
 
 These simple calculations don’t produce any kind of output that is remembered by R: the answers appear in the console window but that’s all. Sometimes that's OK but a lot of the time we want to store the answer of one of our calculations. The name given to R's "memory" is the **workspace**, and the way to tell R to store something in the workspace is to use something like this:
 
@@ -229,7 +229,7 @@ It’s gone, sure enough. If you try to delete an object that doesn’t exist yo
 
 R doesn't just store numbers as objects in the workspace******
 
-### Functions
+## Functions
 
 You can get so far by typing in calculations, but that’s obviously not going to be much use for most statistical analyses. Remember that R is not so much a statistical package in the traditional sense, like Minitab, but is really a programming language designed to be good for carrying out statistical analyses. R comes with a huge variety of (mostly) (fairly) short ready-made pieces of code that will do things like manage your data, do more complex mathematical operations on your data, draw graphs and carry out statistical analyses ranging from the simple and straightforward to the eye-wateringly complex. These ready-made pieces of code are called functions. Each function name ends in a pair of round brackets[^3.2], and for many of the more straightforward functions you just type the name of the function and put the name of the object you’d like the procedure carried out on in the brackets.
 
